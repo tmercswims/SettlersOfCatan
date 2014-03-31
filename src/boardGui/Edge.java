@@ -1,20 +1,28 @@
 package boardGui;
 
-import java.awt.Component;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.Line2D;
 
-public class Edge extends Component{
+import javax.swing.JComponent;
+
+public class Edge extends BoardComp{
 	
 	private Node[] _nodes = new Node[2];
-	boolean _road;
+	private boolean _road;
 	//private Player _owner;
+	private Line2D _l;
+	private Color _c;
 	
-	public Edge(){
+	public Edge(Node[] nodes){
 		_road = false;
 		//_owner = null;
-	}
-	
-	public void setNodes(Node[] nodes){
 		_nodes = nodes;
+		_l = new Line2D.Double(_nodes[0].getX()+3, _nodes[0].getY()+3, _nodes[1].getX()+3, _nodes[1].getY()+3);
+		_c = Color.RED;
 	}
 	
 	public Node[] getNodes(){
@@ -29,5 +37,22 @@ public class Edge extends Component{
 		_road = true;
 		_owner = p;
 	}*/
+	
+	@Override
+	public void paint(Graphics g){
+		Graphics2D brush = (Graphics2D) g;
+		brush.setColor(_c);
+		brush.setStroke(new BasicStroke(4));
+		brush.draw(_l);
+	}
+	
+	public Shape getShape(){
+		return _l.getBounds();
+	}
+
+	@Override
+	public void setColor(Color c) {
+		_c = c;
+	}
 
 }
