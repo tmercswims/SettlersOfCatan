@@ -1,10 +1,12 @@
 package boardGui;
 
-public class Tile {
+import java.awt.Component;
+
+public class Tile extends Component{
 	
 	public final int _resource;
 	public final int _num;
-	private Node[] _nodes;
+	private Node[] _nodes = new Node[6];
 	boolean _robber;
 	
 	public Tile(int resource, int num, Node[] nodes){
