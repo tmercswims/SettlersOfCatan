@@ -41,6 +41,7 @@ public class Tile extends BoardComponent{
 		}
 		_p = new Polygon(xPoints, yPoints, 6);
 		_c = Color.GREEN;
+		this.setType(0);
 		//Rectangle r = new Rectangle(nodes[0].getX()+2, nodes[0].getY()+2, 200, 100);
 		//this.setLocation(nodes[0].getX()+2, nodes[0].getY()+2);
 		//this.setBounds(r);

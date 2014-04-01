@@ -26,6 +26,7 @@ public class Edge extends BoardComponent{
 				_nodes[1].getX()+Node._diam/2, _nodes[1].getY()+Node._diam/2);
 		_c = Color.RED;
 		_s = new BasicStroke(4);
+		this.setType(1);
 	}
 	
 	public Node[] getNodes(){

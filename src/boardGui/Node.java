@@ -19,7 +19,7 @@ public class Node extends BoardComponent{
 	private boolean _owned;
 	private Ellipse2D _o;
 	private Color _c;
-	public final static int _diam = 10;
+	public final static int _diam = 20;
 	private int _scale = 1;
 	//private Player _owner;
 	//Port _port;
@@ -33,6 +33,7 @@ public class Node extends BoardComponent{
 		_o = new Ellipse2D.Double(this.getX(), this.getY(), _diam, _diam);
 		_c = Color.BLACK;
 		_vp = 0;
+		this.setType(2);
 	}
 	
 	public boolean isOwned(){
@@ -95,6 +96,10 @@ public class Node extends BoardComponent{
 		brush.setColor(_c);
 		brush.setStroke(new BasicStroke());
 		brush.fill(_o);
+		brush.setColor(Color.WHITE);
+		char[] toprint = Integer.toString(_vp).toCharArray();
+		Rectangle r = _o.getBounds();
+		brush.drawChars(toprint, 0, 1, (int)r.getCenterX()-Node._diam/4, (int)r.getCenterY()+Node._diam/4);
 		//brush.fillOval(this.getX(), this.getY(), 4, 4);
 	}
 	
