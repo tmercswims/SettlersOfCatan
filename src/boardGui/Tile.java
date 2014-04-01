@@ -12,7 +12,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JComponent;
 
-public class Tile extends BoardComp{
+public class Tile extends BoardComponent{
 	
 	public final int _resource;
 	public final int _num;
@@ -35,8 +35,8 @@ public class Tile extends BoardComp{
 		int[] yPoints = new int[6];
 		int i = 0;
 		for(Node n: _nodes){
-			xPoints[i] = _nodes[i].getX()+3;
-			yPoints[i] = _nodes[i].getY()+3;
+			xPoints[i] = _nodes[i].getX()+Node._diam/2;
+			yPoints[i] = _nodes[i].getY()+Node._diam/2;
 			i++;
 		}
 		_p = new Polygon(xPoints, yPoints, 6);
@@ -80,6 +80,11 @@ public class Tile extends BoardComp{
 	
 	public Shape getShape(){
 		return _p;
+	}
+
+	@Override
+	public void grow() {
+		// SHOULD NEVER BE USED
 	}
 
 }

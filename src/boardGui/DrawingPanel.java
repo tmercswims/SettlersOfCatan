@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 public class DrawingPanel extends JPanel{// implements MouseListener{
 	
-	private ArrayList<BoardComp> _todraw;
+	private ArrayList<BoardComponent> _todraw;
 	
 	public DrawingPanel(){
 		super();
@@ -19,7 +19,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		this.setPreferredSize(getSize());
 		this.setMaximumSize(getPreferredSize());
 		this.setMinimumSize(getPreferredSize());
-		_todraw = new ArrayList<BoardComp>();
+		_todraw = new ArrayList<BoardComponent>();
 		this.setVisible(true);
 		Node n1 = new Node(100,100);
 		Node n2 = new Node(200,50);
@@ -62,13 +62,16 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
 			System.out.println("clicked: "+e.getX()+", "+e.getY());
-			for(BoardComp c: _todraw){
+			for(BoardComponent c: _todraw){
 				if(c.getShape().contains(e.getPoint())){
 					System.out.println(c);
-					/*Color color = new Color((int)Math.random()*255,(int)Math.random()*255,(int)Math.random()*255);
+					Double red = Math.random()*255;
+					Double grn = Math.random()*255;
+					Double blu = Math.random()*255;
+					Color color = new Color(red.intValue(),grn.intValue(),blu.intValue());
 					c.setColor(color);
-					_dp.getGraphics().setColor(color);
-					_dp.repaint();*/
+					c.grow();
+					_dp.repaint();
 				}
 			}
 		}

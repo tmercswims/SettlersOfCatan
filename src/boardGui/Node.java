@@ -5,12 +5,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
 import javax.swing.JComponent;
 
-public class Node extends BoardComp{
+public class Node extends BoardComponent{
 	
 	private Tile[] _tiles = new Tile[3];
 	private Edge[] _edges = new Edge[3];
@@ -18,6 +19,8 @@ public class Node extends BoardComp{
 	private boolean _owned;
 	private Ellipse2D _o;
 	private Color _c;
+	public final static int _diam = 10;
+	private int _scale = 1;
 	//private Player _owner;
 	//Port _port;
 	
@@ -27,8 +30,9 @@ public class Node extends BoardComp{
 		_owned = false;
 		//_owner = null;
 		//_port = null;
-		_o = new Ellipse2D.Double(this.getX(), this.getY(), 6, 6);
+		_o = new Ellipse2D.Double(this.getX(), this.getY(), _diam, _diam);
 		_c = Color.BLACK;
+		_vp = 0;
 	}
 	
 	public boolean isOwned(){
@@ -101,6 +105,26 @@ public class Node extends BoardComp{
 	@Override
 	public void setColor(Color c) {
 		_c = c;
+	}
+
+	@Override
+	public void grow() {
+		// TODO Auto-generated method stub
+		if(_scale==1){
+			/*Rectangle r = this.getBounds();
+			Double x = r.getCenterX();
+			Double y = r.getCenterY();
+			System.out.println(_diam*Math.pow(2,_scale-1));*/
+			System.out.println("X: "+this.getX()+", Y: "+this.getY());
+			_o = new Ellipse2D.Double(this.getX()-_diam/2,this.getY()-_diam/2, _diam*Math.pow(2,_scale), _diam*Math.pow(2,_scale));
+			_scale++;
+			_vp++;
+		}
+		else if(_scale==2){
+			_o = new Ellipse2D.Double(this.getX()-3*(_diam/2),this.getY()-3*(_diam/2), _diam*Math.pow(2,_scale), _diam*Math.pow(2,_scale));
+			_scale++;
+			_vp++;
+		}
 	}
 
 }
