@@ -4,24 +4,28 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComponent;
 
 public class Tile extends BoardComponent{
-	
+
 	public final int _resource;
 	public final int _num;
-	private Node[] _nodes = new Node[6];
+	private List<Node> _nodes = new ArrayList<Node>(6);
 	boolean _robber;
 	Polygon _p;
 	private Color _c;
-	
-	public Tile(int resource, int num, Node[] nodes){
+	private Point _index;
+
+	public Tile(int resource, int num, List<Node> nodes){
 		_resource = resource;
 		_num = num;
 		_nodes = nodes;
@@ -34,35 +38,61 @@ public class Tile extends BoardComponent{
 		int[] xPoints = new int[6];
 		int[] yPoints = new int[6];
 		int i = 0;
-		for(Node n: _nodes){
-			xPoints[i] = _nodes[i].getX()+Node._diam/2;
-			yPoints[i] = _nodes[i].getY()+Node._diam/2;
-			i++;
+		if(_nodes!=null){
+			for(Node n: _nodes){
+				xPoints[i] = n.getX()+Node._diam/2;
+				yPoints[i] = n.getY()+Node._diam/2;
+				i++;
+			}
+			_p = new Polygon(xPoints, yPoints, 6);
 		}
-		_p = new Polygon(xPoints, yPoints, 6);
 		_c = Color.GREEN;
 		this.setType(0);
 		//Rectangle r = new Rectangle(nodes[0].getX()+2, nodes[0].getY()+2, 200, 100);
 		//this.setLocation(nodes[0].getX()+2, nodes[0].getY()+2);
 		//this.setBounds(r);
+		_index = null;
 	}
-	
+
+	public void setNodes(List<Node> nodes){
+		_nodes = nodes;
+		int[] xPoints = new int[6];
+		int[] yPoints = new int[6];
+		int i = 0;
+		if(_nodes!=null){
+			for(Node n: _nodes){
+				xPoints[i] = n.getX()+Node._diam/2;
+				yPoints[i] = n.getY()+Node._diam/2;
+				i++;
+			}
+			_p = new Polygon(xPoints, yPoints, 6);
+		}
+	}
+
+	public void setIndex(int x, int y){
+		_index = new Point(x,y);
+	}
+
+	public Point getIndex(){
+		return _index;
+	}
+
 	public boolean hasRobber(){
 		return _robber;
 	}
-	
-	public Node[] getNodes(){
+
+	public List<Node> getNodes(){
 		return _nodes;
 	}
-	
+
 	public Node getNode(int index) throws ArrayIndexOutOfBoundsException{
-		return _nodes[index];
+		return _nodes.get(index);
 	}
-	
+
 	public void setRobber(boolean robber){
 		_robber = robber;
 	}
-	
+
 	@Override
 	public void paint(Graphics g){
 		Graphics2D brush = (Graphics2D) g;
@@ -74,11 +104,11 @@ public class Tile extends BoardComponent{
 		Rectangle r = _p.getBounds();
 		brush.drawChars(toprint, 0, 1, (int)r.getCenterX(), (int)r.getCenterY());
 	}
-	
+
 	public void setColor(Color c){
 		_c = c;
 	}
-	
+
 	public Shape getShape(){
 		return _p;
 	}

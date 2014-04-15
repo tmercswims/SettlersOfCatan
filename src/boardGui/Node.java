@@ -8,13 +8,15 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComponent;
 
 public class Node extends BoardComponent{
 	
-	private Tile[] _tiles = new Tile[3];
-	private Edge[] _edges = new Edge[3];
+	private List<Tile> _tiles = new ArrayList<Tile>();
+	private List<Edge> _edges = new ArrayList<Edge>();
 	private int _vp;
 	private boolean _owned;
 	private Ellipse2D _o;
@@ -54,28 +56,28 @@ public class Node extends BoardComponent{
 		}
 	}*/
 	
-	public Tile[] getTiles(){
+	public List<Tile> getTiles(){
 		return _tiles;
 	}
 	
 	public Tile getTile(int index) throws ArrayIndexOutOfBoundsException{
-		return _tiles[index];
+		return _tiles.get(index);
 	}
 	
-	public void setTiles(Tile[] tiles){
-		_tiles = tiles;
+	public void setTiles(List<Tile> list){
+		_tiles = list;
 	}
 	
-	public Edge[] getEdges(){
+	public List<Edge> getEdges(){
 		return _edges;
 	}
 	
 	public Edge getEdge(int index) throws ArrayIndexOutOfBoundsException{
-		return _edges[index];
+		return _edges.get(index);
 	}
 	
-	public void setEdges(Edge[] edges){
-		_edges = edges;
+	public void setEdges(List<Edge> list){
+		_edges = list;
 	}
 	
 	public void setVP(int vp){
