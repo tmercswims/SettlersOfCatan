@@ -14,37 +14,13 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 	
 	public DrawingPanel(){
 		super();
-		this.setBackground(Color.WHITE);
-		this.setSize(1100,1050);
+		this.setBackground(Color.blue);
+		this.setSize(22*34,14*55);
 		this.setPreferredSize(getSize());
 		this.setMaximumSize(getPreferredSize());
 		this.setMinimumSize(getPreferredSize());
 		_todraw = new ArrayList<BoardComponent>();
 		this.setVisible(true);
-		/*Node n1 = new Node(0,300);
-		Node n2 = new Node(50,225);
-		Node n3 = new Node(150,225);
-		Node n4 = new Node(200,300);
-		Node n5 = new Node(150,375);
-		Node n6 = new Node(50,375);
-		Node[] enodes = {n1, n2};
-		Edge e = new Edge(enodes);
-		/*_todraw.add(e);
-		_todraw.add(n1);
-		_todraw.add(n2);
-		_todraw.add(n3);
-		_todraw.add(n4);
-		_todraw.add(n5);
-		_todraw.add(n6);*/
-		/*ArrayList<Node> tnodes = new ArrayList<Node>(6);
-		tnodes.add(n1);
-		tnodes.add(n2);
-		tnodes.add(n3);
-		tnodes.add(n4);
-		tnodes.add(n5);
-		tnodes.add(n6);
-		Tile t = new Tile(0,0,tnodes);
-		//_todraw.add(t);*/
 		this.addMouseListener(new ClickList(this));
 		Board b = new Board();
 		_todraw.addAll(b.getBoard());
