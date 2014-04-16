@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -143,6 +144,8 @@ public class Tile extends BoardComponent{
 			else{
 				brush.setColor(Color.black);
 			}
+			brush.addRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
+			brush.setStroke(new BasicStroke(5));
 			brush.drawChars(toprint, 0, 1, (int)r.getCenterX()-5, (int)r.getCenterY()+5);
 		}
 	}
