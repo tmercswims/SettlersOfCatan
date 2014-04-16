@@ -1,7 +1,7 @@
 package edu.brown.cs032.atreil.catan.networking;
 
 import java.io.Serializable;
-import logic.Player;
+import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 
 /**

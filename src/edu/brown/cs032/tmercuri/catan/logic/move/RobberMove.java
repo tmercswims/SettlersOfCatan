@@ -3,9 +3,9 @@
  * CS032, Spring 2014
  */
 
-package logic.move;
+package edu.brown.cs032.tmercuri.catan.logic.move;
 
-import logic.Player;
+import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 /**
  * A move for changing the position of the robber on the board.
