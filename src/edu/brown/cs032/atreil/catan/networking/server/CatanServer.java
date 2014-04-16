@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -15,7 +16,7 @@ import java.util.concurrent.Executors;
 import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
-import edu.brown.cs032.tmercuri.catan.logic.Referee;
+import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 
 
 /**
@@ -35,6 +36,7 @@ public class CatanServer{
 	private final Executor _e; //manages threads to deal with new connections
 	private final int TIMEOUT = 5000; //the time the server should wait while waiting for connectino before checking number of connections
 	private int id = 0; //keeps track of the unique id for the client
+	private LinkedList<Move> moveBuffer; //keeps track of any available moves from clients
 	
 	/**
 	 * This constructor initializes a server from a port and hostname. The instantiated object will NOT listen
@@ -58,6 +60,7 @@ public class CatanServer{
 		_hostname = hostname;
 		_numClients = numClients;
 		_pool = new ClientPool();
+		//TODO: change number of threads
 		_e = Executors.newFixedThreadPool(4);
 		_server = new ServerSocket(_port);
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
@@ -146,7 +149,7 @@ public class CatanServer{
 	 * @param id The id of the client to send the packet to
 	 * @param packet The packet to send the client to
 	 */
-	public void sendPacket(int id, Packet packet){
+	private void sendPacket(int id, Packet packet){
 		throw new UnsupportedOperationException();
 	}
 	
@@ -191,6 +194,33 @@ public class CatanServer{
 	 */
 	public void sendError(String playerName, int error){
 		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * Reads a move from the server.
+	 * @return The move
+	 */
+	public Move readMove(){
+		synchronized(moveBuffer){
+			while(moveBuffer.isEmpty()){
+				try {
+					moveBuffer.wait();
+				} catch (InterruptedException e) {}
+			}
+			
+			return moveBuffer.poll();
+		}
+	}
+	
+	/**
+	 * Adds a Move to the internal buffer so that the Referee may process it
+	 * @param move The move to add
+	 */
+	public void addMove(Move move){
+		synchronized(moveBuffer){
+			moveBuffer.add(move);
+			moveBuffer.notifyAll();
+		}
 	}
 	
 	/**
