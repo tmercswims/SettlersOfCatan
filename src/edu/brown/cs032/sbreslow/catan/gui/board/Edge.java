@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 
@@ -58,7 +59,12 @@ public class Edge extends BoardComponent{
 	}
 	
 	public Shape getShape(){
-		return _l.getBounds();
+		if(_l.getBounds().height==0){
+			return new Rectangle(_l.getBounds().x,_l.getBounds().y,_l.getBounds().width,50);
+		}
+		else{
+			return _l.getBounds();
+		}
 	}
 
 	@Override

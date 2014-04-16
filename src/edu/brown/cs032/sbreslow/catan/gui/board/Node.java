@@ -116,14 +116,9 @@ public class Node extends BoardComponent{
 		_c = c;
 	}
 
-	@Override
+	//@Override
 	public void grow() {
-		// TODO Auto-generated method stub
 		if(_scale==1){
-			/*Rectangle r = this.getBounds();
-			Double x = r.getCenterX();
-			Double y = r.getCenterY();
-			System.out.println(_diam*Math.pow(2,_scale-1));*/
 			System.out.println("X: "+this.getX()+", Y: "+this.getY());
 			_o = new Ellipse2D.Double(this.getX()-_diam/2,this.getY()-_diam/2, _diam*Math.pow(2,_scale), _diam*Math.pow(2,_scale));
 			_scale++;
