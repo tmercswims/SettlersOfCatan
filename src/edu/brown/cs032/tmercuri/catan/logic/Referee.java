@@ -5,6 +5,7 @@
 
 package edu.brown.cs032.tmercuri.catan.logic;
 
+import edu.brown.cs032.atreil.catan.networking.server.CatanServer;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.sbreslow.catan.gui.board.Node;
 import edu.brown.cs032.sbreslow.catan.gui.board.Tile;
@@ -25,6 +26,7 @@ public class Referee {
     
     private final Player[] _players;
     private final Board _board;
+    private final CatanServer _server;
     private Player _road, _army, _activePlayer;
     private boolean _gameOver, _turnOver;
     private final PairOfDice _dice;
@@ -32,14 +34,15 @@ public class Referee {
     /**
      * Creates a new Referee, with clear fields.
      * @param players all the players in this game
-     * @param board the initial board for the game
+     * @param server the server that will be used to communicate over the network
      */
-    public Referee(Player[] players, Board board) {
+    public Referee(Player[] players, CatanServer server) {
         _road = _army = null;
         _gameOver = _turnOver = false;
         _dice = new PairOfDice();
         _players = players;
-        _board = board;
+        _board = new Board();
+        _server = server;
     }
     
     public void runGame() {
@@ -101,9 +104,7 @@ public class Referee {
     private void startTurn() {
         int roll = _dice.roll();
         // tell all clients the roll
-        if (roll == 7) {
-            // tell client that it is a robber
-        } else {
+        if (roll != 7) {
             for (Tile t : _board.getTiles()) {
                 int resNum = t.getNum();
                 int resType = t.getResource();
