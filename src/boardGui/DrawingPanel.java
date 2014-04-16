@@ -29,13 +29,13 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		Node n6 = new Node(50,375);
 		Node[] enodes = {n1, n2};
 		Edge e = new Edge(enodes);
-		_todraw.add(e);
+		/*_todraw.add(e);
 		_todraw.add(n1);
 		_todraw.add(n2);
 		_todraw.add(n3);
 		_todraw.add(n4);
 		_todraw.add(n5);
-		_todraw.add(n6);
+		_todraw.add(n6);*/
 		ArrayList<Node> tnodes = new ArrayList<Node>(6);
 		tnodes.add(n1);
 		tnodes.add(n2);
@@ -44,10 +44,10 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		tnodes.add(n5);
 		tnodes.add(n6);
 		Tile t = new Tile(0,0,tnodes);
-		_todraw.add(t);
+		//_todraw.add(t);
 		this.addMouseListener(new ClickList(this));
 		Board b = new Board();
-		//_todraw.addAll(b.getBoard());
+		_todraw.addAll(b.getBoard());
 	}
 	
 	@Override
@@ -57,13 +57,20 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 			if(c.getType()==0)
 				c.paint(g);
 		}
-		for(BoardComponent c : _todraw){
+		/*for(BoardComponent c : _todraw){
 			if(c.getType()==1)
 				c.paint(g);
-		}
+		}*/
+		int i = 0;
 		for(BoardComponent c : _todraw){
-			if(c.getType()==2)
-				c.paint(g);
+			if(c!=null){
+				if(c.getType()==2)
+					c.paint(g);
+			}
+			else{
+				//System.out.println(i);
+			}
+			i++;
 		}
 	}
 	
