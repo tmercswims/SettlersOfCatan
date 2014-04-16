@@ -226,6 +226,18 @@ public class Board {
 		}
 	}
 	
+	public List<Tile> getTiles(){
+		return Arrays.asList(_tiles);
+	}
+	
+	public List<Node> getNodes(){
+		return Arrays.asList(_nodes);
+	}
+	
+	public List<Edge> getEdges(){
+		return Arrays.asList(_edges);
+	}
+	
 	public List<BoardComponent> getBoard(){
 		List<BoardComponent> list = new ArrayList<BoardComponent>();
 		list.addAll(Arrays.asList(_nodes));
