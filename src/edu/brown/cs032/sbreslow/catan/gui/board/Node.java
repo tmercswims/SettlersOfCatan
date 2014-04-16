@@ -1,5 +1,6 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
+import edu.brown.cs032.tmercuri.catan.logic.Player;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,10 +11,6 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JComponent;
-
-import logic.Player;
 
 public class Node extends BoardComponent{
 	

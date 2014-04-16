@@ -1,5 +1,6 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
+import edu.brown.cs032.tmercuri.catan.logic.Player;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,10 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
-
-import javax.swing.JComponent;
-
-import logic.Player;
 
 public class Edge extends BoardComponent{
 	

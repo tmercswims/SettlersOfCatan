@@ -3,7 +3,7 @@
  * CS032, Spring 2014
  */
 
-package logic.move;
+package edu.brown.cs032.tmercuri.catan.logic.move;
 
 /**
  * The last move of a turn. Tells the referee to end the current player's turn and signal the next player.

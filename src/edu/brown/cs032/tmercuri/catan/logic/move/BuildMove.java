@@ -3,7 +3,7 @@
  * CS032, Spring 2014
  */
 
-package logic.move;
+package edu.brown.cs032.tmercuri.catan.logic.move;
 
 /**
  * A move for building something. Tells the referee to check if the building and location are valid, and then to build it and send the new board to the players.

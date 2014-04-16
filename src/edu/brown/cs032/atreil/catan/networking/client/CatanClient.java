@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import logic.Player;
+import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.atreil.catan.networking.Packet;
 
 /**

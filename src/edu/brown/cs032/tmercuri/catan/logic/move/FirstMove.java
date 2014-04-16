@@ -3,7 +3,7 @@
  * CS032, Spring 2014
  */
 
-package logic.move;
+package edu.brown.cs032.tmercuri.catan.logic.move;
 
 /**
  * The first move of each turn. Tells the referee to roll the dice and distribute resources.

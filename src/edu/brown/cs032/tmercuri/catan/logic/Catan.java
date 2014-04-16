@@ -3,7 +3,7 @@
  * CS032, Spring 2014
  */
 
-package logic;
+package edu.brown.cs032.tmercuri.catan.logic;
 
 /**
  *
