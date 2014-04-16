@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -133,14 +134,20 @@ public class Tile extends BoardComponent{
 		brush.setStroke(new BasicStroke());
 		brush.fillPolygon(_p);
 		char[] toprint = Integer.toString(_num).toCharArray();
-		if(_num==6 || _num==8){
-			brush.setColor(Color.red);
-		}
-		else{
-			brush.setColor(Color.black);
-		}
+		brush.setColor(Color.white);
 		Rectangle r = _p.getBounds();
-		brush.drawChars(toprint, 0, 1, (int)r.getCenterX(), (int)r.getCenterY());
+		if(_resource!=6){
+			brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
+			if(_num==6 || _num==8){
+				brush.setColor(Color.red);
+			}
+			else{
+				brush.setColor(Color.black);
+			}
+			brush.addRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
+			brush.setStroke(new BasicStroke(5));
+			brush.drawChars(toprint, 0, 1, (int)r.getCenterX()-5, (int)r.getCenterY()+5);
+		}
 	}
 
 	public void setColor(Color c){
