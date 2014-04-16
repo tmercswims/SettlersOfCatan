@@ -1,0 +1,4 @@
+*.mf
+*.xml
+/nbproject/
+/nbproject/private/
