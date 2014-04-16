@@ -1,4 +1,4 @@
-package gui.board;
+package edu.brown.cs032.sbreslow.catan.gui.board;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
