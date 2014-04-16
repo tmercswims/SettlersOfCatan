@@ -10,6 +10,8 @@ import java.awt.Shape;
 import java.awt.geom.Line2D;
 
 public class Edge extends BoardComponent{
+    
+    private static final long serialVersionUID = 2374415817409860796L;
 	
 	private Node[] _nodes = new Node[2];
 	private boolean _road;

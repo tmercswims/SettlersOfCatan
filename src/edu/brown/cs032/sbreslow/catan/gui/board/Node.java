@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Node extends BoardComponent{
+    
+    private static final long serialVersionUID = 6550573061205903539L;
 	
 	private List<Tile> _tiles = new ArrayList<Tile>();
 	private List<Edge> _edges = new ArrayList<Edge>();

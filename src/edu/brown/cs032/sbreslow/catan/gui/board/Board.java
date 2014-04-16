@@ -1,15 +1,14 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
-import java.awt.Point;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
-public class Board {
+public class Board implements Serializable {
+    
+    private static final long serialVersionUID = 6129113010292654449L;
 	
 	private Tile[] _tiles = new Tile[37];
 	private Node[] _nodes = new Node[96];

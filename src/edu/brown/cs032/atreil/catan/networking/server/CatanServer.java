@@ -13,6 +13,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import edu.brown.cs032.atreil.catan.networking.Packet;
+import edu.brown.cs032.sbreslow.catan.gui.board.Board;
+import edu.brown.cs032.tmercuri.catan.logic.Player;
+import edu.brown.cs032.tmercuri.catan.logic.Referee;
 
 
 /**
@@ -144,7 +147,50 @@ public class CatanServer{
 	 * @param packet The packet to send the client to
 	 */
 	public void sendPacket(int id, Packet packet){
-		
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * Notifies the player to start their turn
+	 * @param playerName The player to start the turn
+	 * @throws IllegalArgumentException If no player exists with that name
+	 */
+	public void startTurn(String playerName) throws IllegalArgumentException{
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * Sends an array of players to all the clients
+	 * @param players The players to send
+	 */
+	public void sendPlayerArray(Player[] players){
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * Sends a board to all the clients
+	 * @param board The board to send
+	 */
+	public void sendBoard(Board board){
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * Sends a roll to the specified client
+	 * @param playerName The player to send the roll to
+	 * @param roll The roll to send
+	 */
+	public void sendRoll(String playerName, int roll){
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * Sends an error type to the specified client
+	 * @param playerName The client to send the error to
+	 * @param error The type of the error to send
+	 */
+	public void sendError(String playerName, int error){
+		throw new UnsupportedOperationException();
 	}
 	
 	/**

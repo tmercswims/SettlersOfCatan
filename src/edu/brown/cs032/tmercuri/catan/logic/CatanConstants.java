@@ -35,5 +35,15 @@ public class CatanConstants {
     /**
      * wood resource
      */
-    WOOD = 4;
+    WOOD = 4,
+    
+    /**
+     * desert tile
+     */
+    DESERT = 5,
+    
+    /**
+     * water tile
+     */
+    WATER = 6;
 }
