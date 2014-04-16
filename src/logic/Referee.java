@@ -5,6 +5,8 @@
 
 package logic;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import logic.move.Move;
 
 /**
@@ -32,17 +34,24 @@ public class Referee {
     public void runGame() {
         chooseOrder();
         
+        // get each player to choose 2 places to build a settlement and road
+        
         for (int z=0; !gameOver; z++) {
             
         }
     }
     
     private void chooseOrder() {
-        int[] rolls = new int[players.length];
-        for (int i=0; i<players.length; i++) {
-            rolls[i] = dice.roll();
+        for (Player p : players) {
+            p.setInitRoll(dice.roll());
         }
         
+        Arrays.sort(players, new Comparator<Player>() {
+            @Override
+            public int compare(Player o1, Player o2) {
+                return Integer.compare(o1.getInitRoll(), o2.getInitRoll());
+            }
+        });
     }
     
     private void setActivePlayer(int p) {

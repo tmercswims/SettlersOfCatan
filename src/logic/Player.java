@@ -20,6 +20,7 @@ public class Player implements Serializable {
     private int roadsRemaining, settlementsRemaining, citiesRemaining, victoryPoints, armySize, longestRoad;
     private final String name;
     private boolean isActive;
+    private int initRoll;
     
     /**
      * Makes a new player with the given name.
@@ -39,7 +40,7 @@ public class Player implements Serializable {
      * Adds resources to this player.
      * @param newResources array of length 5, where each index is a certain resource and its value is the number of each resource to give to this player
      */
-    public void addResources(int... newResources) {
+    public void addResources(int[] newResources) {
         for (int i=0; i<newResources.length; i++) {
             this.resources[i] += newResources[i];
         }
@@ -137,6 +138,14 @@ public class Player implements Serializable {
     }
     
     /**
+     * Gets this player's name.
+     * @return 
+     */
+    public String getName() {
+        return this.name;
+    }
+    
+    /**
      * Sets this player's longest road.
      * @param length the length of this player's longest road
      */
@@ -150,6 +159,21 @@ public class Player implements Serializable {
      */
     public int getLongestRoad() {
         return this.longestRoad;
+    }
+    
+    /**
+     * Sets this players initial roll for sorting.
+     * @param roll 
+     */
+    public void setInitRoll(int roll) {
+        this.initRoll = roll;
+    }
+    
+    /**
+     * Gets this players initial roll for sorting.
+     */
+    public int getInitRoll() {
+        return this.initRoll;
     }
     
     @Override
