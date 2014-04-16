@@ -90,7 +90,6 @@ public class Board {
 			else{
 				System.err.println("WTF");
 			}
-			//System.out.println("Printing node at: "+x+", "+y);
 			_nodes[i] = new Node(x,y);
 		}
 		int i = 0;
@@ -119,7 +118,6 @@ public class Board {
 			raf.readLine();
 			for(i = 0; i <= 131; i++){
 				String[] line = raf.readLine().split("\t");
-				//System.out.println(Arrays.toString(line));
 				String[] nodes = line[1].split(",");
 				int[] ndices = new int[nodes.length];
 				for(int j = 0; j< nodes.length; j++){
@@ -127,6 +125,36 @@ public class Board {
 				}
 				Node[] tmp = {_nodes[ndices[0]],_nodes[ndices[1]]};
 				_edges[i] = new Edge(tmp);
+			}
+		} catch (Exception e) {
+			System.err.println("ERROR: "+e.getMessage());
+			System.err.println(i);
+			e.printStackTrace();
+		}
+		try(RandomAccessFile raf = new RandomAccessFile("nodetoall.tsv","r")){
+			raf.readLine();
+			for(i = 0; i <= 95; i++){
+				String[] line = raf.readLine().split("\t");
+				String[] tiles = line[1].split(",");
+				String[] edges = line[2].split(",");
+				int[] tiledices = new int[tiles.length];
+				int[] edgedices = new int[edges.length];
+				for(int j = 0; j < tiledices.length; j++){
+					tiledices[j] = Integer.parseInt(tiles[j]);
+				}
+				for(int j = 0; j < edgedices.length; j++){
+					edgedices[j] = Integer.parseInt(edges[j]);
+				}
+				List<Tile> tlist = new ArrayList<Tile>();
+				for(int index: tiledices){
+					tlist.add(_tiles[index]);
+				}
+				List<Edge> elist = new ArrayList<Edge>();
+				for(int index: edgedices){
+					elist.add(_edges[index]);
+				}
+				_nodes[i].setTiles(tlist);
+				_nodes[i].setEdges(elist);
 			}
 		} catch (Exception e) {
 			System.err.println("ERROR: "+e.getMessage());
