@@ -100,6 +100,9 @@ public class Node extends BoardComponent{
 		brush.setColor(Color.WHITE);
 		char[] toprint = Integer.toString(_vp).toCharArray();
 		Rectangle r = _o.getBounds();
+		if(_scale>1){
+			brush.setColor(Color.black);
+		}
 		brush.drawChars(toprint, 0, 1, (int)r.getCenterX()-Node._diam/4, (int)r.getCenterY()+Node._diam/4);
 		//brush.fillOval(this.getX(), this.getY(), 4, 4);
 	}
@@ -113,7 +116,6 @@ public class Node extends BoardComponent{
 		_c = c;
 	}
 
-	//@Override
 	public void grow() {
 		if(_scale==1){
 			System.out.println("X: "+this.getX()+", Y: "+this.getY());
@@ -122,7 +124,7 @@ public class Node extends BoardComponent{
 			_vp++;
 		}
 		else if(_scale==2){
-			_o = new Ellipse2D.Double(this.getX()-_diam, this.getY()-_diam, _diam*3, _diam*3);
+			_o = new Ellipse2D.Double(this.getX()-3*_diam/4, this.getY()-3*_diam/4, _diam*2.5, _diam*2.5);
 			_scale++;
 			_vp++;
 		}

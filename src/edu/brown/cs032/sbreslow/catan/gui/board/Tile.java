@@ -105,11 +105,38 @@ public class Tile extends BoardComponent{
 	@Override
 	public void paint(Graphics g){
 		Graphics2D brush = (Graphics2D) g;
-		brush.setColor(_c);
+		switch(_resource){
+		case 0://wheat
+			brush.setColor(new Color(255,205,0));
+			break;
+		case 1://sheep
+			brush.setColor(new Color(119,255,0));
+			break;
+		case 2://brick
+			brush.setColor(new Color(255,102,0));
+			break;
+		case 3://ore
+			brush.setColor(new Color(85,85,85));
+			break;
+		case 4://wood
+			brush.setColor(new Color(38,73,29));
+			break;
+		case 5://desert
+			brush.setColor(new Color(247,239,164));
+			break;
+		case 6://water
+			brush.setColor(Color.blue);
+		}
+		//brush.setColor(_c);
 		brush.setStroke(new BasicStroke());
 		brush.fillPolygon(_p);
 		char[] toprint = Integer.toString(_num).toCharArray();
-		brush.setColor(Color.BLACK);
+		if(_num==6 || _num==8){
+			brush.setColor(Color.red);
+		}
+		else{
+			brush.setColor(Color.black);
+		}
 		Rectangle r = _p.getBounds();
 		brush.drawChars(toprint, 0, 1, (int)r.getCenterX(), (int)r.getCenterY());
 	}

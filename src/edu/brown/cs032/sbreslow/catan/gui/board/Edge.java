@@ -24,7 +24,7 @@ public class Edge extends BoardComponent{
 		_nodes = nodes;
 		_l = new Line2D.Double(_nodes[0].getX()+Node._diam/2, _nodes[0].getY()+Node._diam/2, 
 				_nodes[1].getX()+Node._diam/2, _nodes[1].getY()+Node._diam/2);
-		_c = Color.RED;
+		_c = Color.white;
 		_s = new BasicStroke(4);
 		System.out.println("Before: "+_l.getBounds());
 		if(_l.getBounds().height==0){

@@ -68,7 +68,10 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		for(BoardComponent c : _todraw){
 			if(c!=null){
 				if(c.getType()==1)
-					c.paint(g);
+					if(i>175 && i!=177 && i!=180 && i!= 183 && i!=185 && i!=188 && i!=191 && i!= 193
+					&& i!=196 && i!=199 && i!=201 && i!=204 && i!=207 && i!=209 && i!=212 && i!=215
+					&& i!=217 && i!=220)
+						c.paint(g);
 			}
 			else{
 				System.out.println(i);
@@ -79,7 +82,8 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		for(BoardComponent c : _todraw){
 			if(c!=null){
 				if(c.getType()==2)
-					c.paint(g);
+					if(i>41)
+						c.paint(g);
 			}
 			else{
 				System.out.println(i);

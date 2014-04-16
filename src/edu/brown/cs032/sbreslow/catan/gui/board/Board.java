@@ -16,8 +16,89 @@ public class Board {
 	private Edge[] _edges = new Edge[132];
 	private final int _x = 34;//25;//50
 	private final int _y = 55;//38;//75
+	private List<Integer> _resources = new ArrayList<Integer>(19);
+	private List<Integer> _nums = new ArrayList<Integer>(18);
 	
 	public Board(){
+		for(int i = 0; i < 19; i++){
+			if(i<1){
+				_resources.add(5);//desert
+			}
+			else if(i<4){
+				_resources.add(3);//ore
+			}
+			else if(i<7){
+				_resources.add(2);//brick
+			}
+			else if(i<11){
+				_resources.add(0);//wheat
+			}
+			else if(i<14){
+				_resources.add(1);//sheep
+			}
+			else{
+				_resources.add(4);//wood
+			}
+		}
+		for(int i = 0; i < 18; i++){
+			switch(i){
+			case 0:
+				_nums.add(2);
+				break;
+			case 1:
+				_nums.add(3);
+				break;
+			case 2:
+				_nums.add(3);
+				break;
+			case 3:
+				_nums.add(4);
+				break;
+			case 4:
+				_nums.add(4);
+				break;
+			case 5:
+				_nums.add(5);
+				break;
+			case 6:
+				_nums.add(5);
+				break;
+			case 7:
+				_nums.add(6);
+				break;
+			case 8:
+				_nums.add(6);
+				break;
+			case 9:
+				_nums.add(8);
+				break;
+			case 10:
+				_nums.add(8);
+				break;
+			case 11:
+				_nums.add(9);
+				break;
+			case 12:
+				_nums.add(9);
+				break;
+			case 13:
+				_nums.add(10);
+				break;
+			case 14:
+				_nums.add(10);
+				break;
+			case 15:
+				_nums.add(11);
+				break;
+			case 16:
+				_nums.add(11);
+				break;
+			case 17:
+				_nums.add(12);
+				break;
+			}
+		}
+		
 		int x = 0;
 		int y = 2*_y;
 		for(int i = 0; i <= 95; i++){
@@ -106,7 +187,18 @@ public class Board {
 				for(int j: ndices){
 					list.add(_nodes[j]);
 				}
-				_tiles[i] = new Tile(0,0,null);
+				if(i<=17){
+					_tiles[i] = new Tile(6,0,null);
+				}
+				else{
+					int rsrc = getResource();
+					if(rsrc==5){
+						_tiles[i] = new Tile(rsrc,0,null);
+					}
+					else{
+						_tiles[i] = new Tile(rsrc,getNum(),null);
+					}
+				}
 				_tiles[i].setNodes(list);
 			}
 		} catch (Exception e) {
@@ -163,6 +255,14 @@ public class Board {
 		}
 	}
 	
+	private int getNum() {
+		return _nums.remove((int)(Math.random()*_nums.size()));
+	}
+
+	private int getResource() {
+		return _resources.remove((int)(Math.random()*_resources.size()));
+	}
+
 	public List<Tile> getTiles(){
 		return (ArrayList<Tile>)Arrays.asList(_tiles);
 	}
