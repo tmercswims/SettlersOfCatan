@@ -53,22 +53,36 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		for(BoardComponent c : _todraw){
-			if(c.getType()==0)
-				c.paint(g);
-		}
-		/*for(BoardComponent c : _todraw){
-			if(c.getType()==1)
-				c.paint(g);
-		}*/
 		int i = 0;
+		for(BoardComponent c : _todraw){
+			if(c!=null){
+				if(c.getType()==0)
+					c.paint(g);
+			}
+			else{
+				System.out.println(i);
+			}
+			i++;
+		}
+		i = 0;
+		for(BoardComponent c : _todraw){
+			if(c!=null){
+				if(c.getType()==1)
+					c.paint(g);
+			}
+			else{
+				System.out.println(i);
+			}
+			i++;
+		}
+		i = 0;
 		for(BoardComponent c : _todraw){
 			if(c!=null){
 				if(c.getType()==2)
 					c.paint(g);
 			}
 			else{
-				//System.out.println(i);
+				System.out.println(i);
 			}
 			i++;
 		}
