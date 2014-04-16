@@ -131,14 +131,18 @@ public class Tile extends BoardComponent{
 		brush.setStroke(new BasicStroke());
 		brush.fillPolygon(_p);
 		char[] toprint = Integer.toString(_num).toCharArray();
-		if(_num==6 || _num==8){
-			brush.setColor(Color.red);
-		}
-		else{
-			brush.setColor(Color.black);
-		}
+		brush.setColor(Color.white);
 		Rectangle r = _p.getBounds();
-		brush.drawChars(toprint, 0, 1, (int)r.getCenterX(), (int)r.getCenterY());
+		if(_resource!=6){
+			brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
+			if(_num==6 || _num==8){
+				brush.setColor(Color.red);
+			}
+			else{
+				brush.setColor(Color.black);
+			}
+			brush.drawChars(toprint, 0, 1, (int)r.getCenterX()-5, (int)r.getCenterY()+5);
+		}
 	}
 
 	public void setColor(Color c){
