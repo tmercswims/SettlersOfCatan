@@ -9,11 +9,13 @@ import java.awt.geom.Line2D;
 
 import javax.swing.JComponent;
 
+import logic.Player;
+
 public class Edge extends BoardComponent{
 	
 	private Node[] _nodes = new Node[2];
 	private boolean _road;
-	//private Player _owner;
+	private Player _owner;
 	private Line2D _l;
 	private Color _c;
 	private BasicStroke _s;
@@ -42,10 +44,10 @@ public class Edge extends BoardComponent{
 		return _road;
 	}
 	
-	/*public void setOwner(Player P){
+	public void setOwner(Player p){
 		_road = true;
 		_owner = p;
-	}*/
+	}
 	
 	@Override
 	public void paint(Graphics g){

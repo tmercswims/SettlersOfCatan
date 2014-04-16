@@ -13,6 +13,8 @@ import java.util.List;
 
 import javax.swing.JComponent;
 
+import logic.Player;
+
 public class Node extends BoardComponent{
 	
 	private List<Tile> _tiles = new ArrayList<Tile>();
@@ -23,14 +25,14 @@ public class Node extends BoardComponent{
 	private Color _c;
 	public final static int _diam = 20;
 	private int _scale = 1;
-	//private Player _owner;
+	private Player _owner;
 	//Port _port;
 	
 	public Node(int x, int y){
 		super();
 		this.setLocation(new Point(x,y));
 		_owned = false;
-		//_owner = null;
+		_owner = null;
 		//_port = null;
 		_o = new Ellipse2D.Double(this.getX(), this.getY(), _diam, _diam);
 		_c = Color.BLACK;
@@ -42,7 +44,7 @@ public class Node extends BoardComponent{
 		return _owned;
 	}
 	
-	/*public void setOwner(Player p){
+	public void setOwner(Player p){
 		_owned = true;
 		_owner = p;
 	}
@@ -52,9 +54,9 @@ public class Node extends BoardComponent{
 			return _owner;
 		}
 		else{
-			throw new RuntimeException("NO OWNER");
+			return null;
 		}
-	}*/
+	}
 	
 	public List<Tile> getTiles(){
 		return _tiles;
