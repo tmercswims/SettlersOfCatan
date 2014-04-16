@@ -13,7 +13,7 @@ public class TradeMove extends Move {
     
     private static final long serialVersionUID = 7764431091933735922L;
     
-    private final int[] giving, receiving;
+    private final int[] _giving, _receiving;
     
     /**
      * Makes a new TradeMove.
@@ -21,7 +21,7 @@ public class TradeMove extends Move {
      * @param receiving a resource array indicating what the proposing player wants in return
      */
     public TradeMove(int[] giving, int[] receiving) {
-        this.giving = giving;
-        this.receiving = receiving;
+        this._giving = giving;
+        this._receiving = receiving;
     }
 }

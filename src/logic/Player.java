@@ -16,24 +16,24 @@ public class Player implements Serializable {
     
     private static final long serialVersionUID = 1571495798749582725L;
     
-    private final int[] resources;
-    private int roadsRemaining, settlementsRemaining, citiesRemaining, victoryPoints, armySize, longestRoad;
-    private final String name;
-    private boolean isActive;
-    private int initRoll;
+    private final int[] _resources;
+    private int _roadsRemaining, _settlementsRemaining, _citiesRemaining, _victoryPoints, _armySize, _longestRoad;
+    private final String _name;
+    private boolean _isActive;
+    private int _initRoll;
     
     /**
-     * Makes a new player with the given name.
-     * @param name the name of this player
+     * Makes a new player with the given _name.
+     * @param name the _name of this player
      */
     public Player(String name) {
-        this.resources = new int[]{0,0,0,0,0};
-        this.roadsRemaining = 15;
-        this.settlementsRemaining = 5;
-        this.citiesRemaining = 4;
-        this.victoryPoints = this.armySize = this.longestRoad = 0;
-        this.name = name;
-        this.isActive = false;
+        this._resources = new int[]{0,0,0,0,0};
+        this._roadsRemaining = 15;
+        this._settlementsRemaining = 5;
+        this._citiesRemaining = 4;
+        this._victoryPoints = this._armySize = this._longestRoad = 0;
+        this._name = name;
+        this._isActive = false;
     }
     
     /**
@@ -42,7 +42,7 @@ public class Player implements Serializable {
      */
     public void addResources(int[] newResources) {
         for (int i=0; i<newResources.length; i++) {
-            this.resources[i] += newResources[i];
+            this._resources[i] += newResources[i];
         }
     }
     
@@ -51,7 +51,7 @@ public class Player implements Serializable {
      * @param isActive is this player active?
      */
     public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
+        this._isActive = isActive;
     }
     
     /**
@@ -59,14 +59,14 @@ public class Player implements Serializable {
      * @return true if this player is active, false if not
      */
     public boolean isActive() {
-        return this.isActive;
+        return this._isActive;
     }
     
     /**
      * Decreases this player's remaining road count by 1.
      */
     public void decRoadCount() {
-        this.roadsRemaining--;
+        this._roadsRemaining--;
     }
     
     /**
@@ -74,14 +74,14 @@ public class Player implements Serializable {
      * @return
      */
     public int getRoadCount() {
-        return this.roadsRemaining;
+        return this._roadsRemaining;
     }
     
     /**
      * Decreases this player's remaining settlement count by 1.
      */
     public void decSettlementCount() {
-        this.settlementsRemaining--;
+        this._settlementsRemaining--;
     }
     
     /**
@@ -89,14 +89,14 @@ public class Player implements Serializable {
      * @return
      */
     public int getSettlementCount() {
-        return this.settlementsRemaining;
+        return this._settlementsRemaining;
     }
     
     /**
      * Decreases this player's remaining city count by 1.
      */
     public void decCityCount() {
-        this.citiesRemaining--;
+        this._citiesRemaining--;
     }
     
     /**
@@ -104,14 +104,14 @@ public class Player implements Serializable {
      * @return
      */
     public int getCityCount() {
-        return this.citiesRemaining;
+        return this._citiesRemaining;
     }
     
     /**
      * Increases this player's victory point count by 1.
      */
     public void incVictoryPoints() {
-        this.victoryPoints++;
+        this._victoryPoints++;
     }
     
     /**
@@ -119,14 +119,14 @@ public class Player implements Serializable {
      * @return
      */
     public int getVictoryPoints() {
-        return this.victoryPoints;
+        return this._victoryPoints;
     }
     
     /**
      * Increases this player's army size by 1.
      */
     public void incArmySize() {
-        this.armySize++;
+        this._armySize++;
     }
     
     /**
@@ -134,15 +134,15 @@ public class Player implements Serializable {
      * @return
      */
     public int getArmySize() {
-        return this.armySize;
+        return this._armySize;
     }
     
     /**
-     * Gets this player's name.
+     * Gets this player's _name.
      * @return 
      */
     public String getName() {
-        return this.name;
+        return this._name;
     }
     
     /**
@@ -150,7 +150,7 @@ public class Player implements Serializable {
      * @param length the length of this player's longest road
      */
     public void setLongestRoad(int length) {
-        this.longestRoad = length;
+        this._longestRoad = length;
     }
     
     /**
@@ -158,7 +158,7 @@ public class Player implements Serializable {
      * @return
      */
     public int getLongestRoad() {
-        return this.longestRoad;
+        return this._longestRoad;
     }
     
     /**
@@ -166,14 +166,14 @@ public class Player implements Serializable {
      * @param roll 
      */
     public void setInitRoll(int roll) {
-        this.initRoll = roll;
+        this._initRoll = roll;
     }
     
     /**
      * Gets this players initial roll for sorting.
      */
     public int getInitRoll() {
-        return this.initRoll;
+        return this._initRoll;
     }
     
     @Override
@@ -189,7 +189,7 @@ public class Player implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 23 * hash + Objects.hashCode(this.name);
+        hash = 23 * hash + Objects.hashCode(this._name);
         return hash;
     }
 }
