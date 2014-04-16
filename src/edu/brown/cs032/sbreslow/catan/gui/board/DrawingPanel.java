@@ -21,7 +21,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		this.setMinimumSize(getPreferredSize());
 		_todraw = new ArrayList<BoardComponent>();
 		this.setVisible(true);
-		Node n1 = new Node(0,300);
+		/*Node n1 = new Node(0,300);
 		Node n2 = new Node(50,225);
 		Node n3 = new Node(150,225);
 		Node n4 = new Node(200,300);
@@ -36,7 +36,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		_todraw.add(n4);
 		_todraw.add(n5);
 		_todraw.add(n6);*/
-		ArrayList<Node> tnodes = new ArrayList<Node>(6);
+		/*ArrayList<Node> tnodes = new ArrayList<Node>(6);
 		tnodes.add(n1);
 		tnodes.add(n2);
 		tnodes.add(n3);
@@ -44,7 +44,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		tnodes.add(n5);
 		tnodes.add(n6);
 		Tile t = new Tile(0,0,tnodes);
-		//_todraw.add(t);
+		//_todraw.add(t);*/
 		this.addMouseListener(new ClickList(this));
 		Board b = new Board();
 		_todraw.addAll(b.getBoard());
@@ -102,11 +102,25 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 			System.out.println("clicked: "+e.getX()+", "+e.getY());
 			for(BoardComponent c: _todraw){
 				if(c.getShape().contains(e.getPoint())){
-					System.out.println(c);
+					/*System.out.println(c);
 					Double red = Math.random()*255;
 					Double grn = Math.random()*255;
 					Double blu = Math.random()*255;
-					Color color = new Color(red.intValue(),grn.intValue(),blu.intValue());
+					Color color = new Color(red.intValue(),grn.intValue(),blu.intValue());*/
+					Color color;
+					switch(c.getType()){
+					case 0:
+						color = Color.MAGENTA;
+						break;
+					case 1:
+						color = Color.CYAN;
+						break;
+					case 2:
+						color = Color.YELLOW;
+						break;
+					default:
+						color = Color.WHITE;
+					}
 					c.setColor(color);
 					c.grow();
 					_dp.repaint();

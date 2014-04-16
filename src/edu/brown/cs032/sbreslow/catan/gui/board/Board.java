@@ -14,8 +14,8 @@ public class Board {
 	private Tile[] _tiles = new Tile[37];
 	private Node[] _nodes = new Node[96];
 	private Edge[] _edges = new Edge[132];
-	private final int _x = 50;//25;//50
-	private final int _y = 75;//38;//75
+	private final int _x = 34;//25;//50
+	private final int _y = 55;//38;//75
 	
 	public Board(){
 		int x = 0;

@@ -19,6 +19,7 @@ public class Tile extends BoardComponent{
 
 	public final int _resource;
 	public final int _num;
+
 	private List<Node> _nodes = new ArrayList<Node>(6);
 	boolean _robber;
 	Polygon _p;
@@ -52,6 +53,14 @@ public class Tile extends BoardComponent{
 		//this.setLocation(nodes[0].getX()+2, nodes[0].getY()+2);
 		//this.setBounds(r);
 		_index = null;
+	}
+	
+	public int getResource() {
+		return _resource;
+	}
+
+	public int getNum() {
+		return _num;
 	}
 
 	public void setNodes(List<Node> nodes){

@@ -122,7 +122,7 @@ public class Node extends BoardComponent{
 			_vp++;
 		}
 		else if(_scale==2){
-			_o = new Ellipse2D.Double(this.getX()-3*(_diam/2),this.getY()-3*(_diam/2), _diam*Math.pow(2,_scale), _diam*Math.pow(2,_scale));
+			_o = new Ellipse2D.Double(this.getX()-_diam, this.getY()-_diam, _diam*3, _diam*3);
 			_scale++;
 			_vp++;
 		}
