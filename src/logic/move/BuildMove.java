@@ -13,7 +13,7 @@ public class BuildMove extends Move {
     
     private static final long serialVersionUID = 3300561535871370673L;
     
-    private final int buildType, buildLocation;
+    private final int _buildType, _buildLocation;
     
     /**
      * Makes a new BuildMove.
@@ -21,7 +21,7 @@ public class BuildMove extends Move {
      * @param buildLocation the location to build this; should be the index of the edge/node in the board's representation
      */
     public BuildMove(int buildType, int buildLocation) {
-        this.buildType = buildType;
-        this.buildLocation = buildLocation;
+        this._buildType = buildType;
+        this._buildLocation = buildLocation;
     }
 }

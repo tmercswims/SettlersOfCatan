@@ -15,20 +15,20 @@ import logic.move.Move;
  */
 public class Referee {
     
-    private final Player[] players;
-    private Player road, army, activePlayer;
-    private boolean gameOver;
-    private final PairOfDice dice;
+    private final Player[] _players;
+    private Player _road, _army, _activePlayer;
+    private boolean _gameOver;
+    private final PairOfDice _dice;
     
     /**
      * Creates a new Referee, with clear fields.
      * @param players all the players in this game
      */
     public Referee(Player[] players) {
-        this.road = this.army = null;
-        this.gameOver = false;
-        this.dice = new PairOfDice();
-        this.players = players;
+        this._road = this._army = null;
+        this._gameOver = false;
+        this._dice = new PairOfDice();
+        this._players = players;
     }
     
     public void runGame() {
@@ -36,17 +36,17 @@ public class Referee {
         
         // get each player to choose 2 places to build a settlement and road
         
-        for (int z=0; !gameOver; z++) {
+        for (int z=0; !_gameOver; z++) {
             
         }
     }
     
     private void chooseOrder() {
-        for (Player p : players) {
-            p.setInitRoll(dice.roll());
+        for (Player p : _players) {
+            p.setInitRoll(_dice.roll());
         }
         
-        Arrays.sort(players, new Comparator<Player>() {
+        Arrays.sort(_players, new Comparator<Player>() {
             @Override
             public int compare(Player o1, Player o2) {
                 return Integer.compare(o1.getInitRoll(), o2.getInitRoll());
@@ -55,7 +55,7 @@ public class Referee {
     }
     
     private void setActivePlayer(int p) {
-        Player player = players[p];
+        Player player = _players[p];
         
     }
     
@@ -75,7 +75,7 @@ public class Referee {
         
     }
 
-    private void findLongestRoad() {
+    private void findLongestRoad(Player player) {
         
     }
 }

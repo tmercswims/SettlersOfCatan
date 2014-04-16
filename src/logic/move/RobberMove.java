@@ -15,8 +15,8 @@ public class RobberMove extends Move {
     
     private static final long serialVersionUID = 2284263193601317847L;
     
-    private final int newLocation;
-    private final Player toStealFrom;
+    private final int _newLocation;
+    private final Player _toStealFrom;
     
     /**
      * Makes a new RobberMove.
@@ -24,7 +24,7 @@ public class RobberMove extends Move {
      * @param toStealFrom the player on the new robber tile that should be stolen from
      */
     public RobberMove(int newLocation, Player toStealFrom) {
-        this.newLocation = newLocation;
-        this.toStealFrom = toStealFrom;
+        this._newLocation = newLocation;
+        this._toStealFrom = toStealFrom;
     }
 }
