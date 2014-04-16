@@ -1,0 +1,11 @@
+- The general protocol is to send an int to represent what is being sent and then sending the object
+	
+-server -> client
+	-0 = handshake; nothing to follow
+	-1 = string message; the next thing to read is a string
+	-2 = object message; the next thing to read is an object
+	- -1 = error; message to follow explaining what
+	
+-client -> server
+	-0 = handshake; an object representing the player class to follow
+	-1 = move; an object representing the move (or string) to follow
