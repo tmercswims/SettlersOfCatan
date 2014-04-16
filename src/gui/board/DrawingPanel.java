@@ -1,4 +1,4 @@
-package boardGui;
+package gui.board;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

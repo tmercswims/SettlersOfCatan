@@ -1,4 +1,4 @@
-package boardGui;
+package gui.board;
 
 import java.awt.Color;
 import java.awt.Shape;

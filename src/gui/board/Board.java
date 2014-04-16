@@ -1,4 +1,4 @@
-package boardGui;
+package gui.board;
 
 import java.awt.Point;
 import java.io.FileNotFoundException;

@@ -1,4 +1,4 @@
-package boardGui;
+package gui.board;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
