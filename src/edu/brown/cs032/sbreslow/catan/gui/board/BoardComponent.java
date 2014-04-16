@@ -6,6 +6,8 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 public abstract class BoardComponent extends JComponent {
+    
+    private static final long serialVersionUID = 902101441014129383L;
 
 	private int _type;
 	

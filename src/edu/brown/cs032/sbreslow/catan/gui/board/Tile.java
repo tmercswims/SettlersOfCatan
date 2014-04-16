@@ -16,6 +16,8 @@ import java.util.List;
 import javax.swing.JComponent;
 
 public class Tile extends BoardComponent{
+    
+    private static final long serialVersionUID = 331277313248085333L;
 
 	public final int _resource;
 	public final int _num;
