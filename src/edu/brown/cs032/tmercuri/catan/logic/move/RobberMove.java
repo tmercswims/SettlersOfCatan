@@ -16,15 +16,17 @@ public class RobberMove extends Move {
     private static final long serialVersionUID = 2284263193601317847L;
     
     private final int _newLocation;
-    private final Player _toStealFrom;
+    private final String _playerName, _toStealFrom;
     
     /**
      * Makes a new RobberMove.
+     * @param playerName the player who played this move
      * @param newLocation the new location for the robber; should be the index of the new tile that the robber needs to go on
      * @param toStealFrom the player on the new robber tile that should be stolen from
      */
-    public RobberMove(int newLocation, Player toStealFrom) {
-        this._newLocation = newLocation;
-        this._toStealFrom = toStealFrom;
+    public RobberMove(String playerName, int newLocation, String toStealFrom) {
+        _newLocation = newLocation;
+        _toStealFrom = toStealFrom;
+        _playerName = playerName;
     }
 }

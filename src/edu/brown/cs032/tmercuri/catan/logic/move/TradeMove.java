@@ -15,13 +15,25 @@ public class TradeMove extends Move {
     
     private final int[] _giving, _receiving;
     
+    private final String _playerName;
+    
     /**
      * Makes a new TradeMove.
+     * @param playerName the player who played this move
      * @param giving a resource array indicating what the proposing player is giving up
      * @param receiving a resource array indicating what the proposing player wants in return
      */
-    public TradeMove(int[] giving, int[] receiving) {
-        this._giving = giving;
-        this._receiving = receiving;
+    public TradeMove(String playerName, int[] giving, int[] receiving) {
+        _giving = giving;
+        _receiving = receiving;
+        _playerName = playerName;
+    }
+    
+    /**
+     * Gets the name of the player who played this move.
+     * @return 
+     */
+    public String getPlayerName() {
+        return _playerName;
     }
 }

@@ -53,7 +53,9 @@ public class Referee {
             setActivePlayer(currentPlayer);
             while (!_turnOver) {
                 // read a move from the server
-                makeMove(null);
+                makeMove(null/*move*/);
+                pushPlayers();
+                pushBoard();
             }
         }
     }
@@ -74,17 +76,16 @@ public class Referee {
     private void setActivePlayer(int p) {
         Player player = _players[p];
         _activePlayer = player;
-        // tell player over network that it is their turn
+        _server.startTurn(player.getName());
     }
     
     private void setActivePlayer(Player player) {
         _activePlayer = player;
-        // tell player over network that it is their turn
+        _server.startTurn(player.getName());
     }
 
     private void makeMove(Move move) {
         if (move instanceof FirstMove) {
-            FirstMove fMove = (FirstMove) move;
             startTurn();
         } else if (move instanceof BuildMove) {
             BuildMove bMove = (BuildMove) move;
@@ -96,14 +97,13 @@ public class Referee {
             RobberMove rMove = (RobberMove) move;
             
         } else if (move instanceof LastMove) {
-            LastMove lMove = (LastMove) move;
             endTurn();
         }
     }
     
     private void startTurn() {
         int roll = _dice.roll();
-        // tell all clients the roll
+        _server.sendRoll(_activePlayer.getName(), roll);
         if (roll != 7) {
             for (Tile t : _board.getTiles()) {
                 int resNum = t.getNum();
@@ -123,11 +123,11 @@ public class Referee {
     }
     
     private void pushPlayers() {
-        // use server to push _players to all the clients
+        _server.sendPlayerArray(_players);
     }
     
     private void pushBoard() {
-        // use server to push _board to all the clients
+        _server.sendBoard(_board);
     }
 
     private void endTurn() {
