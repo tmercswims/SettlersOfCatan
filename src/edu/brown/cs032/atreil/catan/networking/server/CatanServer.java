@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import edu.brown.cs032.atreil.catan.networking.LaunchConfiguration;
 import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
@@ -26,10 +27,10 @@ import edu.brown.cs032.tmercuri.catan.logic.move.Move;
  * @author atreil
  *
  */
-public class CatanServer{
+public class CatanServer extends Thread{
 
 	public final int _port; //the port that the clients will connect to
-	public final String _hostname; //the host of the computer that is hosting the game
+	//public final String _hostname; //the host of the computer that is hosting the game
 	private final ServerSocket _server; //the object that handles that physical connections
 	public final int _numClients; //specifies how many players must be connected in order for the game to start
 	private final ClientPool _pool; //keeps track of all the clients
@@ -40,8 +41,9 @@ public class CatanServer{
 	
 	/**
 	 * This constructor initializes a server from a port and hostname. The instantiated object will NOT listen
-	 * to new connections until the start() command is executed. Calling kill() will safely close any clients and
-	 * the server.
+	 * to new connections until the start() command is executed.
+	 * <p>
+	 * @deprecated use the new constructor that takes in a @link{LaunchConfiguration} class instead.
 	 * 
 	 * @param hostname The name of the computer hosting the game/server
 	 * @param port The port on which the server is being hosted on. Must be in range (1024, 65535] (1024 is exclusive
@@ -49,6 +51,7 @@ public class CatanServer{
 	 * @param numClients The number of clients that must be connected for the game to start
 	 * @throws IOException If anything goes wrong with reading in connections
 	 */
+	@Deprecated
 	public CatanServer(String hostname, int port, int numClients) throws IOException{
 		
 		//check if port is valid
@@ -57,11 +60,35 @@ public class CatanServer{
 		
 		//setting up fields
 		_port = port;
-		_hostname = hostname;
+		//_hostname = hostname;
 		_numClients = numClients;
-		_pool = new ClientPool();
+		_pool = new ClientPool(this);
 		//TODO: change number of threads
-		_e = Executors.newFixedThreadPool(4);
+		_e = Executors.newCachedThreadPool();
+		_server = new ServerSocket(_port);
+		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
+	}
+	
+	/**
+	 * This constructor initializes a server from a LaunchConfiguration class. The instantiated object will NOT listen
+	 * to new connections until the start() command is executed.
+	 * @param configs The class that represents the configurations to be used
+	 * @throws IOException If anything goes wrong with setting up the server
+	 */
+	public CatanServer(LaunchConfiguration configs) throws IOException{
+		int port = configs.getHostPort();
+		
+		//check if port is valid
+		if(port <= 1024 || port > 65535)
+			throw new IllegalArgumentException(String.format("Port must be between 1024 exclusive and 65535 inclusive; got %d", port));
+		
+		//setting up fields
+		_port = port;
+		//_hostname = ;
+		_numClients = (configs.isFourPlayerGame()) ? 4 : 3;
+		_pool = new ClientPool(this);
+		//TODO: change number of threads
+		_e = Executors.newCachedThreadPool();
 		_server = new ServerSocket(_port);
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
 	}
@@ -69,9 +96,9 @@ public class CatanServer{
 	/**
 	 * Accepts connections and adds them to the client pool. Once the number of connections has reached
 	 * numClients, the server will stop listening for new connections and return
-	 * @throws IOException 
+	 * <p>
 	 */
-	public void accept() throws IOException{
+	private void accept(){
 		//accept connections
 		while(_pool.getNumConnected() < _numClients){
 			try {
@@ -81,7 +108,7 @@ public class CatanServer{
 				//set up new client manager
 				_e.execute(new ClientRunnable(client, _pool));
 				
-				System.out.println(String.format("Number of connected clients: %s", _pool.getNumConnected()));
+				//System.out.println(String.format("Number of connected clients: %s", _pool.getNumConnected()));
 			} catch(SocketTimeoutException e){
 				//simply checking how many connections there are
 			} catch (IOException e) {
@@ -92,16 +119,25 @@ public class CatanServer{
 	}
 	
 	/**
-	 * Starts a new game 
-	 * @throws IOException 
-	 * @throws IllegalArgumentException 
+	 * Starts the server by accepting connections, and then actually launching the game
+	 * once all players have connected
 	 */
-	public void start() throws IllegalArgumentException, IOException{
-		//starting game
-		for(String name : _pool.getPlayerNames())
-			System.out.println(String.format("Connected: %s", name));
+	public void run(){
+		//accept connections
+		accept();
 		
-		_pool.broadcast(new Packet(Packet.MESSAGE, "Starting game"));
+		//start the game
+		try {
+			_pool.broadcast(new Packet(Packet.STARTGAME, null));
+			//client will no longer listen to clients so shutdown its server
+			_server.close();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -131,10 +167,7 @@ public class CatanServer{
 		public void run() {
 			try {
 				//set up new manager
-				ClientManager mgr = new ClientManager(_pool, _client);
-				
-				//add to the pool
-				_pool.addClient(id++, mgr);
+				new ClientManager(_pool, _client).start();
 			} catch (IOException e) {
 				System.err.println("Error: " + e.getMessage());
 				
@@ -145,21 +178,17 @@ public class CatanServer{
 	}
 	
 	/**
-	 * Sends a packet to the client with the given id
-	 * @param id The id of the client to send the packet to
-	 * @param packet The packet to send the client to
-	 */
-	private void sendPacket(int id, Packet packet){
-		throw new UnsupportedOperationException();
-	}
-	
-	/**
 	 * Notifies the player to start their turn
 	 * @param playerName The player to start the turn
 	 * @throws IllegalArgumentException If no player exists with that name
 	 */
 	public void startTurn(String playerName) throws IllegalArgumentException{
-		throw new UnsupportedOperationException();
+		try {
+			_pool.send(playerName, new Packet(Packet.START, null));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -167,7 +196,12 @@ public class CatanServer{
 	 * @param players The players to send
 	 */
 	public void sendPlayerArray(Player[] players){
-		throw new UnsupportedOperationException();
+		try {
+			_pool.broadcast(new Packet(Packet.PLAYERARRAY, players));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -175,7 +209,12 @@ public class CatanServer{
 	 * @param board The board to send
 	 */
 	public void sendBoard(Board board){
-		throw new UnsupportedOperationException();
+		try {
+			_pool.broadcast(new Packet(Packet.BOARD, board));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -184,7 +223,12 @@ public class CatanServer{
 	 * @param roll The roll to send
 	 */
 	public void sendRoll(String playerName, int roll){
-		throw new UnsupportedOperationException();
+		try {
+			_pool.send(playerName, new Packet(Packet.ROLL, new Integer(roll)));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -193,7 +237,12 @@ public class CatanServer{
 	 * @param error The type of the error to send
 	 */
 	public void sendError(String playerName, int error){
-		throw new UnsupportedOperationException();
+		try {
+			_pool.send(playerName, new Packet(Packet.ERROR, new Integer(error)));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
