@@ -1,11 +1,13 @@
 package edu.brown.cs032.atreil.catan.networking.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import edu.brown.cs032.atreil.catan.networking.Packet;
+import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 
 /**
@@ -16,7 +18,7 @@ import edu.brown.cs032.tmercuri.catan.logic.move.Move;
  */
 public class ClientPool {
 
-	private final HashMap<String, ClientManager> clients; //keeps track of clients
+	private final HashMap<String, ClientManager> _clients; //keeps track of clients
 	private CatanServer _server; //use to pass moves
 	
 	/**
@@ -24,7 +26,7 @@ public class ClientPool {
 	 * @param server The server to give moves to
 	 */
 	public ClientPool(CatanServer server){
-		clients = new HashMap<>();
+		_clients = new HashMap<>();
 		this._server = server;
 	}
 	
@@ -35,8 +37,8 @@ public class ClientPool {
 	 * @return The old ClientManager that was associated with the name, or null if no ClientManager existed
 	 */
 	public synchronized ClientManager addClient(String name, ClientManager clientManager){
-		synchronized(clients){
-			 return clients.put(name, clientManager);
+		synchronized(_clients){
+			 return _clients.put(name, clientManager);
 		}
 	}
 	
@@ -45,8 +47,8 @@ public class ClientPool {
 	 * @return The number of clients currently connected
 	 */
 	public int getNumConnected(){
-		synchronized (clients) {
-			return clients.size();
+		synchronized (_clients) {
+			return _clients.size();
 		}
 	}
 	
@@ -57,7 +59,7 @@ public class ClientPool {
 	public List<String> getPlayerNames(){
 		LinkedList<String> list = new LinkedList<>();
 		
-		for(ClientManager client : clients.values()){
+		for(ClientManager client : _clients.values()){
 			list.add(client.getPlayerName());
 		}
 		
@@ -74,10 +76,10 @@ public class ClientPool {
 	public void send(String name, Packet packet) throws IOException, IllegalArgumentException{
 		
 		//check if the key is in the table
-		if(!clients.containsKey(name))
+		if(!_clients.containsKey(name))
 			throw new IllegalArgumentException(String.format("Key not found: %d", name));
 		
-		ClientManager mngr = clients.get(name);
+		ClientManager mngr = _clients.get(name);
 		
 		mngr.send(packet);
 	}
@@ -88,7 +90,7 @@ public class ClientPool {
 	 * @throws IOException If anything goes wrong with the socket connection
 	 */
 	public void broadcast(Packet packet) throws IOException{
-		for(ClientManager mngr : clients.values()){
+		for(ClientManager mngr : _clients.values()){
 			mngr.send(packet);
 		}
 	}
@@ -99,5 +101,46 @@ public class ClientPool {
 	 */
 	public void addMove(Move move){
 		_server.addMove(move);
+	}
+	
+	/**
+	 * Remove a client from the pool. Only do this if you intend to clean up
+	 * that client later.
+	 * 
+	 * @param client to remove
+	 * @return true if the client was removed, false if they were not there.
+	 */
+	public synchronized ClientManager remove(ClientManager client) {
+		synchronized(_clients){
+			return _clients.remove(client);
+		}
+	}
+	
+	/**
+	 * Kills all of the clients by freeing up their resources
+	 */
+	public void killAll(){
+		for(ClientManager client : _clients.values()){
+			try {
+				client.kill();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				//not much to do here
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Returns an array of players currently connected
+	 * @return Array of players
+	 */
+	public Player[] getPlayers(){
+		ArrayList<Player> players = new ArrayList<>();
+		
+		for(ClientManager client : _clients.values())
+			players.add(client.getPlayer());
+		
+		return (Player[]) players.toArray();
 	}
 }

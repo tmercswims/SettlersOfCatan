@@ -17,6 +17,7 @@ import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.eheimark.catan.menu.LaunchConfiguration;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
+import edu.brown.cs032.tmercuri.catan.logic.Referee;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 
 
@@ -38,6 +39,7 @@ public class CatanServer extends Thread{
 	private final int TIMEOUT = 5000; //the time the server should wait while waiting for connectino before checking number of connections
 	private int id = 0; //keeps track of the unique id for the client
 	private LinkedList<Move> moveBuffer; //keeps track of any available moves from clients
+	private Referee _ref;
 	
 	/**
 	 * This constructor initializes a server from a port and hostname. The instantiated object will NOT listen
@@ -60,7 +62,6 @@ public class CatanServer extends Thread{
 		
 		//setting up fields
 		_port = port;
-		//_hostname = hostname;
 		_numClients = numClients;
 		_pool = new ClientPool(this);
 		//TODO: change number of threads
@@ -108,16 +109,11 @@ public class CatanServer extends Thread{
 				_e.execute(new ClientRunnable(client, _pool));
 				
 				//System.out.println(String.format("Number of connected clients: %s", _pool.getNumConnected()));
+				sendConnected();
 			} catch(SocketTimeoutException e){
 				//simply checking how many connections there are
 				try {
-					StringBuilder waiting = new StringBuilder(""); //all of the players that are currently connected
-					
-					//get player names
-					for(String name : _pool.getPlayerNames())
-						waiting.append(String.format("Connected: %s\n", name));
-					
-					_pool.broadcast(new Packet(Packet.MESSAGE, String.format("Waiting...\n%s", waiting.toString())));
+					sendConnected();
 				} catch (IllegalArgumentException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -142,9 +138,14 @@ public class CatanServer extends Thread{
 		
 		//start the game
 		try {
-			_pool.broadcast(new Packet(Packet.STARTGAME, null));
+			//_pool.broadcast(new Packet(Packet.STARTGAME, null));
+			//TODO: Debugging
+			_pool.broadcast(new Packet(Packet.MESSAGE, "Starting game"));
 			//client will no longer listen to clients so shutdown its server
 			_server.close();
+			
+			_ref = new Referee(_pool.getPlayers(), this);
+			_ref.runGame();
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -152,6 +153,21 @@ public class CatanServer extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Sends the name of all of the connected players.
+	 * @throws IOException If anything goes wrong with the IO
+	 * @throws IllegalArgumentException If the packet was formated wrong
+	 */
+	private void sendConnected() throws IllegalArgumentException, IOException{
+		StringBuilder waiting = new StringBuilder(""); //all of the players that are currently connected
+		
+		//get player names
+		for(String name : _pool.getPlayerNames())
+			waiting.append(String.format("Connected: %s\n", name));
+		
+		_pool.broadcast(new Packet(Packet.MESSAGE, String.format("Waiting...\n%s", waiting.toString())));
 	}
 	
 	/**
@@ -297,5 +313,12 @@ public class CatanServer extends Thread{
 			//This really should not happen...
 			System.out.println("Could not find log file...");
 		}
+	}
+	
+	/**
+	 * Closes down the server and its associated resources
+	 */
+	public void kill(){
+		_pool.killAll();
 	}
 }

@@ -146,6 +146,7 @@ public class ClientManager extends Thread {
 		int type = packet.getType();
 		
 		if(type == Packet.MOVE){
+			System.out.println("Got move");
 			_pool.addMove((Move) packet.getObject());
 		} else{
 			//only moves can be sent; send an error
@@ -162,5 +163,24 @@ public class ClientManager extends Thread {
 	private void sendError(int code) throws IOException{
 		_out.writeObject(new Packet(Packet.ERROR, new Integer(code)));
 		_out.flush();
+	}
+	
+	/**
+	 * Kills this client by removing it from the pool and freeing up its resources
+	 * @throws IOException If anything goes wrong with the IO
+	 */
+	public void kill() throws IOException{
+		_pool.remove(this);
+		_in.close();
+		_out.close();
+		_client.close();
+	}
+	
+	/**
+	 * Returns the player class
+	 * @return Player class
+	 */
+	public Player getPlayer(){
+		return _p;
 	}
 }

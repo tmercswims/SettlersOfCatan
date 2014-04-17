@@ -55,6 +55,12 @@ public class CatanClient extends Thread{
 	 */
 	public CatanClient(LaunchConfiguration configs) throws UnknownHostException, IOException{
 		this._p = new Player(configs.getAvatarName());
+		
+		//TODO: DEBUGING MODE
+		_p.addResources(new int[]{10,10,10,10,10});
+		//
+		
+		
 		this._socket = new Socket("localhost", configs.getJoinPort());
 		_isStarting = false;
 		
