@@ -35,4 +35,20 @@ public class BuildMove extends Move {
     public String getPlayerName() {
         return _playerName;
     }
+    
+    /**
+     * Gets the type of structure to build.
+     * @return 
+     */
+    public int getBuildType() {
+        return _buildType;
+    }
+    
+    /**
+     * Gets the location to build the structure.
+     * @return 
+     */
+    public int getBuildLocation() {
+        return _buildLocation;
+    }
 }

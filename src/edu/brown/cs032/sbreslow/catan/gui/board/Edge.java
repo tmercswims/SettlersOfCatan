@@ -48,6 +48,10 @@ public class Edge extends BoardComponent{
 		_road = true;
 		_owner = p;
 	}
+    
+    public Player getOwner() {
+        return _owner;
+    }
 	
 	@Override
 	public void paint(Graphics g){
