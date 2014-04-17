@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.brown.cs032.atreil.catan.networking.Packet;
+import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 
 /**
  * This class groups all of the clients together so that the server can easily communicate
@@ -15,24 +16,27 @@ import edu.brown.cs032.atreil.catan.networking.Packet;
  */
 public class ClientPool {
 
-	private final HashMap<Integer, ClientManager> clients; //keeps track of clients
+	private final HashMap<String, ClientManager> clients; //keeps track of clients
+	private CatanServer _server; //use to pass moves
 	
 	/**
-	 * Initializes a new ClientPool
+	 * Initializes a new ClientPool with a given CatanServer.
+	 * @param server The server to give moves to
 	 */
-	public ClientPool(){
+	public ClientPool(CatanServer server){
 		clients = new HashMap<>();
+		this._server = server;
 	}
 	
 	/**
 	 * Adds a new client to the pool.
-	 * @param id Unique id of the client. If the id is already used, the old one is replaced and returned
+	 * @param name Unique name of the client. If the name is already used, the old one is replaced and returned
 	 * @param clientManager The client to add
-	 * @return The old ClientManager that was associated with the id, or null if no ClientManager existed
+	 * @return The old ClientManager that was associated with the name, or null if no ClientManager existed
 	 */
-	public synchronized ClientManager addClient(int id, ClientManager clientManager){
+	public synchronized ClientManager addClient(String name, ClientManager clientManager){
 		synchronized(clients){
-			 return clients.put(id, clientManager);
+			 return clients.put(name, clientManager);
 		}
 	}
 	
@@ -61,19 +65,19 @@ public class ClientPool {
 	}
 	
 	/**
-	 * Sends a packet to the client with the given id. If the id does not exist, an exception is thrown.
-	 * @param id The id of the client
+	 * Sends a packet to the client with the given name. If the name does not exist, an exception is thrown.
+	 * @param name The name of the client
 	 * @param packet The packet
 	 * @throws IOException If anything goes wrong with the IO
 	 * @throws IllegalArgumentException If the key does not exist in the table
 	 */
-	public void send(int id, Packet packet) throws IOException, IllegalArgumentException{
+	public void send(String name, Packet packet) throws IOException, IllegalArgumentException{
 		
 		//check if the key is in the table
-		if(!clients.containsKey(id))
-			throw new IllegalArgumentException(String.format("Key not found: %d", id));
+		if(!clients.containsKey(name))
+			throw new IllegalArgumentException(String.format("Key not found: %d", name));
 		
-		ClientManager mngr = clients.get(id);
+		ClientManager mngr = clients.get(name);
 		
 		mngr.send(packet);
 	}
@@ -87,5 +91,13 @@ public class ClientPool {
 		for(ClientManager mngr : clients.values()){
 			mngr.send(packet);
 		}
+	}
+	
+	/**
+	 * Gives a Move to the Server to be processed by the Referee
+	 * @param move The Move to process
+	 */
+	public void addMove(Move move){
+		_server.addMove(move);
 	}
 }

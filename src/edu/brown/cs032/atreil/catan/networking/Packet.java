@@ -1,6 +1,8 @@
 package edu.brown.cs032.atreil.catan.networking;
 
 import java.io.Serializable;
+
+import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 
@@ -39,9 +41,35 @@ public class Packet implements Serializable {
 	public static int HANDSHAKE = 3;
 	
 	/**
-	 * The object is a string that is an error
+	 * The object is an Integer specifying an error code //TODO: implement the error codes
 	 */
 	public static int ERROR = 4;
+	
+	/**
+	 * The object is null. signifies that a player should start their turn
+	 */
+	public static int START = 5;
+	
+	/**
+	 * The object will be an array
+	 */
+	public static int PLAYERARRAY = 6;
+	
+	/**
+	 * The object will be a board
+	 */
+	public static int BOARD = 7;
+	
+	/**
+	 * The object will be an Integer specifying the roll
+	 */
+	public static int ROLL = 8;
+	
+	/**
+	 * Indicates that the game is about to start and that the clients should launch the board.
+	 * Object should be null
+	 */
+	public static int STARTGAME = 9;
 	
 	/*********************************************/
 	private final int _type; //the type of the object
@@ -79,12 +107,34 @@ public class Packet implements Serializable {
 		} else if(type == Packet.MESSAGE){
 			if(!(o instanceof String))
 				throw new IllegalArgumentException("Given object is not of type string");
-		} else if(type == Packet.MOVE)
+		} else if(type == Packet.MOVE){
+			//TODO: implement adding a Move object
 			throw new UnsupportedOperationException("Can't send move objects yet");
+		} else if(type == Packet.START){
+			if(o != null)
+				throw new IllegalArgumentException("Given object is not null");
+		} else if(type == Packet.PLAYERARRAY){
+			if(!(o instanceof Player[]))
+				throw new IllegalArgumentException("Given object is not of type Player[]");
+		} else if(type == Packet.BOARD){
+			//TODO: is board serializable? and all of its fields?
+			if(!(o instanceof Board))
+				throw new IllegalArgumentException("Given object is not of type Board");
+		} else if(type == Packet.ROLL){
+			if(!(o instanceof Integer))
+				throw new IllegalArgumentException("Given object is not of type Integer");
+		} else if(type == Packet.ERROR){
+			if(!(o instanceof Integer))
+				throw new IllegalArgumentException("Given object is not of type Integer");
+		}
 		else if(type == Packet.HANDSHAKE){
 			if(o != null)
 				throw new IllegalArgumentException("Given object is not null");
-		} else
+		} else if(type == Packet.STARTGAME){
+			if(o != null)
+				throw new IllegalArgumentException("Given object is not null");
+		}
+		else
 			throw new IllegalArgumentException("Given invalid type!");
 	}
 	

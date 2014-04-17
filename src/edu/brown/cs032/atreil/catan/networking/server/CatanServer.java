@@ -87,7 +87,6 @@ public class CatanServer extends Thread{
 		//_hostname = ;
 		_numClients = (configs.isFourPlayerGame()) ? 4 : 3;
 		_pool = new ClientPool(this);
-		//TODO: change number of threads
 		_e = Executors.newCachedThreadPool();
 		_server = new ServerSocket(_port);
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
