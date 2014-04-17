@@ -10,15 +10,21 @@ import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.sbreslow.catan.gui.board.Edge;
 import edu.brown.cs032.sbreslow.catan.gui.board.Node;
 import edu.brown.cs032.sbreslow.catan.gui.board.Tile;
-import edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants;
+import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.BUILD_CITY;
+import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.BUILD_ROAD;
+import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.BUILD_SETTLEMENT;
+import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.CITY;
+import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.DEV_CARD;
+import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.ROAD;
+import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.SETTLEMENT;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
-import java.util.Arrays;
-import java.util.Comparator;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 import edu.brown.cs032.tmercuri.catan.logic.move.RobberMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -48,6 +54,9 @@ public class Referee {
         _server = server;
     }
     
+    /**
+     * Starts the game, and runs it until a player wins.
+     */
     public void runGame() {
         rollForOrder();
         
@@ -110,25 +119,29 @@ public class Referee {
     }
     
     private boolean buildMove(BuildMove move) {
+        System.out.println("Player '" + _activePlayer.getName() + "' played a building move.");
         switch (move.getBuildType()) {
-            case BuildConstants.ROAD:
+            case ROAD:
+                System.out.println("They want to build a road at " + move.getBuildLocation());
                 Edge e = _board.getEdges().get(move.getBuildLocation());
-                if (e.isRoad()) return false;
+                if (e.isRoad() || !_activePlayer.hasResources(BUILD_ROAD)) return false;
                 e.setOwner(_activePlayer);
                 e.grow();
                 return true;
-            case BuildConstants.SETTLEMENT:
+            case SETTLEMENT:
+                System.out.println("They want to build a settlement at " + move.getBuildLocation());
                 Node ns = _board.getNodes().get(move.getBuildLocation());
-                if (ns.getVP() == 1 || ns.isOwned() || structureAdjacent(ns)) return false;
+                if (ns.getVP() == 1 || ns.isOwned() || structureAdjacent(ns) || !_activePlayer.hasResources(BUILD_SETTLEMENT)) return false;
                 ns.setOwner(_activePlayer);
                 ns.grow();
                 return true;
-            case BuildConstants.CITY:
+            case CITY:
+                System.out.println("They want to build a city at " + move.getBuildLocation());
                 Node nc = _board.getNodes().get(move.getBuildLocation());
-                if (nc.getVP() == 2 || !nc.getOwner().equals(_activePlayer)) return false;
+                if (nc.getVP() == 2 || !nc.getOwner().equals(_activePlayer) || !_activePlayer.hasResources(BUILD_CITY)) return false;
                 nc.grow();
                 return true;
-            case BuildConstants.DEV_CARD:
+            case DEV_CARD:
                 System.out.println("No dev cards yet :(");
                 return false;
             default:

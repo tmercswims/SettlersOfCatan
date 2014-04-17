@@ -5,8 +5,6 @@
 
 package edu.brown.cs032.tmercuri.catan.logic.move;
 
-import edu.brown.cs032.tmercuri.catan.logic.Player;
-
 /**
  * A move for changing the position of the robber on the board.
  * @author Thomas Mercurio
@@ -32,7 +30,7 @@ public class RobberMove extends Move {
     
     /**
      * Gets the name of the player who played this move.
-     * @return 
+     * @return the name of the player who played this move
      */
     public String getPlayerName() {
         return _playerName;
@@ -40,7 +38,7 @@ public class RobberMove extends Move {
     
     /**
      * Gets the tile index where the robber should now go.
-     * @return 
+     * @return the index of the tile that the robber is going to
      */
     public int getNewLocation() {
         return _newLocation;
@@ -48,7 +46,7 @@ public class RobberMove extends Move {
     
     /**
      * Gets the name of the player that should be stolen from.
-     * @return 
+     * @return the name of the player that is being stolen from
      */
     public String getToStealFrom() {
         return _toStealFrom;

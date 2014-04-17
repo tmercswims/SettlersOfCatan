@@ -47,6 +47,33 @@ public class Player implements Serializable {
     }
     
     /**
+     * Removes the number of each resource that is given from this player.
+     * @param toRemove a resource array of how many of each resource to remove
+     */
+    public void removeResources(int[] toRemove) {
+        for (int i=0; i<5; i++) {
+            _resources[i] -= toRemove[i];
+            if (_resources[i] < 0) {
+                _resources[i] = 0;
+            }
+        }
+    }
+    
+    /**
+     * Tells whether the player has at least the resources given.
+     * @param requiredResources a resource array that the player must at least meet, but may exceed
+     * @return true if the player meets or exceeds requiredResources, false if not
+     */
+    public boolean hasResources(int[] requiredResources) {
+        for (int i=0; i<5; i++) {
+            if (_resources[i] < requiredResources[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
      * Sets whether this Player is the active one.
      * @param isActive is this player active?
      */
@@ -71,7 +98,7 @@ public class Player implements Serializable {
     
     /**
      * Gets this player's road count.
-     * @return
+     * @return remaining roads
      */
     public int getRoadCount() {
         return this._roadsRemaining;

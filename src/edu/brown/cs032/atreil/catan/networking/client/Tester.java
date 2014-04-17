@@ -5,7 +5,12 @@
 
 package edu.brown.cs032.atreil.catan.networking.client;
 
+import edu.brown.cs032.eheimark.catan.menu.LaunchConfiguration;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
+import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.CITY;
+import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.ROAD;
+import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.SETTLEMENT;
+import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
@@ -26,7 +31,10 @@ public class Tester {
         try {
             Player p = new Player("Tester");
             p.addResources(new int[]{20,20,20,20,20});
-            CatanClient client = new CatanClient(p, args[0], Integer.parseInt(args[1]));
+            LaunchConfiguration l = new LaunchConfiguration();
+            l.setAvatarName(p.getName());
+            l.setJoinPort(Integer.parseInt(args[1]));
+            CatanClient client = new CatanClient(l);
             Scanner scanner = new Scanner(new InputStreamReader(System.in));
             
             while (true) {
@@ -37,13 +45,17 @@ public class Tester {
                         case "build":
                             switch (lineWords[1]) {
                                 case "road":
-                                    
+                                    BuildMove road = new BuildMove(p.getName(), ROAD, Integer.parseInt(lineWords[2]));
+                                    client.sendMove(road);
+                                    System.out.println(client.readServerMessage());
                                     break;
                                 case "settlement":
-                                    
+                                    BuildMove settlement = new BuildMove(p.getName(), SETTLEMENT, Integer.parseInt(lineWords[2]));
+                                    client.sendMove(settlement);
                                     break;
                                 case "city":
-                                    
+                                    BuildMove city = new BuildMove(p.getName(), CITY, Integer.parseInt(lineWords[2]));
+                                    client.sendMove(city);
                                     break;
                                 default:
                                     System.out.println("What?");

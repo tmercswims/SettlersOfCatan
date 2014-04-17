@@ -30,7 +30,7 @@ public class BuildMove extends Move {
     
     /**
      * Gets the name of the player who played this move.
-     * @return 
+     * @return the name of the player who played this move
      */
     public String getPlayerName() {
         return _playerName;
@@ -38,7 +38,7 @@ public class BuildMove extends Move {
     
     /**
      * Gets the type of structure to build.
-     * @return 
+     * @return an integer representing the type of the structure that is being built
      */
     public int getBuildType() {
         return _buildType;
@@ -46,7 +46,7 @@ public class BuildMove extends Move {
     
     /**
      * Gets the location to build the structure.
-     * @return 
+     * @return an integer that tells the index of the appropriate array that th structure should be built
      */
     public int getBuildLocation() {
         return _buildLocation;

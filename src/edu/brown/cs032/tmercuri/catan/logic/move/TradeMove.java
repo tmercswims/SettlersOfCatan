@@ -31,7 +31,7 @@ public class TradeMove extends Move {
     
     /**
      * Gets the name of the player who played this move.
-     * @return 
+     * @return the name of the player who played this move
      */
     public String getPlayerName() {
         return _playerName;
@@ -39,7 +39,7 @@ public class TradeMove extends Move {
     
     /**
      * Gets the resource array that tells what the player is giving up.
-     * @return 
+     * @return the resources that the player is giving up
      */
     public int[] getGiving() {
         return _giving;
@@ -47,7 +47,7 @@ public class TradeMove extends Move {
     
     /**
      * Gets the resource array that tells what the player wants.
-     * @return 
+     * @return the resources that the player is receiving
      */
     public int[] getReceiving() {
         return _receiving;
