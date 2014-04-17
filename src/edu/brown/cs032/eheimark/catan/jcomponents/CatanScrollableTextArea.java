@@ -16,9 +16,9 @@ public class CatanScrollableTextArea extends JScrollPane {
 		textarea.setLineWrap(true);
 		setViewportView(textarea);
 
-		setPreferredSize(Constants.DEFAULT_BUTTON_SIZE);
-		setMinimumSize(Constants.DEFAULT_BUTTON_SIZE);
-		setMaximumSize(Constants.DEFAULT_BUTTON_SIZE);
+		setPreferredSize(Constants.TEXTAREA_SIZE);
+		setMinimumSize(Constants.TEXTAREA_SIZE);
+		setMaximumSize(Constants.TEXTAREA_SIZE);
 		setFont(Constants.DEFAULT_BUTTON_FONT);
 		setForeground(Constants.CATAN_RED);
 	}

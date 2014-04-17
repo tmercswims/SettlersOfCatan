@@ -15,5 +15,6 @@ public class Constants {
 	public static final Color CATAN_BLUE = Color.BLUE;
 	public static final Color CATAN_BLACK = Color.BLACK;
 	public static final Color CATAN_WHITE = Color.WHITE;
+	public static final Dimension TEXTAREA_SIZE = new Dimension(200, 200);
 
 }
