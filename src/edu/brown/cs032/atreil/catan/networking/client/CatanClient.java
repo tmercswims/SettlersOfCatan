@@ -8,8 +8,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import edu.brown.cs032.atreil.catan.networking.LaunchConfiguration;
 import edu.brown.cs032.atreil.catan.networking.Packet;
+import edu.brown.cs032.eheimark.catan.menu.LaunchConfiguration;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 
