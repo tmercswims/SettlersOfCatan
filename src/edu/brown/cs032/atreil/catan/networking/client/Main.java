@@ -32,7 +32,7 @@ public class Main {
 				int port = Integer.parseInt(args[2]);
 				
 				CatanClient catanClient = new CatanClient(new Player(playername), hostname, port);
-				catanClient.connect();
+				//catanClient.connect();
 
 				while(true){
 					Packet packet = catanClient.readPacket();
