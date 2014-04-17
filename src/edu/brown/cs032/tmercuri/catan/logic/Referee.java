@@ -123,21 +123,21 @@ public class Referee {
         switch (move.getBuildType()) {
             case ROAD:
                 System.out.println("They want to build a road at " + move.getBuildLocation());
-                Edge e = _board.getEdges().get(move.getBuildLocation());
+                Edge e = _board.getEdges()[move.getBuildLocation()];
                 if (e.isRoad() || !_activePlayer.hasResources(BUILD_ROAD)) return false;
                 e.setOwner(_activePlayer);
                 e.grow();
                 return true;
             case SETTLEMENT:
                 System.out.println("They want to build a settlement at " + move.getBuildLocation());
-                Node ns = _board.getNodes().get(move.getBuildLocation());
+                Node ns = _board.getNodes()[move.getBuildLocation()];
                 if (ns.getVP() == 1 || ns.isOwned() || structureAdjacent(ns) || !_activePlayer.hasResources(BUILD_SETTLEMENT)) return false;
                 ns.setOwner(_activePlayer);
                 ns.grow();
                 return true;
             case CITY:
                 System.out.println("They want to build a city at " + move.getBuildLocation());
-                Node nc = _board.getNodes().get(move.getBuildLocation());
+                Node nc = _board.getNodes()[move.getBuildLocation()];
                 if (nc.getVP() == 2 || !nc.getOwner().equals(_activePlayer) || !_activePlayer.hasResources(BUILD_CITY)) return false;
                 nc.grow();
                 return true;
