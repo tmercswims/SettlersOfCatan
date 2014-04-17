@@ -36,4 +36,20 @@ public class TradeMove extends Move {
     public String getPlayerName() {
         return _playerName;
     }
+    
+    /**
+     * Gets the resource array that tells what the player is giving up.
+     * @return 
+     */
+    public int[] getGiving() {
+        return _giving;
+    }
+    
+    /**
+     * Gets the resource array that tells what the player wants.
+     * @return 
+     */
+    public int[] getReceiving() {
+        return _receiving;
+    }
 }

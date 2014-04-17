@@ -29,4 +29,28 @@ public class RobberMove extends Move {
         _toStealFrom = toStealFrom;
         _playerName = playerName;
     }
+    
+    /**
+     * Gets the name of the player who played this move.
+     * @return 
+     */
+    public String getPlayerName() {
+        return _playerName;
+    }
+    
+    /**
+     * Gets the tile index where the robber should now go.
+     * @return 
+     */
+    public int getNewLocation() {
+        return _newLocation;
+    }
+    
+    /**
+     * Gets the name of the player that should be stolen from.
+     * @return 
+     */
+    public String getToStealFrom() {
+        return _toStealFrom;
+    }
 }
