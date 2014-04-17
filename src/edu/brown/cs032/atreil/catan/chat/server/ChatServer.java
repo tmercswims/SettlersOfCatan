@@ -22,7 +22,8 @@ public class ChatServer extends Thread{
 	
 	/**
 	 * Initializes a new CatanChatServer that will listen for connections and spawn
-	 * them in a new thread. The port must be greater than 1024.
+	 * them in a new thread. The port must be greater than 1024. The Server will not listen
+	 * to new connections until run() is called.
 	 * @param port The port to listen to
 	 * @throws IOException If something goes wrong with initializing the socket
 	 */

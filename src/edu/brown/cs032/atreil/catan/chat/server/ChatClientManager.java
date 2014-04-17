@@ -79,7 +79,9 @@ class ChatClientManager extends Thread{
 				String playername = messageArray[1];
 				
 				try{
-					_pool.send(playername, message, this);
+					String toSend = extractMessage(messageArray);
+					_pool.send(playername, toSend, this);
+					return;
 				} catch(IllegalArgumentException e){
 					//TODO: throw back something to client
 					synchronized(_out){
@@ -91,6 +93,22 @@ class ChatClientManager extends Thread{
 		
 		//otherwise, broadcast to all
 		_pool.sendAll(message, this);
+	}
+	
+	/**
+	 * Removes the commands from a private message and extracts the message
+	 * @param message The array where the first two indices contain the private
+	 * message keyword and the user name.
+	 * @return The message to send to the user
+	 */
+	private String extractMessage(String[] message){
+		String result = "";
+		
+		for(int i = 2; i < message.length; i++){
+			result += message[i] + " ";
+		}
+		
+		return ("*whisper* " + result);
 	}
 	
 	/**
