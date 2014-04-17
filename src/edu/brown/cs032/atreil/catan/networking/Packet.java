@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
+import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 
 
 /**
@@ -108,8 +109,8 @@ public class Packet implements Serializable {
 			if(!(o instanceof String))
 				throw new IllegalArgumentException("Given object is not of type string");
 		} else if(type == Packet.MOVE){
-			//TODO: implement adding a Move object
-			throw new UnsupportedOperationException("Can't send move objects yet");
+			if(!(o instanceof Move))
+				throw new IllegalArgumentException("Given object is not of type move");
 		} else if(type == Packet.START){
 			if(o != null)
 				throw new IllegalArgumentException("Given object is not null");

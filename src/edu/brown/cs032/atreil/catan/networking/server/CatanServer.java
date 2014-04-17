@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -38,7 +39,7 @@ public class CatanServer extends Thread{
 	private final Executor _e; //manages threads to deal with new connections
 	private final int TIMEOUT = 5000; //the time the server should wait while waiting for connectino before checking number of connections
 	private int id = 0; //keeps track of the unique id for the client
-	private LinkedList<Move> moveBuffer; //keeps track of any available moves from clients
+	private final LinkedList<Move> moveBuffer; //keeps track of any available moves from clients
 	private Referee _ref;
 	
 	/**
@@ -68,6 +69,7 @@ public class CatanServer extends Thread{
 		_e = Executors.newCachedThreadPool();
 		_server = new ServerSocket(_port);
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
+		moveBuffer = new LinkedList<>();
 	}
 	
 	/**
@@ -91,6 +93,7 @@ public class CatanServer extends Thread{
 		_e = Executors.newCachedThreadPool();
 		_server = new ServerSocket(_port);
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
+		moveBuffer = new LinkedList<>();
 	}
 	
 	/**

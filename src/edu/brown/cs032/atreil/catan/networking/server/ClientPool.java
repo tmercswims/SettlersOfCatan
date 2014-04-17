@@ -136,11 +136,12 @@ public class ClientPool {
 	 * @return Array of players
 	 */
 	public Player[] getPlayers(){
-		ArrayList<Player> players = new ArrayList<>();
+		Player[] toReturn = new Player[_clients.size()];
+		int i = 0;
 		
 		for(ClientManager client : _clients.values())
-			players.add(client.getPlayer());
+			toReturn[i++] = client.getPlayer(); 
 		
-		return (Player[]) players.toArray();
+		return toReturn;
 	}
 }
