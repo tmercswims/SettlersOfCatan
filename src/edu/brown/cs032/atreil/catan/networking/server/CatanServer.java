@@ -110,6 +110,21 @@ public class CatanServer extends Thread{
 				//System.out.println(String.format("Number of connected clients: %s", _pool.getNumConnected()));
 			} catch(SocketTimeoutException e){
 				//simply checking how many connections there are
+				try {
+					StringBuilder waiting = new StringBuilder(""); //all of the players that are currently connected
+					
+					//get player names
+					for(String name : _pool.getPlayerNames())
+						waiting.append(String.format("Connected: %s\n", name));
+					
+					_pool.broadcast(new Packet(Packet.MESSAGE, String.format("Waiting...\n%s", waiting.toString())));
+				} catch (IllegalArgumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

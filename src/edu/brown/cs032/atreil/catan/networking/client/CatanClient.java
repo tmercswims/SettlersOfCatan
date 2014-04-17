@@ -25,6 +25,7 @@ public class CatanClient extends Thread{
 	private Socket _socket; //the socket to communicate with the server
 	private ObjectInputStream _in; //the stream to read in from the server
 	private ObjectOutputStream _out; //the stream to send messages to the server
+	private boolean _isStarting;
 	
 	/**
 	 * Constructs a new Client from an existing player class. After construction, the client will attempt to 
@@ -47,7 +48,7 @@ public class CatanClient extends Thread{
 	}
 	
 	/**
-	 * Launches a new CatanClient with the specified LaunchConfiguration
+	 * Launches a new CatanClient with the specified LaunchConfiguration. This will begin to connected immediately.
 	 * @param configs
 	 * @throws IOException If anything goes wrong with the IO
 	 * @throws UnknownHostException If the host does not exist
@@ -55,6 +56,7 @@ public class CatanClient extends Thread{
 	public CatanClient(LaunchConfiguration configs) throws UnknownHostException, IOException{
 		this._p = new Player(configs.getAvatarName());
 		this._socket = new Socket("localhost", configs.getJoinPort());
+		_isStarting = false;
 		
 		//setting up readers
 		_out = new ObjectOutputStream(_socket.getOutputStream());
@@ -69,7 +71,7 @@ public class CatanClient extends Thread{
 	 * Connects to the server
 	 * @throws IOException If anything goes wrong with the IO
 	 */
-	public void connect() throws IOException{
+	private void connect() throws IOException{
 		//receive handshake
 		Packet packet;
 		try {
@@ -123,10 +125,43 @@ public class CatanClient extends Thread{
 	}
 	
 	/**
+	 * Reads an update from the Server while waiting for the game to launch. This will also change
+	 * the {@code _isStarting} field to true if the server is about to start the game.
+	 * @return An update
+	 * @throws IOException If anything goes wrong with IO
+	 */
+	public String readServerMessage() throws IOException{
+		try {
+			Packet p = (Packet) readPacket();
+			int type = p.getType();
+			
+			if(type == Packet.MESSAGE)
+				return (String) p.getObject();
+			else if(type == Packet.STARTGAME){
+				_isStarting = true;
+				return "Starting the game\n";
+			} else
+				throw new IOException("Bad server protocol");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new IOException(e.getMessage());
+		}
+	}
+	
+	/**
 	 * Returns the player's name
 	 * @return Player's name
 	 */
 	public String getPlayerName(){
 		return _p.getName();
+	}
+	
+	/**
+	 * Indicates whether or not the game is about to start
+	 * @return true, if the game has started, and false otherwise
+	 */
+	public boolean getIsStarting(){
+		return _isStarting;
 	}
 }
