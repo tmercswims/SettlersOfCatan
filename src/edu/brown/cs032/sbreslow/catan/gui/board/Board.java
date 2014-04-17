@@ -262,7 +262,7 @@ public class Board implements Serializable {
 		return _resources.remove((int)(Math.random()*_resources.size()));
 	}
 
-	public List<Tile> getTiles(){
+	/*public List<Tile> getTiles(){
 		return (ArrayList<Tile>)Arrays.asList(_tiles);
 	}
 	
@@ -272,6 +272,18 @@ public class Board implements Serializable {
 	
 	public List<Edge> getEdges(){
 		return (ArrayList<Edge>)Arrays.asList(_edges);
+	}*/
+	
+	public Tile[] getTiles(){
+		return _tiles;
+	}
+	
+	public Edge[] getEdges(){
+		return _edges;
+	}
+	
+	public Node[] getNodes(){
+		return _nodes;
 	}
 	
 	public List<BoardComponent> getBoard(){
