@@ -24,7 +24,7 @@ public class Main {
 				
 				CatanServer catanServer = new CatanServer(hostname, port, numClients);
 				System.out.println("Running...");
-				catanServer.accept();
+				//catanServer.accept();
 				catanServer.start();
 				System.out.println("Finished!");
 			} catch(NumberFormatException e){
