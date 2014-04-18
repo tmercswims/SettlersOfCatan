@@ -18,6 +18,6 @@ public class Constants {
 	public static final Dimension TEXTAREA_SIZE = new Dimension(400, 200);
 	public static final Color CATAN_YELLOW = Color.YELLOW;
 	public static final Dimension POINTS_MENU_SIZE  = new Dimension(675, 125);
-
-
+	public static final Dimension MENU_SIZE  = new Dimension(1000, 200);
+	public static final Dimension TAB_MENU_SIZE = new Dimension(1000, 135);
 }
