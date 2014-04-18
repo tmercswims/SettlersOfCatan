@@ -1,8 +1,7 @@
 package edu.brown.cs032.eheimark.catan.jcomponents;
 
 import javax.swing.JToggleButton;
-
-import edu.brown.cs032.eheimark.catan.menu.Constants;
+import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 // Generic toggle buttons for Catan Launch Menu's
 public class CatanToggleButton extends JToggleButton {

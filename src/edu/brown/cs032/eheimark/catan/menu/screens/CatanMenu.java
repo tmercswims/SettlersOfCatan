@@ -9,7 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import edu.brown.cs032.eheimark.catan.menu.Constants;
+import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 // Generic background panel for Catan Menu
 public class CatanMenu extends JPanel {

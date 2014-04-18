@@ -7,7 +7,8 @@ import java.awt.BorderLayout;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 
-import edu.brown.cs032.eheimark.catan.menu.Constants;
+import edu.brown.cs032.eheimark.catan.gui.Constants;
+import edu.brown.cs032.eheimark.catan.gui.trade.Trade;
 
 //TODO: Switch to extending JTabbedPane from JFrame
 public class TabbedPane extends JFrame{

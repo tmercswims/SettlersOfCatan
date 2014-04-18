@@ -10,7 +10,7 @@ import java.awt.Color;
 
 import javax.swing.JTextArea;
 
-import edu.brown.cs032.eheimark.catan.menu.Constants;
+import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 import java.awt.Font;
 

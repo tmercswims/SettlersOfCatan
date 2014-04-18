@@ -14,7 +14,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import edu.brown.cs032.eheimark.catan.menu.Constants;
+import edu.brown.cs032.eheimark.catan.gui.Constants;
+
 
 public class Build extends JPanel {
 	private static final long serialVersionUID = 1L;

@@ -1,7 +1,7 @@
 package edu.brown.cs032.eheimark.catan.jcomponents;
-import javax.swing.JLabel;
 
-import edu.brown.cs032.eheimark.catan.menu.Constants;
+import javax.swing.JLabel;
+import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 public class CatanJLabel extends JLabel {
 	private static final long serialVersionUID = 1L;

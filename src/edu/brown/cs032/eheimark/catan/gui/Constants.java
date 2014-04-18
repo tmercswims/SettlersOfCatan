@@ -1,4 +1,4 @@
-package edu.brown.cs032.eheimark.catan.menu;
+package edu.brown.cs032.eheimark.catan.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;

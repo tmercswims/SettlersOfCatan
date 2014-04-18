@@ -1,8 +1,7 @@
 package edu.brown.cs032.eheimark.catan.jcomponents;
 
 import javax.swing.JButton;
-
-import edu.brown.cs032.eheimark.catan.menu.Constants;
+import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 // Generic buttons for Catan Launch Menu's
 public class CatanMenuButton extends JButton {

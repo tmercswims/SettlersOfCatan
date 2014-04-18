@@ -1,18 +1,15 @@
-package edu.brown.cs032.eheimark.catan.gui.navigator;
+package edu.brown.cs032.eheimark.catan.gui.trade;
 
 import java.awt.Graphics;
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import java.awt.Color;
 import java.awt.Font;
-
 import javax.swing.JButton;
-import edu.brown.cs032.eheimark.catan.menu.Constants;
+import edu.brown.cs032.eheimark.catan.gui.Constants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

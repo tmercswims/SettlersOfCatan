@@ -2,7 +2,7 @@ package edu.brown.cs032.eheimark.catan.jcomponents;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import edu.brown.cs032.eheimark.catan.menu.Constants;
+import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 
 public class CatanScrollableTextArea extends JScrollPane {

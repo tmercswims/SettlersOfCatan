@@ -1,18 +1,17 @@
 package edu.brown.cs032.eheimark.catan.menu.screens;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanJLabel;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanMenuButton;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanTextField;
-import edu.brown.cs032.eheimark.catan.menu.Constants;
+import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.menu.LaunchMenu;
 
 
