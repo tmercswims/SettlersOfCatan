@@ -92,8 +92,9 @@ public class HostMenu extends CatanMenu {
 		submit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("SUBMIT REQUEST!");
-				LaunchMenu.frame.setPage(new LoadingMenu("ERROR: No communication. ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication."));
+				HostGameLoadingMenu hglm = new HostGameLoadingMenu();
+				LaunchMenu.frame.setPage(hglm);
+				hglm.loadServer();
 			}
 		});
 
