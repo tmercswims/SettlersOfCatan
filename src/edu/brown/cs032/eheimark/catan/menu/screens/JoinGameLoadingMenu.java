@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
+
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanMenuButton;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanScrollableTextArea;
@@ -34,7 +37,12 @@ public class JoinGameLoadingMenu extends CatanMenu {
 				if(cc != null) {
 					cc.stop(); // TODO: Check with Alex how to quit
 				}
-				LaunchMenu.frame.setPage(new MainMenu());
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						LaunchMenu.frame.setPage(new MainMenu());
+					}
+				});
 			}
 		});
 		addButton(jsp);

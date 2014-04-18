@@ -20,15 +20,20 @@ public class Trade extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private final Image img; // background image
 	private final String IMG_FILE_LOC = "images/Cards1000x140.png";
-
 	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 14);
 	private static final Color MY_BACKGROUND = Constants.CATAN_RED;
 	private static final Color MY_FOREGROUND = Constants.CATAN_YELLOW;
+	private final Integer[] tradeValues;
+	private final JComboBox<Integer> oreCB, wheatCB, woolCB, lumberCB, brickCB;
+	private final JComboBox<String> toPlayerCB;
 	
 	public Trade() {
 		super();
-		setForeground(MY_FOREGROUND);
+		//TODO: Change below
+		tradeValues = new Integer[] {-5, -4, -3, -2, -1, +0, 1, 2, 3, 4, 5};
+		String[] players= new String[] {"Player1","Player2","Player3"};
 
+		setForeground(MY_FOREGROUND);
 		this.img = new ImageIcon(IMG_FILE_LOC).getImage();
 
 		setPreferredSize(Constants.TAB_MENU_SIZE);
@@ -36,29 +41,34 @@ public class Trade extends JPanel {
 		setMinimumSize(Constants.TAB_MENU_SIZE);
 		setLayout(null);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(53, 15, 117, 16);
-		add(comboBox_1);
+		toPlayerCB = new JComboBox<String>(players);
+		toPlayerCB.setBounds(53, 15, 117, 16);
+		add(toPlayerCB);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(155, 59, 38, 16);
-		add(comboBox);
+		oreCB = new JComboBox<Integer>(tradeValues);
+		oreCB.setSelectedIndex(5);
+		oreCB.setBounds(155, 59, 67, 16);
+		add(oreCB);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(328, 59, 38, 16);
-		add(comboBox_2);
+		wheatCB = new JComboBox<Integer>(tradeValues);
+		wheatCB.setSelectedIndex(5);
+		wheatCB.setBounds(328, 59, 67, 16);
+		add(wheatCB);
 		
-		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setBounds(501, 59, 38, 16);
-		add(comboBox_3);
+		woolCB = new JComboBox<Integer>(tradeValues);
+		woolCB.setSelectedIndex(5);
+		woolCB.setBounds(501, 59, 67, 16);
+		add(woolCB);
 		
-		JComboBox comboBox_4 = new JComboBox();
-		comboBox_4.setBounds(674, 59, 38, 16);
-		add(comboBox_4);
+		lumberCB = new JComboBox<Integer>(tradeValues);
+		lumberCB.setSelectedIndex(5);
+		lumberCB.setBounds(674, 59, 67, 16);
+		add(lumberCB);
 		
-		JComboBox comboBox_5 = new JComboBox();
-		comboBox_5.setBounds(847, 59, 38, 16);
-		add(comboBox_5);
+		brickCB = new JComboBox<Integer>(tradeValues);
+		brickCB.setSelectedIndex(5);
+		brickCB.setBounds(847, 59, 67, 16);
+		add(brickCB);
 		
 		JLabel brickLabel = new JLabel("Brick:");
 		brickLabel.setFont(MY_FONT);
@@ -103,14 +113,12 @@ public class Trade extends JPanel {
 		JButton proposeButton = new JButton("Propose Offer");
 		proposeButton.setFont(MY_FONT);
 		proposeButton.setBounds(374, 99, 125, 29);
+		proposeButton.addActionListener(new ProposeTradeActionListener());
 		add(proposeButton);
 		
 		JButton cancelButton = new JButton("Cancel Offers");
 		cancelButton.setFont(MY_FONT);
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		cancelButton.addActionListener(new CancelTradesActionListener());
 		cancelButton.setBounds(499, 99, 122, 29);
 		add(cancelButton);
 		
@@ -130,6 +138,26 @@ public class Trade extends JPanel {
 		clarificationLabel.setBounds(28, 105, 136, 16);
 		add(clarificationLabel);
 	}
+	
+	class ProposeTradeActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Integer ore = (Integer) oreCB.getSelectedItem();
+			Integer wheat = (Integer) wheatCB.getSelectedItem();
+			Integer wool = (Integer) woolCB.getSelectedItem();
+			Integer lumber = (Integer) lumberCB.getSelectedItem();
+			Integer brick = (Integer) brickCB.getSelectedItem();
+			String player = (String) toPlayerCB.getSelectedItem();
+			System.out.println(String.format("ProposeTrade to %s: Ore %s Wheat %s Wool %s Lumber %s Brick %s", player, ore, wheat, wool, lumber, brick));
+		}
+	};
+	
+	class CancelTradesActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Cancel all outstanding trades");
+		}
+	};
 	
 	@Override
 	public void paintComponent(Graphics g) {

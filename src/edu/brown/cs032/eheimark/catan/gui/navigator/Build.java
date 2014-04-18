@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
@@ -26,7 +28,7 @@ public class Build extends JPanel {
 	
 	public Build() {
 		super();
-
+		
 		this.img = new ImageIcon(IMG_FILE_LOC).getImage();
 
 		setPreferredSize(Constants.TAB_MENU_SIZE);
@@ -35,24 +37,28 @@ public class Build extends JPanel {
 		setLayout(null);
 		
 		JButton buildSettlementButton = new JButton("Build Settlement");
+		buildSettlementButton.addActionListener(new BuildSettlementActionListener());
 		buildSettlementButton.setForeground(Constants.CATAN_RED);
 		buildSettlementButton.setFont(MY_FONT);
 		buildSettlementButton.setBounds(288, 26, 185, 29);
 		add(buildSettlementButton);
 		
-		JButton buildDevCard = new JButton("Build Dev. Card");
-		buildDevCard.setForeground(Constants.CATAN_RED);
-		buildDevCard.setFont(MY_FONT);
-		buildDevCard.setBounds(763, 26, 170, 29);
-		add(buildDevCard);
+		JButton buildDevCardButton = new JButton("Build Dev. Card");
+		buildDevCardButton.addActionListener(new BuildDevCardActionListener());
+		buildDevCardButton.setForeground(Constants.CATAN_RED);
+		buildDevCardButton.setFont(MY_FONT);
+		buildDevCardButton.setBounds(763, 26, 170, 29);
+		add(buildDevCardButton);
 		
 		JButton buildRoadButton = new JButton("Build Road");
+		buildRoadButton.addActionListener(new BuildRoadActionListener());
 		buildRoadButton.setForeground(Constants.CATAN_RED);
 		buildRoadButton.setFont(MY_FONT);
 		buildRoadButton.setBounds(73, 26, 148, 29);
 		add(buildRoadButton);
 		
 		JButton buildCityButton = new JButton("Build City");
+		buildCityButton.addActionListener(new BuildCityActionListener());
 		buildCityButton.setForeground(Constants.CATAN_RED);
 		buildCityButton.setFont(MY_FONT);
 		buildCityButton.setBounds(548, 26, 148, 29);
@@ -114,6 +120,34 @@ public class Build extends JPanel {
 		label_2.setBounds(791, 71, 115, 16);
 		add(label_2);
 	}
+	
+	class BuildRoadActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Trying to build road!");
+		}
+	};
+	
+	class BuildSettlementActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Trying to build settlement!");
+		}
+	};
+	
+	class BuildCityActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Trying to build city!");
+		}
+	};
+	
+	class BuildDevCardActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Trying to build devcard!");
+		}
+	};
 
 	@Override
 	public void paintComponent(Graphics g) {

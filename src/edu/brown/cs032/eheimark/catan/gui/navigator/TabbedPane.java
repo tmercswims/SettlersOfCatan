@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import edu.brown.cs032.eheimark.catan.menu.Constants;
 
+//TODO: Switch to extending JTabbedPane from JFrame
 public class TabbedPane extends JFrame{
 	private static final long serialVersionUID = 1L;
 

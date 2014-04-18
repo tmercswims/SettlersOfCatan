@@ -59,18 +59,26 @@ public class JoinGameMenu extends CatanMenu {
 		back.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LaunchMenu.frame.setPage(new MainMenu());
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						LaunchMenu.frame.setPage(new MainMenu());
+					}
+				});
 			}
 		});
 
 		submit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				final JoinGameLoadingMenu jglm = new JoinGameLoadingMenu();
-				System.out.println("Trying to change page!!");
-				LaunchMenu.frame.setPage(jglm);
-				System.out.println("DONE REPAINTING!!");
-				jglm.loadClient();
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						final JoinGameLoadingMenu jglm = new JoinGameLoadingMenu();
+						LaunchMenu.frame.setPage(jglm);
+						jglm.loadClient();
+					}
+				});
 			}
 		});
 

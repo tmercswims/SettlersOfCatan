@@ -1,5 +1,7 @@
 package edu.brown.cs032.eheimark.catan.menu;
 
+import javax.swing.SwingUtilities;
+
 import edu.brown.cs032.eheimark.catan.menu.screens.MainMenu;
 
 
@@ -13,6 +15,11 @@ public class LaunchMenu extends LaunchConfiguration {
 	}
 	
 	public static void main(String[] args) {
-		new LaunchMenu();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new LaunchMenu();
+			}
+		});
 	}
 }

@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.atreil.catan.networking.server.CatanServer;
@@ -27,7 +28,13 @@ public class HostGameLoadingMenu extends CatanMenu {
 		back.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LaunchMenu.frame.setPage(new MainMenu());
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						LaunchMenu.frame.setPage(new MainMenu());
+						repaint();
+					}
+				});
 			}
 		});
 		addButton(jsp);
