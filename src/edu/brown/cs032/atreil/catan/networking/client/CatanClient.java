@@ -63,8 +63,8 @@ public class CatanClient extends Thread{
 		this._p = new Player(configs.getAvatarName());
 		_updatedBoard = null;
 		_updatedPlayers = null;
-		_hasUpdatedBoard = false;
-		_hasUpdatedPlayers = false;
+		_hasUpdatedBoard = new Boolean(false);
+		_hasUpdatedPlayers = new Boolean(false);
 		
 		//TODO: DEBUGING MODE
 		//_p.addResources(new int[]{10,10,10,10,10});
@@ -112,13 +112,13 @@ public class CatanClient extends Thread{
 		
 		if(type == Packet.BOARD){
 			synchronized(_hasUpdatedBoard){
-				_hasUpdatedBoard = true;
+				_hasUpdatedBoard = new Boolean(true);
 				_updatedBoard = (Board) packet.getObject();
 				_hasUpdatedBoard.notifyAll();
 			}
 		} else if(type == Packet.PLAYERARRAY){
 			synchronized(_hasUpdatedPlayers){
-				_hasUpdatedPlayers = true;
+				_hasUpdatedPlayers = new Boolean(true);
 				_updatedPlayers = (Player[]) packet.getObject();
 				_hasUpdatedPlayers.notifyAll();
 			}
@@ -229,7 +229,7 @@ public class CatanClient extends Thread{
 	 */
 	public Player[] getPlayers(){
 		synchronized (_hasUpdatedPlayers) {
-			while(_hasUpdatedPlayers.equals(false)){
+			while(_hasUpdatedPlayers.equals(new Boolean(false))){
 				try {
 					_hasUpdatedPlayers.wait();
 				} catch (InterruptedException e) {
@@ -239,7 +239,7 @@ public class CatanClient extends Thread{
 			}
 			Player[] toReturn = _updatedPlayers;
 			_updatedPlayers = null;
-			_hasUpdatedPlayers = false;
+			_hasUpdatedPlayers = new Boolean(false);
 			return toReturn;
 		}
 	}
@@ -251,7 +251,7 @@ public class CatanClient extends Thread{
 	 */
 	public Board getBoard(){
 		synchronized (_hasUpdatedBoard) {
-			while(_hasUpdatedBoard.equals(false)){
+			while(_hasUpdatedBoard.equals(new Boolean(false))){
 				try {
 					_hasUpdatedBoard.wait();
 				} catch (InterruptedException e) {
@@ -261,7 +261,7 @@ public class CatanClient extends Thread{
 			}
 			Board toReturn = _updatedBoard;
 			_updatedBoard = null;
-			_hasUpdatedBoard = false;
+			_hasUpdatedBoard = new Boolean(false);
 			return toReturn;
 		}
 	}
