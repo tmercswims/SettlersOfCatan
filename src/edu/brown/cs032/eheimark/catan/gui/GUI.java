@@ -20,7 +20,7 @@ public class GUI extends JPanel {
 		super(new BorderLayout());
 		this.client = cc;
 		this.client.start(); // start listening on client
-		gameBoard = new DrawingPanel();
+		gameBoard = new DrawingPanel(client);
 		add(gameBoard, BorderLayout.CENTER);		
 		tabbedMenu = new TabbedPanel(client);
 		add(tabbedMenu, BorderLayout.SOUTH);

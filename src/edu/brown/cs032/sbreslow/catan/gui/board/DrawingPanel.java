@@ -8,12 +8,16 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+
 public class DrawingPanel extends JPanel{// implements MouseListener{
 	
 	private ArrayList<BoardComponent> _todraw;
+	private final CatanClient client;
 	
-	public DrawingPanel(){
+	public DrawingPanel(CatanClient client){
 		super();
+		this.client = client;
 		this.setBackground(new Color(41, 105, 168));
 		this.setSize(750,770);
 		this.setPreferredSize(getSize());
@@ -22,7 +26,9 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		_todraw = new ArrayList<BoardComponent>();
 		this.setVisible(true);
 		this.addMouseListener(new ClickList(this));
-		Board b = new Board();
+		System.out.println("Trying to get board...");
+		Board b = this.client.getBoard();
+		System.out.println("Got board!");
 		_todraw.addAll(b.getBoard());
 	}
 	
