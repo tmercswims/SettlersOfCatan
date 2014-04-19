@@ -188,7 +188,7 @@ public class CatanClient extends Thread{
 				throw new IOException("Invalid protocol: Received something other than a packet");
 		} catch(IOException e){
 			kill();
-			throw new IOException("Server disconnected");
+			throw new IOException(e.getMessage());
 		}
 	}
 	
@@ -237,7 +237,7 @@ public class CatanClient extends Thread{
 			}
 			Player[] toReturn = new Player[_updatedPlayers.size()];
 			_updatedPlayers.toArray(toReturn);
-			_updatedPlayers = new ArrayList<>();
+			_updatedPlayers.clear();
 			return toReturn;
 		}
 	}
@@ -258,7 +258,7 @@ public class CatanClient extends Thread{
 				}
 			}
 			Board toReturn = _updatedBoard.get(0);
-			_updatedBoard = new ArrayList<>();
+			_updatedBoard.clear();
 			return toReturn;
 		}
 	}
