@@ -70,6 +70,10 @@ public class Referee {
         }
     }
     
+    public boolean isGameOver() {
+        return _gameOver;
+    }
+    
     private void rollForOrder() {
         for (Player p : _players) {
             p.setInitRoll(_dice.roll());
