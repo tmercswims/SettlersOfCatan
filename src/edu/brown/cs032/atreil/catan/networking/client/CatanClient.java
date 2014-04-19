@@ -8,6 +8,8 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.eheimark.catan.menu.LaunchConfiguration;
@@ -28,10 +30,8 @@ public class CatanClient extends Thread{
 	private ObjectInputStream _in; //the stream to read in from the server
 	private ObjectOutputStream _out; //the stream to send messages to the server
 	private volatile boolean _isStarting;
-	private Player[] _updatedPlayers;
-	private Boolean _hasUpdatedPlayers;//any new updates
-	private Board _updatedBoard;
-	private Boolean _hasUpdatedBoard; //any new  board updates
+	private ArrayList<Player> _updatedPlayers;
+	private ArrayList<Board> _updatedBoard;
 	
 	/**
 	 * Constructs a new Client from an existing player class. After construction, the client will attempt to 
@@ -61,10 +61,8 @@ public class CatanClient extends Thread{
 	 */
 	public CatanClient(LaunchConfiguration configs) throws UnknownHostException, IOException{
 		this._p = new Player(configs.getAvatarName());
-		_updatedBoard = null;
-		_updatedPlayers = null;
-		_hasUpdatedBoard = new Boolean(false);
-		_hasUpdatedPlayers = new Boolean(false);
+		_updatedBoard = new ArrayList<>();
+		_updatedPlayers = new ArrayList<>();
 		
 		//TODO: DEBUGING MODE
 		//_p.addResources(new int[]{10,10,10,10,10});
@@ -111,16 +109,14 @@ public class CatanClient extends Thread{
 		int type = packet.getType();
 		
 		if(type == Packet.BOARD){
-			synchronized(_hasUpdatedBoard){
-				_hasUpdatedBoard = new Boolean(true);
-				_updatedBoard = (Board) packet.getObject();
-				_hasUpdatedBoard.notifyAll();
+			synchronized(_updatedBoard){
+				_updatedBoard = new ArrayList<>(Arrays.asList((Board) packet.getObject()));
+				_updatedBoard.notifyAll();
 			}
 		} else if(type == Packet.PLAYERARRAY){
-			synchronized(_hasUpdatedPlayers){
-				_hasUpdatedPlayers = new Boolean(true);
-				_updatedPlayers = (Player[]) packet.getObject();
-				_hasUpdatedPlayers.notifyAll();
+			synchronized(_updatedPlayers){
+				_updatedPlayers = new ArrayList<>(Arrays.asList((Player[]) packet.getObject()));
+				_updatedPlayers.notifyAll();
 			}
 		} else if(type == Packet.START){
 			System.out.println("Start your turn");
@@ -228,18 +224,18 @@ public class CatanClient extends Thread{
 	 * @return A lift of updated players
 	 */
 	public Player[] getPlayers(){
-		synchronized (_hasUpdatedPlayers) {
-			while(_hasUpdatedPlayers.equals(new Boolean(false))){
+		synchronized (_updatedPlayers) {
+			while(_updatedPlayers.isEmpty()){
 				try {
-					_hasUpdatedPlayers.wait();
+					_updatedPlayers.wait();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			Player[] toReturn = _updatedPlayers;
-			_updatedPlayers = null;
-			_hasUpdatedPlayers = new Boolean(false);
+			Player[] toReturn = new Player[_updatedPlayers.size()];
+			_updatedPlayers.toArray(toReturn);
+			_updatedPlayers = new ArrayList<>();
 			return toReturn;
 		}
 	}
@@ -250,18 +246,17 @@ public class CatanClient extends Thread{
 	 * @return An updated board
 	 */
 	public Board getBoard(){
-		synchronized (_hasUpdatedBoard) {
-			while(_hasUpdatedBoard.equals(new Boolean(false))){
+		synchronized (_updatedBoard) {
+			while(_updatedBoard.isEmpty()){
 				try {
-					_hasUpdatedBoard.wait();
+					_updatedBoard.wait();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			Board toReturn = _updatedBoard;
-			_updatedBoard = null;
-			_hasUpdatedBoard = new Boolean(false);
+			Board toReturn = _updatedBoard.get(0);
+			_updatedBoard = new ArrayList<>();
 			return toReturn;
 		}
 	}
