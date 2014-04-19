@@ -273,11 +273,14 @@ public class CatanServer extends Thread{
 	 */
 	public void sendError(String playerName, String error){
 		try {
-			//TODO: null means broadcast to everyone
-			_pool.send(playerName, new Packet(Packet.ERROR, new Integer(error)));
+			//TODO: send errors to chatbox
+			
+			if(playerName == null)
+				_pool.broadcast(new Packet(Packet.MESSAGE, error));
+			else
+				_pool.send(playerName, new Packet(Packet.MESSAGE, error));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			addUpdate(e.getMessage());
 		}
 	}
 	
