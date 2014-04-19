@@ -1,4 +1,4 @@
-package edu.brown.cs032.eheimark.catan.menu;
+package edu.brown.cs032.eheimark.catan.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,6 +15,9 @@ public class Constants {
 	public static final Color CATAN_BLUE = Color.BLUE;
 	public static final Color CATAN_BLACK = Color.BLACK;
 	public static final Color CATAN_WHITE = Color.WHITE;
-	public static final Dimension TEXTAREA_SIZE = new Dimension(200, 200);
-
+	public static final Dimension TEXTAREA_SIZE = new Dimension(400, 200);
+	public static final Color CATAN_YELLOW = Color.YELLOW;
+	public static final Dimension POINTS_MENU_SIZE  = new Dimension(675, 125);
+	public static final Dimension MENU_SIZE  = new Dimension(1000, 200);
+	public static final Dimension TAB_MENU_SIZE = new Dimension(1000, 135);
 }

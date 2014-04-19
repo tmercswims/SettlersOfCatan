@@ -1,13 +1,17 @@
 package edu.brown.cs032.eheimark.catan.menu.screens;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanJLabel;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanMenuButton;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanTextField;
@@ -55,15 +59,26 @@ public class JoinGameMenu extends CatanMenu {
 		back.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LaunchMenu.frame.setPage(new MainMenu());
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						LaunchMenu.frame.setPage(new MainMenu());
+					}
+				});
 			}
 		});
-		
+
 		submit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("SUBMIT REQUEST!");
-				LaunchMenu.frame.setPage(new LoadingMenu("ERROR: No communication. ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication."));
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						final JoinGameLoadingMenu jglm = new JoinGameLoadingMenu();
+						LaunchMenu.frame.setPage(jglm);
+						jglm.loadClient();
+					}
+				});
 			}
 		});
 

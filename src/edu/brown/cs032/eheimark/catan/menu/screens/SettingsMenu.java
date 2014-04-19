@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
+
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanJLabel;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanJRadioButton;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanMenuButton;
@@ -94,7 +96,12 @@ public class SettingsMenu extends CatanMenu {
 		back.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LaunchMenu.frame.setPage(new MainMenu());
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						LaunchMenu.frame.setPage(new MainMenu());
+					}
+				});
 			}
 		});
 

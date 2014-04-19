@@ -1,9 +1,7 @@
 package edu.brown.cs032.eheimark.catan.jcomponents;
 
 import javax.swing.JTextField;
-
-import edu.brown.cs032.eheimark.catan.menu.Constants;
-
+import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 public class CatanTextField extends JTextField {
 	private static final long serialVersionUID = 1L;

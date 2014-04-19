@@ -2,11 +2,13 @@ package edu.brown.cs032.eheimark.catan.menu.screens;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -85,15 +87,26 @@ public class HostMenu extends CatanMenu {
 		back.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LaunchMenu.frame.setPage(new MainMenu());
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						LaunchMenu.frame.setPage(new MainMenu());
+					}
+				});
 			}
 		});
 		
 		submit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("SUBMIT REQUEST!");
-				LaunchMenu.frame.setPage(new LoadingMenu("ERROR: No communication. ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication.ERROR: No communication."));
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						HostGameLoadingMenu hglm = new HostGameLoadingMenu();
+						LaunchMenu.frame.setPage(hglm);
+						hglm.loadServer();
+					}
+				});
 			}
 		});
 

@@ -2,16 +2,16 @@ package edu.brown.cs032.eheimark.catan.jcomponents;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import edu.brown.cs032.eheimark.catan.menu.Constants;
+import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 
 public class CatanScrollableTextArea extends JScrollPane {
 	private static final long serialVersionUID = 1L;
 	private JTextArea textarea;
 	
-	public CatanScrollableTextArea(String text) {
+	public CatanScrollableTextArea() {
 		super();
-		textarea = new JTextArea(text);
+		textarea = new JTextArea();
 		textarea.setEditable(false);
 		textarea.setLineWrap(true);
 		setViewportView(textarea);
@@ -21,5 +21,9 @@ public class CatanScrollableTextArea extends JScrollPane {
 		setMaximumSize(Constants.TEXTAREA_SIZE);
 		setFont(Constants.DEFAULT_BUTTON_FONT);
 		setForeground(Constants.CATAN_RED);
+	}
+	
+	public JTextArea getTextArea() {
+		return textarea;
 	}
 }
