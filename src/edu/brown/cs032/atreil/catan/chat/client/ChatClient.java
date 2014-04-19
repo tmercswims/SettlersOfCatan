@@ -104,9 +104,8 @@ public class ChatClient extends JPanel{
 		//BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		while(_running){
 			//String line = in.nextLine();
-			String line;
-			try {
-				line = readLine();
+			/*try {
+				String line = readLine();
 				if(line.length()==0)
 				{
 					System.out.println("QUITTING CLIENT...");
@@ -120,7 +119,7 @@ public class ChatClient extends JPanel{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//System.out.println("ECHO: "+line);
+			//System.out.println("ECHO: "+line);*/
 			
 		}
 		try {
@@ -128,7 +127,7 @@ public class ChatClient extends JPanel{
 			this.kill();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		//TODO: Set up the code, so inputs by the client will be sent to the server
 	}

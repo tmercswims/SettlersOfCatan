@@ -153,20 +153,29 @@ public class Tile extends BoardComponent{
 		brush.setColor(Color.white);
 		Rectangle r = _p.getBounds();
 		if(_resource!=6){
-			brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
-			if(_num==6 || _num==8){
-				brush.setColor(Color.red);
+			if(!_robber){
+				brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
+				if(_num==6 || _num==8){
+					brush.setColor(Color.red);
+				}
+				else{
+					brush.setColor(Color.black);
+				}
+				brush.addRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
+				brush.setStroke(new BasicStroke(5));
+				if(toprint.length>1){
+					brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-8, (int)r.getCenterY()+5);		
+				}
+				else{
+					brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);
+				}
 			}
 			else{
 				brush.setColor(Color.black);
-			}
-			brush.addRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
-			brush.setStroke(new BasicStroke(5));
-			if(toprint.length>1){
-				brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-8, (int)r.getCenterY()+5);		
-			}
-			else{
-				brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);
+				brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
+				brush.setColor(Color.white);
+				char[] tmp = {'R'};
+				brush.drawChars(tmp, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);
 			}
 		}
 	}
