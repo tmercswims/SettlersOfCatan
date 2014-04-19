@@ -1,35 +1,25 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.*;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
-import javax.swing.ImageIcon;
 
 public class Edge extends BoardComponent{
     
     private static final long serialVersionUID = 2374415817409860796L;
     
-    private static final Image northPort = new ImageIcon("images/ports/north.png").getImage();
-    private static final Image northeastPort = new ImageIcon("images/ports/northeast.png").getImage();
-    private static final Image northwestPort = new ImageIcon("images/ports/northwest.png").getImage();
-    private static final Image southPort = new ImageIcon("images/ports/south.png").getImage();
-    private static final Image southwestPort = new ImageIcon("images/ports/southwest.png").getImage();
-    private static final Image southeastPort = new ImageIcon("images/ports/southeast.png").getImage();
-	
 	private Node[] _nodes = new Node[2];
 	private boolean _road;
 	private Player _owner;
 	private Line2D _l;
 	private Color _c;
-	private BasicStroke _s;
+	private boolean _s;
 	private int _port;
 	private int _index;
 	
@@ -40,7 +30,7 @@ public class Edge extends BoardComponent{
 		_l = new Line2D.Double(_nodes[0].getX()+Node._diam/2, _nodes[0].getY()+Node._diam/2, 
 				_nodes[1].getX()+Node._diam/2, _nodes[1].getY()+Node._diam/2);
 		_c = Color.white;
-		_s = new BasicStroke(4);
+		_s = false;
 		
 		this.setType(1);
 		_port = 6;
@@ -161,8 +151,11 @@ public class Edge extends BoardComponent{
 			break;
 		}
 		brush.setColor(_c);
-		brush.setStroke(_s);
-		//brush.draw(_l);
+        brush.setStroke(new BasicStroke(4));
+		if (_s) {
+            brush.setStroke(new BasicStroke(12));
+        }
+		brush.draw(_l);
 	}
 	
 	public Shape getShape(){
@@ -181,9 +174,7 @@ public class Edge extends BoardComponent{
 
 	@Override
 	public void grow() {
-		if(_s.getLineWidth()==4){
-			_s = new BasicStroke(12);
-		}
+		_s = true;
 	}
 
 }
