@@ -105,7 +105,8 @@ public class CatanServer extends Thread{
 		//accept connections
 		
 		//display ip address
-		addUpdate(String.format("This is your ip address. Give it to your friends so they can connect to you: %s", getLocalIP()));
+		addUpdate(String.format("This is your ip address: %s\nThis is your port: %s\nGive them to your friends" +
+				" so that they can connect to you!", getLocalIP(), getLocalPort()));
 		
 		while(_pool.getNumConnected() < _numClients){
 			try {
@@ -180,6 +181,14 @@ public class CatanServer extends Thread{
 	 */
 	public String getLocalIP(){
 		return _server.getInetAddress().getHostAddress();
+	}
+	
+	/**
+	 * Returns the port that the server is running on
+	 * @return Port of the server
+	 */
+	public int getLocalPort(){
+		return _server.getLocalPort();
 	}
 	
 	/**
