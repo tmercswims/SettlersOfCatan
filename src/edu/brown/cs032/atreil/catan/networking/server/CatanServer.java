@@ -5,9 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -180,7 +182,13 @@ public class CatanServer extends Thread{
 	 * @return The textual representation of the raw ip address
 	 */
 	public String getLocalIP(){
-		return _server.getInetAddress().getHostAddress();
+		try {
+			return InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "COULD NOT FIND ADDRESS";
+		}
 	}
 	
 	/**

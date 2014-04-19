@@ -147,8 +147,10 @@ public class CatanClient extends Thread{
 			else if(type == Packet.STARTGAME){
 				_isStarting = true;
 				return "Starting the game\n";
+			} else if(type == Packet.ERROR){
+				return (String) p.getObject();
 			} else
-				throw new IOException("Bad server protocol");
+				throw new IOException(String.format("Bad server protocol. Got code: %s", type));
 		} catch (ClassNotFoundException e) {
 			throw new IOException(e.getMessage());
 		}
