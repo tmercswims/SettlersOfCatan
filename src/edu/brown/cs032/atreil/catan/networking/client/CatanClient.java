@@ -114,13 +114,13 @@ public class CatanClient extends Thread{
 			synchronized(_hasUpdatedBoard){
 				_hasUpdatedBoard = true;
 				_updatedBoard = (Board) packet.getObject();
-				_updatedBoard.notifyAll();
+				_hasUpdatedBoard.notifyAll();
 			}
 		} else if(type == Packet.PLAYERARRAY){
 			synchronized(_hasUpdatedPlayers){
 				_hasUpdatedPlayers = true;
 				_updatedPlayers = (Player[]) packet.getObject();
-				_updatedPlayers.notifyAll();
+				_hasUpdatedPlayers.notifyAll();
 			}
 		} else if(type == Packet.START){
 			System.out.println("Start your turn");
@@ -229,9 +229,9 @@ public class CatanClient extends Thread{
 	 */
 	public Player[] getPlayers(){
 		synchronized (_hasUpdatedPlayers) {
-			while(_updatedPlayers.equals(false)){
+			while(_hasUpdatedPlayers.equals(false)){
 				try {
-					_updatedPlayers.wait();
+					_hasUpdatedPlayers.wait();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -253,7 +253,7 @@ public class CatanClient extends Thread{
 		synchronized (_hasUpdatedBoard) {
 			while(_hasUpdatedBoard.equals(false)){
 				try {
-					_updatedBoard.wait();
+					_hasUpdatedBoard.wait();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
