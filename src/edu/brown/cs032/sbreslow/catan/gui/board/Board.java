@@ -116,7 +116,7 @@ public class Board implements Serializable {
 			_nodes[i] = new Node(x,y);
 		}
 		int i = 0;
-		try(RandomAccessFile raf = new RandomAccessFile("tiletonode.tsv","r")) {
+		try(RandomAccessFile raf = new RandomAccessFile("boardData/tiletonode.tsv","r")) {
 			raf.readLine();
 			for(i = 0; i <= 36; i++){
 				String[] line = raf.readLine().split("\t");
@@ -155,7 +155,7 @@ public class Board implements Serializable {
 			System.err.println(i);
 			e.printStackTrace();
 		}
-		try(RandomAccessFile raf = new RandomAccessFile("tiletonode.tsv","r")) {
+		try(RandomAccessFile raf = new RandomAccessFile("boardData/tiletonode.tsv","r")) {
 			raf.readLine();
 			for(i = 0; i <= 36; i++){
 				String[] line = raf.readLine().split("\t");
@@ -167,8 +167,8 @@ public class Board implements Serializable {
 				List<Tile> tlist = new ArrayList<Tile>(tiles.length);
 				for(int j: tdices){
 					tlist.add(_tiles[j]);
-					System.out.println("ADDING "+j+" to "+i);
-					System.out.println(_tiles[j]._num);
+					//System.out.println("ADDING "+j+" to "+i);
+					//System.out.println(_tiles[j]._num);
 				}
 				_tiles[i].setBors(tlist);
 			}
@@ -178,7 +178,7 @@ public class Board implements Serializable {
 			e.printStackTrace();
 		}
 		layoutNums();
-		try(RandomAccessFile raf = new RandomAccessFile("edgetonode.tsv","r")) {
+		try(RandomAccessFile raf = new RandomAccessFile("boardData/edgetonode.tsv","r")) {
 			raf.readLine();
 			for(i = 0; i <= 131; i++){
 				String[] line = raf.readLine().split("\t");
@@ -213,7 +213,7 @@ public class Board implements Serializable {
 			System.err.println(i);
 			e.printStackTrace();
 		}
-		try(RandomAccessFile raf = new RandomAccessFile("nodetoall.tsv","r")){
+		try(RandomAccessFile raf = new RandomAccessFile("boardData/nodetoall.tsv","r")){
 			raf.readLine();
 			for(i = 0; i <= 95; i++){
 				String[] line = raf.readLine().split("\t");

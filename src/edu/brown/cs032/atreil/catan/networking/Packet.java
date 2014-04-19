@@ -42,7 +42,7 @@ public class Packet implements Serializable {
 	public static int HANDSHAKE = 3;
 	
 	/**
-	 * The object is an Integer specifying an error code //TODO: implement the error codes
+	 * The object is a string identifying the issue
 	 */
 	public static int ERROR = 4;
 	

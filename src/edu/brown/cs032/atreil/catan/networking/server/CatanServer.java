@@ -143,8 +143,8 @@ public class CatanServer extends Thread{
 		
 		//start the game
 		try {
-			_pool.broadcast(new Packet(Packet.MESSAGE, "Starting game"));
-			_pool.addUpdate("Starting the game");
+			_pool.broadcast(new Packet(Packet.STARTGAME, null));
+			_pool.addUpdate("Starting the game\n");
 			//client will no longer listen to clients so shutdown its server
 			_server.close();
 			
@@ -341,7 +341,7 @@ public class CatanServer extends Thread{
 			e.printStackTrace(new PrintStream(new FileOutputStream(new File("data/server.log"))));
 		} catch (FileNotFoundException e1) {
 			//This really should not happen...
-			System.out.println("Could not find log file...");
+			//System.out.println("Could not find log file...");
 		}
 	}
 	

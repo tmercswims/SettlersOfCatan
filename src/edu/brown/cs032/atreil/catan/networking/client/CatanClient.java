@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 
 import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.eheimark.catan.menu.LaunchConfiguration;
+import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 
@@ -26,7 +27,9 @@ public class CatanClient extends Thread{
 	private Socket _socket; //the socket to communicate with the server
 	private ObjectInputStream _in; //the stream to read in from the server
 	private ObjectOutputStream _out; //the stream to send messages to the server
-	private boolean _isStarting;
+	private volatile boolean _isStarting;
+	private Player[] _updatedPlayers;
+	private Board _updatedBoard;
 	
 	/**
 	 * Constructs a new Client from an existing player class. After construction, the client will attempt to 
@@ -56,6 +59,8 @@ public class CatanClient extends Thread{
 	 */
 	public CatanClient(LaunchConfiguration configs) throws UnknownHostException, IOException{
 		this._p = new Player(configs.getAvatarName());
+		_updatedBoard = null;
+		_updatedPlayers = null;
 		
 		//TODO: DEBUGING MODE
 		//_p.addResources(new int[]{10,10,10,10,10});
@@ -73,6 +78,47 @@ public class CatanClient extends Thread{
 		
 		//connecting
 		connect();
+	}
+	
+	/**
+	 * Starts listening to the server
+	 */
+	public void run(){
+		try {
+			while(_isStarting){
+				Packet packet = (Packet) readPacket();
+				
+				parsePacket(packet);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Parses a packet and performs an appropriate action
+	 * @param packet The packet to parse
+	 */
+	private void parsePacket(Packet packet){
+		int type = packet.getType();
+		
+		if(type == Packet.BOARD){
+			synchronized(_updatedBoard){
+				_updatedBoard = (Board) packet.getObject();
+				_updatedBoard.notifyAll();
+			}
+		} else if(type == Packet.PLAYERARRAY){
+			synchronized(_updatedPlayers){
+				_updatedPlayers = (Player[]) packet.getObject();
+				_updatedPlayers.notifyAll();
+			}
+		} else{
+			System.out.println(String.format("Unsupported. Got: %s", type));
+		}
 	}
 	
 	/**
@@ -122,13 +168,19 @@ public class CatanClient extends Thread{
 	 * @throws ClassNotFoundException If the class of the object does not exist
 	 * @throws IOException If something goes wrong with communicating with the socket
 	 */
-	public Packet readPacket() throws ClassNotFoundException, IOException{
-		Object o = _in.readObject();
+	private Packet readPacket() throws ClassNotFoundException, IOException{
 		
-		if(o instanceof Packet)
-			return (Packet) o;
-		else
-			throw new IOException("Invalid protocol: Received something other than a packet");
+		try{
+			Object o = _in.readObject();
+			
+			if(o instanceof Packet)
+				return (Packet) o;
+			else
+				throw new IOException("Invalid protocol: Received something other than a packet");
+		} catch(IOException e){
+			kill();
+			throw new IOException("Server disconnected");
+		}
 	}
 	
 	/**
@@ -147,10 +199,57 @@ public class CatanClient extends Thread{
 			else if(type == Packet.STARTGAME){
 				_isStarting = true;
 				return "Starting the game\n";
-			} else
-				throw new IOException("Bad server protocol");
+			} else if(type == Packet.ERROR){
+				return (String) p.getObject();
+			} else if(type == Packet.START){
+				return "It is your turn. Make a move";
+			}
+			else
+				throw new IOException(String.format("Bad server protocol. Got code: %s", type));
 		} catch (ClassNotFoundException e) {
 			throw new IOException(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Returns an updated list of players. This will block until
+	 * there is an updated list of players.
+	 * @return A lift of updated players
+	 */
+	public Player[] getPlayers(){
+		synchronized (_updatedPlayers) {
+			while(_updatedPlayers == null){
+				try {
+					_updatedPlayers.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			Player[] toReturn = _updatedPlayers;
+			_updatedPlayers = null;
+			return toReturn;
+		}
+	}
+	
+	/**
+	 * Returns an updated board. This will block until there
+	 * is an updated board.
+	 * @return An updated board
+	 */
+	public Board getBoard(){
+		synchronized (_updatedBoard) {
+			while(_updatedBoard == null){
+				try {
+					_updatedBoard.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			Board toReturn = _updatedBoard;
+			_updatedBoard = null;
+			return toReturn;
 		}
 	}
 	
