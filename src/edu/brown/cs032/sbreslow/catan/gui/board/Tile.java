@@ -171,23 +171,15 @@ public class Tile extends BoardComponent{
 				brush.addRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
 				brush.setStroke(new BasicStroke(5));
 				if(toprint.length>1){
-					brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-8, (int)r.getCenterY()+5);		
+					//brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-8, (int)r.getCenterY()+5);		
 				}
 				else{
-					brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);
+					//brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);
 				}
 			}
             else {
 				brush.setColor(Color.black);
 			}
-			/*brush.addRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
-			brush.setStroke(new BasicStroke(5));
-			if(toprint.length>1){
-				brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-8, (int)r.getCenterY()+5);		
-			}
-			else{
-				brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);
-			}*/
             Image number = null;
             switch (_num) {
             case 2:
