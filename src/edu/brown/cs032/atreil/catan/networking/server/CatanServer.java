@@ -370,6 +370,11 @@ public class CatanServer extends Thread{
 	 * Closes down the server and its associated resources
 	 */
 	public void kill(){
-		_pool.killAll();
+		try {
+			_pool.killAll();
+			_server.close();
+		} catch (IOException e) {
+			addUpdate(e.getMessage());
+		}
 	}
 }
