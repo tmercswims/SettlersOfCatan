@@ -12,6 +12,7 @@ import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -21,7 +22,7 @@ public class Tile extends BoardComponent{
     private static final long serialVersionUID = 331277313248085333L;
 
 	public final int _resource;
-	public final int _num;
+	public int _num;
 
 	private List<Node> _nodes = new ArrayList<Node>(6);
 	boolean _robber;
@@ -57,6 +58,10 @@ public class Tile extends BoardComponent{
 		//this.setLocation(nodes[0].getX()+2, nodes[0].getY()+2);
 		//this.setBounds(r);
 		_index = null;
+	}
+	
+	public void setNum(int num){
+		_num = num;
 	}
 	
 	public List<Tile> getBors(){
@@ -121,10 +126,10 @@ public class Tile extends BoardComponent{
 		case 0://wheat
 			brush.setColor(new Color(255,205,0));
 			break;
-		case 1://sheep
+		case 1://brick
 			brush.setColor(new Color(119,255,0));
 			break;
-		case 2://brick
+		case 2://sheep
 			brush.setColor(new Color(255,102,0));
 			break;
 		case 3://ore
@@ -143,6 +148,8 @@ public class Tile extends BoardComponent{
 		brush.setStroke(new BasicStroke());
 		brush.fillPolygon(_p);
 		char[] toprint = Integer.toString(_num).toCharArray();
+		// = {num.charAt(0)};
+		//System.out.println(Integer.toString(_num));
 		brush.setColor(Color.white);
 		Rectangle r = _p.getBounds();
 		if(_resource!=6){
@@ -155,7 +162,12 @@ public class Tile extends BoardComponent{
 			}
 			brush.addRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
 			brush.setStroke(new BasicStroke(5));
-			brush.drawChars(toprint, 0, 1, (int)r.getCenterX()-5, (int)r.getCenterY()+5);
+			if(toprint.length>1){
+				brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-8, (int)r.getCenterY()+5);		
+			}
+			else{
+				brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);
+			}
 		}
 	}
 
