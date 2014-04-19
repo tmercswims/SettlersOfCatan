@@ -26,9 +26,9 @@ public class TradePopup extends JPanel {
 		setForeground(MY_FOREGROUND);
 		this.img = new ImageIcon(IMG_FILE_LOC).getImage();
 
-		setPreferredSize(Constants.TAB_MENU_SIZE);
-		setMaximumSize(Constants.TAB_MENU_SIZE);
-		setMinimumSize(Constants.TAB_MENU_SIZE);
+		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
+		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
+		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
 		setLayout(null);
 		
 		JLabel brickLabel = new JLabel("Brick:" + brick);
