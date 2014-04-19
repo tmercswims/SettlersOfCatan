@@ -110,12 +110,14 @@ public class CatanClient extends Thread{
 		
 		if(type == Packet.BOARD){
 			synchronized(_updatedBoard){
-				_updatedBoard = new ArrayList<>(Arrays.asList((Board) packet.getObject()));
+				_updatedBoard.clear();
+				_updatedBoard.add((Board) packet.getObject());
 				_updatedBoard.notifyAll();
 			}
 		} else if(type == Packet.PLAYERARRAY){
 			synchronized(_updatedPlayers){
-				_updatedPlayers = new ArrayList<>(Arrays.asList((Player[]) packet.getObject()));
+				_updatedPlayers.clear();
+				_updatedPlayers.addAll(Arrays.asList((Player[]) packet.getObject()));
 				_updatedPlayers.notifyAll();
 			}
 		} else if(type == Packet.START){
