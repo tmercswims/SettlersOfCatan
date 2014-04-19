@@ -1,10 +1,13 @@
 package edu.brown.cs032.atreil.catan.chat.client;
 
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import javax.swing.JFrame;
 
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 
@@ -29,12 +32,18 @@ public class Main {
 			String name = in.readLine();
 			
 			ChatClient client = new ChatClient("localhost", Integer.parseInt(args[0]), new Player(name));
-			new ReceiveThread(client).start();
+			JFrame frame = new JFrame();
+			Dimension d = new Dimension(250,770);
+			frame.setPreferredSize(d);
+			frame.add(client);
+			frame.setVisible(true);
+			//frame.pack();
+			//new ReceiveThread(client).start();
 			
-			while(true){
+			/*while(true){
 				String send = in.readLine();
 				client.println(send);
-			}
+			}*/
 		} catch(NumberFormatException e){
 			System.err.println("Invalid number");
 		} catch (UnknownHostException e) {

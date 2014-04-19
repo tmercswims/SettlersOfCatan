@@ -52,8 +52,8 @@ class ChatClientManager extends Thread{
 			while(_running){
 				try{
 					String message = _in.readLine();
-					
-					parseMessage(message);
+					if(message!=null)
+						parseMessage(message);
 				} catch(IOException e){
 					// TODO: 
 					e.printStackTrace();
