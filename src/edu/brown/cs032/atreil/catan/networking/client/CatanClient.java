@@ -229,7 +229,7 @@ public class CatanClient extends Thread{
 	 */
 	public Player[] getPlayers(){
 		synchronized (_hasUpdatedPlayers) {
-			while(_updatedPlayers.equals(false)){
+			while(_hasUpdatedPlayers.equals(false)){
 				try {
 					_updatedPlayers.wait();
 				} catch (InterruptedException e) {
