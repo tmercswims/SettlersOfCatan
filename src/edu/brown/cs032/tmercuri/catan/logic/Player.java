@@ -17,7 +17,7 @@ public class Player implements Serializable {
     private static final long serialVersionUID = 1571495798749582725L;
     
     private final int[] _resources;
-    private int _roadsRemaining, _settlementsRemaining, _citiesRemaining, _victoryPoints, _armySize, _longestRoad;
+    private int _roadsRemaining, _settlementsRemaining, _citiesRemaining, _victoryPoints, _armySize, _longestRoad, _devCards;
     private final String _name;
     private boolean _isActive;
     private int _initRoll;
@@ -27,13 +27,26 @@ public class Player implements Serializable {
      * @param name the _name of this player
      */
     public Player(String name) {
-        this._resources = new int[]{0,0,0,0,0};
-        this._roadsRemaining = 15;
-        this._settlementsRemaining = 5;
-        this._citiesRemaining = 4;
-        this._victoryPoints = this._armySize = this._longestRoad = 0;
-        this._name = name;
-        this._isActive = false;
+        _resources = new int[]{0,0,0,0,0};
+        _roadsRemaining = 15;
+        _settlementsRemaining = 5;
+        _citiesRemaining = 4;
+        _victoryPoints = _armySize = _longestRoad = _devCards = 0;
+        _name = name;
+        _isActive = false;
+    }
+    
+    /**
+     * Gets this player's resource array. Indices are:
+     * 0 - wheat
+     * 1 - sheep
+     * 2 - brick
+     * 3 - ore
+     * 4 - wood
+     * @return this player's resources
+     */
+    public int[] getResources() {
+        return _resources;
     }
     
     /**
@@ -87,6 +100,14 @@ public class Player implements Serializable {
      */
     public boolean isActive() {
         return _isActive;
+    }
+    
+    /**
+     * Gets the number of development cards that this player has.
+     * @return how many development cards this player has
+     */
+    public int getDevCards() {
+        return _devCards;
     }
     
     /**
