@@ -29,7 +29,9 @@ public class CatanClient extends Thread{
 	private ObjectOutputStream _out; //the stream to send messages to the server
 	private volatile boolean _isStarting;
 	private Player[] _updatedPlayers;
+	private Boolean _hasUpdatedPlayers;//any new updates
 	private Board _updatedBoard;
+	private Boolean _hasUpdatedBoard; //any new  board updates
 	
 	/**
 	 * Constructs a new Client from an existing player class. After construction, the client will attempt to 
@@ -61,6 +63,8 @@ public class CatanClient extends Thread{
 		this._p = new Player(configs.getAvatarName());
 		_updatedBoard = null;
 		_updatedPlayers = null;
+		_hasUpdatedBoard = false;
+		_hasUpdatedPlayers = false;
 		
 		//TODO: DEBUGING MODE
 		//_p.addResources(new int[]{10,10,10,10,10});
@@ -107,16 +111,23 @@ public class CatanClient extends Thread{
 		int type = packet.getType();
 		
 		if(type == Packet.BOARD){
-			synchronized(_updatedBoard){
+			synchronized(_hasUpdatedBoard){
+				_hasUpdatedBoard = true;
 				_updatedBoard = (Board) packet.getObject();
 				_updatedBoard.notifyAll();
 			}
 		} else if(type == Packet.PLAYERARRAY){
-			synchronized(_updatedPlayers){
+			synchronized(_hasUpdatedPlayers){
+				_hasUpdatedPlayers = true;
 				_updatedPlayers = (Player[]) packet.getObject();
 				_updatedPlayers.notifyAll();
 			}
-		} else{
+		} else if(type == Packet.START){
+			System.out.println("Start your turn");
+		} else if(type == Packet.ROLL){
+			System.out.println(String.format("Roll: %s", (Integer) packet.getObject()));
+		}
+		else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
 		}
 	}
@@ -217,8 +228,8 @@ public class CatanClient extends Thread{
 	 * @return A lift of updated players
 	 */
 	public Player[] getPlayers(){
-		synchronized (_updatedPlayers) {
-			while(_updatedPlayers == null){
+		synchronized (_hasUpdatedPlayers) {
+			while(_updatedPlayers.equals(false)){
 				try {
 					_updatedPlayers.wait();
 				} catch (InterruptedException e) {
@@ -228,6 +239,7 @@ public class CatanClient extends Thread{
 			}
 			Player[] toReturn = _updatedPlayers;
 			_updatedPlayers = null;
+			_hasUpdatedPlayers = false;
 			return toReturn;
 		}
 	}
@@ -238,8 +250,8 @@ public class CatanClient extends Thread{
 	 * @return An updated board
 	 */
 	public Board getBoard(){
-		synchronized (_updatedBoard) {
-			while(_updatedBoard == null){
+		synchronized (_hasUpdatedBoard) {
+			while(_hasUpdatedBoard.equals(false)){
 				try {
 					_updatedBoard.wait();
 				} catch (InterruptedException e) {
@@ -249,6 +261,7 @@ public class CatanClient extends Thread{
 			}
 			Board toReturn = _updatedBoard;
 			_updatedBoard = null;
+			_hasUpdatedBoard = false;
 			return toReturn;
 		}
 	}
