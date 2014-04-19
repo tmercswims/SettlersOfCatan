@@ -47,7 +47,7 @@ public class CatanServer extends Thread{
 	 * This constructor initializes a server from a port and hostname. The instantiated object will NOT listen
 	 * to new connections until the start() command is executed.
 	 * <p>
-	 * @deprecated use the new constructor that takes in a @link{LaunchConfiguration} class instead.
+	 * @deprecated use the new constructor that takes in a {@link LaunchConfiguration} class instead.
 	 * 
 	 * @param hostname The name of the computer hosting the game/server
 	 * @param port The port on which the server is being hosted on. Must be in range (1024, 65535] (1024 is exclusive
@@ -73,7 +73,7 @@ public class CatanServer extends Thread{
 	}
 	
 	/**
-	 * This constructor initializes a server from a LaunchConfiguration class. The instantiated object will NOT listen
+	 * This constructor initializes a server from a @{link LaunchConfiguration} class. The instantiated object will NOT listen
 	 * to new connections until the start() command is executed.
 	 * @param configs The class that represents the configurations to be used
 	 * @throws IOException If anything goes wrong with setting up the server
@@ -103,6 +103,10 @@ public class CatanServer extends Thread{
 	 */
 	private void accept(){
 		//accept connections
+		
+		//display ip address
+		addUpdate(String.format("This is your ip address. Give it to your friends so they can connect to you: %s", getLocalIP()));
+		
 		while(_pool.getNumConnected() < _numClients){
 			try {
 				Socket client = _server.accept();
@@ -163,7 +167,7 @@ public class CatanServer extends Thread{
 			waiting.append(String.format("Connected: %s\n", name));
 		
 		//sending update
-		addUpdate(String.format("Sending update: %s", waiting.toString()));
+		//addUpdate(String.format("Sending update: %s", waiting.toString()));
 		
 		_pool.broadcast(new Packet(Packet.MESSAGE, String.format("%s", waiting.toString())));
 	}
