@@ -26,7 +26,7 @@ public class CatanClient extends Thread{
 	private Socket _socket; //the socket to communicate with the server
 	private ObjectInputStream _in; //the stream to read in from the server
 	private ObjectOutputStream _out; //the stream to send messages to the server
-	private boolean _isStarting;
+	private volatile boolean _isStarting;
 	
 	/**
 	 * Constructs a new Client from an existing player class. After construction, the client will attempt to 
