@@ -1,10 +1,12 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Node.*;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -113,8 +115,20 @@ public class Node extends BoardComponent{
 		if(_scale>1){
 			brush.setColor(Color.black);
 		}
-		brush.drawChars(toprint, 0, 1, (int)r.getCenterX()-Node._diam/4, (int)r.getCenterY()+Node._diam/4);
+		//brush.drawChars(toprint, 0, 1, (int)r.getCenterX()-Node._diam/4, (int)r.getCenterY()+Node._diam/4);
 		//brush.fillOval(this.getX(), this.getY(), 4, 4);
+        Image building = null;
+        switch (_vp) {
+        case 0:
+            break;
+        case 1:
+            building = settlementRed;
+            break;
+        case 2:
+            building = cityRed;
+            break;
+        }
+        brush.drawImage(building, (int)r.getCenterX()-10, (int)r.getCenterY()-10, null);
 	}
 	
 	public Shape getShape(){

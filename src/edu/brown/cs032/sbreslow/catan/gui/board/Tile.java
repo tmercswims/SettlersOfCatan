@@ -1,5 +1,6 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Tile.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,31 +13,11 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
 
 
 public class Tile extends BoardComponent{
     
     private static final long serialVersionUID = 331277313248085333L;
-    
-    private static final Image brickTile = new ImageIcon("images/tiles/brick.png").getImage();
-    private static final Image desertTile = new ImageIcon("images/tiles/desert.png").getImage();
-    private static final Image oceanTile = new ImageIcon("images/tiles/ocean.png").getImage();
-    private static final Image oreTile = new ImageIcon("images/tiles/ore.png").getImage();
-    private static final Image sheepTile = new ImageIcon("images/tiles/sheep.png").getImage();
-    private static final Image wheatTile = new ImageIcon("images/tiles/wheat.png").getImage();
-    private static final Image woodTile = new ImageIcon("images/tiles/wood.png").getImage();
-    
-    private static final Image two = new ImageIcon("images/numbers/2.png").getImage();
-    private static final Image three = new ImageIcon("images/numbers/3.png").getImage();
-    private static final Image four = new ImageIcon("images/numbers/4.png").getImage();
-    private static final Image five = new ImageIcon("images/numbers/5.png").getImage();
-    private static final Image six = new ImageIcon("images/numbers/6.png").getImage();
-    private static final Image eight = new ImageIcon("images/numbers/8.png").getImage();
-    private static final Image nine = new ImageIcon("images/numbers/9.png").getImage();
-    private static final Image ten = new ImageIcon("images/numbers/10.png").getImage();
-    private static final Image eleven = new ImageIcon("images/numbers/11.png").getImage();
-    private static final Image twelve = new ImageIcon("images/numbers/12.png").getImage();
     
 	public final int _resource;
 	public int _num;
