@@ -25,7 +25,7 @@ public class Overview extends JPanel {
 	private static final Color MY_BACKGROUND = Constants.CATAN_RED;
 	private static final Color MY_FOREGROUND = Constants.CATAN_YELLOW;
 	private final CatanClient client;
-	private final JTextArea nameLabel, devCardsTA, resourcesTA, VPsTA, roadsTA, citiesTA, settlementsTA;
+	private final JTextArea nameLabel, devCardsTA, resourcesTA, VPsTA, roadsTA, settlementsTA, citiesTA;
 	
 	public Overview(CatanClient cc) {
 		super();
@@ -80,15 +80,15 @@ public class Overview extends JPanel {
 		add(roadsTA);
 		
 		citiesTA = new JTextArea();
-		citiesTA.setBounds(816, 60, 9, 70);
+		citiesTA.setBounds(945, 60, 9, 70);
 		citiesTA.setEditable(false);
 		citiesTA.setForeground(MY_FOREGROUND);
 		citiesTA.setFont(MY_FONT);
 		citiesTA.setBackground(MY_BACKGROUND);
 		add(citiesTA);
-		
-		settlementsTA = new JTextArea();
-		settlementsTA.setBounds(945, 60, 9, 70);
+
+		settlementsTA = new JTextArea(); //SETTLEMENTS = 5, cities =4 
+		settlementsTA.setBounds(816, 60, 9, 70);
 		settlementsTA.setEditable(false);
 		settlementsTA.setForeground(MY_FOREGROUND);
 		settlementsTA.setFont(MY_FONT);
@@ -99,35 +99,32 @@ public class Overview extends JPanel {
 	}
 	
 	public void refreshText() {
-		System.out.println("Trying to get board...");
-		Board b = this.client.getBoard();
-		System.out.println("Got board!");
 		System.out.println("Trying to get players...");
 		Player[] players = this.client.getPlayers();
 		System.out.println("Got players!");
-//		StringBuilder names = new StringBuilder(), devCards = new StringBuilder(), roads = new StringBuilder(), settlements = new StringBuilder(), 
-//					cities = new StringBuilder(), vps = new StringBuilder(), resources = new StringBuilder();
-//		for(Player p : players) {
-//			names.append(p.getName() + "\n");
-//			vps.append(p.getVictoryPoints() + "\n");
-//			devCards.append(p.getDevCards() + "\n");
-//			int[] allResources = p.getResources();
-//			int resourceSum = 0;
-//			for(int i = 0; i < allResources.length; i ++) {
-//				resourceSum += allResources[i];
-//			}
-//			resources.append(resourceSum + "\n");
-//			roads.append(p.getRoadCount() + "\n");
-//			settlements.append(p.getSettlementCount() + "\n");
-//			cities.append(p.getCityCount() + "\n");
-//		}
-//		VPsTA.setText(vps.toString());
-//		devCardsTA.setText(devCards.toString());
-//		roadsTA.setText(roads.toString());
-//		nameLabel.setText(names.toString());
-//		settlementsTA.setText(settlements.toString());
-//		citiesTA.setText(cities.toString());
-//		resourcesTA.setText("12\n2\n3\n4");
+		StringBuilder names = new StringBuilder(), devCards = new StringBuilder(), roads = new StringBuilder(), settlements = new StringBuilder(), 
+					cities = new StringBuilder(), vps = new StringBuilder(), resources = new StringBuilder();
+		for(Player p : players) {
+			names.append(p.getName() + "\n");
+			vps.append(p.getVictoryPoints() + "\n");
+			devCards.append(p.getDevCards() + "\n");
+			int[] allResources = p.getResources();
+			int resourceSum = 0;
+			for(int i = 0; i < allResources.length; i ++) {
+				resourceSum += allResources[i];
+			}
+			resources.append(resourceSum + "\n");
+			roads.append(p.getRoadCount() + "\n");
+			settlements.append(p.getSettlementCount() + "\n");
+			cities.append(p.getCityCount() + "\n");
+		}
+		VPsTA.setText(vps.toString());
+		devCardsTA.setText(devCards.toString());
+		roadsTA.setText(roads.toString());
+		nameLabel.setText(names.toString());
+		settlementsTA.setText(settlements.toString());
+		citiesTA.setText(cities.toString());
+		resourcesTA.setText(resources.toString());
 	}
 	
 	@Override

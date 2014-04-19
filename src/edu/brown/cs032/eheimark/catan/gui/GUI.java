@@ -19,11 +19,10 @@ public class GUI extends JPanel {
 	public GUI(CatanClient cc) {
 		super(new BorderLayout());
 		this.client = cc;
+		this.client.start(); // start listening on client
 		gameBoard = new DrawingPanel();
 		add(gameBoard, BorderLayout.CENTER);		
 		tabbedMenu = new TabbedPanel(client);
 		add(tabbedMenu, BorderLayout.SOUTH);
-
 	}
-
 }
