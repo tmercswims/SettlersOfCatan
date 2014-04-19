@@ -103,16 +103,6 @@ public class CatanClient extends Thread{
 	}
 	
 	/**
-	 * Parses an error code sent by the client and displays it.
-	 * @param code The error code to parse
-	 */
-	private String parseError(int code){
-		String message = String.format("Received invalid error code: %s", code);
-		
-		return message;
-	}
-	
-	/**
 	 * Sends a move to the server for processing
 	 * @param move The move to send to the server
 	 * @throws IOException If anything goes wrong with the IO
