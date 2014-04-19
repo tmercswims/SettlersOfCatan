@@ -153,4 +153,12 @@ public class ClientPool {
 	public boolean containsKey(String key){
 		return _clients.containsKey(key);
 	}
+	
+	/**
+	 * Adds an update message to the server
+	 * @param message The update
+	 */
+	public void addUpdate(String message){
+		_server.addUpdate(message);
+	}
 }

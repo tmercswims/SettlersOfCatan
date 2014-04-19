@@ -6,7 +6,7 @@
 package clientLogic;
 
 /**
- * A move validator that will live in each client, to check moves before they are sent.
+ * A move validator that will live in each client, to check moves before they are sent to the server.
  * @author Thomas Mercurio
  */
 public class Validator {

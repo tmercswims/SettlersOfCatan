@@ -39,14 +39,15 @@ public class CatanServer extends Thread{
 	private final Executor _e; //manages threads to deal with new connections
 	private final int TIMEOUT = 5000; //the time the server should wait while waiting for connectino before checking number of connections
 	private int id = 0; //keeps track of the unique id for the client
-	private final LinkedList<Move> moveBuffer; //keeps track of any available moves from clients
+	private final LinkedList<Move> _moveBuffer; //keeps track of any available moves from clients
 	private Referee _ref;
+	private StringBuilder _update; //keeps track of updates of the server 
 	
 	/**
 	 * This constructor initializes a server from a port and hostname. The instantiated object will NOT listen
 	 * to new connections until the start() command is executed.
 	 * <p>
-	 * @deprecated use the new constructor that takes in a @link{LaunchConfiguration} class instead.
+	 * @deprecated use the new constructor that takes in a {@link LaunchConfiguration} class instead.
 	 * 
 	 * @param hostname The name of the computer hosting the game/server
 	 * @param port The port on which the server is being hosted on. Must be in range (1024, 65535] (1024 is exclusive
@@ -65,15 +66,14 @@ public class CatanServer extends Thread{
 		_port = port;
 		_numClients = numClients;
 		_pool = new ClientPool(this);
-		//TODO: change number of threads
 		_e = Executors.newCachedThreadPool();
 		_server = new ServerSocket(_port);
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
-		moveBuffer = new LinkedList<>();
+		_moveBuffer = new LinkedList<>();
 	}
 	
 	/**
-	 * This constructor initializes a server from a LaunchConfiguration class. The instantiated object will NOT listen
+	 * This constructor initializes a server from a @{link LaunchConfiguration} class. The instantiated object will NOT listen
 	 * to new connections until the start() command is executed.
 	 * @param configs The class that represents the configurations to be used
 	 * @throws IOException If anything goes wrong with setting up the server
@@ -87,13 +87,13 @@ public class CatanServer extends Thread{
 		
 		//setting up fields
 		_port = port;
-		//_hostname = ;
 		_numClients = (configs.isFourPlayerGame()) ? 4 : 3;
 		_pool = new ClientPool(this);
 		_e = Executors.newCachedThreadPool();
 		_server = new ServerSocket(_port);
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
-		moveBuffer = new LinkedList<>();
+		_moveBuffer = new LinkedList<>();
+		_update = new StringBuilder();
 	}
 	
 	/**
@@ -103,30 +103,29 @@ public class CatanServer extends Thread{
 	 */
 	private void accept(){
 		//accept connections
+		
+		//display ip address
+		addUpdate(String.format("This is your ip address. Give it to your friends so they can connect to you: %s", getLocalIP()));
+		
 		while(_pool.getNumConnected() < _numClients){
 			try {
 				Socket client = _server.accept();
-				System.out.println("Connected to a client");
 				
 				//set up new client manager
 				_e.execute(new ClientRunnable(client, _pool));
 				
-				//System.out.println(String.format("Number of connected clients: %s", _pool.getNumConnected()));
 				sendConnected();
 			} catch(SocketTimeoutException e){
 				//simply checking how many connections there are
 				try {
 					sendConnected();
 				} catch (IllegalArgumentException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					addUpdate(String.format("Error: %s", e1.getMessage()));
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					addUpdate(String.format("Error: %s", e1.getMessage()));
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				addUpdate(e.getMessage());
 			}
 		}
 	}
@@ -141,20 +140,17 @@ public class CatanServer extends Thread{
 		
 		//start the game
 		try {
-			//_pool.broadcast(new Packet(Packet.STARTGAME, null));
-			//TODO: Debugging
 			_pool.broadcast(new Packet(Packet.MESSAGE, "Starting game"));
+			_pool.addUpdate("Starting the game");
 			//client will no longer listen to clients so shutdown its server
 			_server.close();
 			
 			_ref = new Referee(_pool.getPlayers(), this);
 			_ref.runGame();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			addUpdate(e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			addUpdate(e.getMessage());
 		}
 	}
 	
@@ -170,7 +166,10 @@ public class CatanServer extends Thread{
 		for(String name : _pool.getPlayerNames())
 			waiting.append(String.format("Connected: %s\n", name));
 		
-		_pool.broadcast(new Packet(Packet.MESSAGE, String.format("Waiting...\n%s", waiting.toString())));
+		//sending update
+		//addUpdate(String.format("Sending update: %s", waiting.toString()));
+		
+		_pool.broadcast(new Packet(Packet.MESSAGE, String.format("%s", waiting.toString())));
 	}
 	
 	/**
@@ -212,9 +211,10 @@ public class CatanServer extends Thread{
 				//set up new manager
 				new ClientManager(_pool, _client).start();
 			} catch (IOException e) {
-				System.err.println("Error: " + e.getMessage());
+				//System.err.println("Error: " + e.getMessage());
+				addUpdate(String.format("Error: %s", e.getMessage()));
 				
-				writeError(e);
+				//writeError(e);
 			}
 		}
 		
@@ -229,8 +229,7 @@ public class CatanServer extends Thread{
 		try {
 			_pool.send(playerName, new Packet(Packet.START, null));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			addUpdate(e.getMessage());
 		}
 	}
 	
@@ -242,8 +241,7 @@ public class CatanServer extends Thread{
 		try {
 			_pool.broadcast(new Packet(Packet.PLAYERARRAY, players));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			addUpdate(e.getMessage());
 		}
 	}
 	
@@ -255,8 +253,7 @@ public class CatanServer extends Thread{
 		try {
 			_pool.broadcast(new Packet(Packet.BOARD, board));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			addUpdate(e.getMessage());
 		}
 	}
 	
@@ -269,22 +266,25 @@ public class CatanServer extends Thread{
 		try {
 			_pool.send(playerName, new Packet(Packet.ROLL, new Integer(roll)));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			addUpdate(e.getMessage());
 		}
 	}
 	
 	/**
 	 * Sends an error type to the specified client
 	 * @param playerName The client to send the error to
-	 * @param error The type of the error to send
+	 * @param error The error message to send
 	 */
-	public void sendError(String playerName, int error){
+	public void sendError(String playerName, String error){
 		try {
-			_pool.send(playerName, new Packet(Packet.ERROR, new Integer(error)));
+			//TODO: send errors to chatbox
+			
+			if(playerName == null)
+				_pool.broadcast(new Packet(Packet.MESSAGE, error));
+			else
+				_pool.send(playerName, new Packet(Packet.MESSAGE, error));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			addUpdate(e.getMessage());
 		}
 	}
 	
@@ -293,14 +293,14 @@ public class CatanServer extends Thread{
 	 * @return The move
 	 */
 	public Move readMove(){
-		synchronized(moveBuffer){
-			while(moveBuffer.isEmpty()){
+		synchronized(_moveBuffer){
+			while(_moveBuffer.isEmpty()){
 				try {
-					moveBuffer.wait();
+					_moveBuffer.wait();
 				} catch (InterruptedException e) {}
 			}
 			
-			return moveBuffer.poll();
+			return _moveBuffer.poll();
 		}
 	}
 	
@@ -309,9 +309,9 @@ public class CatanServer extends Thread{
 	 * @param move The move to add
 	 */
 	public void addMove(Move move){
-		synchronized(moveBuffer){
-			moveBuffer.add(move);
-			moveBuffer.notifyAll();
+		synchronized(_moveBuffer){
+			_moveBuffer.add(move);
+			_moveBuffer.notifyAll();
 		}
 	}
 	
@@ -329,9 +329,56 @@ public class CatanServer extends Thread{
 	}
 	
 	/**
+	 * Returns the status of the server. May include messages such as how many are connected, any
+	 * errors, a new client just connected or a client disconnected. This will block similarly to how
+	 * a read() on BufferedReader will block until there is input to read.
+	 * @return The status of the update
+	 */
+	public String readStatus(){
+		synchronized(_update){
+			while(_update.length() == 0){
+				try {
+					_update.wait();
+				} catch (InterruptedException e) {
+					//can't do anything at this point
+					addUpdate(e.getMessage());
+				}
+			}
+			
+			String update = _update.toString();
+			_update.setLength(0);
+			return update;
+		}
+	}
+	
+	/**
+	 * Adds an update and notifies any methods waiting on the update
+	 * @param message The update
+	 */
+	public void addUpdate(String message){
+		synchronized(_update){
+			_update.append(String.format("%s\n", message));
+			_update.notifyAll();
+		}
+	}
+	
+	/**
+	 * Returns whether or not the game is still going on
+	 * @return True, if the game is still going on and false otherwise
+	 */
+	public boolean isRunning(){
+		return !_ref.isGameOver();
+	}
+	
+	/**
 	 * Closes down the server and its associated resources
 	 */
 	public void kill(){
-		_pool.killAll();
+		try {
+			_pool.killAll();
+			_server.close();
+		} catch (IOException e) {
+			addUpdate(e.getMessage());
+		}
 	}
 }

@@ -54,6 +54,9 @@ public class ClientManager extends Thread {
 		 * acknowledging the connection. The client then should send their name/player class
 		 */
 		
+		//someone is trying to connect
+		_pool.addUpdate("Client is trying to connect...");
+		
 		//send welcome message
 		_out.writeObject(new Packet(Packet.HANDSHAKE, null));
 		_out.flush();
@@ -68,21 +71,20 @@ public class ClientManager extends Thread {
 				
 				//check to make sure that the name is not already taken
 				if(_pool.containsKey(_p.getName()))
-					throw new IllegalArgumentException("User name already taken! Disconnecting...");
+					throw new IllegalArgumentException("User name already taken! Dropping client...");
 			} else
 				throw new ClassNotFoundException();
 			
+			//client successfully connected!
+			_pool.addUpdate(String.format("Client %s successfully connected!", _p.getName()));
+			
 		} catch (ClassNotFoundException e) {
 			//invalid protocol; probably an internal error
-			String msg = "Server failed. Disconnecting...";
-			//TODO: error codes
-			//sendError(-1);
+			String msg = "Server failed. Dropping client...";
 			throw new IllegalArgumentException(msg);
 		} catch (ClassCastException e){
 			//the user probably sent something other than a Player object
-			String msg = "Invalid protocol: Expected a Player object in the packet. Disconnecting...";
-			//TODO: error codes
-			//sendError(-1);
+			String msg = "Invalid protocol: Expected a Player object in the packet. Dropping client...";
 			throw new IllegalArgumentException(msg);
 		}
 	}
@@ -107,27 +109,25 @@ public class ClientManager extends Thread {
 				}  catch (ClassNotFoundException e) {
 					//invalid protocol; probably an internal error
 					String msg = "Server failed. Disconnecting...";
-					//TODO: error codes
 					sendError(msg);
 					kill();
 				} catch (ClassCastException e){
 					//the user probably sent something other than a Player object
 					String msg = "Invalid protocol: Expected a Player object in the packet";
-					//TODO: error codes
 					sendError(msg);
 				}
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_pool.addUpdate(e.getMessage());
 		} catch(IllegalArgumentException e){
 			try {
 				//invalid protocol; stop
 				sendError(e.getMessage());
+				_pool.addUpdate(String.format("Error: %s", e.getMessage()));
 				kill();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				_pool.addUpdate(String.format("Error: %s", e.getMessage()));
 			}
 		}
 	}
@@ -164,8 +164,9 @@ public class ClientManager extends Thread {
 			_pool.addMove((Move) packet.getObject());
 		} else{
 			//only moves can be sent; send an error
-			//TODO: implement error codes
-			//sendError(-1);
+			String msg = "Invalid protocol. Expected a move object";
+			sendError(msg);
+			_pool.addUpdate(msg);
 		}
 	}
 	
@@ -188,6 +189,7 @@ public class ClientManager extends Thread {
 		_in.close();
 		_out.close();
 		_client.close();
+		_pool.addUpdate(String.format("Player %s disconnected", _p.getName()));
 	}
 	
 	/**
