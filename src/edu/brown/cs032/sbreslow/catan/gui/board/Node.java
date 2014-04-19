@@ -106,7 +106,7 @@ public class Node extends BoardComponent{
 		Graphics2D brush = (Graphics2D) g;
 		brush.setColor(_c);
 		brush.setStroke(new BasicStroke());
-		brush.fill(_o);
+		//brush.fill(_o);
 		brush.setColor(Color.WHITE);
 		char[] toprint = Integer.toString(_vp).toCharArray();
 		Rectangle r = _o.getBounds();
