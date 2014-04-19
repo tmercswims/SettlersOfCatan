@@ -11,7 +11,6 @@ import edu.brown.cs032.sbreslow.catan.gui.board.Edge;
 import edu.brown.cs032.sbreslow.catan.gui.board.Node;
 import edu.brown.cs032.sbreslow.catan.gui.board.Tile;
 import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.*;
-import static edu.brown.cs032.tmercuri.catan.logic.MoveMessage.*;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
@@ -62,14 +61,18 @@ public class Referee {
                 Move move = _server.readMove();
                 MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                 if (whatHappened.isError()) {
-                    _server.sendError(_activePlayer.getName(), whatHappened.getCode());
+                    _server.sendError(_activePlayer.getName(), whatHappened.getDescription());
                 } else {
-                    _server.sendError(null, whatHappened.getCode());
+                    _server.sendError(null, whatHappened.getDescription());
                 }
             }
         }
     }
     
+    /**
+     * Tells whether the game is over.
+     * @return true if the game is over, false if not
+     */
     public boolean isGameOver() {
         return _gameOver;
     }
@@ -178,12 +181,12 @@ public class Referee {
     
     private int tradeMove(TradeMove move) {
         
-        return 102;
+        return -1;
     }
     
     private int robberMove(RobberMove move) {
         
-        return 103;
+        return -1;
     }
     
     private int startTurn() {
@@ -191,21 +194,19 @@ public class Referee {
         _server.sendRoll(_activePlayer.getName(), roll);
         if (roll != 7) {
             for (Tile t : _board.getTiles()) {
-                int resNum = t.getNum();
-                int resType = t.getResource();
-                if (roll == resNum) {
+                if (roll == t.getNum() && !t.hasRobber()) {
                     for (Node n : t.getNodes()) {
                         if (n.isOwned()) {
                             Player p = n.getOwner();
                             int[] newRes = new int[]{0,0,0,0,0};
-                            newRes[resType] = n.getVP();
+                            newRes[t.getResource()] = n.getVP();
                             p.addResources(newRes);
                         }
                     }
                 }
             }
         }
-        return 0;
+        return 000;
     }
     
     private void pushPlayers() {
@@ -214,10 +215,6 @@ public class Referee {
     
     private void pushBoard() {
         _server.sendBoard(_board);
-    }
-    
-    private void sendError(int error) {
-        _server.sendError(_activePlayer.getName(), error);
     }
 
     private int endTurn() {

@@ -15,6 +15,11 @@ import java.util.Map;
 public enum MoveMessage {
     
     /**
+     * generic ok
+     */
+    MESSAGE_000(000, false, "good"),
+    
+    /**
      * road errors
      */
     MESSAGE_100(100, false, "built a road"),
