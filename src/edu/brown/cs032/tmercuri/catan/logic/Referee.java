@@ -46,14 +46,14 @@ public class Referee {
         _players = players;
         _board = new Board();
         _server = server;
-        pushPlayers();
-        pushBoard();
     }
     
     /**
      * Starts the game, and runs it until a player wins.
      */
     public void runGame() {
+        pushPlayers();
+        pushBoard();
         rollForOrder();
         
         for (int z=0; !_gameOver; z++) {
