@@ -148,14 +148,15 @@ public class Edge extends BoardComponent{
 				int[] y = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY1()+40};
 				brush.setColor(Color.black);
 				//brush.fill(new Polygon(x,y,3));
-                brush.drawImage(southwestPort, (int)_l.getX1()-17, (int)_l.getY1(), null);
+                brush.drawImage(southwestPort, (int)_l.getX1()-13, (int)_l.getY1()+7, null);
 			}
 			if(_index==67){
 				brush.drawChars(todraw, 0, todraw.length,(int)_l.getX2()+10,(int) _l.getY1()-10);
 				int[] x = {(int) _l.getX1(), (int) _l.getX2(), (int) _l.getX2()};
 				int[] y = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY2()+40};
 				brush.setColor(Color.black);
-				brush.fill(new Polygon(x,y,3));
+				//brush.fill(new Polygon(x,y,3));
+                brush.drawImage(southeastPort, (int)_l.getX2()-28, (int)_l.getY2()+7, null);
 			}
 			break;
 		}

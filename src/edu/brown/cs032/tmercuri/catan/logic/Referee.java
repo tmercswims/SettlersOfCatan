@@ -46,6 +46,8 @@ public class Referee {
         _players = players;
         _board = new Board();
         _server = server;
+        pushPlayers();
+        pushBoard();
     }
     
     /**

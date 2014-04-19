@@ -196,7 +196,7 @@ public class Tile extends BoardComponent{
 					brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);
 				}
 			}
-			else{
+            else {
 				brush.setColor(Color.black);
 			}
 			/*brush.addRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
