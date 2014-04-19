@@ -178,13 +178,9 @@ public class Tile extends BoardComponent{
 		//System.out.println(Integer.toString(_num));
 		brush.setColor(Color.white);
 		Rectangle r = _p.getBounds();
-		if(_resource!=6 && _resource!=5){
-			//brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
-			if(_num==6 || _num==8){
-				brush.setColor(Color.red);
-		if(_resource!=6){
+        if(_resource!=6){
 			if(!_robber){
-				brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
+				//brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
 				if(_num==6 || _num==8){
 					brush.setColor(Color.red);
 				}
@@ -245,14 +241,13 @@ public class Tile extends BoardComponent{
                 break;
             }
             brush.drawImage(number, (int)r.getCenterX()-20, (int)r.getCenterY()-20, null);
-				/*brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
-				brush.setColor(Color.white);
-				char[] tmp = {'R'};
-				brush.drawChars(tmp, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);*/
-			}
-		}
-	}
+            /*brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
+            brush.setColor(Color.white);
+            char[] tmp = {'R'};
+            brush.drawChars(tmp, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);*/
+        }
     }
+    
 
     @Override
 	public void setColor(Color c){
