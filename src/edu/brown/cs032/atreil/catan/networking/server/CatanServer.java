@@ -143,8 +143,8 @@ public class CatanServer extends Thread{
 		
 		//start the game
 		try {
-			_pool.broadcast(new Packet(Packet.MESSAGE, "Starting game"));
-			_pool.addUpdate("Starting the game");
+			_pool.broadcast(new Packet(Packet.MESSAGE, "Starting game\n"));
+			_pool.addUpdate("Starting the game\n");
 			//client will no longer listen to clients so shutdown its server
 			_server.close();
 			
