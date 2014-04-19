@@ -3,7 +3,7 @@
  * CS032, Spring 2014
  */
 
-package edu.brown.cs032.tmercuri.catan.logic.move;
+package edu.brown.cs032.tmercuri.catan.logic;
 
 /**
  *
@@ -13,6 +13,7 @@ public class BuildConstants {
     
     public static final int
     
+        
         /**
          * road
          */

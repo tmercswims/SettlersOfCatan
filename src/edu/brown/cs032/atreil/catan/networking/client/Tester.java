@@ -7,16 +7,16 @@ package edu.brown.cs032.atreil.catan.networking.client;
 
 import edu.brown.cs032.eheimark.catan.menu.LaunchConfiguration;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
-import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.CITY;
-import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.ROAD;
-import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.SETTLEMENT;
+import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.CITY;
+import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.ROAD;
+import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.SETTLEMENT;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
 /**
- *
+ * 
  * @author Thomas Mercurio
  */
 public class Tester {

@@ -144,4 +144,13 @@ public class ClientPool {
 		
 		return toReturn;
 	}
+	
+	/**
+	 * Returns whether or not a client with the given key already exists.
+	 * @param key The key to check
+	 * @return True, if a client already exists with the key, and false otherwise
+	 */
+	public boolean containsKey(String key){
+		return _clients.containsKey(key);
+	}
 }

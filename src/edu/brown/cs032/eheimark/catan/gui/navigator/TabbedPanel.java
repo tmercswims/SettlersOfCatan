@@ -1,7 +1,5 @@
 package edu.brown.cs032.eheimark.catan.gui.navigator;
 
-import javax.swing.JFrame;
-
 import java.awt.BorderLayout;
 
 import javax.swing.JTabbedPane;
@@ -10,16 +8,15 @@ import javax.swing.JPanel;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.trade.Trade;
 
-//TODO: Switch to extending JTabbedPane from JFrame
-public class TabbedPane extends JFrame{
+public class TabbedPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 
-	public TabbedPane() {
+	public TabbedPanel() {
 		super();
-		getContentPane().setLayout(new BorderLayout(0, 0));
+		setLayout(new BorderLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel overview = new Overview();
 		tabbedPane.addTab("Overview", null, overview, null);
@@ -33,14 +30,12 @@ public class TabbedPane extends JFrame{
 		JPanel devcard = new JPanel();
 		tabbedPane.addTab("Dev Card", null, devcard, null);
 		
-		setVisible(true);
-		setResizable(false);
-		setMinimumSize(Constants.MENU_SIZE);
-
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setMinimumSize(Constants.TABBED_MENU_SIZE);
+		setPreferredSize(Constants.TABBED_MENU_SIZE);
+		setMaximumSize(Constants.TABBED_MENU_SIZE);
 	}
 	
 	public static void main(String[] args) {
-		new TabbedPane();
+		new TabbedPanel();
 	}
 }

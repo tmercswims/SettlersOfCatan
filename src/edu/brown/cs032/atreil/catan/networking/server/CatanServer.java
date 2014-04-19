@@ -174,6 +174,16 @@ public class CatanServer extends Thread{
 	}
 	
 	/**
+	 * Returns the local ip in a textual format. This is the ip that the
+	 * host should give to other players if they want to connect on the 
+	 * same network.
+	 * @return The textual representation of the raw ip address
+	 */
+	public String getLocalIP(){
+		return _server.getInetAddress().getHostAddress();
+	}
+	
+	/**
 	 * Returns all of the player names connected to the server
 	 * @return List of all the player names connected to the server
 	 */

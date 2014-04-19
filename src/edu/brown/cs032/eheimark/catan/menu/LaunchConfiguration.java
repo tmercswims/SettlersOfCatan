@@ -9,19 +9,22 @@ import java.awt.Image;
 public class LaunchConfiguration {	
 	private boolean FourPlayerGame; // if false, 3 player game
 	private int joinPort; // outsidehost used when connecting to a server from "join" menu (acting only as client), 
+	private String hostname; // host name (IP address)
 	private int hostPort; // localhost used when creating a server from "host" menu (acting as client + server)
 	private String avatarName;
 	private Image avatarImage; // Probably ignore for now
 	private int boardSize; // small = 0, medium = 1, large = 2
 	public static final int SMALL_BOARD = 0, MEDIUM_BOARD = 1, LARGE_BOARD = 2;
 	public static final int DEFAULT_PORT = 1700;
-	
+	public static final String DEFAULT_HOSTNAME = "192.168...XX";
+
 	public LaunchConfiguration() {
 		this.joinPort = DEFAULT_PORT;
 		this.hostPort = DEFAULT_PORT;
+		this.hostname = DEFAULT_HOSTNAME;
 		setBoardSize(MEDIUM_BOARD);
 		setInGameHelpOn(true);
-		setAvatarName("Default UserName");
+		setAvatarName("username");
 	}
 	
 	private boolean inGameHelpOn;
@@ -67,5 +70,11 @@ public class LaunchConfiguration {
 	}
 	public void setFourPlayerGame(boolean fourPlayerGame) {
 		FourPlayerGame = fourPlayerGame;
+	}
+	public String getHostName() {
+		return hostname;
+	}
+	public void setHostname(String hn) {
+		hostname = hn;
 	}
 }

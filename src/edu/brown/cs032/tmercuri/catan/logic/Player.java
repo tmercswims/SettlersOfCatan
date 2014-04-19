@@ -78,7 +78,7 @@ public class Player implements Serializable {
      * @param isActive is this player active?
      */
     public void setIsActive(boolean isActive) {
-        this._isActive = isActive;
+        _isActive = isActive;
     }
     
     /**
@@ -86,14 +86,14 @@ public class Player implements Serializable {
      * @return true if this player is active, false if not
      */
     public boolean isActive() {
-        return this._isActive;
+        return _isActive;
     }
     
     /**
      * Decreases this player's remaining road count by 1.
      */
     public void decRoadCount() {
-        this._roadsRemaining--;
+        _roadsRemaining--;
     }
     
     /**
@@ -101,75 +101,76 @@ public class Player implements Serializable {
      * @return remaining roads
      */
     public int getRoadCount() {
-        return this._roadsRemaining;
+        return _roadsRemaining;
     }
     
     /**
      * Decreases this player's remaining settlement count by 1.
      */
     public void decSettlementCount() {
-        this._settlementsRemaining--;
+        _settlementsRemaining--;
     }
     
     /**
      * Gets this player's settlement count.
-     * @return
+     * @return remaining settlements
      */
     public int getSettlementCount() {
-        return this._settlementsRemaining;
+        return _settlementsRemaining;
     }
     
     /**
      * Decreases this player's remaining city count by 1.
      */
     public void decCityCount() {
-        this._citiesRemaining--;
+        _citiesRemaining--;
+        _settlementsRemaining++;
     }
     
     /**
      * Gets this player's city count.
-     * @return
+     * @return remaining cities
      */
     public int getCityCount() {
-        return this._citiesRemaining;
+        return _citiesRemaining;
     }
     
     /**
      * Increases this player's victory point count by 1.
      */
     public void incVictoryPoints() {
-        this._victoryPoints++;
+        _victoryPoints++;
     }
     
     /**
      * Gets this player's victory point count.
-     * @return
+     * @return number of victory points
      */
     public int getVictoryPoints() {
-        return this._victoryPoints;
+        return _victoryPoints;
     }
     
     /**
      * Increases this player's army size by 1.
      */
     public void incArmySize() {
-        this._armySize++;
+        _armySize++;
     }
     
     /**
      * Gets this player's army size.
-     * @return
+     * @return number of knights played by this player
      */
     public int getArmySize() {
-        return this._armySize;
+        return _armySize;
     }
     
     /**
-     * Gets this player's _name.
-     * @return 
+     * Gets this player's name.
+     * @return name of this player
      */
     public String getName() {
-        return this._name;
+        return _name;
     }
     
     /**
@@ -177,30 +178,31 @@ public class Player implements Serializable {
      * @param length the length of this player's longest road
      */
     public void setLongestRoad(int length) {
-        this._longestRoad = length;
+        _longestRoad = length;
     }
     
     /**
      * Gets this player's longest road length.
-     * @return
+     * @return the length of the longest road
      */
     public int getLongestRoad() {
-        return this._longestRoad;
+        return _longestRoad;
     }
     
     /**
      * Sets this players initial roll for sorting.
-     * @param roll 
+     * @param roll the roll that this player had for turn choosing
      */
     public void setInitRoll(int roll) {
-        this._initRoll = roll;
+        _initRoll = roll;
     }
     
     /**
      * Gets this players initial roll for sorting.
+     * @return the inital roll
      */
     public int getInitRoll() {
-        return this._initRoll;
+        return _initRoll;
     }
     
     @Override

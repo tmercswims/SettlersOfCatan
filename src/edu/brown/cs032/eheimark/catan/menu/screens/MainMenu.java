@@ -10,7 +10,7 @@ import edu.brown.cs032.eheimark.catan.menu.LaunchMenu;
 
 public class MainMenu extends CatanMenu {
 	private static final long serialVersionUID = 1L;
-	private final JButton host, join, settings, profile, quit;
+	private final JButton host, join, settings, quit;
 	
 	public MainMenu() {
 		super();
@@ -55,19 +55,6 @@ public class MainMenu extends CatanMenu {
 			}
 		});
 		
-		profile = new CatanMenuButton("Profile");
-		profile.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						LaunchMenu.frame.setPage(new ProfileMenu());
-					}
-				});
-			}
-		});
-		
 		quit = new CatanMenuButton("Quit");
 		quit.addActionListener(new ActionListener() {
 			@Override
@@ -78,7 +65,6 @@ public class MainMenu extends CatanMenu {
 
 		addButton(host);
 		addButton(join);
-		addButton(profile);
 		addButton(settings);
 		addButton(quit);
 	}

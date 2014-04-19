@@ -10,13 +10,8 @@ import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.sbreslow.catan.gui.board.Edge;
 import edu.brown.cs032.sbreslow.catan.gui.board.Node;
 import edu.brown.cs032.sbreslow.catan.gui.board.Tile;
-import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.BUILD_CITY;
-import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.BUILD_ROAD;
-import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.BUILD_SETTLEMENT;
-import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.CITY;
-import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.DEV_CARD;
-import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.ROAD;
-import static edu.brown.cs032.tmercuri.catan.logic.move.BuildConstants.SETTLEMENT;
+import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.*;
+import static edu.brown.cs032.tmercuri.catan.logic.MoveMessage.*;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
@@ -65,16 +60,18 @@ public class Referee {
             setActivePlayer(currentPlayer);
             while (!_turnOver) {
                 Move move = _server.readMove();
-                if (!makeMove(move)) {
-                    sendError(1);
-                    System.out.println("That's not allowed!");
+                MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
+                if (whatHappened.isError()) {
+                    _server.sendError(_activePlayer.getName(), whatHappened.getCode());
                 } else {
-                    System.out.println("That's allowed!");
+                    _server.sendError(null, whatHappened.getCode());
                 }
-                //pushPlayers();
-                //pushBoard();
             }
         }
+    }
+    
+    public boolean isGameOver() {
+        return _gameOver;
     }
     
     private void rollForOrder() {
@@ -101,7 +98,7 @@ public class Referee {
         _server.startTurn(player.getName());
     }
 
-    private boolean makeMove(Move move) {
+    private int makeMove(Move move) {
         if (move instanceof FirstMove) {
             return startTurn();
         } else if (move instanceof BuildMove) {
@@ -118,38 +115,52 @@ public class Referee {
         } else if (move instanceof LastMove) {
             return endTurn();
         }
-        return false;
+        return -1;
     }
     
-    private boolean buildMove(BuildMove move) {
+    private int buildMove(BuildMove move) {
         System.out.println("Player '" + _activePlayer.getName() + "' played a building move.");
         switch (move.getBuildType()) {
             case ROAD:
                 System.out.println("They want to build a road at " + move.getBuildLocation() + ".");
                 Edge e = _board.getEdges()[move.getBuildLocation()];
-                if (e.isRoad() || !_activePlayer.hasResources(BUILD_ROAD)) return false;
+                if (e.isRoad()) return 101;
+                if (!_activePlayer.hasResources(BUILD_ROAD)) return 102;
+                if (_activePlayer.getRoadCount() == 0) return 103;
+                _activePlayer.removeResources(BUILD_ROAD);
+                _activePlayer.decRoadCount();
                 e.setOwner(_activePlayer);
                 e.grow();
-                return true;
+                return 100;
             case SETTLEMENT:
                 System.out.println("They want to build a settlement at " + move.getBuildLocation() + ".");
                 Node ns = _board.getNodes()[move.getBuildLocation()];
-                if (ns.getVP() == 1 || ns.isOwned() || structureAdjacent(ns) || !_activePlayer.hasResources(BUILD_SETTLEMENT)) return false;
+                if (ns.getVP() == 1 || ns.isOwned()) return 201;
+                if (!_activePlayer.hasResources(BUILD_SETTLEMENT)) return 202;
+                if (_activePlayer.getSettlementCount() == 0) return 203;
+                if (structureAdjacent(ns)) return 204;
+                _activePlayer.removeResources(BUILD_SETTLEMENT);
+                _activePlayer.decSettlementCount();
                 ns.setOwner(_activePlayer);
                 ns.grow();
-                return true;
+                return 200;
             case CITY:
                 System.out.println("They want to build a city at " + move.getBuildLocation() + ".");
                 Node nc = _board.getNodes()[move.getBuildLocation()];
-                if (nc.getVP() == 2 || !_activePlayer.equals(nc.getOwner()) || !_activePlayer.hasResources(BUILD_CITY)) return false;
+                if (nc.getVP() == 2 || nc.isOwned()) return 301;
+                if (!_activePlayer.hasResources(BUILD_CITY)) return 302;
+                if (_activePlayer.getCityCount() == 0) return 303;
+                if (nc.getVP() == 1 && !_activePlayer.equals(nc.getOwner())) return 305;
+                _activePlayer.removeResources(BUILD_CITY);
+                _activePlayer.decCityCount();
                 nc.grow();
-                return true;
+                return 300;
             case DEV_CARD:
                 System.out.println("No dev cards yet :(");
-                return false;
+                return -1;
             default:
                 System.out.println("build move had bad build type");
-                return false;
+                return -1;
         }
     }
     
@@ -165,17 +176,17 @@ public class Referee {
         return false;
     }
     
-    private boolean tradeMove(TradeMove move) {
+    private int tradeMove(TradeMove move) {
         
-        return false;
+        return 102;
     }
     
-    private boolean robberMove(RobberMove move) {
+    private int robberMove(RobberMove move) {
         
-        return false;
+        return 103;
     }
     
-    private boolean startTurn() {
+    private int startTurn() {
         int roll = _dice.roll();
         _server.sendRoll(_activePlayer.getName(), roll);
         if (roll != 7) {
@@ -194,7 +205,7 @@ public class Referee {
                 }
             }
         }
-        return true;
+        return 0;
     }
     
     private void pushPlayers() {
@@ -209,9 +220,9 @@ public class Referee {
         _server.sendError(_activePlayer.getName(), error);
     }
 
-    private boolean endTurn() {
+    private int endTurn() {
         _turnOver = true;
-        return true;
+        return 000;
     }
 
     private void calculateVP(Player player) {
