@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 /**
- *
+ * 
  * @author Thomas Mercurio
  */
 public class Tester {
