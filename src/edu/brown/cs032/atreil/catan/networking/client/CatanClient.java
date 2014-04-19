@@ -5,6 +5,7 @@ package edu.brown.cs032.atreil.catan.networking.client;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -60,7 +61,9 @@ public class CatanClient extends Thread{
 		//_p.addResources(new int[]{10,10,10,10,10});
 		//
 		
-		this._socket = new Socket("localhost", configs.getJoinPort());
+		String ip = configs.getHostName();
+		
+		this._socket = new Socket(InetAddress.getByName(ip).getHostName(), configs.getJoinPort());
 		_isStarting = false;
 		
 		//setting up readers
@@ -170,11 +173,14 @@ public class CatanClient extends Thread{
 	/**
 	 * Kills the client by shutting down the socket and associated
 	 * streams
-	 * @throws IOException If anything goes wrong with trying to close the resources
 	 */
-	public void kill() throws IOException{
-		_in.close();
-		_out.close();
-		_socket.close();
+	public void kill(){
+		try{
+			_in.close();
+			_out.close();
+			_socket.close();
+		} catch(IOException e){
+			//not much to do
+		}
 	}
 }
