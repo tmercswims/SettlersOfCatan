@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -19,6 +20,8 @@ public class HostGameLoadingMenu extends CatanMenu {
 	private JButton back;
 	private final CatanScrollableTextArea jsp;
 	private StringBuilder sb;
+	private CatanServer cs;
+	private ServerUpdate su;
 
 	public HostGameLoadingMenu() {
 		super();
@@ -31,6 +34,12 @@ public class HostGameLoadingMenu extends CatanMenu {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
+						if(cs != null) {
+							cs.kill(); 
+						}
+						if(su != null) {
+							su.stop(); // TODO: Better option than stop?
+						}
 						LaunchMenu.frame.setPage(new MainMenu());
 						repaint();
 					}
@@ -38,28 +47,38 @@ public class HostGameLoadingMenu extends CatanMenu {
 			}
 		});
 		addButton(jsp);
-		addButton(back);
-		
+		addButton(back);	
 	}
-	
+
+
 	public void loadServer() {
-		CatanServer cs;
-		
 		try {
-			sb.append("Trying to launch server...\n");
+			updateTextArea("Trying to launch server...\n");
 			cs = new CatanServer(LaunchMenu.lc);
 			cs.start();
-			sb.append("Server launched successfully!");
-			updateTextArea();
+			updateTextArea("Server launched successfully!\n");
+			su = new ServerUpdate();
+			su.start();
 		} catch (IOException e) {
 			sb.append("Error launching server!");
-			updateTextArea();
+			updateTextArea(sb.toString());
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	private void updateTextArea() {
+
+	private class ServerUpdate extends Thread {
+		@Override
+		public void run() {
+			while(true) { //TODO: Switch to isRunning method
+				String message = cs.readStatus();
+				updateTextArea(message);
+			}
+		}
+	}
+
+	private void updateTextArea(String s) {
+		sb.append(s);
 		jsp.getTextArea().setText(sb.toString());
 	}
 }

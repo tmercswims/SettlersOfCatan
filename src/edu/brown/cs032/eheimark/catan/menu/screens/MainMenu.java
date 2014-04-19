@@ -41,7 +41,6 @@ public class MainMenu extends CatanMenu {
 			}
 		});
 
-		
 		settings = new CatanMenuButton("Settings");
 		settings.addActionListener(new ActionListener() {
 			@Override

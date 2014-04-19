@@ -15,12 +15,8 @@ public class GUI extends JPanel {
 	private JPanel gameBoard, tabbedMenu, chatBox;
 	
 	//TODO: Delete throws
-	public GUI() throws UnknownHostException, IOException {
+	public GUI() {
 		super(new BorderLayout());
-		CatanClient cc = new CatanClient(new LaunchMenu());
-		
-		
-
 		gameBoard = new DrawingPanel();
 		add(gameBoard, BorderLayout.CENTER);		
 		tabbedMenu = new TabbedPanel();

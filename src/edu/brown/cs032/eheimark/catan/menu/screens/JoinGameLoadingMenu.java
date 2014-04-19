@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.atreil.catan.networking.server.CatanServer;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanMenuButton;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanScrollableTextArea;
 import edu.brown.cs032.eheimark.catan.menu.LaunchMenu;
@@ -20,8 +21,7 @@ public class JoinGameLoadingMenu extends CatanMenu {
 	private final CatanScrollableTextArea jsp;
 	private StringBuilder sb;
 	private CatanClient cc;
-	private Timer timer;
-	private final int SECONDS_DELAY = 1;
+	private ServerUpdate su;
 
 	public JoinGameLoadingMenu() {
 		super();
@@ -31,15 +31,15 @@ public class JoinGameLoadingMenu extends CatanMenu {
 		back.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(timer != null) {
-					timer.cancel();
-				}
-				if(cc != null) {
-					cc.stop(); // TODO: Check with Alex how to quit
-				}
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
+						if(cc != null) {
+							cc.kill();
+						}
+						if(su != null) {
+							su.stop(); // TODO: Better option than stop?
+						}
 						LaunchMenu.frame.setPage(new MainMenu());
 					}
 				});
@@ -49,36 +49,34 @@ public class JoinGameLoadingMenu extends CatanMenu {
 		addButton(back);
 	}
 
-	private class UpdateTextArea extends TimerTask {
+	class ServerUpdate extends Thread {
 		@Override
 		public void run() {
-			try {
-				if(!cc.getIsStarting()) {
-					System.out.println("Trying to update text area...");
-					String sm = cc.readServerMessage();
-					sb.append(sm);
-					System.out.println(sm);
-					jsp.getTextArea().setText(sb.toString());
-				}
-				else {
-					System.out.println("Ready to START!!!!!");
-					if(timer != null) {
-						timer.cancel();
+			while(true) { //TODO: Switch to isRunning method
+				try {
+					if(!cc.getIsStarting()) {
+						String sm = cc.readServerMessage();
+						sb.append(sm);
+						System.out.println(sm);
+						jsp.getTextArea().setText(sb.toString());
+					}
+					else {
+						System.out.println("Ready to START!!!!!");
+						break; //break loop //TODO: Double check
 					}
 				}
+				catch (UnknownHostException e) {
+					sb.append(e.getMessage() + "...\n");
+					sb.append("Please try again!");
+					jsp.getTextArea().setText(sb.toString());
+
+				} catch (IOException e) {
+					sb.append(e.getMessage() + "...\n");
+					sb.append("Please try again!");
+					jsp.getTextArea().setText(sb.toString());
+				}
 			}
-			catch (UnknownHostException e) {
-				sb.append(e.getMessage() + "...\n");
-				sb.append("Please try again!");
-				jsp.getTextArea().setText(sb.toString());
-
-			} catch (IOException e) {
-				sb.append(e.getMessage() + "...\n");
-				sb.append("Please try again!");
-				jsp.getTextArea().setText(sb.toString());
-			}			
 		}
-
 	}
 
 	public void loadClient() {
@@ -86,9 +84,9 @@ public class JoinGameLoadingMenu extends CatanMenu {
 			cc = new CatanClient(LaunchMenu.lc);
 			sb.append("Trying to connect to server...\n");
 			jsp.getTextArea().setText(sb.toString());
-			timer = new Timer();
-			timer.scheduleAtFixedRate(new UpdateTextArea(), 0, SECONDS_DELAY*1000);
 			repaint();
+			su = new ServerUpdate();
+			su.start();
 		} catch (UnknownHostException e) {
 			sb.append(e.getMessage() + "...\n");
 			sb.append("Please try again!");
