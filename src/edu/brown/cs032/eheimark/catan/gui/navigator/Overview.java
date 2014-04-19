@@ -12,6 +12,7 @@ import javax.swing.JTextArea;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
+import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 import java.awt.Font;
@@ -98,6 +99,9 @@ public class Overview extends JPanel {
 	}
 	
 	public void refreshText() {
+		System.out.println("Trying to get board...");
+		Board b = this.client.getBoard();
+		System.out.println("Got board!");
 		System.out.println("Trying to get players...");
 		Player[] players = this.client.getPlayers();
 		System.out.println("Got players!");

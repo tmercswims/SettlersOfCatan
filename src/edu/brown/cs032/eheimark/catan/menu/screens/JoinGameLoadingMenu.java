@@ -68,6 +68,7 @@ public class JoinGameLoadingMenu extends CatanMenu {
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {
+								cc.start(); //  Start client
 								new GUIFrame(cc);
 							}
 						});
