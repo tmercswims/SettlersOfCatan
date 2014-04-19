@@ -62,18 +62,35 @@ public enum MoveMessage {
         _description = description;
     }
     
+    /**
+     * Gets the MoveMessage that is associated with the given code.
+     * @param code an int that is the code you want to look up
+     * @return the MoveMessage that code corresponds to
+     */
     public static MoveMessage getMessage(int code) {
         return _messages.get(code);
     }
     
+    /**
+     * Gets the code of the MoveMessage.
+     * @return the int that is the code
+     */
     public int getCode() {
         return _code;
     }
     
+    /**
+     * Tells whether this MoveMessage indicates an error.
+     * @return true if this MoveMessage is an error, false if not
+     */
     public boolean isError() {
         return _isError;
     }
     
+    /**
+     * Gets the description of the MoveMessage.
+     * @return a String that is the description of the message
+     */
     public String getDescription() {
         return _description;
     }

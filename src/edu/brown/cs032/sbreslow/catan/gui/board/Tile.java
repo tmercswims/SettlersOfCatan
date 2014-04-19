@@ -4,23 +4,40 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import javax.swing.ImageIcon;
 
-import javax.swing.JComponent;
 
 public class Tile extends BoardComponent{
     
     private static final long serialVersionUID = 331277313248085333L;
-
+    
+    private static final Image brickTile = new ImageIcon("images/tiles/brick.png").getImage();
+    private static final Image desertTile = new ImageIcon("images/tiles/desert.png").getImage();
+    private static final Image oceanTile = new ImageIcon("images/tiles/ocean.png").getImage();
+    private static final Image oreTile = new ImageIcon("images/tiles/ore.png").getImage();
+    private static final Image sheepTile = new ImageIcon("images/tiles/sheep.png").getImage();
+    private static final Image wheatTile = new ImageIcon("images/tiles/wheat.png").getImage();
+    private static final Image woodTile = new ImageIcon("images/tiles/wood.png").getImage();
+    
+    private static final Image two = new ImageIcon("images/numbers/2.png").getImage();
+    private static final Image three = new ImageIcon("images/numbers/3.png").getImage();
+    private static final Image four = new ImageIcon("images/numbers/4.png").getImage();
+    private static final Image five = new ImageIcon("images/numbers/5.png").getImage();
+    private static final Image six = new ImageIcon("images/numbers/6.png").getImage();
+    private static final Image eight = new ImageIcon("images/numbers/8.png").getImage();
+    private static final Image nine = new ImageIcon("images/numbers/9.png").getImage();
+    private static final Image ten = new ImageIcon("images/numbers/10.png").getImage();
+    private static final Image eleven = new ImageIcon("images/numbers/11.png").getImage();
+    private static final Image twelve = new ImageIcon("images/numbers/12.png").getImage();
+    
 	public final int _resource;
 	public int _num;
 
@@ -122,39 +139,48 @@ public class Tile extends BoardComponent{
 	@Override
 	public void paint(Graphics g){
 		Graphics2D brush = (Graphics2D) g;
+        Image background = null;
 		switch(_resource){
 		case 0://wheat
 			brush.setColor(new Color(255,205,0));
+            background = wheatTile;
 			break;
 		case 1://brick
 			brush.setColor(new Color(119,255,0));
+            background = brickTile;
 			break;
 		case 2://sheep
 			brush.setColor(new Color(255,102,0));
+            background = sheepTile;
 			break;
 		case 3://ore
 			brush.setColor(new Color(85,85,85));
+            background = oreTile;
 			break;
 		case 4://wood
 			brush.setColor(new Color(38,73,29));
+            background = woodTile;
 			break;
 		case 5://desert
 			brush.setColor(new Color(247,239,164));
+            background = desertTile;
 			break;
 		case 6://water
 			brush.setColor(Color.blue);
+            background = oceanTile;
 		}
 		//brush.setColor(_c);
 		brush.setStroke(new BasicStroke());
-		brush.fillPolygon(_p);
+		//brush.fillPolygon(_p);
+        brush.drawImage(background, (int)_p.getBounds().x, (int)_p.getBounds().y, null);
 		char[] toprint = Integer.toString(_num).toCharArray();
 		// = {num.charAt(0)};
 		//System.out.println(Integer.toString(_num));
 		brush.setColor(Color.white);
 		Rectangle r = _p.getBounds();
-		if(_resource!=6){
+        if(_resource!=6){
 			if(!_robber){
-				brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
+				//brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
 				if(_num==6 || _num==8){
 					brush.setColor(Color.red);
 				}
@@ -172,18 +198,63 @@ public class Tile extends BoardComponent{
 			}
 			else{
 				brush.setColor(Color.black);
-				brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
-				brush.setColor(Color.white);
-				char[] tmp = {'R'};
-				brush.drawChars(tmp, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);
 			}
-		}
-	}
+			/*brush.addRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
+			brush.setStroke(new BasicStroke(5));
+			if(toprint.length>1){
+				brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-8, (int)r.getCenterY()+5);		
+			}
+			else{
+				brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);
+			}*/
+            Image number = null;
+            switch (_num) {
+            case 2:
+                number = two;
+                break;
+            case 3:
+                number = three;
+                break;
+            case 4:
+                number = four;
+                break;
+            case 5:
+                number = five;
+                break;
+            case 6:
+                number = six;
+                break;
+            case 8:
+                number = eight;
+                break;
+            case 9:
+                number = nine;
+                break;
+            case 10:
+                number = ten;
+                break;
+            case 11:
+                number = eleven;
+                break;
+            case 12:
+                number = twelve;
+                break;
+            }
+            brush.drawImage(number, (int)r.getCenterX()-20, (int)r.getCenterY()-20, null);
+            /*brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
+            brush.setColor(Color.white);
+            char[] tmp = {'R'};
+            brush.drawChars(tmp, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);*/
+        }
+    }
+    
 
+    @Override
 	public void setColor(Color c){
 		_c = c;
 	}
 
+    @Override
 	public Shape getShape(){
 		return _p;
 	}
