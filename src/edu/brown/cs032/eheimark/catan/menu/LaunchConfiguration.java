@@ -16,7 +16,7 @@ public class LaunchConfiguration {
 	private int boardSize; // small = 0, medium = 1, large = 2
 	public static final int SMALL_BOARD = 0, MEDIUM_BOARD = 1, LARGE_BOARD = 2;
 	public static final int DEFAULT_PORT = 1700;
-	public static final String DEFAULT_HOSTNAME = "192.168...XX";
+	public static final String DEFAULT_HOSTNAME = "<host>";
 
 	public LaunchConfiguration() {
 		this.joinPort = DEFAULT_PORT;

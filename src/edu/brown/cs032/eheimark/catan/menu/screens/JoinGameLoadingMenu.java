@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.atreil.catan.networking.server.CatanServer;
+import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanMenuButton;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanScrollableTextArea;
 import edu.brown.cs032.eheimark.catan.menu.LaunchMenu;
@@ -55,22 +56,33 @@ public class JoinGameLoadingMenu extends CatanMenu {
 			while(true) { //TODO: Switch to isRunning method
 				try {
 					if(!cc.getIsStarting()) {
+						System.out.println("getIsStart " + cc.getIsStarting());
 						String sm = cc.readServerMessage();
 						sb.append(sm);
 						System.out.println(sm);
 						jsp.getTextArea().setText(sb.toString());
 					}
 					else {
-						System.out.println("Ready to START!!!!!");
+						System.out.println("getIsStart " + cc.getIsStarting());
+						sb.append("Launching the game...");
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								new GUIFrame(cc);
+							}
+						});
 						break; //break loop //TODO: Double check
 					}
 				}
 				catch (UnknownHostException e) {
+					e.printStackTrace();
 					sb.append(e.getMessage() + "...\n");
 					sb.append("Please try again!");
+					
 					jsp.getTextArea().setText(sb.toString());
 
 				} catch (IOException e) {
+					e.printStackTrace();
 					sb.append(e.getMessage() + "...\n");
 					sb.append("Please try again!");
 					jsp.getTextArea().setText(sb.toString());
@@ -88,10 +100,12 @@ public class JoinGameLoadingMenu extends CatanMenu {
 			su = new ServerUpdate();
 			su.start();
 		} catch (UnknownHostException e) {
+			e.printStackTrace();
 			sb.append(e.getMessage() + "...\n");
 			sb.append("Please try again!");
 			jsp.getTextArea().setText(sb.toString());
 		} catch (IOException e) {
+			e.printStackTrace();
 			sb.append(e.getMessage() + "...\n");
 			sb.append("Please try again!");
 			jsp.getTextArea().setText(sb.toString());

@@ -60,6 +60,7 @@ public class HostGameLoadingMenu extends CatanMenu {
 			su = new ServerUpdate();
 			su.start();
 		} catch (IOException e) {
+			e.printStackTrace();
 			sb.append("Error launching server!");
 			updateTextArea(sb.toString());
 			e.printStackTrace();

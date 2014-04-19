@@ -5,20 +5,21 @@ import java.awt.BorderLayout;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 
+import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.trade.Trade;
 
 public class TabbedPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 
-	public TabbedPanel() {
+	public TabbedPanel(CatanClient client) {
 		super();
 		setLayout(new BorderLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
 		
-		JPanel overview = new Overview();
+		JPanel overview = new Overview(client);
 		tabbedPane.addTab("Overview", null, overview, null);
 		
 		JPanel build = new Build();
@@ -35,7 +36,7 @@ public class TabbedPanel extends JPanel{
 		setMaximumSize(Constants.TABBED_MENU_SIZE);
 	}
 	
-	public static void main(String[] args) {
-		new TabbedPanel();
-	}
+//	public static void main(String[] args) {
+//		new TabbedPanel();
+//	}
 }
