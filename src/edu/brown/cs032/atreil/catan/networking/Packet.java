@@ -125,8 +125,8 @@ public class Packet implements Serializable {
 			if(!(o instanceof Integer))
 				throw new IllegalArgumentException("Given object is not of type Integer");
 		} else if(type == Packet.ERROR){
-			if(!(o instanceof Integer))
-				throw new IllegalArgumentException("Given object is not of type Integer");
+			if(!(o instanceof String))
+				throw new IllegalArgumentException("Given object is not of type String");
 		}
 		else if(type == Packet.HANDSHAKE){
 			if(o != null)

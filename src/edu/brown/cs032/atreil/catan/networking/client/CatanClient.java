@@ -57,9 +57,8 @@ public class CatanClient extends Thread{
 		this._p = new Player(configs.getAvatarName());
 		
 		//TODO: DEBUGING MODE
-		_p.addResources(new int[]{10,10,10,10,10});
+		//_p.addResources(new int[]{10,10,10,10,10});
 		//
-		
 		
 		this._socket = new Socket("localhost", configs.getJoinPort());
 		_isStarting = false;
@@ -75,23 +74,23 @@ public class CatanClient extends Thread{
 	
 	/**
 	 * Connects to the server
-	 * @throws IOException If anything goes wrong with the IO
+	 * @throws IOException If anything goes wrong with the Server
 	 */
 	private void connect() throws IOException{
-		//receive handshake
-		Packet packet;
 		try {
+			//receive handshake
+			Packet packet;
 			packet = (Packet) readPacket();
 			
 			int cmd = packet.getType();
 			
 			//check for errors
 			if(cmd == Packet.ERROR){
-				String error = (String) _in.readObject();
+				String error = (String) packet.getObject();
 				throw new IOException(error);
 			} else if(cmd != Packet.HANDSHAKE){
 				//the server is bad so don't connect
-				throw new IOException("Bad host");
+				throw new IOException("Bad server protocol");
 			}
 			
 			//sending packet with the player class
@@ -99,9 +98,18 @@ public class CatanClient extends Thread{
 			_out.writeObject(packet);
 			_out.flush();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new IOException(e.getMessage());
 		}
+	}
+	
+	/**
+	 * Parses an error code sent by the client and displays it.
+	 * @param code The error code to parse
+	 */
+	private String parseError(int code){
+		String message = String.format("Received invalid error code: %s", code);
+		
+		return message;
 	}
 	
 	/**
@@ -149,8 +157,6 @@ public class CatanClient extends Thread{
 			} else
 				throw new IOException("Bad server protocol");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			throw new IOException(e.getMessage());
 		}
 	}
@@ -169,5 +175,16 @@ public class CatanClient extends Thread{
 	 */
 	public boolean getIsStarting(){
 		return _isStarting;
+	}
+	
+	/**
+	 * Kills the client by shutting down the socket and associated
+	 * streams
+	 * @throws IOException If anything goes wrong with trying to close the resources
+	 */
+	public void kill() throws IOException{
+		_in.close();
+		_out.close();
+		_socket.close();
 	}
 }
