@@ -341,7 +341,7 @@ public class CatanServer extends Thread{
 			e.printStackTrace(new PrintStream(new FileOutputStream(new File("data/server.log"))));
 		} catch (FileNotFoundException e1) {
 			//This really should not happen...
-			System.out.println("Could not find log file...");
+			//System.out.println("Could not find log file...");
 		}
 	}
 	

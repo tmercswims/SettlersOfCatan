@@ -122,13 +122,19 @@ public class CatanClient extends Thread{
 	 * @throws ClassNotFoundException If the class of the object does not exist
 	 * @throws IOException If something goes wrong with communicating with the socket
 	 */
-	public Packet readPacket() throws ClassNotFoundException, IOException{
-		Object o = _in.readObject();
+	private Packet readPacket() throws ClassNotFoundException, IOException{
 		
-		if(o instanceof Packet)
-			return (Packet) o;
-		else
-			throw new IOException("Invalid protocol: Received something other than a packet");
+		try{
+			Object o = _in.readObject();
+			
+			if(o instanceof Packet)
+				return (Packet) o;
+			else
+				throw new IOException("Invalid protocol: Received something other than a packet");
+		} catch(IOException e){
+			kill();
+			throw new IOException("Server disconnected");
+		}
 	}
 	
 	/**
