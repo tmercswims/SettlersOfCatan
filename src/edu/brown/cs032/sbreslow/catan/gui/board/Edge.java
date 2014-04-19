@@ -19,6 +19,7 @@ public class Edge extends BoardComponent{
 	private Line2D _l;
 	private Color _c;
 	private BasicStroke _s;
+	private int _port;
 	
 	public Edge(Node[] nodes){
 		_road = false;
@@ -28,12 +29,19 @@ public class Edge extends BoardComponent{
 				_nodes[1].getX()+Node._diam/2, _nodes[1].getY()+Node._diam/2);
 		_c = Color.white;
 		_s = new BasicStroke(4);
-		System.out.println("Before: "+_l.getBounds());
-		if(_l.getBounds().height==0){
-			_l.getBounds().setBounds(_l.getBounds().x,_l.getBounds().y,_l.getBounds().width,50);
-			System.out.println("After: "+_l.getBounds().height);
-		}
+		
 		this.setType(1);
+		_port = 6;
+	}
+	
+	public int getPort(){
+		return _port;
+	}
+	
+	public void setPort(int port){
+		_port = port;
+		_nodes[0].setPort(port);
+		_nodes[1].setPort(port);
 	}
 	
 	public Node[] getNodes(){

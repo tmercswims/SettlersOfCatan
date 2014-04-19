@@ -25,18 +25,26 @@ public class Node extends BoardComponent{
 	public final static int _diam = 20;
 	private int _scale = 1;
 	private Player _owner;
-	//Port _port;
+	private int _port;
 	
 	public Node(int x, int y){
 		super();
 		this.setLocation(new Point(x,y));
 		_owned = false;
 		_owner = null;
-		//_port = null;
 		_o = new Ellipse2D.Double(this.getX(), this.getY(), _diam, _diam);
 		_c = Color.BLACK;
 		_vp = 0;
 		this.setType(2);
+		_port = 6;
+	}
+	
+	public int getPort(){
+		return _port;
+	}
+	
+	public void setPort(int port){
+		_port = port;
 	}
 	
 	public boolean isOwned(){

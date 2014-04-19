@@ -28,6 +28,7 @@ public class Tile extends BoardComponent{
 	Polygon _p;
 	private Color _c;
 	private Point _index;
+	private List<Tile> _bors = new ArrayList<Tile>();
 
 	public Tile(int resource, int num, List<Node> nodes){
 		_resource = resource;
@@ -56,6 +57,14 @@ public class Tile extends BoardComponent{
 		//this.setLocation(nodes[0].getX()+2, nodes[0].getY()+2);
 		//this.setBounds(r);
 		_index = null;
+	}
+	
+	public List<Tile> getBors(){
+		return _bors;
+	}
+	
+	public void setBors(List<Tile> bors){
+		_bors = bors;
 	}
 	
 	public int getResource() {
