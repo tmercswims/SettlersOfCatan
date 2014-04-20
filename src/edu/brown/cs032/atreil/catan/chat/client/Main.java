@@ -35,9 +35,10 @@ public class Main {
 			JFrame frame = new JFrame();
 			Dimension d = new Dimension(250,770);
 			frame.setPreferredSize(d);
-			frame.add(client);
+			frame.add(client._panel);
 			frame.setVisible(true);
-			//frame.pack();
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.pack();
 			//new ReceiveThread(client).start();
 			
 			/*while(true){

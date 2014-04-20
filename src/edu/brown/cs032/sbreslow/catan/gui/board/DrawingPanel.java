@@ -15,6 +15,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 	
 	private final ArrayList<BoardComponent> _toDraw;
 	private final CatanClient _client;
+	private int  _selectable;
 	
 	public DrawingPanel(CatanClient client){
 		super();
@@ -31,6 +32,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		Board b = this._client.getBoard();
 		System.out.println("Got board!");
 		_toDraw.addAll(b.getBoard());
+		_selectable = 3;
 	}
     
     @Deprecated
@@ -104,7 +106,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 			// TODO Auto-generated method stub
 			System.out.println("clicked: "+e.getX()+", "+e.getY());
 			for(BoardComponent c: _toDraw){
-				if(c.getShape().contains(e.getPoint())){
+				if(c.getShape().contains(e.getPoint()) && c.getType()==_selectable){
 					/*System.out.println(c);
 					Double red = Math.random()*255;
 					Double grn = Math.random()*255;
@@ -154,6 +156,18 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 			// TODO Auto-generated method stub
 			
 		}
+	}
+	
+	
+	/***
+	 * Tile = 0;
+	 * Edge = 1;
+	 * Node = 2;
+	 * Nothing = anything else;
+	 * @param s
+	 */
+	public void setSelect(int s){
+		_selectable = s;
 	}
 
 	/*@Override

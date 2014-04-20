@@ -92,6 +92,7 @@ class ChatClientManager extends Thread{
 		}
 		
 		//otherwise, broadcast to all
+		//System.out.println(message);
 		_pool.sendAll(message, this);
 	}
 	
