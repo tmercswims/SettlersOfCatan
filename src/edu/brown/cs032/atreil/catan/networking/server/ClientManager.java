@@ -165,7 +165,7 @@ public class ClientManager extends Thread {
 		int type = packet.getType();
 		
 		if(type == Packet.MOVE){
-			//System.out.println("Got move");
+			_pool.addUpdate(String.format("Player %s tried to make a move", getPlayerName()));
 			_pool.addMove((Move) packet.getObject());
 		} else{
 			//only moves can be sent; send an error

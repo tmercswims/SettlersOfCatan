@@ -75,6 +75,8 @@ public class CatanClient extends Thread{
 		this._p = new Player(configs.getAvatarName());
 		_updatedBoard = new LinkedList<>();
 		_updatedPlayers = new LinkedList<>();
+		_updatedRolls = new LinkedList<>();
+		_updatedStart = new LinkedList<>();
 		
 		//TODO: DEBUGING MODE
 		//_p.addResources(new int[]{10,10,10,10,10});
