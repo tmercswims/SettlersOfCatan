@@ -52,6 +52,9 @@ public class Referee {
      * Starts the game, and runs it until a player wins.
      */
     public void runGame() {
+        for (Player p : _players) {
+            p.addResources(new int[]{20,20,20,20,20});
+        }
         pushPlayers();
         pushBoard();
         rollForOrder();
@@ -64,9 +67,13 @@ public class Referee {
                 MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                 if (whatHappened.isError()) {
                     _server.sendError(_activePlayer.getName(), whatHappened.getDescription());
+                    System.out.println(whatHappened.getDescription());
                 } else {
                     _server.sendError(null, whatHappened.getDescription());
+                    System.out.println(whatHappened.getDescription());
                 }
+                pushPlayers();
+                pushBoard();
             }
         }
     }
