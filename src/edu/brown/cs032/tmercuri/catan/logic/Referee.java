@@ -17,6 +17,7 @@ import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 import edu.brown.cs032.tmercuri.catan.logic.move.RobberMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -66,10 +67,10 @@ public class Referee {
                 Move move = _server.readMove();
                 MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                 if (whatHappened.isError()) {
-                    _server.sendError(_activePlayer.getName(), whatHappened.getDescription());
+                    _server.sendError(_activePlayer.getName(), "Move not allowed - " + whatHappened.getDescription());
                     System.out.println(whatHappened.getDescription());
                 } else {
-                    _server.sendError(null, whatHappened.getDescription());
+                    _server.sendError(null, _activePlayer.getName() + whatHappened.getDescription());
                     System.out.println(whatHappened.getDescription());
                 }
                 pushPlayers();
@@ -139,6 +140,7 @@ public class Referee {
                 if (e.isRoad()) return 101;
                 if (!_activePlayer.hasResources(BUILD_ROAD)) return 102;
                 if (_activePlayer.getRoadCount() == 0) return 103;
+                if (!ownedRoadAdjacent(e)) return 106;
                 _activePlayer.removeResources(BUILD_ROAD);
                 _activePlayer.decRoadCount();
                 e.setOwner(_activePlayer);
@@ -151,6 +153,7 @@ public class Referee {
                 if (!_activePlayer.hasResources(BUILD_SETTLEMENT)) return 202;
                 if (_activePlayer.getSettlementCount() == 0) return 203;
                 if (structureAdjacent(ns)) return 204;
+                if (!ownedRoadAdjacent(ns)) return 206;
                 _activePlayer.removeResources(BUILD_SETTLEMENT);
                 _activePlayer.decSettlementCount();
                 ns.setOwner(_activePlayer);
@@ -177,12 +180,30 @@ public class Referee {
     }
     
     private boolean structureAdjacent(Node node) {
-        List<Edge> edges = node.getEdges();
-        for (Edge e : edges) {
-            Node[] endpoints = e.getNodes();
-            for (Node n : endpoints) {
-                if (n != node && n.isOwned())
+        for (Edge e : node.getEdges()) {
+            for (Node n : e.getNodes()) {
+                if (n.getIndex() != node.getIndex() && n.isOwned())
                     return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean ownedRoadAdjacent(Node node) {
+        for (Edge e : node.getEdges()) {
+            if (e.isRoad() && e.getOwner().getName().equals(node.getOwner().getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean ownedRoadAdjacent(Edge edge) {
+        for (Node n : edge.getNodes()) {
+            for (Edge e : n.getEdges()) {
+                if (e.getIndex() != edge.getIndex() && e.isRoad() && e.getOwner().getName().equals(edge.getOwner().getName())) {
+                    return true;
+                }
             }
         }
         return false;
@@ -228,7 +249,7 @@ public class Referee {
 
     private int endTurn() {
         _turnOver = true;
-        return 000;
+        return 999;
     }
 
     private void calculateVP(Player player) {
