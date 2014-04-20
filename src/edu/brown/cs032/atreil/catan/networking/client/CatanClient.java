@@ -15,8 +15,10 @@ import java.util.List;
 import java.util.Queue;
 
 import edu.brown.cs032.atreil.catan.networking.Packet;
+import edu.brown.cs032.eheimark.catan.gui.GUI;
 import edu.brown.cs032.eheimark.catan.menu.LaunchConfiguration;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
+import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 
@@ -33,6 +35,7 @@ public class CatanClient extends Thread{
 	private ObjectInputStream _in; //the stream to read in from the server
 	private ObjectOutputStream _out; //the stream to send messages to the server
 	private volatile boolean _isStarting;
+	private GUI _gui;
 
 	private String _ip;
 
@@ -96,6 +99,14 @@ public class CatanClient extends Thread{
 		connect();
 	}
 	
+	/**
+	 * Sets the gui
+	 * @param gui The gui
+	 */
+	public void setGUI(GUI gui){
+		_gui = gui;
+	}
+	
 	public String getIP(){
 		return _ip;
 	}
@@ -138,7 +149,7 @@ public class CatanClient extends Thread{
 				_updatedBoard.notifyAll();
 			}
 			
-			
+			_gui.repaint();
 			//produce(_updatedBoard, Arrays.asList((Board) packet.getObject()));
 		} else if(type == Packet.PLAYERARRAY){
 			
@@ -148,6 +159,7 @@ public class CatanClient extends Thread{
 				_updatedPlayers.notifyAll();
 			}
 			
+			_gui.repaint();
 			//produce(_updatedPlayers, Arrays.asList((Player[]) packet.getObject()));
 		} else if(type == Packet.START){
 			System.out.println("Start your turn");
