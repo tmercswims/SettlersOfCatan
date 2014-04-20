@@ -20,7 +20,6 @@ public class Edge extends BoardComponent{
 	private Player _owner;
 	private final Line2D _l;
 	private Color _c;
-	private boolean _s;
 	private int _port;
 	private final int _index;
 	
@@ -30,8 +29,7 @@ public class Edge extends BoardComponent{
 		_nodes = nodes;
 		_l = new Line2D.Double(_nodes[0].getX()+Node._diam/2, _nodes[0].getY()+Node._diam/2, 
 				_nodes[1].getX()+Node._diam/2, _nodes[1].getY()+Node._diam/2);
-		_c = Color.white;
-		_s = false;
+		_c = Color.gray;
 		
 		this.setType(1);
 		_port = 6;
@@ -167,11 +165,12 @@ public class Edge extends BoardComponent{
 			break;
 		}
 		brush.setColor(_c);
-        brush.setStroke(new BasicStroke(4));
-		if (_s) {
-            brush.setStroke(new BasicStroke(12));
+        if (!_c.equals(Color.gray)) {
+            brush.setStroke(new BasicStroke(5));
+        } else {
+            brush.setStroke(new BasicStroke(3));
         }
-		brush.draw(_l);
+        brush.draw(_l);
 	}
 	
     @Override
@@ -191,7 +190,7 @@ public class Edge extends BoardComponent{
 
 	@Override
 	public void grow() {
-		_s = true;
+		_c = red;
 	}
 
 }

@@ -5,6 +5,7 @@
 
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
+import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -39,6 +40,11 @@ public class BoardImages {
         public static final Image sheepPort = new ImageIcon("images/ports/sheep.png").getImage();
         public static final Image wheatPort = new ImageIcon("images/ports/wheat.png").getImage();
         public static final Image woodPort = new ImageIcon("images/ports/wood.png").getImage();
+        
+        public static final Color red = new Color(252, 1, 1);
+        public static final Color blue = new Color(0, 88, 147);
+        public static final Color orange = new Color(183, 122, 1);
+        public static final Color white = new Color(252, 254, 254);
     }
     
     static class Tile {
