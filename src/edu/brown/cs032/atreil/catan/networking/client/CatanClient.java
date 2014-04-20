@@ -32,6 +32,7 @@ public class CatanClient extends Thread{
 	private volatile boolean _isStarting;
 	private ArrayList<Player> _updatedPlayers;
 	private ArrayList<Board> _updatedBoard;
+	private String _ip;
 	
 	/**
 	 * Constructs a new Client from an existing player class. After construction, the client will attempt to 
@@ -68,9 +69,9 @@ public class CatanClient extends Thread{
 		//_p.addResources(new int[]{10,10,10,10,10});
 		//
 		
-		String ip = configs.getHostName();
+		_ip = configs.getHostName();
 		
-		this._socket = new Socket(InetAddress.getByName(ip).getHostName(), configs.getJoinPort());
+		this._socket = new Socket(InetAddress.getByName(_ip).getHostName(), configs.getJoinPort());
 		_isStarting = false;
 		
 		//setting up readers
@@ -80,6 +81,10 @@ public class CatanClient extends Thread{
 		
 		//connecting
 		connect();
+	}
+	
+	public String getIP(){
+		return _ip;
 	}
 	
 	public Player getPlayer(){
@@ -295,5 +300,10 @@ public class CatanClient extends Thread{
 		} catch(IOException e){
 			//not much to do
 		}
+	}
+
+	public int getChatPort() {
+		//TODO
+		return 0;
 	}
 }

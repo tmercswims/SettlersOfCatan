@@ -42,7 +42,7 @@ public class Board implements Serializable {
 		setNum();
 
 		int x = 0;
-		int y = 1*_y;
+		int y = 2*_y;
 		for(int i = 0; i <= 95; i++){
 			if((i<=8)||(i>41 && i<=48)||(i>71 && i<=76)||(i>88 && i<=92)){
 				if(i%2==0){
