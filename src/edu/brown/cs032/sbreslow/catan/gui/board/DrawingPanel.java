@@ -5,38 +5,55 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 
 public class DrawingPanel extends JPanel{// implements MouseListener{
+    
+    private static final long serialVersionUID = 333238774355322463L;
 	
-	private ArrayList<BoardComponent> _todraw;
-	private final CatanClient client;
+	private final ArrayList<BoardComponent> _toDraw;
+	private final CatanClient _client;
 	
 	public DrawingPanel(CatanClient client){
 		super();
-		this.client = client;
+		this._client = client;
 		this.setBackground(new Color(41, 105, 168));
 		this.setSize(750,770);
 		this.setPreferredSize(getSize());
 		this.setMaximumSize(getPreferredSize());
 		this.setMinimumSize(getPreferredSize());
-		_todraw = new ArrayList<BoardComponent>();
+		_toDraw = new ArrayList<>();
 		this.setVisible(true);
 		this.addMouseListener(new ClickList(this));
 		System.out.println("Trying to get board...");
-		Board b = this.client.getBoard();
+		Board b = this._client.getBoard();
 		System.out.println("Got board!");
-		_todraw.addAll(b.getBoard());
+		_toDraw.addAll(b.getBoard());
+	}
+    
+    @Deprecated
+    public DrawingPanel(){
+		super();
+		this.setBackground(new Color(41, 105, 168));
+		this.setSize(750,770);
+		this.setPreferredSize(getSize());
+		this.setMaximumSize(getPreferredSize());
+		this.setMinimumSize(getPreferredSize());
+		_toDraw = new ArrayList<>();
+		this.setVisible(true);
+		this.addMouseListener(new ClickList(this));
+		Board b = new Board();
+		_toDraw.addAll(b.getBoard());
+        _client = null;
 	}
 	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		int i = 0;
-		for(BoardComponent c : _todraw){
+		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==0)
 					c.paint(g);
@@ -47,7 +64,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 			i++;
 		}
 		i = 0;
-		for(BoardComponent c : _todraw){
+		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==1)
 					if(i>175 && i!=177 && i!=180 && i!= 183 && i!=185 && i!=188 && i!=191 && i!= 193
@@ -61,7 +78,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 			i++;
 		}
 		i = 0;
-		for(BoardComponent c : _todraw){
+		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==2)
 					if(i>41)
@@ -76,7 +93,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 	
 	private class ClickList implements MouseListener{
 		
-		private DrawingPanel _dp;
+		private final DrawingPanel _dp;
 		
 		private ClickList(DrawingPanel dp){
 			_dp = dp;
@@ -86,7 +103,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
 			System.out.println("clicked: "+e.getX()+", "+e.getY());
-			for(BoardComponent c: _todraw){
+			for(BoardComponent c: _toDraw){
 				if(c.getShape().contains(e.getPoint())){
 					/*System.out.println(c);
 					Double red = Math.random()*255;

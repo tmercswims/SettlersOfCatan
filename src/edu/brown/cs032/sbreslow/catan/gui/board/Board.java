@@ -10,13 +10,13 @@ public class Board implements Serializable {
 
 	private static final long serialVersionUID = 6129113010292654449L;
 
-	private Tile[] _tiles = new Tile[37];
-	private Node[] _nodes = new Node[96];
-	private Edge[] _edges = new Edge[132];
+	private final Tile[] _tiles = new Tile[37];
+	private final Node[] _nodes = new Node[96];
+	private final Edge[] _edges = new Edge[132];
 	private final int _x = 34;//25;//50
 	private final int _y = 55;//38;//75
-	private List<Integer> _resources = new ArrayList<Integer>(19);
-	private List<Integer> _nums = new ArrayList<Integer>(18);
+	private List<Integer> _resources = new ArrayList<>(19);
+	private List<Integer> _nums = new ArrayList<>(18);
 
 	public Board(){
 		for(int i = 0; i < 19; i++){
@@ -125,7 +125,7 @@ public class Board implements Serializable {
 				for(int j = 0; j< nodes.length; j++){
 					ndices[j] = Integer.parseInt(nodes[j]);
 				}
-				List<Node> list = new ArrayList<Node>(nodes.length);
+				List<Node> list = new ArrayList<>(nodes.length);
 				for(int j: ndices){
 					list.add(_nodes[j]);
 				}
@@ -164,7 +164,7 @@ public class Board implements Serializable {
 				for(int j = 0; j< tiles.length; j++){
 					tdices[j] = Integer.parseInt(tiles[j]);
 				}
-				List<Tile> tlist = new ArrayList<Tile>(tiles.length);
+				List<Tile> tlist = new ArrayList<>(tiles.length);
 				for(int j: tdices){
 					tlist.add(_tiles[j]);
 					//System.out.println("ADDING "+j+" to "+i);
@@ -362,7 +362,7 @@ public class Board implements Serializable {
 	}
 
 	public List<BoardComponent> getBoard(){
-		ArrayList<BoardComponent> list = new ArrayList<BoardComponent>();
+		ArrayList<BoardComponent> list = new ArrayList<>();
 		list.addAll(Arrays.asList(_nodes));
 		list.addAll(Arrays.asList(_tiles));
 		list.addAll(Arrays.asList(_edges));

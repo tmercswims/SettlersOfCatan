@@ -18,8 +18,8 @@ public class Node extends BoardComponent{
     
     private static final long serialVersionUID = 6550573061205903539L;
 	
-	private List<Tile> _tiles = new ArrayList<Tile>();
-	private List<Edge> _edges = new ArrayList<Edge>();
+	private List<Tile> _tiles = new ArrayList<>();
+	private List<Edge> _edges = new ArrayList<>();
 	private int _vp;
 	private boolean _owned;
 	private Ellipse2D _o;
@@ -131,6 +131,7 @@ public class Node extends BoardComponent{
         brush.drawImage(building, (int)r.getCenterX()-10, (int)r.getCenterY()-10, null);
 	}
 	
+    @Override
 	public Shape getShape(){
 		return _o;
 	}
@@ -140,6 +141,7 @@ public class Node extends BoardComponent{
 		_c = c;
 	}
 
+    @Override
 	public void grow() {
 		if(_scale==1){
 			System.out.println("X: "+this.getX()+", Y: "+this.getY());

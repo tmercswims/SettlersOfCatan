@@ -17,11 +17,11 @@ public class Edge extends BoardComponent{
 	private Node[] _nodes = new Node[2];
 	private boolean _road;
 	private Player _owner;
-	private Line2D _l;
+	private final Line2D _l;
 	private Color _c;
 	private boolean _s;
 	private int _port;
-	private int _index;
+	private final int _index;
 	
 	public Edge(Node[] nodes, int index){
 		_road = false;
@@ -158,6 +158,7 @@ public class Edge extends BoardComponent{
 		brush.draw(_l);
 	}
 	
+    @Override
 	public Shape getShape(){
 		if(_l.getBounds().height==0){
 			return new Rectangle(_l.getBounds().x,_l.getBounds().y,_l.getBounds().width,50);

@@ -15,8 +15,14 @@ import javax.swing.ImageIcon;
 public class BoardImages {
     static class Node {
         public static final Image settlementRed = new ImageIcon("images/pieces/settlement_red.png").getImage();
+        public static final Image settlementBlue = new ImageIcon("images/pieces/settlement_blue.png").getImage();
+        public static final Image settlementOrange = new ImageIcon("images/pieces/settlement_orange.png").getImage();
+        public static final Image settlementWhite = new ImageIcon("images/pieces/settlement_white.png").getImage();
+        
         public static final Image cityRed = new ImageIcon("images/pieces/city_red.png").getImage();
-
+        public static final Image cityBlue = new ImageIcon("images/pieces/city_blue.png").getImage();
+        public static final Image cityOrange = new ImageIcon("images/pieces/city_orange.png").getImage();
+        public static final Image cityWhite = new ImageIcon("images/pieces/city_white.png").getImage();
     }
     
     static class Edge {

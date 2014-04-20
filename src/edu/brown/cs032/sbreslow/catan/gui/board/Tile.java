@@ -22,23 +22,18 @@ public class Tile extends BoardComponent{
 	public final int _resource;
 	public int _num;
 
-	private List<Node> _nodes = new ArrayList<Node>(6);
+	private List<Node> _nodes = new ArrayList<>(6);
 	boolean _robber;
 	Polygon _p;
 	private Color _c;
 	private Point _index;
-	private List<Tile> _bors = new ArrayList<Tile>();
+	private List<Tile> _bors = new ArrayList<>();
 
 	public Tile(int resource, int num, List<Node> nodes){
 		_resource = resource;
 		_num = num;
 		_nodes = nodes;
-		if(num==0 && resource==5){
-			_robber = true;
-		}
-		else{
-			_robber = false;
-		}
+        _robber = num==0 && resource==5;
 		int[] xPoints = new int[6];
 		int[] yPoints = new int[6];
 		int i = 0;
