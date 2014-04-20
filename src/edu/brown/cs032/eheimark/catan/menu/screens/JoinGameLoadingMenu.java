@@ -7,6 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JButton;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
@@ -18,16 +19,16 @@ import edu.brown.cs032.eheimark.catan.menu.LaunchMenu;
 
 public class JoinGameLoadingMenu extends CatanMenu {
 	private static final long serialVersionUID = 1L;
-	private JButton back;
+	private final JButton back;
 	private final CatanScrollableTextArea jsp;
-	private StringBuilder sb;
 	private CatanClient cc;
 	private ServerUpdate su;
+	private final JTextArea jta;
 
 	public JoinGameLoadingMenu() {
 		super();
-		sb = new StringBuilder();
 		jsp = new CatanScrollableTextArea(); 
+		jta = jsp.getTextArea();
 		back = new CatanMenuButton("Main Menu");
 		back.addActionListener(new ActionListener() {
 			@Override
@@ -48,23 +49,22 @@ public class JoinGameLoadingMenu extends CatanMenu {
 		});
 		addButton(jsp);
 		addButton(back);
+		su = new ServerUpdate();
+		su.start();
 	}
 
 	class ServerUpdate extends Thread {
 		@Override
 		public void run() {
-			while(true) { //TODO: Switch to isRunning method
-				try {
+			try {
+				cc = new CatanClient(LaunchMenu.lc);
+				jta.append("Trying to connect to server...\n");
+				while(true) { //TODO: Switch to isRunning method
 					if(!cc.getIsStarting()) {
-						System.out.println("getIsStart " + cc.getIsStarting());
-						String sm = cc.readServerMessage();
-						sb.append(sm);
-						System.out.println(sm);
-						jsp.getTextArea().setText(sb.toString());
+						jta.append(cc.readServerMessage());
 					}
 					else {
-						System.out.println("getIsStart " + cc.getIsStarting());
-						sb.append("Launching the game...");
+						jta.append("Launching the game...");
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {
@@ -74,41 +74,16 @@ public class JoinGameLoadingMenu extends CatanMenu {
 						break; //break loop //TODO: Double check
 					}
 				}
-				catch (UnknownHostException e) {
-					e.printStackTrace();
-					sb.append(e.getMessage() + "...\n");
-					sb.append("Please try again!");
-					
-					jsp.getTextArea().setText(sb.toString());
-
-				} catch (IOException e) {
-					e.printStackTrace();
-					sb.append(e.getMessage() + "...\n");
-					sb.append("Please try again!");
-					jsp.getTextArea().setText(sb.toString());
-				}
 			}
-		}
-	}
-
-	public void loadClient() {
-		try {
-			cc = new CatanClient(LaunchMenu.lc);
-			sb.append("Trying to connect to server...\n");
-			jsp.getTextArea().setText(sb.toString());
-			repaint();
-			su = new ServerUpdate();
-			su.start();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			sb.append(e.getMessage() + "...\n");
-			sb.append("Please try again!");
-			jsp.getTextArea().setText(sb.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-			sb.append(e.getMessage() + "...\n");
-			sb.append("Please try again!");
-			jsp.getTextArea().setText(sb.toString());
+			catch (UnknownHostException e) {
+				e.printStackTrace();
+				jta.append(e.getMessage() + "...\n");
+				jta.append("Please try again!");
+			} catch (IOException e) {
+				e.printStackTrace();
+				jta.append(e.getMessage() + "...\n");
+				jta.append("Please try again!");
+			}
 		}
 	}
 }

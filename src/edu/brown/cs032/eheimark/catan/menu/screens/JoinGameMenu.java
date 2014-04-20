@@ -121,9 +121,7 @@ public class JoinGameMenu extends CatanMenu {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						final JoinGameLoadingMenu jglm = new JoinGameLoadingMenu();
-						LaunchMenu.frame.setPage(jglm);
-						jglm.loadClient();
+						LaunchMenu.frame.setPage(new JoinGameLoadingMenu());
 					}
 				});
 			}
