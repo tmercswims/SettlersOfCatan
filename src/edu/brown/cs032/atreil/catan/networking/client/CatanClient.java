@@ -36,8 +36,13 @@ public class CatanClient extends Thread{
 
 	private String _ip;
 
+	/**
+	 * Producer/consumer
+	 */
 	private Queue<Player> _updatedPlayers;
 	private Queue<Board> _updatedBoard;
+	private Queue<Integer> _updatedRolls;
+	private Queue<Boolean> _updatedStart; //should the player start
 
 	
 	/**
@@ -144,8 +149,22 @@ public class CatanClient extends Thread{
 			//produce(_updatedPlayers, Arrays.asList((Player[]) packet.getObject()));
 		} else if(type == Packet.START){
 			System.out.println("Start your turn");
+			
+			synchronized(_updatedStart){
+				_updatedStart.clear();
+				_updatedStart.addAll(Arrays.asList(true));
+				_updatedStart.notifyAll();
+			}
 		} else if(type == Packet.ROLL){
 			System.out.println(String.format("Roll: %s", (Integer) packet.getObject()));
+			
+			synchronized(_updatedRolls){
+				_updatedRolls.clear();
+				_updatedRolls.addAll(Arrays.asList((Integer) packet.getObject()));
+				_updatedRolls.notifyAll();
+			}
+		} else if(type == Packet.ERROR){
+			System.out.println(String.format("Error: %s", (String) packet.getObject()));
 		}
 		else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
@@ -304,6 +323,46 @@ public class CatanClient extends Thread{
 			}
 			Board toReturn = _updatedBoard.poll();
 			_updatedBoard.clear();
+			return toReturn;
+		}
+	}
+	
+	/**
+	 * Returns the roll of the player
+	 * @return Roll of the player
+	 */
+	public int getRoll(){
+		synchronized (_updatedRolls) {
+			while(_updatedRolls.isEmpty()){
+				try {
+					_updatedRolls.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			int toReturn = _updatedRolls.poll().intValue();
+			_updatedBoard.clear();
+			return toReturn;
+		}
+	}
+	
+	/**
+	 * Indicates if the client should start the turn
+	 * @return True, if the client should start, and false otherwise
+	 */
+	public boolean getStartTurn(){
+		synchronized (_updatedStart) {
+			while(_updatedStart.isEmpty()){
+				try {
+					_updatedStart.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			boolean toReturn = _updatedStart.poll().booleanValue();
+			_updatedStart.clear();
 			return toReturn;
 		}
 	}
