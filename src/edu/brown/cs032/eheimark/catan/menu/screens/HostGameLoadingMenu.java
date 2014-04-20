@@ -22,7 +22,7 @@ public class HostGameLoadingMenu extends CatanMenu {
 		super();
 		jsp = new CatanScrollableTextArea(); 
 		jta = jsp.getTextArea();
-		jta.append("Trying to connect to server...\n");
+		jta.append("Trying to launch server...\n");
 		back = new CatanMenuButton("Main Menu");
 		back.addActionListener(new ActionListener() {
 			@Override

@@ -29,6 +29,7 @@ public class JoinGameLoadingMenu extends CatanMenu {
 		super();
 		jsp = new CatanScrollableTextArea(); 
 		jta = jsp.getTextArea();
+		jta.append("Trying to connect to server...\n");
 		back = new CatanMenuButton("Main Menu");
 		back.addActionListener(new ActionListener() {
 			@Override
@@ -58,7 +59,6 @@ public class JoinGameLoadingMenu extends CatanMenu {
 		public void run() {
 			try {
 				cc = new CatanClient(LaunchMenu.lc);
-				jta.append("Trying to connect to server...\n");
 				while(true) { //TODO: Switch to isRunning method
 					if(!cc.getIsStarting()) {
 						jta.append(cc.readServerMessage());
