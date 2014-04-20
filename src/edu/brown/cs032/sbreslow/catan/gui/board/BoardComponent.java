@@ -10,10 +10,12 @@ public abstract class BoardComponent extends JComponent {
     private static final long serialVersionUID = 902101441014129383L;
 
 	private int _type;
+	private int  _index;
 	
 	public BoardComponent() {
 		super();
 		_type = 0;
+		_index = -1;
 	}
 	
 	public abstract Shape getShape();
@@ -28,6 +30,14 @@ public abstract class BoardComponent extends JComponent {
 
 	public int getType(){
 		return _type;
+	}
+
+	public int getIndex() {
+		return _index;
+	}
+	
+	public void setIndex(int index){
+		_index = index;
 	}
 
 }

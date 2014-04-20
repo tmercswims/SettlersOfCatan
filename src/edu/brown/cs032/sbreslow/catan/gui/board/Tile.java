@@ -26,7 +26,7 @@ public class Tile extends BoardComponent{
 	boolean _robber;
 	Polygon _p;
 	private Color _c;
-	private Point _index;
+	private Point _indexPoint;
 	private List<Tile> _bors = new ArrayList<>();
 
 	public Tile(int resource, int num, List<Node> nodes){
@@ -50,7 +50,7 @@ public class Tile extends BoardComponent{
 		//Rectangle r = new Rectangle(nodes[0].getX()+2, nodes[0].getY()+2, 200, 100);
 		//this.setLocation(nodes[0].getX()+2, nodes[0].getY()+2);
 		//this.setBounds(r);
-		_index = null;
+		_indexPoint = null;
 	}
 	
 	public void setNum(int num){
@@ -88,12 +88,12 @@ public class Tile extends BoardComponent{
 		}
 	}
 
-	public void setIndex(int x, int y){
-		_index = new Point(x,y);
+	public void setIndexPoint(int x, int y){
+		_indexPoint = new Point(x,y);
 	}
 
-	public Point getIndex(){
-		return _index;
+	public Point getIndexPoint(){
+		return _indexPoint;
 	}
 
 	public boolean hasRobber(){

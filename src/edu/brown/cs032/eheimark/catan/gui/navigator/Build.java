@@ -14,7 +14,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
+import edu.brown.cs032.sbreslow.catan.gui.board.Board;
+import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 
 
 public class Build extends JPanel {
@@ -26,10 +29,13 @@ public class Build extends JPanel {
 	private static final Font MY_FONT2 = new Font("Times", Font.ITALIC, 12);
 
 	private static final Color MY_BACKGROUND = Constants.CATAN_RED;
+	private final CatanClient _client;
+	private final DrawingPanel _dp;
 	
-	public Build() {
+	public Build(CatanClient c, DrawingPanel dp) {
 		super();
-		
+		_client  = c;
+		_dp = dp;
 		this.img = new ImageIcon(IMG_FILE_LOC).getImage();
 
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
@@ -126,6 +132,9 @@ public class Build extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Trying to build road!");
+			_dp.setSelect(1);
+			//set drawing panel to be clickable
+			//drawing panel sends move
 		}
 	};
 	
@@ -133,6 +142,7 @@ public class Build extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Trying to build settlement!");
+			_dp.setSelect(2);
 		}
 	};
 	
@@ -140,6 +150,7 @@ public class Build extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Trying to build city!");
+			_dp.setSelect(2);
 		}
 	};
 	

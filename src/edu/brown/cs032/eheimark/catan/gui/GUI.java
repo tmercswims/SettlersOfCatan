@@ -15,7 +15,8 @@ import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 public class GUI extends JPanel {
 	private final CatanClient client;
-	private JPanel gameBoard, tabbedMenu, chatBox;
+	private JPanel tabbedMenu, chatBox;
+	private DrawingPanel gameBoard;
 	
 	//TODO: Delete throws
 	public GUI(CatanClient cc) {
@@ -24,7 +25,7 @@ public class GUI extends JPanel {
 		this.client.start(); // start listening on client
 		gameBoard = new DrawingPanel(client);
 		add(gameBoard, BorderLayout.CENTER);		
-		tabbedMenu = new TabbedPanel(client);
+		tabbedMenu = new TabbedPanel(client, gameBoard);
 		add(tabbedMenu, BorderLayout.SOUTH);
 		try {
 			ChatClient chatc = new ChatClient(cc.getIP(), 9000, client.getPlayer());

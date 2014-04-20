@@ -145,6 +145,7 @@ public class Board implements Serializable {
 				//System.out.println(Arrays.toString(tdices));
 				//System.out.println(_tiles[i]._num);
 				_tiles[i].setNodes(list);
+				_tiles[i].setIndex(i);
 				//_tiles[i].setBors(tlist);
 				/*for(Tile t: _tiles[i].getBors()){
 					System.out.println(i+" "+t._num);
@@ -189,6 +190,7 @@ public class Board implements Serializable {
 				}
 				Node[] tmp = {_nodes[ndices[0]],_nodes[ndices[1]]};
 				_edges[i] = new Edge(tmp,i);
+				_edges[i].setIndex(i);
 				if(i==83 || i==67 || i==51 || i==88){
 					_edges[i].setPort(5);
 				}
@@ -237,6 +239,7 @@ public class Board implements Serializable {
 				}
 				_nodes[i].setTiles(tlist);
 				_nodes[i].setEdges(elist);
+				_nodes[i].setIndex(i);
 			}
 		} catch (Exception e) {
 			System.err.println("ERROR: "+e.getMessage());

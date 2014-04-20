@@ -1,11 +1,16 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.JPanel;
+
+import edu.brown.cs032.tmercuri.catan.logic.move.*;
 
 public class DrawingPanel extends JPanel{// implements MouseListener{
     
@@ -14,6 +19,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 	private final ArrayList<BoardComponent> _toDraw;
 	private final CatanClient _client;
 	private int  _selectable;
+	private Board _board;
 	
 	public DrawingPanel(CatanClient client){
 		super();
@@ -110,7 +116,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 					Double grn = Math.random()*255;
 					Double blu = Math.random()*255;
 					Color color = new Color(red.intValue(),grn.intValue(),blu.intValue());*/
-					Color color;
+					/*Color color;
 					switch(c.getType()){
 					case 0:
 						color = Color.MAGENTA;
@@ -125,7 +131,34 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 						color = Color.WHITE;
 					}
 					c.setColor(color);
+					c.grow();*/
 					c.grow();
+					int buildtype = -1;
+					switch(c.getType()){
+					case 1:
+						buildtype = 0;
+						break;
+					case 2:
+						Node n = (Node) c;
+						if(n.getVP()==1){
+							buildtype = 2;
+						}
+						else if(n.getVP()==0){
+							buildtype = 1;
+						}
+					}
+					if(buildtype!=-1){
+						BuildMove bm = new BuildMove(_client.getPlayer().getName(), buildtype, c.getIndex());
+						try {
+							_client.sendMove(bm);
+						} catch (IllegalArgumentException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
 					_dp.repaint();
 				}
 			}
