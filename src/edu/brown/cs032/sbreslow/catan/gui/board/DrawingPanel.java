@@ -19,7 +19,6 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 	private final ArrayList<BoardComponent> _toDraw;
 	private final CatanClient _client;
 	private int  _selectable;
-	private Board _board;
 	
 	public DrawingPanel(CatanClient client){
 		super();
@@ -32,10 +31,10 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		_toDraw = new ArrayList<>();
 		this.setVisible(true);
 		this.addMouseListener(new ClickList(this));
-		System.out.println("Trying to get board...");
-		Board b = _client.getBoard();
-		System.out.println("Got board!");
-		_toDraw.addAll(b.getBoard());
+////		System.out.println("Trying to get board...");
+////		Board b = _client.getBoard();
+////		System.out.println("Got board!");
+//		_toDraw.addAll(b.getBoard());
 		_selectable = 3;
 	}
     
@@ -57,6 +56,11 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 	
 	@Override
 	public void paintComponent(Graphics g){
+		_toDraw.clear();
+		System.out.println("TRYING TO GET BOARD IN BOARDING PANEL!");
+		_toDraw.addAll(_client.getBoard().getBoard()); //TODO Fix this
+		System.out.println("GOT BOARD BACK FROM SERVER");
+		
 		super.paintComponent(g);
 		int i = 0;
 		for(BoardComponent c : _toDraw){

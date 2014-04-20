@@ -76,6 +76,7 @@ public class Packet implements Serializable {
 	private final int _type; //the type of the object
 	private final Object _o; //the object
 	private boolean accessed = false; //determines if the object has been given out
+	private int _uid;
 	
 	/**
 	 * Constructs a new packet that will store an object of the specified type
@@ -83,15 +84,17 @@ public class Packet implements Serializable {
 	 * Packet class.
 	 * @param type The type of the object.
 	 * @param o The object itself. If the Object and the type do not match, then an IllegalArgumentException is thrown
+	 * @param uid unique identifier
 	 * @throws IllegalArgumentException If the Object and integer type do not match or are invalid.
 	 */
-	public Packet(int type, Object o) throws IllegalArgumentException{
+	public Packet(int type, Object o, int uid) throws IllegalArgumentException{
 		
 		//check to see the type and object match
 		validate(type, o);
 		
 		this._o = o;
 		this._type = type;
+		this._uid = uid;
 	}
 	
 	/**
@@ -147,17 +150,22 @@ public class Packet implements Serializable {
 		return _type;
 	}
 	
+	public int getUID(){
+		return _uid;
+	}
+	
 	/**
 	 * Returns the object in this method. May only be called once. Any future attempts
 	 * at accessing the object will throw an IllegalArgumentException
 	 * @return The object contained in the packet
 	 */
 	public Object getObject(){
-		
+		/*
 		if(!accessed){
 			accessed = true;
 			return _o;
 		} else
-			throw new IllegalArgumentException("Object has already been accessed.");
+			throw new IllegalArgumentException("Object has already been accessed.");*/
+		return _o;
 	}
 }

@@ -30,6 +30,8 @@ import edu.brown.cs032.tmercuri.catan.logic.move.Move;
  */
 public class CatanClient extends Thread{
 
+	private int i = 0;
+	private int j = 0;
 	private Player _p; //the player class associated with this client
 	private Socket _socket; //the socket to communicate with the server
 	private ObjectInputStream _in; //the stream to read in from the server
@@ -46,6 +48,9 @@ public class CatanClient extends Thread{
 	private Queue<Board> _updatedBoard;
 	private Queue<Integer> _updatedRolls;
 	private Queue<Boolean> _updatedStart; //should the player start
+	
+	private Board board;
+	private Player[] players;
 
 	
 	/**
@@ -80,6 +85,8 @@ public class CatanClient extends Thread{
 		_updatedPlayers = new LinkedList<>();
 		_updatedRolls = new LinkedList<>();
 		_updatedStart = new LinkedList<>();
+		players = new Player[3];
+		board = new Board();
 		
 		//TODO: DEBUGING MODE
 		//_p.addResources(new int[]{10,10,10,10,10});
@@ -143,22 +150,39 @@ public class CatanClient extends Thread{
 		
 		if(type == Packet.BOARD){
 
+			/*
 			synchronized(_updatedBoard){
 				_updatedBoard.clear();
 				_updatedBoard.add((Board) packet.getObject());
 				_updatedBoard.notifyAll();
 			}
+			*/
+			synchronized(board){
+				board = (Board) packet.getObject();
+				System.out.println("GETTING FROM THE SERVER " + board.getNodes()[90].getVP() + " " + _p.getName());
+				System.out.println("Board updated # " + packet.getUID());
+				System.out.println("GOT A BOARD IN CATANCLIENT CLASS");
+			}
 			
+			System.out.println(String.format("repainting board %s", ++i));
 			_gui.repaint();
 			//produce(_updatedBoard, Arrays.asList((Board) packet.getObject()));
 		} else if(type == Packet.PLAYERARRAY){
 			
+			/*
 			synchronized(_updatedPlayers){
 				_updatedPlayers.clear();
 				_updatedPlayers.addAll(Arrays.asList((Player[]) packet.getObject()));
 				_updatedPlayers.notifyAll();
 			}
+			*/
 			
+			synchronized(players){
+				players = (Player[]) packet.getObject();
+				System.out.println("Player update # " + packet.getUID());
+			}
+			
+			System.out.println(String.format("repainting players %s", ++j));
 			_gui.repaint();
 			//produce(_updatedPlayers, Arrays.asList((Player[]) packet.getObject()));
 		} else if(type == Packet.START){
@@ -230,7 +254,7 @@ public class CatanClient extends Thread{
 			}
 			
 			//sending packet with the player class
-			packet = new Packet(Packet.PLAYER, _p);
+			packet = new Packet(Packet.PLAYER, _p, 0);
 			_out.writeObject(packet);
 			_out.flush();
 		} catch (ClassNotFoundException e) {
@@ -245,7 +269,7 @@ public class CatanClient extends Thread{
 	 * @throws IllegalArgumentException If the Client failed to properly package the object
 	 */
 	public void sendMove(Move move) throws IllegalArgumentException, IOException{
-		_out.writeObject(new Packet(Packet.MOVE, move));
+		_out.writeObject(new Packet(Packet.MOVE, move, 0));
 	}
 	
 	/**
@@ -304,6 +328,8 @@ public class CatanClient extends Thread{
 	 * @return A lift of updated players
 	 */
 	public Player[] getPlayers(){
+		
+		/*
 		synchronized (_updatedPlayers) {
 			while(_updatedPlayers.isEmpty()){
 				try {
@@ -318,6 +344,10 @@ public class CatanClient extends Thread{
 			_updatedPlayers.clear();
 			return toReturn;
 		}
+		*/
+		synchronized(players){
+			return players;
+		}
 	}
 	
 	/**
@@ -326,6 +356,7 @@ public class CatanClient extends Thread{
 	 * @return An updated board
 	 */
 	public Board getBoard(){
+		/*
 		synchronized (_updatedBoard) {
 			while(_updatedBoard.isEmpty()){
 				try {
@@ -338,6 +369,11 @@ public class CatanClient extends Thread{
 			Board toReturn = _updatedBoard.poll();
 			_updatedBoard.clear();
 			return toReturn;
+		}
+		*/
+		
+		synchronized(board){
+			return board;
 		}
 	}
 	

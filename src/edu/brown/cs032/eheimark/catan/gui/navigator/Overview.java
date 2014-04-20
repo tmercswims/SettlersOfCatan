@@ -95,7 +95,7 @@ public class Overview extends JPanel {
 		settlementsTA.setBackground(MY_BACKGROUND);
 		add(settlementsTA);
 		
-		refreshText();
+//		refreshText();
 	}
 	
 	public void refreshText() {
@@ -129,6 +129,7 @@ public class Overview extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
+		refreshText();
 		g.setColor(MY_BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.drawImage(img, 0, 0, null);

@@ -146,7 +146,7 @@ public class CatanServer extends Thread{
 		
 		//start the game
 		try {
-			_pool.broadcast(new Packet(Packet.STARTGAME, null));
+			_pool.broadcast(new Packet(Packet.STARTGAME, null, id++));
 			_pool.addUpdate("Starting the game\n");
 			//client will no longer listen to clients so shutdown its server
 			_server.close();
@@ -175,7 +175,7 @@ public class CatanServer extends Thread{
 		//sending update
 		//addUpdate(String.format("Sending update: %s", waiting.toString()));
 		
-		_pool.broadcast(new Packet(Packet.MESSAGE, String.format("%s", waiting.toString())));
+		_pool.broadcast(new Packet(Packet.MESSAGE, String.format("%s", waiting.toString()), id++));
 	}
 	
 	/**
@@ -247,7 +247,7 @@ public class CatanServer extends Thread{
 	 */
 	public void startTurn(String playerName) throws IllegalArgumentException{
 		try {
-			_pool.send(playerName, new Packet(Packet.START, null));
+			_pool.send(playerName, new Packet(Packet.START, null, id++));
             addUpdate("It is " + playerName + "'s turn.");
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
@@ -260,7 +260,7 @@ public class CatanServer extends Thread{
 	 */
 	public void sendPlayerArray(Player[] players){
 		try {
-			_pool.broadcast(new Packet(Packet.PLAYERARRAY, players));
+			_pool.broadcast(new Packet(Packet.PLAYERARRAY, players, id++));
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
 		}
@@ -272,7 +272,9 @@ public class CatanServer extends Thread{
 	 */
 	public void sendBoard(Board board){
 		try {
-			_pool.broadcast(new Packet(Packet.BOARD, board));
+			Packet p = new Packet(Packet.BOARD, board, id++);
+			
+			_pool.broadcast(p);
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
 		}
@@ -285,7 +287,7 @@ public class CatanServer extends Thread{
 	 */
 	public void sendRoll(String playerName, int roll){
 		try {
-			_pool.send(playerName, new Packet(Packet.ROLL, new Integer(roll)));
+			_pool.send(playerName, new Packet(Packet.ROLL, new Integer(roll), id++));
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
 		}
@@ -301,9 +303,9 @@ public class CatanServer extends Thread{
 			//TODO: send errors to chatbox
 			
 			if(playerName == null)
-				_pool.broadcast(new Packet(Packet.MESSAGE, error));
+				_pool.broadcast(new Packet(Packet.MESSAGE, error, id++));
 			else
-				_pool.send(playerName, new Packet(Packet.MESSAGE, error));
+				_pool.send(playerName, new Packet(Packet.MESSAGE, error, id++));
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
 		}

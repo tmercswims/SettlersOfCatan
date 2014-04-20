@@ -58,7 +58,7 @@ public class ClientManager extends Thread {
 		_pool.addUpdate("Client is trying to connect...");
 		
 		//send welcome message
-		_out.writeObject(new Packet(Packet.HANDSHAKE, null));
+		_out.writeObject(new Packet(Packet.HANDSHAKE, null, 0));
 		_out.flush();
 		
 		try {
@@ -144,6 +144,7 @@ public class ClientManager extends Thread {
 	 * @throws IOException If anything goes wrong with sending the message
 	 */
 	public void send(Packet packet) throws IOException{
+		_out.reset();
 		_out.writeObject(packet);
 		_out.flush();
 	}
@@ -181,7 +182,7 @@ public class ClientManager extends Thread {
 	 * @throws IOException If anything goes wrong with sending the message
 	 */
 	private void sendError(String msg) throws IOException{
-		_out.writeObject(new Packet(Packet.ERROR, msg));
+		_out.writeObject(new Packet(Packet.ERROR, msg, 0));
 		_out.flush();
 	}
 	

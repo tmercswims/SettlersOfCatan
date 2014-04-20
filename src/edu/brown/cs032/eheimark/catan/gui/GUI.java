@@ -1,6 +1,7 @@
 package edu.brown.cs032.eheimark.catan.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
@@ -22,6 +23,7 @@ public class GUI extends JPanel {
 	public GUI(CatanClient cc) {
 		super(new BorderLayout());
 		this.client = cc;
+		this.client.setGUI(this);
 		this.client.start(); // start listening on client
 		gameBoard = new DrawingPanel(client);
 		add(gameBoard, BorderLayout.CENTER);		
@@ -38,4 +40,12 @@ public class GUI extends JPanel {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		gameBoard.repaint();
+		tabbedMenu.repaint();
+	}
+	
+	
 }
