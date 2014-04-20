@@ -10,6 +10,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.eheimark.catan.menu.LaunchConfiguration;
@@ -30,8 +33,8 @@ public class CatanClient extends Thread{
 	private ObjectInputStream _in; //the stream to read in from the server
 	private ObjectOutputStream _out; //the stream to send messages to the server
 	private volatile boolean _isStarting;
-	private ArrayList<Player> _updatedPlayers;
-	private ArrayList<Board> _updatedBoard;
+	private Queue<Player> _updatedPlayers;
+	private Queue<Board> _updatedBoard;
 	
 	/**
 	 * Constructs a new Client from an existing player class. After construction, the client will attempt to 
@@ -61,8 +64,8 @@ public class CatanClient extends Thread{
 	 */
 	public CatanClient(LaunchConfiguration configs) throws UnknownHostException, IOException{
 		this._p = new Player(configs.getAvatarName());
-		_updatedBoard = new ArrayList<>();
-		_updatedPlayers = new ArrayList<>();
+		_updatedBoard = new LinkedList<>();
+		_updatedPlayers = new LinkedList<>();
 		
 		//TODO: DEBUGING MODE
 		//_p.addResources(new int[]{10,10,10,10,10});
@@ -109,17 +112,24 @@ public class CatanClient extends Thread{
 		int type = packet.getType();
 		
 		if(type == Packet.BOARD){
+
 			synchronized(_updatedBoard){
 				_updatedBoard.clear();
 				_updatedBoard.add((Board) packet.getObject());
 				_updatedBoard.notifyAll();
 			}
+			
+			
+			//produce(_updatedBoard, Arrays.asList((Board) packet.getObject()));
 		} else if(type == Packet.PLAYERARRAY){
+			
 			synchronized(_updatedPlayers){
 				_updatedPlayers.clear();
 				_updatedPlayers.addAll(Arrays.asList((Player[]) packet.getObject()));
 				_updatedPlayers.notifyAll();
 			}
+			
+			//produce(_updatedPlayers, Arrays.asList((Player[]) packet.getObject()));
 		} else if(type == Packet.START){
 			System.out.println("Start your turn");
 		} else if(type == Packet.ROLL){
@@ -128,6 +138,29 @@ public class CatanClient extends Thread{
 		else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
 		}
+	}
+	
+	/**
+	 * This synchronizes on the queue, clears it, and adds an object to the queue
+	 * @param queue The queue to add to
+	 * @param object The object to add
+	 */
+	private <T> void produce(Queue<T> queue, List<T> object){
+		synchronized(queue){
+			//clear the cache
+			queue.clear();
+			queue.addAll(object);
+			queue.notifyAll();
+		}
+	}
+	
+	/**
+	 * Syncs on the queue, listens for updates, removes and then clears
+	 * @param queue The queue to remove from
+	 * @return The first object in the queue
+	 */
+	private <T> T consume(Queue<T> queue){
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 	
 	/**
@@ -257,7 +290,7 @@ public class CatanClient extends Thread{
 					e.printStackTrace();
 				}
 			}
-			Board toReturn = _updatedBoard.get(0);
+			Board toReturn = _updatedBoard.poll();
 			_updatedBoard.clear();
 			return toReturn;
 		}
