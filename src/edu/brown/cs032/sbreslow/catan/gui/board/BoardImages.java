@@ -32,6 +32,13 @@ public class BoardImages {
         public static final Image southPort = new ImageIcon("images/ports/south.png").getImage();
         public static final Image southwestPort = new ImageIcon("images/ports/southwest.png").getImage();
         public static final Image southeastPort = new ImageIcon("images/ports/southeast.png").getImage();
+        
+        public static final Image brickPort = new ImageIcon("images/ports/brick.png").getImage();
+        public static final Image genericPort = new ImageIcon("images/ports/generic.png").getImage();
+        public static final Image orePort = new ImageIcon("images/ports/ore.png").getImage();
+        public static final Image sheepPort = new ImageIcon("images/ports/sheep.png").getImage();
+        public static final Image wheatPort = new ImageIcon("images/ports/wheat.png").getImage();
+        public static final Image woodPort = new ImageIcon("images/ports/wood.png").getImage();
     }
     
     static class Tile {
