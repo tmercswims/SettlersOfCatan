@@ -17,6 +17,8 @@ import edu.brown.cs032.eheimark.catan.jcomponents.CatanJRadioButton;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanMenuButton;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanTextField;
 import edu.brown.cs032.eheimark.catan.menu.LaunchMenu;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 public class HostMenu extends CatanMenu {
 	private static final long serialVersionUID = 1L;
@@ -67,6 +69,31 @@ public class HostMenu extends CatanMenu {
 				catch(NumberFormatException e1) {
 					e1.printStackTrace();
 				}
+			}
+		});
+        
+        port.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+                port.selectAll();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                port.select(0, 0);
+            }
+        });
+        
+        port.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						LaunchMenu.frame.setPage(new HostGameLoadingMenu());
+					}
+				});
 			}
 		});
 

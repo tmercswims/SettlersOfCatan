@@ -5,6 +5,7 @@
 
 package edu.brown.cs032.tmercuri.catan.logic;
 
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -19,6 +20,7 @@ public class Player implements Serializable {
     private final int[] _resources;
     private int _roadsRemaining, _settlementsRemaining, _citiesRemaining, _victoryPoints, _armySize, _longestRoad, _devCards;
     private final String _name;
+    private Color _color;
     private boolean _isActive;
     private int _initRoll;
     
@@ -119,7 +121,15 @@ public class Player implements Serializable {
     
     /**
      * Gets this player's road count.
-     * @return remaining roads
+     * @return number of roads built over total number there are (per player)
+     */
+    public String getRoadsBuilt() {
+        return 15-_roadsRemaining+"/"+15;
+    }
+    
+    /**
+     * Gets this player's road count.
+     * @return number of roads this player has left to build
      */
     public int getRoadCount() {
         return _roadsRemaining;
@@ -134,7 +144,15 @@ public class Player implements Serializable {
     
     /**
      * Gets this player's settlement count.
-     * @return remaining settlements
+     * @return number of settlements built over total number there are (per player)
+     */
+    public String getSettlementsBuilt() {
+        return 5-_settlementsRemaining+"/"+5;
+    }
+    
+    /**
+     * Gets this player's settlement count.
+     * @return number of settlements this player has left to build
      */
     public int getSettlementCount() {
         return _settlementsRemaining;
@@ -150,7 +168,15 @@ public class Player implements Serializable {
     
     /**
      * Gets this player's city count.
-     * @return remaining cities
+     * @return number of cities built over total number there are (per player)
+     */
+    public String getCitiesBuilt() {
+        return 4-_citiesRemaining+"/"+4;
+    }
+    
+    /**
+     * Gets this player's city count.
+     * @return number of cities this player has left to build
      */
     public int getCityCount() {
         return _citiesRemaining;
@@ -192,6 +218,22 @@ public class Player implements Serializable {
      */
     public String getName() {
         return _name;
+    }
+    
+    /**
+     * Sets this player's color. Used for text in the chat box, as well as player's board pieces.
+     * @param color the new color.
+     */
+    public void setColor(Color color) {
+        _color = color;
+    }
+    
+    /**
+     * Gets this player's color.
+     * @return the color of this player's chat messages and pieces.
+     */
+    public Color getColor() {
+        return _color;
     }
     
     /**

@@ -14,6 +14,7 @@ public class CatanScrollableTextArea extends JScrollPane {
 		textarea = new JTextArea();
 		textarea.setEditable(false);
 		textarea.setLineWrap(true);
+        textarea.setWrapStyleWord(true);
 		setViewportView(textarea);
 
 		setPreferredSize(Constants.TEXTAREA_SIZE);

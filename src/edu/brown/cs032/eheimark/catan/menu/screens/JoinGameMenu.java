@@ -13,6 +13,9 @@ import edu.brown.cs032.eheimark.catan.jcomponents.CatanJLabel;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanMenuButton;
 import edu.brown.cs032.eheimark.catan.jcomponents.CatanTextField;
 import edu.brown.cs032.eheimark.catan.menu.LaunchMenu;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 
 public class JoinGameMenu extends CatanMenu {
@@ -58,6 +61,19 @@ public class JoinGameMenu extends CatanMenu {
 				}
 			}
 		});
+        
+        hostnameTF.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+                hostnameTF.selectAll();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                hostnameTF.select(0, 0);
+            }
+        });
 
 		portTF.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
@@ -83,6 +99,19 @@ public class JoinGameMenu extends CatanMenu {
 				}
 			}
 		});
+        
+        portTF.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+                portTF.selectAll();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                portTF.select(0, 0);
+            }
+        });
 		
 		usernameTF.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
@@ -102,6 +131,31 @@ public class JoinGameMenu extends CatanMenu {
 				LaunchMenu.lc.setAvatarName(usernameTF.getText());
 			}
 		});
+        
+        usernameTF.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						LaunchMenu.frame.setPage(new JoinGameLoadingMenu());
+					}
+				});
+			}
+		});
+        
+        usernameTF.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+                usernameTF.selectAll();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                usernameTF.select(0, 0);
+            }
+        });
 
 		back.addActionListener(new ActionListener() {
 			@Override

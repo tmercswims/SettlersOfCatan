@@ -17,6 +17,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import edu.brown.cs032.tmercuri.catan.logic.Player;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.text.DefaultCaret;
 
 /**
  * This class handles receiving messages from other players and sending messages
@@ -59,10 +62,17 @@ public class ChatClient {//extends JPanel{
 
 		_out.println(player.getName());
 
+        /*JScrollPane scroller = new JScrollPane(_area);
+        scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);*/
+        
 		_field = new JTextField(20);
 		_area = new JTextArea(35,20);
+        DefaultCaret caret = (DefaultCaret)_area.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		_area.setEditable(false);
 		_area.setLineWrap(true);
+        _area.setWrapStyleWord(true);
 		_send = new JButton("Send");
 		_send.addActionListener(new SendListener());
 		_panel.add(_area);
