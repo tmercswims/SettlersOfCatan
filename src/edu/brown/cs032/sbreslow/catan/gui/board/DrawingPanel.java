@@ -1,13 +1,11 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
+import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
-
-import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 
 public class DrawingPanel extends JPanel{// implements MouseListener{
     
@@ -19,17 +17,17 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 	
 	public DrawingPanel(CatanClient client){
 		super();
-		this._client = client;
-		this.setBackground(new Color(41, 105, 168));
-		this.setSize(750,770);
-		this.setPreferredSize(getSize());
-		this.setMaximumSize(getPreferredSize());
-		this.setMinimumSize(getPreferredSize());
+		_client = client;
+		setBackground(new Color(41, 105, 168));
+		setSize(750,770);
+		setPreferredSize(getSize());
+		setMaximumSize(getPreferredSize());
+		setMinimumSize(getPreferredSize());
 		_toDraw = new ArrayList<>();
 		this.setVisible(true);
 		this.addMouseListener(new ClickList(this));
 		System.out.println("Trying to get board...");
-		Board b = this._client.getBoard();
+		Board b = _client.getBoard();
 		System.out.println("Got board!");
 		_toDraw.addAll(b.getBoard());
 		_selectable = 3;
@@ -38,14 +36,14 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
     @Deprecated
     public DrawingPanel(){
 		super();
-		this.setBackground(new Color(41, 105, 168));
-		this.setSize(750,770);
-		this.setPreferredSize(getSize());
-		this.setMaximumSize(getPreferredSize());
-		this.setMinimumSize(getPreferredSize());
+		setBackground(new Color(41, 105, 168));
+		setSize(750,770);
+		setPreferredSize(getSize());
+		setMaximumSize(getPreferredSize());
+		setMinimumSize(getPreferredSize());
 		_toDraw = new ArrayList<>();
-		this.setVisible(true);
-		this.addMouseListener(new ClickList(this));
+		setVisible(true);
+		addMouseListener(new ClickList(this));
 		Board b = new Board();
 		_toDraw.addAll(b.getBoard());
         _client = null;

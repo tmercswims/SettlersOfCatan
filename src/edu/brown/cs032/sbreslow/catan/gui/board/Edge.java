@@ -165,7 +165,7 @@ public class Edge extends BoardComponent{
 			break;
 		}
 		brush.setColor(_c);
-        if (!_c.equals(Color.gray)) {
+        if (!_c.equals(Color.lightGray)) {
             brush.setStroke(new BasicStroke(5));
         } else {
             brush.setStroke(new BasicStroke(3));
