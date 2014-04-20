@@ -53,7 +53,7 @@ public class Referee {
      */
     public void runGame() {
         for (Player p : _players) {
-            p.addResources(new int[]{20,20,20,20,20});
+            p.addResources(new int[]{20,20,20,20,19});
         }
         pushPlayers();
         pushBoard();

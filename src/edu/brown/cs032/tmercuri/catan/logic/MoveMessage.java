@@ -30,7 +30,7 @@ public enum MoveMessage {
     /**
      * settlement errors
      */
-    MESSAGE_200(100, false, "built a settlement"),
+    MESSAGE_200(200, false, "built a settlement"),
     MESSAGE_201(201, true, "there is already a settlement there"),
     MESSAGE_202(202, true, "you do not have enough resources for a settlement"),
     MESSAGE_203(203, true, "you do not have any settlements left to build"),
@@ -39,7 +39,7 @@ public enum MoveMessage {
     /**
      * city errors
      */
-    MESSAGE_300(100, false, "built a city"),
+    MESSAGE_300(300, false, "built a city"),
     MESSAGE_301(301, true, "there is already a city there"),
     MESSAGE_302(302, true, "you do not have enough resources for a city"),
     MESSAGE_303(303, true, "you do not have any cities left to build"),

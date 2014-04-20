@@ -248,6 +248,7 @@ public class CatanServer extends Thread{
 	public void startTurn(String playerName) throws IllegalArgumentException{
 		try {
 			_pool.send(playerName, new Packet(Packet.START, null));
+            addUpdate("It is " + playerName + "'s turn.");
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
 		}
