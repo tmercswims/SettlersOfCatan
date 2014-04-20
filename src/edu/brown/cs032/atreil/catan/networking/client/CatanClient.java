@@ -82,6 +82,10 @@ public class CatanClient extends Thread{
 		connect();
 	}
 	
+	public Player getPlayer(){
+		return _p;
+	}
+	
 	/**
 	 * Starts listening to the server
 	 */
