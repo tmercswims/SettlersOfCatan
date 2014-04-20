@@ -102,9 +102,7 @@ public class HostMenu extends CatanMenu {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						HostGameLoadingMenu hglm = new HostGameLoadingMenu();
-						LaunchMenu.frame.setPage(hglm);
-						hglm.loadServer();
+						LaunchMenu.frame.setPage(new HostGameLoadingMenu());
 					}
 				});
 			}
