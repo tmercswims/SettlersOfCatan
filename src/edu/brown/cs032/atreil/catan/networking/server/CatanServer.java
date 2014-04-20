@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import edu.brown.cs032.atreil.catan.chat.server.ChatServer;
 import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.eheimark.catan.menu.LaunchConfiguration;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
@@ -96,6 +97,8 @@ public class CatanServer extends Thread{
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
 		_moveBuffer = new LinkedList<>();
 		_update = new StringBuilder();
+		ChatServer server = new ChatServer(9000, 4);
+		server.start();
 	}
 	
 	/**

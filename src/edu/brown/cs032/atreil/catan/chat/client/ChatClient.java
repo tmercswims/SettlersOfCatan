@@ -60,8 +60,9 @@ public class ChatClient {//extends JPanel{
 		_out.println(player.getName());
 
 		_field = new JTextField(20);
-		_area = new JTextArea(40,20);
+		_area = new JTextArea(35,20);
 		_area.setEditable(false);
+		_area.setLineWrap(true);
 		_send = new JButton("Send");
 		_send.addActionListener(new SendListener());
 		_panel.add(_area);
