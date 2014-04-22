@@ -110,13 +110,13 @@ public class Referee {
         Player player = _players[p];
         player.setIsActive(true);
         _activePlayer = player;
-        _server.startTurn(player.getName());
+        pushPlayers();
     }
     
     private void setActivePlayer(Player player) {
         player.setIsActive(true);
         _activePlayer = player;
-        _server.startTurn(player.getName());
+        pushPlayers();
     }
 
     private int makeMove(Move move) {
