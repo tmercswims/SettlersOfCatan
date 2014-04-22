@@ -18,3 +18,5 @@ hs_err_pid*
 /nbproject/private/
 /build/
 /.metadata/
+/Test_FX/nbproject/private/
+/Test_FX/build/

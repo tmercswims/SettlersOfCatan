@@ -27,7 +27,7 @@ public enum MoveMessage {
     /**
      * ended turn
      */
-    MESSAGE_999(999, false, " has ended their turn.\n"),
+    MESSAGE_999(999, false, " has completed their turn.\n"),
     
     /**
      * road

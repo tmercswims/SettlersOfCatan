@@ -122,10 +122,26 @@ public class Node extends BoardComponent{
         case 0:
             break;
         case 1:
-            building = settlementRed;
+            if (_owner.getColor().equals(Color.RED)) {
+                building = settlementRed;
+            } else if (_owner.getColor().equals(Color.BLUE)) {
+                building = settlementBlue;
+            } else if (_owner.getColor().equals(Color.ORANGE)) {
+                building = settlementOrange;
+            } else if (_owner.getColor().equals(Color.WHITE)) {
+                building = settlementWhite;
+            }
             break;
         case 2:
-            building = cityRed;
+            if (_owner.getColor().equals(Color.RED)) {
+                building = cityRed;
+            } else if (_owner.getColor().equals(Color.BLUE)) {
+                building = cityBlue;
+            } else if (_owner.getColor().equals(Color.ORANGE)) {
+                building = cityOrange;
+            } else if (_owner.getColor().equals(Color.WHITE)) {
+                building = cityWhite;
+            }
             break;
         }
         brush.drawImage(building, (int)r.getCenterX()-10, (int)r.getCenterY()-10, null);
