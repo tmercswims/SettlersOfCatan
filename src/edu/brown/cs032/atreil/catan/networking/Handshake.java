@@ -1,13 +1,19 @@
 package edu.brown.cs032.atreil.catan.networking;
 
+import java.io.Serializable;
+
 /**
  * This protected class contains information about the server
  * that is sent to the client upon connection
  * @author Alex Treil
  *
  */
-public class Handshake {
+public class Handshake implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2111822348641601002L;
 	/**
 	 * Number of players in the game
 	 */

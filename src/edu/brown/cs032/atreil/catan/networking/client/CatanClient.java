@@ -90,6 +90,12 @@ public class CatanClient extends Thread{
 		_out.flush();
 		_in = new ObjectInputStream(_socket.getInputStream());
 		
+		//setting up locks
+		_rollLock = new Integer(-1);
+		_startTurnLock = new Boolean(false);
+		_roll = -1;
+		_startTurn = false;
+		
 		//connecting
 		connect();
 	}
