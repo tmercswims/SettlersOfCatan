@@ -33,6 +33,7 @@ public class TradeMove extends Move {
      * Gets the name of the player who played this move.
      * @return the name of the player who played this move
      */
+    @Override
     public String getPlayerName() {
         return _playerName;
     }

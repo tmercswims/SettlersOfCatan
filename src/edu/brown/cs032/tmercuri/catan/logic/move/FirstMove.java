@@ -27,6 +27,7 @@ public class FirstMove extends Move {
      * Gets the name of the player who played this move.
      * @return 
      */
+    @Override
     public String getPlayerName() {
         return _playerName;
     }

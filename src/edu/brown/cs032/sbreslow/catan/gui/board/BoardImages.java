@@ -70,7 +70,7 @@ public class BoardImages {
         public static final Image robber = new ImageIcon("images/pieces/robber.png").getImage();
     }
     
-    static class Misc {
+    public static class Misc {
         public static final Image arrow = new ImageIcon("images/misc/arrow.png").getImage();
     }
 }
