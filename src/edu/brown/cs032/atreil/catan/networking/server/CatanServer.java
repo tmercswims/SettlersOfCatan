@@ -332,18 +332,6 @@ public class CatanServer extends Thread{
 	 * @param message The message to send
 	 */
 	public void sendMessage(String playerName, String message){
-		/*
-		try {
-			//TODO: send errors to chatbox
-			
-			if(playerName == null)
-				_chatServer.sendAll(message);
-			else
-				_chatServer.send(message, playerName);
-		} catch (IOException e) {
-			addUpdate(e.getMessage());
-		}
-		*/
 		
 		if(playerName == null)
 			_chatServer.sendAll(message);

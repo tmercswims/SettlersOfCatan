@@ -82,4 +82,17 @@ public class ChatServer extends Thread{
 	public void send(String message, String player){
 		_clients.send(player, message, "Server");
 	}
+	
+	/**
+	 * Kills the chat server
+	 */
+	public void kill(){
+		try {
+			_server.close();
+			_clients.kill();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

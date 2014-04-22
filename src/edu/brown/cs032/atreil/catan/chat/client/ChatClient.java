@@ -133,10 +133,15 @@ public class ChatClient {//extends JPanel{
 	 * Closes down associated streams and sockets
 	 * @throws IOException If anything goes wrong with the IO
 	 */
-	public void kill() throws IOException{
-		_in.close();
-		_out.close();
-		_socket.close();
+	public void kill(){
+		try {
+			_in.close();
+			_out.close();
+			_socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void run()
@@ -228,8 +233,13 @@ public class ChatClient {//extends JPanel{
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (NullPointerException e){
+					//should quit
+					_running = false;
 				}
 			}
+			
+			kill();
 		}
 	}
 }
