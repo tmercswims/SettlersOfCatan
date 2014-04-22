@@ -22,7 +22,7 @@ public class Packet implements Serializable {
 	private static final long serialVersionUID = -3486606709069969779L;
 
 	/**
-	 * The object is a {@link}Player
+	 * The object is a {@link Player}
 	 */
 	public static int PLAYER = 0;
 	
@@ -37,7 +37,7 @@ public class Packet implements Serializable {
 	public static int MESSAGE = 2;
 	
 	/**
-	 * The object is an empty object. Signals a successful connection
+	 * The object is a {@link Handshake} object. Signals a successful connection
 	 */
 	public static int HANDSHAKE = 3;
 	
@@ -132,8 +132,8 @@ public class Packet implements Serializable {
 				throw new IllegalArgumentException("Given object is not of type String");
 		}
 		else if(type == Packet.HANDSHAKE){
-			if(o != null)
-				throw new IllegalArgumentException("Given object is not null");
+			if(!(o instanceof Handshake))
+				throw new IllegalArgumentException("Given object is not Handshake");
 		} else if(type == Packet.STARTGAME){
 			if(o != null)
 				throw new IllegalArgumentException("Given object is not null");
