@@ -16,6 +16,8 @@ import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 import java.awt.Font;
+import java.util.ArrayList;
+import javax.swing.JTextField;
 
 public class Overview extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -24,9 +26,13 @@ public class Overview extends JPanel {
 	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 14);
 	private static final Color MY_BACKGROUND = Constants.CATAN_RED;
 	private static final Color MY_FOREGROUND = Constants.CATAN_YELLOW;
+	private static final Font MY_RESOURCES_FONT = new Font("Georgia", Font.BOLD, 10);
+
 	private final CatanClient client;
-	private final JTextArea nameLabel, devCardsTA, resourcesTA, VPsTA, roadsTA, settlementsTA, citiesTA;
-	
+
+	private final ArrayList<PlayerStats> playerstats;
+	private final JTextField myResources;
+
 	public Overview(CatanClient cc) {
 		super();
 		setForeground(MY_FOREGROUND);
@@ -38,97 +44,76 @@ public class Overview extends JPanel {
 		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
 		setLayout(null);
-		
-		nameLabel = new JTextArea();
-		nameLabel.setBounds(6, 60, 165, 70);
-		nameLabel.setEditable(false);
-		nameLabel.setForeground(MY_FOREGROUND);
-		nameLabel.setBackground(MY_BACKGROUND);
-		nameLabel.setFont(MY_FONT);
-		add(nameLabel);
-		
-		VPsTA = new JTextArea();
-		VPsTA.setBounds(205, 60, 9, 70);
-		VPsTA.setEditable(false);
-		VPsTA.setBackground(MY_BACKGROUND);
-		VPsTA.setForeground(MY_FOREGROUND);
-		VPsTA.setFont(MY_FONT);
-		add(VPsTA);
-		
-		devCardsTA = new JTextArea();
-		devCardsTA.setBounds(355, 60, 9, 70);
-		devCardsTA.setEditable(false);
-		devCardsTA.setForeground(MY_FOREGROUND);
-		devCardsTA.setFont(MY_FONT);
-		devCardsTA.setBackground(MY_BACKGROUND);
-		add(devCardsTA);
-		
-		resourcesTA = new JTextArea();
-		resourcesTA.setBounds(512, 60, 16, 70);
-		resourcesTA.setEditable(false);
-		resourcesTA.setForeground(MY_FOREGROUND);
-		resourcesTA.setFont(MY_FONT);
-		resourcesTA.setBackground(MY_BACKGROUND);
-		add(resourcesTA);
-		
-		roadsTA = new JTextArea();
-		roadsTA.setBounds(662, 60, 18, 70);
-		roadsTA.setEditable(false);
-		roadsTA.setForeground(MY_FOREGROUND);
-		roadsTA.setFont(MY_FONT);
-		roadsTA.setBackground(MY_BACKGROUND);
-		add(roadsTA);
-		
-		citiesTA = new JTextArea();
-		citiesTA.setBounds(945, 60, 9, 70);
-		citiesTA.setEditable(false);
-		citiesTA.setForeground(MY_FOREGROUND);
-		citiesTA.setFont(MY_FONT);
-		citiesTA.setBackground(MY_BACKGROUND);
-		add(citiesTA);
 
-		settlementsTA = new JTextArea(); //SETTLEMENTS = 5, cities =4 
-		settlementsTA.setBounds(816, 60, 9, 70);
-		settlementsTA.setEditable(false);
-		settlementsTA.setForeground(MY_FOREGROUND);
-		settlementsTA.setFont(MY_FONT);
-		settlementsTA.setBackground(MY_BACKGROUND);
-		add(settlementsTA);
-		
-//		refreshText();
+		playerstats = new ArrayList<PlayerStats>();
+
+		PlayerStats ps1 = new PlayerStats();
+		ps1.setBounds(30, 30, 889, 21);
+
+
+		PlayerStats ps2 = new PlayerStats();
+		ps2.setBounds(30, 55, 889, 21);
+
+
+		PlayerStats ps3 = new PlayerStats();
+		ps3.setBounds(30, 80, 889, 21);
+
+		PlayerStats ps4 = new PlayerStats();
+		ps4.setBounds(30, 105, 889, 21);
+
+		add(ps1);
+		playerstats.add(ps1);
+		add(ps2);
+		playerstats.add(ps2);
+		add(ps3);
+		playerstats.add(ps3);
+		add(ps4);
+		playerstats.add(ps4);
+
+		myResources = new JTextField();
+		myResources.setText("Player resources:");
+		myResources.setFont(MY_RESOURCES_FONT);
+		myResources.setOpaque(false);
+		myResources.setBounds(651, 0, 268, 28);
+		add(myResources);
+		myResources.setColumns(10);
 	}
-	
+
 	public void refreshText() {
-		System.out.println("Trying to get players...");
+		System.out.println("Getting PLAYERS INITIAL");
 		Player[] players = this.client.getPlayers();
-		System.out.println("Got players!");
-		StringBuilder names = new StringBuilder(), devCards = new StringBuilder(), roads = new StringBuilder(), settlements = new StringBuilder(), 
-					cities = new StringBuilder(), vps = new StringBuilder(), resources = new StringBuilder();
+		int i = 0;
+
+		System.out.println("players length " + players.length);
+		System.out.println("AFTER PLAYERS InITIAL");
+
+
 		for(Player p : players) {
-			names.append(p.getName() + "\n");
-			vps.append(p.getVictoryPoints() + "\n");
-			devCards.append(p.getDevCards() + "\n");
-			int[] allResources = p.getResources();
-			int resourceSum = 0;
-			for(int i = 0; i < allResources.length; i ++) {
-				resourceSum += allResources[i];
+			PlayerStats ps = playerstats.get(i);
+			System.out.println(p);
+			System.out.println(p.getColor());
+			ps.setColor(p.getColor());
+			ps.setSettlements(p.getSettlementsBuilt());
+			ps.setCities(p.getCitiesBuilt());
+			ps.setRoads(p.getRoadsBuilt());
+			ps.setName(p.getName());
+			ps.setVPs(p.getVictoryPoints() + "");
+			ps.setDevCards(p.getDevCards() + "");
+			ps.setResources(p.getTotalResources() + "");
+			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check
+				ps.setBold();
+				int[] resources = p.getResources();
+				System.out.println("Ore:" + resources[3] + "/Wheat:" + resources[0] + "/Wool:" + resources[1] + "/Lumber" + resources[4] + "/Brick:" + resources[2]);
 			}
-			resources.append(resourceSum + "\n");
-			roads.append(p.getRoadCount() + "\n");
-			settlements.append(p.getSettlementCount() + "\n");
-			cities.append(p.getCityCount() + "\n");
+			i++;
 		}
-		VPsTA.setText(vps.toString());
-		devCardsTA.setText(devCards.toString());
-		roadsTA.setText(roads.toString());
-		nameLabel.setText(names.toString());
-		settlementsTA.setText(settlements.toString());
-		citiesTA.setText(cities.toString());
-		resourcesTA.setText(resources.toString());
 	}
-	
+
+	private int i;
 	@Override
 	public void paintComponent(Graphics g) {
+		System.out.println("Repainting " + i + "...");
+		i++;
 		refreshText();
 		g.setColor(MY_BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());

@@ -17,6 +17,8 @@ import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 import edu.brown.cs032.tmercuri.catan.logic.move.RobberMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
+
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -53,9 +55,15 @@ public class Referee {
      * Starts the game, and runs it until a player wins.
      */
     public void runGame() {
+    	//TODO CLEAN THIS UP. -Eric
+        Color[] colors = new Color[] {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW};
+        int i = 0;
         for (Player p : _players) {
             p.addResources(new int[]{20,20,20,20,19});
+            p.setColor(colors[i]);
+            i++;
         }
+        
         pushPlayers();
         pushBoard();
         rollForOrder();

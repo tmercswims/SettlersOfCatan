@@ -36,6 +36,7 @@ public class Player implements Serializable {
         _victoryPoints = _armySize = _longestRoad = _devCards = 0;
         _name = name;
         _isActive = false;
+        _color = Color.BLACK;
     }
     
     /**
@@ -283,5 +284,16 @@ public class Player implements Serializable {
         int hash = 7;
         hash = 23 * hash + Objects.hashCode(this._name);
         return hash;
+    }
+    /**
+     * Gets this player's total resources
+     * @return the sum of all resources
+     */
+    public int getTotalResources() {
+    	int sum = 0;
+		for(int i = 0; i < _resources.length; i++) {
+			sum += _resources[i];
+		}
+		return sum;
     }
 }

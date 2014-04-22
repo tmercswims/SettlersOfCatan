@@ -67,11 +67,13 @@ public class JoinGameLoadingMenu extends CatanMenu {
 					else {
 						jta.append("Launching the game...");
 						SwingUtilities.invokeLater(new Runnable() {
-							@Override
+							@Override	
 							public void run() {
 								new GUIFrame(cc);
 							}
 						});
+						LaunchMenu.frame.setVisible(false);
+						LaunchMenu.frame.dispose();
 						break; //break loop //TODO: Double check
 					}
 				}

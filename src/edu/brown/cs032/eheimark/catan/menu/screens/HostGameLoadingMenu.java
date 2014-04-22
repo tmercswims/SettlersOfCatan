@@ -35,6 +35,7 @@ public class HostGameLoadingMenu extends CatanMenu {
 					@Override
 					public void run() {
 						if(cs != null) { 
+							System.out.println("Trying to kill catan server...");
 							cs.kill(); 
 						}
 						if(su != null) {
