@@ -21,11 +21,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import edu.brown.cs032.tmercuri.catan.logic.Player;
+
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.basic.BasicBorders;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 
 /**
@@ -82,8 +84,9 @@ public class ChatClient {//extends JPanel{
 		_area.setMaximumSize(size);
 		_area.setMinimumSize(size);
 		_area.setPreferredSize(size);
-        DefaultCaret caret = (DefaultCaret)_area.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        //DefaultCaret caret = (DefaultCaret)_area.getCaret();
+        //caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        //_area.setCaret(caret);
 		_area.setEditable(false);
 		_area.setLineWrap(true);
         _area.setWrapStyleWord(true);
@@ -104,9 +107,9 @@ public class ChatClient {//extends JPanel{
 		_scroll.setPreferredSize(size);
 		//_scroll.setSize(size);
 		
-		//_panel.add(_area);
+		_panel.add(_area);
+		//_panel.add(_scroll);
 		_panel.add(_field);
-		_panel.add(_scroll);
 		//_panel.add(_send);
 		_panel.setVisible(true);
 		run();
@@ -226,8 +229,21 @@ public class ChatClient {//extends JPanel{
 			while(_running){
 				try {
 					String line = _in.readLine();
+					//_area.setText(line+"\n"+_area.getText());
 					_area.append(line);
 					_area.append("\n");
+					if(_area.getLineCount()>_area.getRows()){
+						int offset = 0;
+						for(int i = 0; i < (_area.getLineCount()-_area.getRows())-1; i++){
+							try {
+								offset = _area.getLineEndOffset(i);
+							} catch (BadLocationException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						_area.setText(_area.getText().substring(offset,_area.getText().length()));
+					}
 					//readLine();
 					//System.out.println(_input.readLine());
 				} catch (IOException e) {
