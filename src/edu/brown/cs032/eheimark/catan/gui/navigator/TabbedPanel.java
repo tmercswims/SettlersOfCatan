@@ -24,6 +24,7 @@ public class TabbedPanel extends JPanel{
 		_dp = dp;
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        tabbedPane.setOpaque(true);
 		add(tabbedPane, BorderLayout.CENTER);
 		
 		overview = new Overview(client);

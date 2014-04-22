@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import edu.brown.cs032.tmercuri.catan.logic.move.*;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class DrawingPanel extends JPanel{// implements MouseListener{
     
@@ -22,6 +24,16 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 	
 	public DrawingPanel(CatanClient client){
 		super();
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                   }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            System.err.println("ERROR: " + ex.getMessage());
+        }
 		_client = client;
 		setBackground(new Color(41, 105, 168));
 		setSize(750,770);

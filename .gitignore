@@ -20,3 +20,4 @@ hs_err_pid*
 /.metadata/
 /Test_FX/nbproject/private/
 /Test_FX/build/
+/dist/

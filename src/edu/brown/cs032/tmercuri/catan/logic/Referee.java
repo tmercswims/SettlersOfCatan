@@ -82,7 +82,9 @@ public class Referee {
                 pushPlayers();
                 pushBoard();
             }
+            calculateVP();
         }
+        // We have a winner!
     }
     
     /**
@@ -109,12 +111,14 @@ public class Referee {
     private void setActivePlayer(int p) {
         Player player = _players[p];
         player.setIsActive(true);
+        _turnOver = false;
         _activePlayer = player;
         pushPlayers();
     }
     
     private void setActivePlayer(Player player) {
         player.setIsActive(true);
+        _turnOver = false;
         _activePlayer = player;
         pushPlayers();
     }
@@ -249,6 +253,12 @@ public class Referee {
         }
         return 000;
     }
+
+    private int endTurn() {
+        _activePlayer.setIsActive(false);
+        _turnOver = true;
+        return 001;
+    }
     
     private void pushPlayers() {
         _server.sendPlayerArray(_players);
@@ -257,11 +267,9 @@ public class Referee {
     private void pushBoard() {
         _server.sendBoard(_board);
     }
-
-    private int endTurn() {
-        _activePlayer.setIsActive(false);
-        _turnOver = true;
-        return 001;
+    
+    private void calculateVP() {
+        
     }
 
     private void calculateVP(Player player) {
