@@ -35,6 +35,8 @@ import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 public class CatanServer extends Thread{
 
 	public final int _port; //the port that the clients will connect to
+	private int _chatPort; //the port of the chat server
+	private ChatServer _chatServer; //the chat server
 	//public final String _hostname; //the host of the computer that is hosting the game
 	private final ServerSocket _server; //the object that handles that physical connections
 	public final int _numClients; //specifies how many players must be connected in order for the game to start
@@ -73,6 +75,7 @@ public class CatanServer extends Thread{
 		_server = new ServerSocket(_port);
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
 		_moveBuffer = new LinkedList<>();
+		_chatPort = -1;
 	}
 	
 	/**
@@ -97,8 +100,37 @@ public class CatanServer extends Thread{
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
 		_moveBuffer = new LinkedList<>();
 		_update = new StringBuilder();
-		ChatServer server = new ChatServer(9000, 4);
-		server.start();
+		ChatServer _chatServer = startChatServer(_port);
+		
+		_chatServer.start();
+	}
+	
+	/**
+	 * Starts up a chat server. Begins looking at port+1
+	 * @param port the port to start looking from.
+	 * @return The ChatServer
+	 * @throws IOException If a port could not be found for the chat server
+	 */
+	private ChatServer startChatServer(int port) throws IOException{
+		boolean found = false;
+		ChatServer chat = null;
+		
+		while(!found){
+			try {
+				chat = new ChatServer(++port, _numClients);
+				
+				//found empty port
+				_chatPort = port;
+				found = true;
+			} catch (IOException e) {
+				//port is already taken, try again
+			}
+		}
+		
+		if(chat == null)
+			throw new IOException("Could not find port for chat server.");
+		
+		return chat;
 	}
 	
 	/**
@@ -118,7 +150,7 @@ public class CatanServer extends Thread{
 				Socket client = _server.accept();
 				
 				//set up new client manager
-				_e.execute(new ClientRunnable(client, _pool));
+				_e.execute(new ClientRunnable(client, _pool, _chatPort, _numClients));
 				
 				sendConnected();
 			} catch(SocketTimeoutException e){
@@ -213,28 +245,29 @@ public class CatanServer extends Thread{
 	/**
 	 * This inner class handles new connections by extracting the player name and creating a new ClientHandler class
 	 * @author atreil
-	 *
 	 */
 	private class ClientRunnable implements Runnable{
 
 		private final Socket _client; //the socket used to listen to the client
 		private final ClientPool _pool; //contains all of the clients connected to the server
+		private final int _chatPort; //the port of the chat server
+		private final int _numPlayers; //number of players
 		
-		public ClientRunnable(Socket client, ClientPool pool){
+		public ClientRunnable(Socket client, ClientPool pool, int chatPort, int numPlayers){
 			this._client = client;
 			this._pool = pool;
+			this._chatPort = chatPort;
+			this._numPlayers = numPlayers;
 		}
 		
 		@Override
 		public void run() {
 			try {
 				//set up new manager
-				new ClientManager(_pool, _client).start();
+				new ClientManager(_pool, _client, _chatPort, _numPlayers).start();
 			} catch (IOException e) {
-				//System.err.println("Error: " + e.getMessage());
 				addUpdate(String.format("Error: %s", e.getMessage()));
 				
-				//writeError(e);
 			}
 		}
 		
@@ -335,19 +368,6 @@ public class CatanServer extends Thread{
 		synchronized(_moveBuffer){
 			_moveBuffer.add(move);
 			_moveBuffer.notifyAll();
-		}
-	}
-	
-	/**
-	 * Writes an exception's stack trace to a log file.
-	 * @param e The exception to write to file
-	 */
-	private void writeError(Exception e){
-		try {
-			e.printStackTrace(new PrintStream(new FileOutputStream(new File("data/server.log"))));
-		} catch (FileNotFoundException e1) {
-			//This really should not happen...
-			//System.out.println("Could not find log file...");
 		}
 	}
 	

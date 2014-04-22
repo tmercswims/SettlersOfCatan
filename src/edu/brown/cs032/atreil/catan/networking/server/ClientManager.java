@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import edu.brown.cs032.atreil.catan.networking.Handshake;
 import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
@@ -23,17 +24,23 @@ public class ClientManager extends Thread {
 	private ObjectOutputStream _out; //sends data to client
 	private ClientPool _pool; //contains the other clients
 	private boolean _running; 
+	private int _chatPort; //port of the chat server
+	private int _numPlayers; //number of players that will be connected
 	
 	/**
 	 * This constructor initializes a new client from which the server can listen to
 	 * and communicate with. This won't connect to the client until start() is called.
 	 * @param client The socket to send and receive messages from
 	 * @param p The player to associate this client with
+	 * @param chatPort the port of the chat server
+	 * @param numPlayers number of players that wll play the game
 	 * @throws IOException If anything goes wrong with the connection with the client
 	 */
-	public ClientManager(ClientPool pool, Socket client) throws IOException{
+	public ClientManager(ClientPool pool, Socket client, int chatPort, int numPlayers) throws IOException{
 		this._client = client;
 		this._pool = pool;
+		_chatPort = chatPort;
+		_numPlayers = numPlayers;
 		
 		//setting up readers and writers
 		this._in = new ObjectInputStream(_client.getInputStream());
@@ -58,7 +65,7 @@ public class ClientManager extends Thread {
 		_pool.addUpdate("Client is trying to connect...");
 		
 		//send welcome message
-		_out.writeObject(new Packet(Packet.HANDSHAKE, null, 0));
+		_out.writeObject(new Packet(Packet.HANDSHAKE, new Handshake(_numPlayers, _chatPort), 0));
 		_out.flush();
 		
 		try {

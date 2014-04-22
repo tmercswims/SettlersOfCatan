@@ -8,18 +8,14 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 
+import edu.brown.cs032.atreil.catan.networking.Handshake;
 import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.eheimark.catan.gui.GUI;
 import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
-import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
+import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 
 /**
@@ -30,27 +26,25 @@ import edu.brown.cs032.tmercuri.catan.logic.move.Move;
  */
 public class CatanClient extends Thread{
 
-	private int i = 0;
-	private int j = 0;
 	private Player _p; //the player class associated with this client
 	private Socket _socket; //the socket to communicate with the server
 	private ObjectInputStream _in; //the stream to read in from the server
 	private ObjectOutputStream _out; //the stream to send messages to the server
-	private volatile boolean _isStarting;
-	private GUI _gui;
-
-	private String _ip;
-
-	/**
-	 * Producer/consumer
-	 */
-	private Queue<Player> _updatedPlayers;
-	private Queue<Board> _updatedBoard;
-	private Queue<Integer> _updatedRolls;
-	private Queue<Boolean> _updatedStart; //should the player start
+	private /*volatile*/ boolean _isStarting; //the game is actually starting and the client is no longer waiting //TODO: Needs to be volatile?
+	private GUI _gui; //the gui that displays the game
+	private int _chatPort; //port of the chatServer
 	
-	private Board board;
-	private Player[] players;
+	/*
+	 * Locks
+	 */
+	private Boolean _startTurnLock; //lock on this to change _startTurn
+	private boolean _startTurn; //indicates if it's the players turn
+	private Integer _rollLock; //lock on this to set _roll
+	private int _roll; //the roll of the player
+
+	private String _ip;	//ip of the computer hosting the game
+	private Board _board; //a cached version of the most recent version of the board
+	private Player[] _players; //a cached version of the most recent version of players
 
 	
 	/**
@@ -80,22 +74,16 @@ public class CatanClient extends Thread{
 	 * @throws UnknownHostException If the host does not exist
 	 */
 	public CatanClient(LaunchConfiguration configs) throws UnknownHostException, IOException{
+		
+		//setting the fields
 		this._p = new Player(configs.getName());
-		_updatedBoard = new LinkedList<>();
-		_updatedPlayers = new LinkedList<>();
-		_updatedRolls = new LinkedList<>();
-		_updatedStart = new LinkedList<>();
-		players = new Player[3];
-		board = new Board();
-		
-		//TODO: DEBUGING MODE
-		//_p.addResources(new int[]{10,10,10,10,10});
-		//
-		
+		_players = new Player[3]; //TODO: send number of players over network
+		_board = new Board();
 		_ip = configs.getHostName();
-		
-		this._socket = new Socket(InetAddress.getByName(_ip).getHostName(), configs.getJoinPort());
 		_isStarting = false;
+		
+		//setting up socket
+		this._socket = new Socket(InetAddress.getByName(_ip).getHostName(), configs.getJoinPort());
 		
 		//setting up readers
 		_out = new ObjectOutputStream(_socket.getOutputStream());
@@ -107,6 +95,41 @@ public class CatanClient extends Thread{
 	}
 	
 	/**
+	 * Connects to the server
+	 * @throws IOException If anything goes wrong with the Server
+	 */
+	private void connect() throws IOException{
+		try {
+			//receive handshake
+			Packet packet;
+			packet = (Packet) readPacket();
+			
+			int cmd = packet.getType();
+			
+			//check for errors
+			if(cmd == Packet.ERROR){
+				String error = (String) packet.getObject();
+				throw new IOException(error);
+			} else if(cmd != Packet.HANDSHAKE){
+				//the server is bad so don't connect
+				throw new IOException("Bad server protocol");
+			} else{
+				//got Handshake
+				Handshake hs = (Handshake) packet.getObject();
+				_chatPort = hs._chatPort;
+				_players = new Player[hs._numPlayers];
+			}
+			
+			//sending packet with the player class
+			packet = new Packet(Packet.PLAYER, _p, 0);
+			_out.writeObject(packet);
+			_out.flush();
+		} catch (ClassNotFoundException e) {
+			throw new IOException(e.getMessage());
+		}
+	}
+	
+	/**
 	 * Sets the gui
 	 * @param gui The gui
 	 */
@@ -114,16 +137,24 @@ public class CatanClient extends Thread{
 		_gui = gui;
 	}
 	
+	/**
+	 * Returns the ip of the server hosting the game
+	 * @return ip of the server hosting the game
+	 */
 	public String getIP(){
 		return _ip;
 	}
 	
+	/**
+	 * Returns the player associated with this client
+	 * @return player associated with this client
+	 */
 	public Player getPlayer(){
 		return _p;
 	}
 	
 	/**
-	 * Starts listening to the server
+	 * Starts listening to the server once the game has started
 	 */
 	public void run(){
 		try {
@@ -150,115 +181,34 @@ public class CatanClient extends Thread{
 		
 		if(type == Packet.BOARD){
 
-			/*
-			synchronized(_updatedBoard){
-				_updatedBoard.clear();
-				_updatedBoard.add((Board) packet.getObject());
-				_updatedBoard.notifyAll();
-			}
-			*/
-			synchronized(board){
-				board = (Board) packet.getObject();
-				System.out.println("GETTING FROM THE SERVER " + board.getNodes()[90].getVP() + " " + _p.getName());
-				System.out.println("Board updated # " + packet.getUID());
-				System.out.println("GOT A BOARD IN CATANCLIENT CLASS");
+			synchronized(_board){
+				_board = (Board) packet.getObject();
 			}
 			
-			System.out.println(String.format("repainting board %s", ++i));
 			_gui.repaint();
-			//produce(_updatedBoard, Arrays.asList((Board) packet.getObject()));
 		} else if(type == Packet.PLAYERARRAY){
 			
-			/*
-			synchronized(_updatedPlayers){
-				_updatedPlayers.clear();
-				_updatedPlayers.addAll(Arrays.asList((Player[]) packet.getObject()));
-				_updatedPlayers.notifyAll();
-			}
-			*/
-			
-			synchronized(players){
-				players = (Player[]) packet.getObject();
-				System.out.println("Player update # " + packet.getUID());
+			synchronized(_players){
+				_players = (Player[]) packet.getObject();
 			}
 			
-			System.out.println(String.format("repainting players %s", ++j));
 			_gui.repaint();
-			//produce(_updatedPlayers, Arrays.asList((Player[]) packet.getObject()));
 		} else if(type == Packet.START){
-			System.out.println("Start your turn");
-			
-			synchronized(_updatedStart){
-				_updatedStart.clear();
-				_updatedStart.addAll(Arrays.asList(true));
-				_updatedStart.notifyAll();
+			//TODO: notify the start
+			synchronized(_startTurnLock){
+				_startTurn = true;
 			}
 		} else if(type == Packet.ROLL){
-			System.out.println(String.format("Roll: %s", (Integer) packet.getObject()));
-			
-			synchronized(_updatedRolls){
-				_updatedRolls.clear();
-				_updatedRolls.addAll(Arrays.asList((Integer) packet.getObject()));
-				_updatedRolls.notifyAll();
+			//TODO: notify of roll
+			synchronized(_rollLock){
+				_roll = ((Integer) packet.getObject()).intValue();
 			}
 		} else if(type == Packet.ERROR){
+			//TODO: notify errors
 			System.out.println(String.format("Error: %s", (String) packet.getObject()));
 		}
 		else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
-		}
-	}
-	
-	/**
-	 * This synchronizes on the queue, clears it, and adds an object to the queue
-	 * @param queue The queue to add to
-	 * @param object The object to add
-	 */
-	private <T> void produce(Queue<T> queue, List<T> object){
-		synchronized(queue){
-			//clear the cache
-			queue.clear();
-			queue.addAll(object);
-			queue.notifyAll();
-		}
-	}
-	
-	/**
-	 * Syncs on the queue, listens for updates, removes and then clears
-	 * @param queue The queue to remove from
-	 * @return The first object in the queue
-	 */
-	private <T> T consume(Queue<T> queue){
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-	
-	/**
-	 * Connects to the server
-	 * @throws IOException If anything goes wrong with the Server
-	 */
-	private void connect() throws IOException{
-		try {
-			//receive handshake
-			Packet packet;
-			packet = (Packet) readPacket();
-			
-			int cmd = packet.getType();
-			
-			//check for errors
-			if(cmd == Packet.ERROR){
-				String error = (String) packet.getObject();
-				throw new IOException(error);
-			} else if(cmd != Packet.HANDSHAKE){
-				//the server is bad so don't connect
-				throw new IOException("Bad server protocol");
-			}
-			
-			//sending packet with the player class
-			packet = new Packet(Packet.PLAYER, _p, 0);
-			_out.writeObject(packet);
-			_out.flush();
-		} catch (ClassNotFoundException e) {
-			throw new IOException(e.getMessage());
 		}
 	}
 	
@@ -269,6 +219,11 @@ public class CatanClient extends Thread{
 	 * @throws IllegalArgumentException If the Client failed to properly package the object
 	 */
 	public void sendMove(Move move) throws IllegalArgumentException, IOException{
+		if(move instanceof LastMove){
+			synchronized(_startTurnLock){
+				_startTurn = false;
+			}
+		}
 		_out.writeObject(new Packet(Packet.MOVE, move, 0));
 	}
 	
@@ -323,57 +278,23 @@ public class CatanClient extends Thread{
 	}
 	
 	/**
-	 * Returns an updated list of players. This will block until
-	 * there is an updated list of players.
-	 * @return A lift of updated players
+	 * Returns the most recent version of players received by the client.
+	 * @return A list of players
 	 */
 	public Player[] getPlayers(){
 		
-		/*
-		synchronized (_updatedPlayers) {
-			while(_updatedPlayers.isEmpty()){
-				try {
-					_updatedPlayers.wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			Player[] toReturn = new Player[_updatedPlayers.size()];
-			_updatedPlayers.toArray(toReturn);
-			_updatedPlayers.clear();
-			return toReturn;
-		}
-		*/
-		synchronized(players){
-			return players;
+		synchronized(_players){
+			return _players;
 		}
 	}
 	
 	/**
-	 * Returns an updated board. This will block until there
-	 * is an updated board.
-	 * @return An updated board
+	 * Returns the most recent version of players received by the client.
+	 * @return A Board
 	 */
 	public Board getBoard(){
-		/*
-		synchronized (_updatedBoard) {
-			while(_updatedBoard.isEmpty()){
-				try {
-					_updatedBoard.wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			Board toReturn = _updatedBoard.poll();
-			_updatedBoard.clear();
-			return toReturn;
-		}
-		*/
-		
-		synchronized(board){
-			return board;
+		synchronized(_board){
+			return _board;
 		}
 	}
 	
@@ -382,18 +303,8 @@ public class CatanClient extends Thread{
 	 * @return Roll of the player
 	 */
 	public int getRoll(){
-		synchronized (_updatedRolls) {
-			while(_updatedRolls.isEmpty()){
-				try {
-					_updatedRolls.wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			int toReturn = _updatedRolls.poll().intValue();
-			_updatedBoard.clear();
-			return toReturn;
+		synchronized(_rollLock){
+			return _roll;
 		}
 	}
 	
@@ -402,18 +313,8 @@ public class CatanClient extends Thread{
 	 * @return True, if the client should start, and false otherwise
 	 */
 	public boolean getStartTurn(){
-		synchronized (_updatedStart) {
-			while(_updatedStart.isEmpty()){
-				try {
-					_updatedStart.wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			boolean toReturn = _updatedStart.poll().booleanValue();
-			_updatedStart.clear();
-			return toReturn;
+		synchronized (_startTurnLock) {
+			return _startTurn;
 		}
 	}
 	
@@ -448,7 +349,7 @@ public class CatanClient extends Thread{
 	}
 
 	public int getChatPort() {
-		//TODO
-		return 0;
+		//TODO Implement setting the chat port
+		return _chatPort;
 	}
 }
