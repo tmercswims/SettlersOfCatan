@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import java.awt.Color;
@@ -17,28 +18,30 @@ import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 import java.awt.Font;
 import java.util.ArrayList;
+
 import javax.swing.JTextField;
 
 public class Overview extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private final Image img; // background image
-	private final String IMG_FILE_LOC = "images/overview.png";
+	// TODO Fix background images
+//	private final Image img; // background image
+//	private final String IMG_FILE_LOC = "images/overview.png";
 	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 14);
-	private static final Color MY_BACKGROUND = Constants.CATAN_WHITE;
+	private static final Color MY_BACKGROUND = Constants.CATAN_BLACK;
 	private static final Color MY_FOREGROUND = Constants.CATAN_YELLOW;
 	private static final Font MY_RESOURCES_FONT = new Font("Georgia", Font.BOLD, 10);
 
 	private final CatanClient client;
 
 	private final ArrayList<PlayerStats> playerstats;
-	private final JTextField myResources;
+	private final JLabel myResources;
 
 	public Overview(CatanClient cc) {
 		super();
 		setForeground(MY_FOREGROUND);
 		setBackground(MY_BACKGROUND);
 		this.client = cc;
-		this.img = new ImageIcon(IMG_FILE_LOC).getImage();
+//		this.img = new ImageIcon(IMG_FILE_LOC).getImage();
 
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
@@ -70,13 +73,12 @@ public class Overview extends JPanel {
 		add(ps4);
 		playerstats.add(ps4);
 
-		myResources = new JTextField();
+		myResources = new JLabel();
 		myResources.setText("Player resources:");
 		myResources.setFont(MY_RESOURCES_FONT);
 		myResources.setOpaque(false);
 		myResources.setBounds(651, 0, 268, 28);
 		add(myResources);
-		myResources.setColumns(10);
 	}
 
 	public void refreshText() {
@@ -100,10 +102,17 @@ public class Overview extends JPanel {
 			ps.setVPs(p.getVictoryPoints() + "");
 			ps.setDevCards(p.getDevCards() + "");
 			ps.setResources(p.getTotalResources() + "");
+			ps.setIcon(false);
 			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check
 				ps.setBold();
 				int[] resources = p.getResources();
-				System.out.println("Ore:" + resources[3] + "/Wheat:" + resources[0] + "/Wool:" + resources[1] + "/Lumber" + resources[4] + "/Brick:" + resources[2]);
+				String s = "Ore:" + resources[3] + "/Wheat:" + resources[0] + "/Wool:" + resources[1] + "/Lumber" + resources[4] + "/Brick:" + resources[2];
+				myResources.setText(s);
+				myResources.setForeground(p.getColor());
+			}
+			if(p.isActive()) {
+				System.out.println("THERE IS AN ACTIVE PLAYER!!");
+				ps.setIcon(true);
 			}
 			i++;
 		}
@@ -117,6 +126,6 @@ public class Overview extends JPanel {
 		refreshText();
 		g.setColor(MY_BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
-		g.drawImage(img, 0, 0, null);
+//		g.drawImage(img, 0, 0, null);
 	}
 }
