@@ -16,7 +16,7 @@ public class LaunchConfiguration {
 	private boolean inGameHelpOn; // whether in-game help is on
 	public static final int SMALL_BOARD = 0, MEDIUM_BOARD = 1, LARGE_BOARD = 2;
 	public static final int DEFAULT_PORT = 1700;
-	public static final String DEFAULT_HOSTNAME = "192.168.0.11";
+	public static final String DEFAULT_HOSTNAME = "138.16.92.181";
 
 	/**
 	 * Instantiates a new launch configuration.

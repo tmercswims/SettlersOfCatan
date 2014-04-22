@@ -55,7 +55,7 @@ public class JoinLoadingMenu extends CatanMenu {
 							cc.kill();
 						}
 						if(su != null) {
-							su.stop(); // TODO: Better option than stop?
+							su.interrupt();
 						}
 						soc.getFrame().setPage(new MainMenu(soc));
 					}

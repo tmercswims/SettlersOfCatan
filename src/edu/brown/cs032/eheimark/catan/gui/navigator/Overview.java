@@ -24,7 +24,7 @@ public class Overview extends JPanel {
 	private final Image img; // background image
 	private final String IMG_FILE_LOC = "images/overview.png";
 	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 14);
-	private static final Color MY_BACKGROUND = Constants.CATAN_RED;
+	private static final Color MY_BACKGROUND = Constants.CATAN_WHITE;
 	private static final Color MY_FOREGROUND = Constants.CATAN_YELLOW;
 	private static final Font MY_RESOURCES_FONT = new Font("Georgia", Font.BOLD, 10);
 
