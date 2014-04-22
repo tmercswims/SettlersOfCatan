@@ -27,7 +27,12 @@ public enum MoveMessage {
     /**
      * ended turn
      */
-    MESSAGE_999(999, false, " has completed their turn.\n"),
+    MESSAGE_001(001, false, " has completed their turn.\n"),
+    
+    /**
+     * it's not your turn
+     */
+    MESSAGE_999(999, true, " it is not your turn.\n"),
     
     /**
      * road
@@ -63,8 +68,8 @@ public enum MoveMessage {
     private static final Map<Integer, MoveMessage> _messages = new HashMap<>();
 
     static {
-        for (MoveMessage mess : MoveMessage.values()) {
-            _messages.put(mess._code, mess);
+        for (MoveMessage message : MoveMessage.values()) {
+            _messages.put(message._code, message);
         }
     }
     

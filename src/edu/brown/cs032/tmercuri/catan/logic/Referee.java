@@ -19,10 +19,8 @@ import edu.brown.cs032.tmercuri.catan.logic.move.RobberMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 
 /**
  * A Settlers of Catan referee.
@@ -56,10 +54,10 @@ public class Referee {
      */
     public void runGame() {
     	//TODO CLEAN THIS UP. -Eric
-        Color[] colors = new Color[] {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW};
+        Color[] colors = new Color[] {Color.RED, Color.BLUE, Color.ORANGE, Color.WHITE};
         int i = 0;
         for (Player p : _players) {
-            p.addResources(new int[]{20,20,20,20,19});
+            p.addResources(new int[]{20,20,20,20,20});
             p.setColor(colors[i]);
             i++;
         }
@@ -75,7 +73,7 @@ public class Referee {
                 Move move = _server.readMove();
                 MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                 if (whatHappened.isError()) {
-                    _server.sendMessage(_activePlayer.getName(), "Move not allowed - " + whatHappened.getDescription());
+                    _server.sendMessage(move.getPlayerName(), "Move not allowed - " + whatHappened.getDescription());
                     System.out.println(whatHappened.getDescription());
                 } else {
                     _server.sendMessage(null, _activePlayer.getName() + whatHappened.getDescription());
@@ -110,11 +108,13 @@ public class Referee {
     
     private void setActivePlayer(int p) {
         Player player = _players[p];
+        player.setIsActive(true);
         _activePlayer = player;
         _server.startTurn(player.getName());
     }
     
     private void setActivePlayer(Player player) {
+        player.setIsActive(true);
         _activePlayer = player;
         _server.startTurn(player.getName());
     }
@@ -140,51 +140,54 @@ public class Referee {
     }
     
     private int buildMove(BuildMove move) {
-        System.out.println("Player '" + _activePlayer.getName() + "' played a building move.");
-        switch (move.getBuildType()) {
-            case ROAD:
-                System.out.println("They want to build a road at " + move.getBuildLocation() + ".");
-                Edge e = _board.getEdges()[move.getBuildLocation()];
-                if (e.isRoad()) return 101;
-                if (!_activePlayer.hasResources(BUILD_ROAD)) return 102;
-                if (_activePlayer.getRoadCount() == 0) return 103;
-                if (!ownedRoadAdjacent(e)) return 106;
-                _activePlayer.removeResources(BUILD_ROAD);
-                _activePlayer.decRoadCount();
-                e.setOwner(_activePlayer);
-                e.grow();
-                return 100;
-            case SETTLEMENT:
-                System.out.println("They want to build a settlement at " + move.getBuildLocation() + ".");
-                Node ns = _board.getNodes()[move.getBuildLocation()];
-                if (ns.getVP() == 1 || ns.isOwned()) return 201;
-                if (!_activePlayer.hasResources(BUILD_SETTLEMENT)) return 202;
-                if (_activePlayer.getSettlementCount() == 0) return 203;
-                if (structureAdjacent(ns)) return 204;
-                if (!ownedRoadAdjacent(ns)) return 206;
-                _activePlayer.removeResources(BUILD_SETTLEMENT);
-                _activePlayer.decSettlementCount();
-                ns.setOwner(_activePlayer);
-                ns.grow();
-                return 200;
-            case CITY:
-                System.out.println("They want to build a city at " + move.getBuildLocation() + ".");
-                Node nc = _board.getNodes()[move.getBuildLocation()];
-                if (nc.getVP() == 2 || nc.isOwned()) return 301;
-                if (!_activePlayer.hasResources(BUILD_CITY)) return 302;
-                if (_activePlayer.getCityCount() == 0) return 303;
-                if (nc.getVP() == 1 && !_activePlayer.equals(nc.getOwner())) return 305;
-                _activePlayer.removeResources(BUILD_CITY);
-                _activePlayer.decCityCount();
-                nc.grow();
-                return 300;
-            case DEV_CARD:
-                System.out.println("No dev cards yet :(");
-                return -1;
-            default:
-                System.out.println("build move had bad build type");
-                return -1;
+        System.out.println(move.getPlayerName() + " played a building move.");
+        if (move.getPlayerName().equals(_activePlayer.getName())) {
+            switch (move.getBuildType()) {
+                case ROAD:
+                    System.out.println("They want to build a road at " + move.getBuildLocation() + ".");
+                    Edge e = _board.getEdges()[move.getBuildLocation()];
+                    if (e.isRoad()) return 101;
+                    if (!_activePlayer.hasResources(BUILD_ROAD)) return 102;
+                    if (_activePlayer.getRoadCount() == 0) return 103;
+                    if (!ownedRoadAdjacent(e)) return 106;
+                    _activePlayer.removeResources(BUILD_ROAD);
+                    _activePlayer.decRoadCount();
+                    e.setOwner(_activePlayer);
+                    e.grow();
+                    return 100;
+                case SETTLEMENT:
+                    System.out.println("They want to build a settlement at " + move.getBuildLocation() + ".");
+                    Node ns = _board.getNodes()[move.getBuildLocation()];
+                    if (ns.getVP() == 1 || ns.isOwned()) return 201;
+                    if (!_activePlayer.hasResources(BUILD_SETTLEMENT)) return 202;
+                    if (_activePlayer.getSettlementCount() == 0) return 203;
+                    if (structureAdjacent(ns)) return 204;
+                    if (!ownedRoadAdjacent(ns)) return 206;
+                    _activePlayer.removeResources(BUILD_SETTLEMENT);
+                    _activePlayer.decSettlementCount();
+                    ns.setOwner(_activePlayer);
+                    ns.grow();
+                    return 200;
+                case CITY:
+                    System.out.println("They want to build a city at " + move.getBuildLocation() + ".");
+                    Node nc = _board.getNodes()[move.getBuildLocation()];
+                    if (nc.getVP() == 2 || nc.isOwned()) return 301;
+                    if (!_activePlayer.hasResources(BUILD_CITY)) return 302;
+                    if (_activePlayer.getCityCount() == 0) return 303;
+                    if (nc.getVP() == 1 && !_activePlayer.equals(nc.getOwner())) return 305;
+                    _activePlayer.removeResources(BUILD_CITY);
+                    _activePlayer.decCityCount();
+                    nc.grow();
+                    return 300;
+                case DEV_CARD:
+                    System.out.println("No dev cards yet :(");
+                    return -1;
+                default:
+                    System.out.println("build move had bad build type");
+                    return -1;
+            }
         }
+        return 001;
     }
     
     private boolean structureAdjacent(Node node) {
@@ -256,8 +259,9 @@ public class Referee {
     }
 
     private int endTurn() {
+        _activePlayer.setIsActive(false);
         _turnOver = true;
-        return 999;
+        return 001;
     }
 
     private void calculateVP(Player player) {
