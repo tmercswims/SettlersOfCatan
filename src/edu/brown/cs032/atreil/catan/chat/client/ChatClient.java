@@ -1,8 +1,11 @@
 package edu.brown.cs032.atreil.catan.chat.client;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,6 +14,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -19,6 +23,9 @@ import javax.swing.JTextField;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.plaf.basic.BasicBorders;
 import javax.swing.text.DefaultCaret;
 
 /**
@@ -38,6 +45,7 @@ public class ChatClient {//extends JPanel{
 	private JTextArea _area;
 	private JButton _send;
 	public JPanel _panel;
+	private JScrollPane _scroll;
 
 	/**
 	 * Creates a new ChatClient that will connect to a ChatServer. Upon creation,
@@ -54,6 +62,7 @@ public class ChatClient {//extends JPanel{
 		Dimension d = new Dimension(250,770);
 		//this.setPreferredSize(d);
 		_panel.setPreferredSize(d);
+		//_panel.setBorder(BorderFactory.createLineBorder(Color.black));
 		_socket = new Socket(hostname, port);
 
 		//set up streams
@@ -66,18 +75,39 @@ public class ChatClient {//extends JPanel{
         scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);*/
         
-		_field = new JTextField(20);
-		_area = new JTextArea(35,20);
+		_field = new JTextField(22);
+		_field.addKeyListener(new ChatListener());
+		_area = new JTextArea(49,22);
+		Dimension size = _area.getSize();
+		_area.setMaximumSize(size);
+		_area.setMinimumSize(size);
+		_area.setPreferredSize(size);
         DefaultCaret caret = (DefaultCaret)_area.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		_area.setEditable(false);
 		_area.setLineWrap(true);
         _area.setWrapStyleWord(true);
+        Border bl = BorderFactory.createLineBorder(Color.black);
+        TitledBorder b = BorderFactory.createTitledBorder(bl,"Chat/Log");
+        b.setTitleJustification(TitledBorder.CENTER);
+        _panel.setBorder(b);
+        _area.setBorder(bl);
+        //_area.setBorder(b);
+        //_area.setMaximumSize(d);
+        //_area.setMinimumSize(d);
 		_send = new JButton("Send");
 		_send.addActionListener(new SendListener());
+		
+		_scroll = new JScrollPane(_area, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		//Dimension scroll = new Dimension(d);
+		_scroll.setPreferredSize(size);
+		_scroll.setSize(size);
+		
 		_panel.add(_area);
 		_panel.add(_field);
-		_panel.add(_send);
+		_panel.add(_scroll);
+		//_panel.add(_send);
 		_panel.setVisible(true);
 		run();
 	}
@@ -146,8 +176,34 @@ public class ChatClient {//extends JPanel{
 		}*/
 		//TODO: Set up the code, so inputs by the client will be sent to the server
 	}
+	
+	private class ChatListener implements KeyListener {
 
-	class SendListener implements ActionListener{
+		@Override
+		public void keyTyped(KeyEvent e) {
+			System.out.println("getKeyChar "+e.getKeyChar());
+			if(e.getKeyChar()=='\n'){
+				String message = _field.getText();
+				_field.setText("");
+				println(message);
+			}
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+
+	private class SendListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -158,7 +214,7 @@ public class ChatClient {//extends JPanel{
 
 	}
 
-	class ReceiveThread extends Thread {
+	private class ReceiveThread extends Thread {
 		public void run() {
 			//TODO: Receive all the messages sent by the socket and display it
 			//to the client.
