@@ -75,9 +75,9 @@ public class ChatClient {//extends JPanel{
         scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);*/
         
-		_field = new JTextField(22);
+		_field = new JTextField(20);
 		_field.addKeyListener(new ChatListener());
-		_area = new JTextArea(49,22);
+		_area = new JTextArea(35,20);
 		Dimension size = _area.getSize();
 		_area.setMaximumSize(size);
 		_area.setMinimumSize(size);
@@ -104,7 +104,7 @@ public class ChatClient {//extends JPanel{
 		_scroll.setPreferredSize(size);
 		_scroll.setSize(size);
 		
-		_panel.add(_area);
+		//_panel.add(_area);
 		_panel.add(_field);
 		_panel.add(_scroll);
 		//_panel.add(_send);
