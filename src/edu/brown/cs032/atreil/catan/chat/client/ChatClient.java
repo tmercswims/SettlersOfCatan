@@ -75,9 +75,9 @@ public class ChatClient {//extends JPanel{
         scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);*/
         
-		_field = new JTextField(22);
+		_field = new JTextField(20);
 		_field.addKeyListener(new ChatListener());
-		_area = new JTextArea(49,22);
+		_area = new JTextArea(35,20);
 		Dimension size = _area.getSize();
 		_area.setMaximumSize(size);
 		_area.setMinimumSize(size);
@@ -102,9 +102,9 @@ public class ChatClient {//extends JPanel{
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		//Dimension scroll = new Dimension(d);
 		_scroll.setPreferredSize(size);
-		_scroll.setSize(size);
+		//_scroll.setSize(size);
 		
-		_panel.add(_area);
+		//_panel.add(_area);
 		_panel.add(_field);
 		_panel.add(_scroll);
 		//_panel.add(_send);
@@ -133,10 +133,15 @@ public class ChatClient {//extends JPanel{
 	 * Closes down associated streams and sockets
 	 * @throws IOException If anything goes wrong with the IO
 	 */
-	public void kill() throws IOException{
-		_in.close();
-		_out.close();
-		_socket.close();
+	public void kill(){
+		try {
+			_in.close();
+			_out.close();
+			_socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void run()
@@ -228,8 +233,13 @@ public class ChatClient {//extends JPanel{
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (NullPointerException e){
+					//should quit
+					_running = false;
 				}
 			}
+			
+			kill();
 		}
 	}
 }

@@ -75,4 +75,25 @@ class ClientPool {
 			return _clients.size();
 		}
 	}
+	
+	/**
+	 * Removes the client from the pool
+	 * @param mngr The client to remove
+	 * @return The clientmanager, if it existed, and null if it was already removed
+	 */
+	public ChatClientManager remove(ChatClientManager mngr){
+		synchronized(_clients){
+			return _clients.remove(mngr.getPlayerName());
+		}
+	}
+	
+	/**
+	 * Kills all of the clients
+	 */
+	public void kill(){
+		synchronized(_clients){
+			for(ChatClientManager mngr : _clients.values())
+				mngr.kill();
+		}
+	}
 }
