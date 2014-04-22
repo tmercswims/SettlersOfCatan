@@ -100,7 +100,7 @@ public class CatanServer extends Thread{
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
 		_moveBuffer = new LinkedList<>();
 		_update = new StringBuilder();
-		ChatServer _chatServer = startChatServer(_port);
+		_chatServer = startChatServer(_port);
 		
 		_chatServer.start();
 	}
@@ -327,21 +327,28 @@ public class CatanServer extends Thread{
 	}
 	
 	/**
-	 * Sends an error type to the specified client
+	 * Sends a message to the specified client
 	 * @param playerName The client to send the error to
-	 * @param error The error message to send
+	 * @param message The message to send
 	 */
-	public void sendError(String playerName, String error){
+	public void sendMessage(String playerName, String message){
+		/*
 		try {
 			//TODO: send errors to chatbox
 			
 			if(playerName == null)
-				_pool.broadcast(new Packet(Packet.MESSAGE, error, id++));
+				_chatServer.sendAll(message);
 			else
-				_pool.send(playerName, new Packet(Packet.MESSAGE, error, id++));
+				_chatServer.send(message, playerName);
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
 		}
+		*/
+		
+		if(playerName == null)
+			_chatServer.sendAll(message);
+		else
+			_chatServer.send(message, playerName);
 	}
 	
 	/**

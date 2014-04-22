@@ -65,4 +65,21 @@ public class ChatServer extends Thread{
 			}
 		}
 	}
+	
+	/**
+	 * Sends a message to all players through the chatbox. This should only be used by the server
+	 * @param message Message to send
+	 */
+	public void sendAll(String message){
+		_clients.sendAll(message, "Server");
+	}
+	
+	/**
+	 * Sends an individual message to a given player. Should only be used by CatanServer
+	 * @param message Message to send
+	 * @param player Name of the player to send to
+	 */
+	public void send(String message, String player){
+		_clients.send(player, message, "Server");
+	}
 }

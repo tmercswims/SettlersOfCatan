@@ -75,10 +75,10 @@ public class Referee {
                 Move move = _server.readMove();
                 MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                 if (whatHappened.isError()) {
-                    _server.sendError(_activePlayer.getName(), "Move not allowed - " + whatHappened.getDescription());
+                    _server.sendMessage(_activePlayer.getName(), "Move not allowed - " + whatHappened.getDescription());
                     System.out.println(whatHappened.getDescription());
                 } else {
-                    _server.sendError(null, _activePlayer.getName() + whatHappened.getDescription());
+                    _server.sendMessage(null, _activePlayer.getName() + whatHappened.getDescription());
                     System.out.println(whatHappened.getDescription());
                 }
                 pushPlayers();

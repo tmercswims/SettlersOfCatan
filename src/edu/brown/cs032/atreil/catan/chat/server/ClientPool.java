@@ -37,8 +37,8 @@ class ClientPool {
 	 * @param message The message to send
 	 * @param sender The client that sent the message
 	 */
-	public synchronized void sendAll(String message, ChatClientManager sender){
-		String toSend = String.format("%s: %s", sender.getPlayerName(), message);
+	public synchronized void sendAll(String message, String sender){
+		String toSend = String.format("%s: %s", sender, message);
 		
 		synchronized(_clients){
 			for(ChatClientManager mngr : _clients.values()){
@@ -55,14 +55,14 @@ class ClientPool {
 	 * @param sender The sender
 	 * @throws IllegalArgumentException If no player exists with the given name
 	 */
-	public synchronized void send(String player, String message, ChatClientManager sender) throws IllegalArgumentException{
+	public synchronized void send(String player, String message, String sender) throws IllegalArgumentException{
 		
 		//check player exists
 		synchronized(_clients){
 			if(!_clients.containsKey(player))
 				throw new IllegalArgumentException("No player exists with that name");
 			
-			_clients.get(player).send(String.format("%s: %s", sender.getPlayerName(), message));
+			_clients.get(player).send(String.format("%s: %s", sender, message));
 		}
 	}
 	

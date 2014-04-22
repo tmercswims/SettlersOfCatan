@@ -80,7 +80,7 @@ class ChatClientManager extends Thread{
 				
 				try{
 					String toSend = extractMessage(messageArray);
-					_pool.send(playername, toSend, this);
+					_pool.send(playername, toSend, getPlayerName());
 					return;
 				} catch(IllegalArgumentException e){
 					//TODO: throw back something to client
@@ -93,7 +93,7 @@ class ChatClientManager extends Thread{
 		
 		//otherwise, broadcast to all
 		//System.out.println(message);
-		_pool.sendAll(message, this);
+		_pool.sendAll(message, getPlayerName());
 	}
 	
 	/**
