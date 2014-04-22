@@ -102,7 +102,7 @@ public class ChatClient {//extends JPanel{
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		//Dimension scroll = new Dimension(d);
 		_scroll.setPreferredSize(size);
-		_scroll.setSize(size);
+		//_scroll.setSize(size);
 		
 		//_panel.add(_area);
 		_panel.add(_field);
