@@ -1,4 +1,4 @@
-package edu.brown.cs032.eheimark.catan.menu.screens;
+package edu.brown.cs032.eheimark.catan.launch.screens;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,26 +12,36 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import edu.brown.cs032.eheimark.catan.jcomponents.CatanJLabel;
-import edu.brown.cs032.eheimark.catan.jcomponents.CatanJRadioButton;
-import edu.brown.cs032.eheimark.catan.jcomponents.CatanMenuButton;
-import edu.brown.cs032.eheimark.catan.jcomponents.CatanTextField;
-import edu.brown.cs032.eheimark.catan.menu.LaunchMenu;
+import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
+import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanJLabel;
+import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanJRadioButton;
+import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanMenuButton;
+import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanTextField;
+
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-public class HostMenu extends CatanMenu {
+/**
+ * The Class HostMenu is the launch menu page that allows the user to customize the settings for hosting a game.
+ */
+public class HostSettingsMenu extends CatanMenu {
 	private static final long serialVersionUID = 1L;
 	private final JButton submit, back;
 	private final JTextField port;
 	private final JRadioButton threePlayer, fourPlayer;
-	private final ButtonGroup bg;
+	private final ButtonGroup bg; // button group for three or four player selection
 	private final JLabel hostLabel;
-
-	public HostMenu() {
+	private final SettlersOfCatan soc;
+	
+	/**
+	 * Instantiates a new host settings menu.
+	 * @param soc reference to Settlers Of Catan class instance (which contains launch configurations etc)
+	 */
+	public HostSettingsMenu(SettlersOfCatan socIn) {
 		super();
+		this.soc = socIn;
 		hostLabel = new CatanJLabel("Select Host Port:");
-		port = new CatanTextField(Integer.toString(LaunchMenu.lc.getHostPort()));
+		port = new CatanTextField(Integer.toString(soc.getLaunchConfiguration().getHostPort()));
 		submit = new CatanMenuButton("Submit");
 		back = new CatanMenuButton("Back");
 
@@ -40,7 +50,7 @@ public class HostMenu extends CatanMenu {
 		fourPlayer = new CatanJRadioButton("4 Player Game");
 		bg.add(threePlayer);
 		bg.add(fourPlayer);
-		if(LaunchMenu.lc.isFourPlayerGame()) {
+		if(soc.getLaunchConfiguration().isFourPlayerGame()) {
 			fourPlayer.setSelected(true);
 		}
 		else {
@@ -64,34 +74,34 @@ public class HostMenu extends CatanMenu {
 			private void change() {
 				try {
 					int hostPort = Integer.parseInt(port.getText());
-					LaunchMenu.lc.setHostPort(hostPort);
+					soc.getLaunchConfiguration().setHostPort(hostPort);
 				}
 				catch(NumberFormatException e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
-        
-        port.addFocusListener(new FocusListener() {
 
-            @Override
-            public void focusGained(FocusEvent e) {
-                port.selectAll();
-            }
+		port.addFocusListener(new FocusListener() {
 
-            @Override
-            public void focusLost(FocusEvent e) {
-                port.select(0, 0);
-            }
-        });
-        
-        port.addActionListener(new ActionListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				port.selectAll();
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				port.select(0, 0);
+			}
+		});
+
+		port.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						LaunchMenu.frame.setPage(new HostGameLoadingMenu());
+						soc.getFrame().setPage(new HostLoadingMenu(soc));
 					}
 				});
 			}
@@ -100,14 +110,14 @@ public class HostMenu extends CatanMenu {
 		threePlayer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LaunchMenu.lc.setFourPlayerGame(false);
+				soc.getLaunchConfiguration().setFourPlayerGame(false);
 			}
 		});
 
 		fourPlayer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LaunchMenu.lc.setFourPlayerGame(true);
+				soc.getLaunchConfiguration().setFourPlayerGame(true);
 			}
 		});
 
@@ -117,29 +127,29 @@ public class HostMenu extends CatanMenu {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						LaunchMenu.frame.setPage(new MainMenu());
+						soc.getFrame().setPage(new MainMenu(soc));
 					}
 				});
 			}
 		});
-		
+
 		submit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						LaunchMenu.frame.setPage(new HostGameLoadingMenu());
+						soc.getFrame().setPage(new HostLoadingMenu(soc));
 					}
 				});
 			}
 		});
 
-		addButton(hostLabel);
-		addButton(port);
-		addButton(threePlayer);
-		addButton(fourPlayer);
-		addButton(submit);
-		addButton(back);
+		addComponent(hostLabel);
+		addComponent(port);
+		addComponent(threePlayer);
+		addComponent(fourPlayer);
+		addComponent(submit);
+		addComponent(back);
 	}
 }

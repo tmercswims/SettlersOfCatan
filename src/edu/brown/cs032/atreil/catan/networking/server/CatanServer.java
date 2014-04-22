@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
 
 import edu.brown.cs032.atreil.catan.chat.server.ChatServer;
 import edu.brown.cs032.atreil.catan.networking.Packet;
-import edu.brown.cs032.eheimark.catan.menu.LaunchConfiguration;
+import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.Referee;

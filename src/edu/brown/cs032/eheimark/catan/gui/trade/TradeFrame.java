@@ -1,5 +1,5 @@
 package edu.brown.cs032.eheimark.catan.gui.trade;
-import edu.brown.cs032.eheimark.catan.menu.CatanFrame;
+import edu.brown.cs032.eheimark.catan.launch.CatanFrame;
 
 public class TradeFrame extends CatanFrame{
 	private static final long serialVersionUID = 1L;

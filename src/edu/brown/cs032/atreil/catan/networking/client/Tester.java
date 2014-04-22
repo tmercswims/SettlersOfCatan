@@ -5,12 +5,13 @@
 
 package edu.brown.cs032.atreil.catan.networking.client;
 
-import edu.brown.cs032.eheimark.catan.menu.LaunchConfiguration;
+import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.CITY;
 import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.ROAD;
 import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.SETTLEMENT;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
@@ -32,7 +33,7 @@ public class Tester {
             Player p = new Player("Tester");
             p.addResources(new int[]{20,20,20,20,20});
             LaunchConfiguration l = new LaunchConfiguration();
-            l.setAvatarName(p.getName());
+            l.setName(p.getName());
             l.setJoinPort(Integer.parseInt(args[1]));
             CatanClient client = new CatanClient(l);
             Scanner scanner = new Scanner(new InputStreamReader(System.in));

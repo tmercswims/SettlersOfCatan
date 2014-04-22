@@ -1,19 +1,30 @@
-package edu.brown.cs032.eheimark.catan.menu.screens;
+package edu.brown.cs032.eheimark.catan.launch.screens;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
-import edu.brown.cs032.eheimark.catan.jcomponents.CatanMenuButton;
-import edu.brown.cs032.eheimark.catan.menu.LaunchMenu;
+import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
+import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanMenuButton;
 
+/**
+ * The Class MainMenu is the first page that launches when the Catan game starts, allowing the
+ * user to navigate to other pages.
+ */
 public class MainMenu extends CatanMenu {
 	private static final long serialVersionUID = 1L;
 	private final JButton host, join, settings, quit;
-	
-	public MainMenu() {
+	private final SettlersOfCatan soc;
+
+	/**
+	 * Instantiates a new main menu.
+	 * @param soc reference to Settlers Of Catan class instance (which contains launch configurations etc)
+	 */
+	public MainMenu(SettlersOfCatan socIn) {
 		super();
+		this.soc = socIn;
 
 		host = new CatanMenuButton("Host");
 		host.addActionListener(new ActionListener() {
@@ -22,7 +33,7 @@ public class MainMenu extends CatanMenu {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						LaunchMenu.frame.setPage(new HostMenu());
+						soc.getFrame().setPage(new HostSettingsMenu(soc));
 					}
 				});
 			}
@@ -35,7 +46,7 @@ public class MainMenu extends CatanMenu {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						LaunchMenu.frame.setPage(new JoinGameMenu());
+						soc.getFrame().setPage(new JoinSettingsMenu(soc));
 					}
 				});
 			}
@@ -48,23 +59,23 @@ public class MainMenu extends CatanMenu {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						LaunchMenu.frame.setPage(new SettingsMenu());
+						soc.getFrame().setPage(new SettingsMenu(soc));
 					}
 				});
 			}
 		});
-		
+
 		quit = new CatanMenuButton("Quit");
 		quit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LaunchMenu.frame.exit();
+				soc.getFrame().exit();
 			}
 		});
 
-		addButton(host);
-		addButton(join);
-		addButton(settings);
-		addButton(quit);
+		addComponent(host);
+		addComponent(join);
+		addComponent(settings);
+		addComponent(quit);
 	}
 }

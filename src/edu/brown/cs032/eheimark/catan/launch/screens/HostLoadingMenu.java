@@ -1,4 +1,4 @@
-package edu.brown.cs032.eheimark.catan.menu.screens;
+package edu.brown.cs032.eheimark.catan.launch.screens;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,25 +7,34 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import edu.brown.cs032.atreil.catan.networking.server.CatanServer;
-import edu.brown.cs032.eheimark.catan.jcomponents.CatanMenuButton;
-import edu.brown.cs032.eheimark.catan.jcomponents.CatanScrollableTextArea;
-import edu.brown.cs032.eheimark.catan.menu.LaunchMenu;
+import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
+import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanMenuButton;
+import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanScrollableTextArea;
 import javax.swing.text.DefaultCaret;
 
-public class HostGameLoadingMenu extends CatanMenu {
+/**
+ * The Class HostLoading is the launch menu page that displays host server status.
+ * At the top of the page is a JTextArea that continually displays messages indicating server status.
+ */
+public class HostLoadingMenu extends CatanMenu {
 	private static final long serialVersionUID = 1L;
 	private final JButton back;
 	private final CatanScrollableTextArea jsp;
 	private final JTextArea jta;
-	private CatanServer cs;
-	private ServerUpdate su;
-
-	public HostGameLoadingMenu() {
+	private CatanServer cs; // Reference to Catan Server
+	private ServerUpdate su; // Thread to up the JTextArea with messages from the CatanServer
+	private final SettlersOfCatan soc;
+	/**
+	 * Instantiates a new host loading menu.
+	 * @param soc reference to Settlers Of Catan class instance (which contains launch configurations etc)
+	 */
+	public HostLoadingMenu(SettlersOfCatan socIn) {
 		super();
+		this.soc = socIn;
 		jsp = new CatanScrollableTextArea(); 
 		jta = jsp.getTextArea();
-        DefaultCaret caret = (DefaultCaret)jta.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		DefaultCaret caret = (DefaultCaret)jta.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		jta.append("Trying to launch server...\n");
 		back = new CatanMenuButton("Main Menu");
 		back.addActionListener(new ActionListener() {
@@ -41,23 +50,27 @@ public class HostGameLoadingMenu extends CatanMenu {
 						if(su != null) {
 							su.stop(); // TODO: Better option than stop?
 						}
-						LaunchMenu.frame.setPage(new MainMenu());
+						soc.getFrame().setPage(new MainMenu(soc));
 						repaint();
 					}
 				});
 			}
 		});
-		addButton(jsp);
-		addButton(back);
+		addComponent(jsp);
+		addComponent(back);
 		su = new ServerUpdate();
 		su.start();
 	}
 
+	/**
+	 * The Class ServerUpdate updates the JTextArea with messages from the server
+	 */
 	private class ServerUpdate extends Thread {
+		
 		@Override
 		public void run() {
 			try {
-				cs = new CatanServer(LaunchMenu.lc);
+				cs = new CatanServer(soc.getLaunchConfiguration());
 				cs.start();
 				jta.append("Server launched successfully!\n");
 				while(true) { //TODO: Switch to isRunning method

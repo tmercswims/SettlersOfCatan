@@ -16,7 +16,7 @@ import java.util.Queue;
 
 import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.eheimark.catan.gui.GUI;
-import edu.brown.cs032.eheimark.catan.menu.LaunchConfiguration;
+import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
@@ -80,7 +80,7 @@ public class CatanClient extends Thread{
 	 * @throws UnknownHostException If the host does not exist
 	 */
 	public CatanClient(LaunchConfiguration configs) throws UnknownHostException, IOException{
-		this._p = new Player(configs.getAvatarName());
+		this._p = new Player(configs.getName());
 		_updatedBoard = new LinkedList<>();
 		_updatedPlayers = new LinkedList<>();
 		_updatedRolls = new LinkedList<>();
