@@ -3,6 +3,8 @@ package edu.brown.cs032.eheimark.catan.gui.navigator;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,16 +18,22 @@ public class PlayerStats extends JPanel {
 	public static final Dimension MY_SIZE = new Dimension(850, 20);
 	private static final int HEIGHT = 4;
 	private final JLabel name, vps, devcards, roads, settlements, resources, cities;
-
+	private final Image img;
+	private boolean isActivePlayer;
+	
 	public PlayerStats() {
 		super();
 		setLayout(null);
 		setOpaque(false);
+		
+		this.isActivePlayer = false;
 
 		setPreferredSize(MY_SIZE);
 		setMinimumSize(MY_SIZE);
 		setMaximumSize(MY_SIZE);
 		
+		this.img = edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.arrow;
+
 		name = new JLabel("Name");
 		name.setBounds(36, HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
 		add(name);
@@ -108,5 +116,16 @@ public class PlayerStats extends JPanel {
 		resources.setFont(MY_FONT_BOLD);
 		settlements.setFont(MY_FONT_BOLD);
 		cities.setFont(MY_FONT_BOLD);
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		if(isActivePlayer) {
+			g.drawImage(img, 0, 4, null);
+		}
+	}
+	
+	public void setIcon(boolean b) {
+		this.isActivePlayer = b;
 	}
 }
