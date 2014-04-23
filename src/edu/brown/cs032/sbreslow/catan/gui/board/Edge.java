@@ -25,7 +25,7 @@ public class Edge extends BoardComponent{
 	
 	public Edge(Node[] nodes, int index){
 		_road = false;
-		//_owner = null;
+		_owner = null;
 		_nodes = nodes;
 		_l = new Line2D.Double(_nodes[0].getX()+Node._diam/2, _nodes[0].getY()+Node._diam/2, 
 				_nodes[1].getX()+Node._diam/2, _nodes[1].getY()+Node._diam/2);
