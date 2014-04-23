@@ -20,7 +20,7 @@ public class ChatServer extends Thread{
 	private ClientPool _clients; //keeps track of the other clients
 	private boolean _running;
 	private int _maxClients; //number of maximum players
-	private static int TIMEOUT = 5000; //number of ms server should wait for connections before checking how many are connected
+	private static int TIMEOUT = 2000; //number of ms server should wait for connections before checking how many are connected
 	private List<Player> _players;
 	
 	
@@ -55,7 +55,7 @@ public class ChatServer extends Thread{
 		while(_clients.getNumClients() < _maxClients){
 			try {
 				Socket client = _server.accept();
-				System.out.println("Connected to a client");
+				//System.out.println("Connected to a client");
 				
 				//set up new client manager
 				new ChatClientManager(_clients, client).start();

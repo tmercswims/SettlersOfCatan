@@ -136,13 +136,7 @@ public class ClientPool {
 	 */
 	public void killAll(){
 		for(ClientManager client : _clients.values()){
-			try {
-				client.kill();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				//not much to do here
-				e.printStackTrace();
-			}
+			client.kill();
 		}
 	}
 	

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 import edu.brown.cs032.atreil.catan.networking.Handshake;
 import edu.brown.cs032.atreil.catan.networking.Packet;
@@ -113,7 +114,12 @@ public class ClientManager extends Thread {
 				try{
 					Packet packet = (Packet) _in.readObject();
 					parsePacket(packet);
-				}  catch (ClassNotFoundException e) {
+				} catch (SocketException e){
+					//disconnect
+					_running = false;
+					kill();
+				}
+				catch (ClassNotFoundException e) {
 					//invalid protocol; probably an internal error
 					String msg = "Server failed. Disconnecting...";
 					sendError(msg);
@@ -126,21 +132,11 @@ public class ClientManager extends Thread {
 			}
 		} catch (IOException e) {
 			_pool.addUpdate(e.getMessage());
-			try {
-				kill();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			kill();
 		} catch(IllegalArgumentException e){
-			try {
-				//invalid protocol; stop
-				sendError(e.getMessage());
-				_pool.addUpdate(String.format("Error: %s", e.getMessage()));
-				kill();
-			} catch (IOException e1) {
-				_pool.addUpdate(String.format("Error: %s", e.getMessage()));
-			}
+			//sendError(e.getMessage());
+			_pool.addUpdate(String.format("Error: %s", e.getMessage()));
+			kill();
 		}
 	}
 	
@@ -197,12 +193,19 @@ public class ClientManager extends Thread {
 	 * Kills this client by removing it from the pool and freeing up its resources
 	 * @throws IOException If anything goes wrong with the IO
 	 */
-	public void kill() throws IOException{
-		_pool.remove(this);
-		_in.close();
-		_out.close();
-		_client.close();
-		_pool.addUpdate(String.format("Player %s disconnected", _p.getName()));
+	public void kill(){
+		try{
+			_running = false;
+			_pool.remove(this);
+			_in.close();
+			_out.close();
+			_client.close();
+			_pool.addUpdate(String.format("Player %s disconnected", _p.getName()));
+		} catch(IOException e){
+			//not much to do
+			//TODO:
+			e.printStackTrace();
+		}
 	}
 	
 	/**

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * This protected class handles the communication with the client
@@ -54,7 +55,12 @@ class ChatClientManager extends Thread{
 					String message = _in.readLine();
 					if(message!=null)
 						parseMessage(message);
-				} catch(IOException e){
+				} catch(SocketException e){
+					//kill client
+					_running = false;
+					kill();
+				}
+				catch(IOException e){
 					// TODO: 
 					e.printStackTrace();
 				}
@@ -62,11 +68,10 @@ class ChatClientManager extends Thread{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			kill();
 		} catch(NullPointerException e){
-			_running = true;
+			kill();
 		}
-		
-		kill();
 	}
 	
 	/**
@@ -139,6 +144,7 @@ class ChatClientManager extends Thread{
 	 */
 	public void kill(){
 		try {
+			_running = false;
 			_pool.remove(this);
 			_in.close();
 			_out.close();

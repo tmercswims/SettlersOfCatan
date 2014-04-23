@@ -2,11 +2,13 @@
 //TODO: Need to convert IP to Hostname
 package edu.brown.cs032.atreil.catan.networking.client;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import edu.brown.cs032.atreil.catan.networking.Handshake;
@@ -174,12 +176,15 @@ public class CatanClient extends Thread{
 				
 				parsePacket(packet);
 			}
+		} catch (SocketException e){
+			//server disconnected
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//not much to do
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			kill();
 		}
 	}
 	
@@ -268,7 +273,16 @@ public class CatanClient extends Thread{
 				return (Packet) o;
 			else
 				throw new IOException("Invalid protocol: Received something other than a packet");
+		} catch(EOFException e){
+			kill();
+			throw new SocketException("This shouldn't be printed...(1)");
+		}
+		catch(SocketException e){
+			kill();
+			throw new SocketException("This shouldn't be printed...(2)");
 		} catch(IOException e){
+			System.out.println(e.getMessage());
+			e.printStackTrace();
 			kill();
 			throw new IOException(e.getMessage());
 		}

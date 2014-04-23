@@ -11,21 +11,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.tmercuri.catan.logic.Player;
-
-import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.BadLocationException;
+
+import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 /**
  * This class handles receiving messages from other players and sending messages
@@ -136,6 +136,7 @@ public class ChatClient {//extends JPanel{
 	 */
 	public void kill(){
 		try {
+			_running = false;
 			_in.close();
 			_out.close();
 			_socket.close();
@@ -258,9 +259,13 @@ public class ChatClient {//extends JPanel{
 					}
 					//readLine();
 					//System.out.println(_input.readLine());
-				} catch (IOException e) {
+				} catch (SocketException e){
+					_running = false;
+				}
+				catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					_running = false;
 				} catch (NullPointerException e){
 					//should quit
 					_running = false;
