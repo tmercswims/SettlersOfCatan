@@ -150,7 +150,7 @@ public class Build extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Trying to build city!");
-			_dp.setSelect(2);
+			_dp.setSelect(3);
 		}
 	};
 	
