@@ -163,6 +163,9 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 							e1.printStackTrace();
 						}
 					}
+					else{
+						//TODO: get build info to display in chat
+					}
 					_dp.repaint();
 				}
 			}
