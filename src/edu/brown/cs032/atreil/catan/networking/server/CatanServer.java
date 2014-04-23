@@ -47,6 +47,7 @@ public class CatanServer extends Thread{
 	private final LinkedList<Move> _moveBuffer; //keeps track of any available moves from clients
 	private Referee _ref;
 	private StringBuilder _update; //keeps track of updates of the server 
+	public boolean _isRunning; //keeps track if the server is running
 	
 	/**
 	 * This constructor initializes a server from a port and hostname. The instantiated object will NOT listen
@@ -407,6 +408,14 @@ public class CatanServer extends Thread{
 	 */
 	public boolean isRunning(){
 		return !_ref.isGameOver();
+	}
+	
+	/**
+	 * Returns the state of the server.
+	 * @return true, if it is running, and false otherwise
+	 */
+	public boolean isServerRunning(){
+		return _isRunning;
 	}
 	
 	/**
