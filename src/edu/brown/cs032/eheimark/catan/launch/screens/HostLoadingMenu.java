@@ -73,7 +73,8 @@ public class HostLoadingMenu extends CatanMenu {
 				cs = new CatanServer(soc.getLaunchConfiguration());
 				cs.start();
 				jta.append("Server launched successfully!\n");
-				while(true) { //TODO: Switch to isRunning method
+
+				while(cs.isServerRunning()) { //TODO: Switch to isRunning method
 					jta.append(cs.readStatus());
 				}
 			} catch(IOException e) {

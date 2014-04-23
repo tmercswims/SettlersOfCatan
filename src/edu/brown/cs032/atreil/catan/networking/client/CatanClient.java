@@ -43,7 +43,10 @@ public class CatanClient extends Thread{
 	private int _roll; //the roll of the player
 
 	private String _ip;	//ip of the computer hosting the game
+	
+	private Integer _boardLock;
 	private Board _board; //a cached version of the most recent version of the board
+	private Integer _playersLock;
 	private Player[] _players; //a cached version of the most recent version of players
 
 	
@@ -95,6 +98,8 @@ public class CatanClient extends Thread{
 		_startTurnLock = new Boolean(false);
 		_roll = -1;
 		_startTurn = false;
+		_boardLock = new Integer(-1);
+		_playersLock = new Integer(-1);
 		
 		//connecting
 		connect();
@@ -187,15 +192,16 @@ public class CatanClient extends Thread{
 		
 		if(type == Packet.BOARD){
 
-			synchronized(_board){
+			synchronized(_boardLock){
 				_board = (Board) packet.getObject();
 			}
 			
 			_gui.repaint();
 		} else if(type == Packet.PLAYERARRAY){
 			
-			synchronized(_players){
+			synchronized(_playersLock){
 				_players = (Player[]) packet.getObject();
+				updateLocalPlayer();
 			}
 			
 			_gui.repaint();
@@ -215,6 +221,19 @@ public class CatanClient extends Thread{
 		}
 		else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
+		}
+	}
+	
+	/**
+	 * Updates the clients copy of the player to the one in the player array
+	 */
+	private void updateLocalPlayer(){
+		int i = 0;
+		
+		for(Player p : _players){
+			if(p.getName().equals(_p.getName()))
+				_p = _players[i];
+			i++;
 		}
 	}
 	
