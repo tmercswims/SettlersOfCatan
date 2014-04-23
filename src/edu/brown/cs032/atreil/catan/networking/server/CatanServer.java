@@ -102,7 +102,7 @@ public class CatanServer extends Thread{
 		_moveBuffer = new LinkedList<>();
 		_update = new StringBuilder();
 		_chatServer = startChatServer(_port);
-		
+		_isRunning = true;
 		_chatServer.start();
 	}
 	
