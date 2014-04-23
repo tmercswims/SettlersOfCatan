@@ -206,7 +206,7 @@ public class Referee {
     
     private boolean ownedRoadAdjacent(Node node) {
         for (Edge e : node.getEdges()) {
-            if (e.isRoad() && e.getOwner().getName().equals(node.getOwner().getName())) {
+            if (e.getOwner() != null && e.isRoad() && e.getOwner().getName().equals(node.getOwner().getName())) {
                 return true;
             }
         }
