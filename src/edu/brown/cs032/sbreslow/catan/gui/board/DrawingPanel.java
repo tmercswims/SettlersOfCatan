@@ -21,6 +21,9 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 	private final ArrayList<BoardComponent> _toDraw;
 	private final CatanClient _client;
 	private int  _selectable;
+	private boolean _road;
+	private boolean _city;
+	private boolean _settlement;
 	
 	public DrawingPanel(CatanClient client){
 		super();
@@ -48,6 +51,9 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 ////		System.out.println("Got board!");
 //		_toDraw.addAll(b.getBoard());
 		_selectable = 3;
+		_road = false;
+		_city = false;
+		_settlement = false;
 	}
     
     @Deprecated
@@ -126,41 +132,23 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 			// TODO Auto-generated method stub
 			System.out.println("clicked: "+e.getX()+", "+e.getY());
 			for(BoardComponent c: _toDraw){
-				if(c.getShape().contains(e.getPoint()) && c.getType()==_selectable){
-					/*System.out.println(c);
-					Double red = Math.random()*255;
-					Double grn = Math.random()*255;
-					Double blu = Math.random()*255;
-					Color color = new Color(red.intValue(),grn.intValue(),blu.intValue());*/
-					/*Color color;
-					switch(c.getType()){
-					case 0:
-						color = Color.MAGENTA;
-						break;
-					case 1:
-						color = Color.CYAN;
-						break;
-					case 2:
-						color = Color.YELLOW;
-						break;
-					default:
-						color = Color.WHITE;
-					}
-					c.setColor(color);
-					c.grow();*/
-					c.grow();
+				if(c.getShape().contains(e.getPoint()) && c.getType()==_selectable || (c.getType()==2 && _selectable==3)){
+					//c.grow();
 					int buildtype = -1;
-					switch(c.getType()){
+					switch(_selectable){
 					case 1:
 						buildtype = 0;
 						break;
 					case 2:
 						Node n = (Node) c;
+						if(n.getVP()==0){
+							buildtype = 1;
+						}
+						break;
+					case 3:
+						n = (Node) c;
 						if(n.getVP()==1){
 							buildtype = 2;
-						}
-						else if(n.getVP()==0){
-							buildtype = 1;
 						}
 					}
 					if(buildtype!=-1){
@@ -209,7 +197,8 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 	/***
 	 * Tile = 0;
 	 * Edge = 1;
-	 * Node = 2;
+	 * Settlement = 2;
+	 * City = 3;
 	 * Nothing = anything else;
 	 * @param s
 	 */
