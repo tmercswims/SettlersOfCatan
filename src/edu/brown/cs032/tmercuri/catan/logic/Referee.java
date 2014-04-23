@@ -175,7 +175,7 @@ public class Referee {
                 case CITY:
                     System.out.println("They want to build a city at " + move.getBuildLocation() + ".");
                     Node nc = _board.getNodes()[move.getBuildLocation()];
-                    if (nc.getVP() == 2 || nc.isOwned()) return 301;
+                    if (nc.getVP() == 2) return 301;
                     if (!_activePlayer.hasResources(BUILD_CITY)) return 302;
                     if (_activePlayer.getCityCount() == 0) return 303;
                     if (nc.getVP() == 1 && !_activePlayer.equals(nc.getOwner())) return 305;

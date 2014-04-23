@@ -274,7 +274,7 @@ public class Player implements Serializable {
         boolean result = false;
         if (other instanceof Player) {
             Player that = (Player) other;
-            result = (this.getArmySize() == that.getArmySize() && this.getCityCount() == that.getCityCount() && this.getLongestRoad() == that.getLongestRoad() && this.getRoadCount() == that.getRoadCount() && this.getSettlementCount() == that.getSettlementCount() && this.getVictoryPoints() == that.getVictoryPoints());
+            result = (this.getName().equals(that.getName()));
         }
         return result;
     }
