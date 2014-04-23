@@ -132,7 +132,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 			// TODO Auto-generated method stub
 			System.out.println("clicked: "+e.getX()+", "+e.getY());
 			for(BoardComponent c: _toDraw){
-				if(c.getShape().contains(e.getPoint()) && c.getType()==_selectable || (c.getType()==2 && _selectable==3)){
+				if(c.getShape().contains(e.getPoint()) && (c.getType()==_selectable || (c.getType()==2 && _selectable==3))){
 					//c.grow();
 					int buildtype = -1;
 					switch(_selectable){
