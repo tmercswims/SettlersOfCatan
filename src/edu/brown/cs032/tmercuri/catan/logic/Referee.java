@@ -153,7 +153,7 @@ public class Referee {
                     if (e.isRoad()) return 101;
                     if (!_activePlayer.hasResources(BUILD_ROAD)) return 102;
                     if (_activePlayer.getRoadCount() == 0) return 103;
-                    if (!ownedRoadAdjacent(e)) return 106;
+                    //if (!ownedRoadAdjacent(e)) return 106;
                     _activePlayer.removeResources(BUILD_ROAD);
                     _activePlayer.decRoadCount();
                     e.setOwner(_activePlayer);
