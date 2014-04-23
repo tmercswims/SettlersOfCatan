@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,15 +19,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.plaf.basic.BasicBorders;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultCaret;
 
 /**
  * This class handles receiving messages from other players and sending messages
@@ -48,6 +45,7 @@ public class ChatClient {//extends JPanel{
 	private JButton _send;
 	public JPanel _panel;
 	private JScrollPane _scroll;
+	private CatanClient _client;
 
 	/**
 	 * Creates a new ChatClient that will connect to a ChatServer. Upon creation,
@@ -186,14 +184,25 @@ public class ChatClient {//extends JPanel{
 	}
 	
 	private class ChatListener implements KeyListener {
-
+		//red blue orange white
 		@Override
 		public void keyTyped(KeyEvent e) {
 			System.out.println("getKeyChar "+e.getKeyChar());
 			if(e.getKeyChar()=='\n'){
 				String message = _field.getText();
 				_field.setText("");
-				println(message);
+				if(_client.getPlayer().getColor()==Color.red){
+					println("red "+message);
+				}
+				else if(_client.getPlayer().getColor()==Color.blue){
+					println("blue "+message);
+				}
+				else if(_client.getPlayer().getColor()==Color.orange){
+					println("orange "+message);
+				}
+				else{
+					println("white "+message);
+				}
 			}
 		}
 
@@ -228,9 +237,24 @@ public class ChatClient {//extends JPanel{
 			//to the client.
 			while(_running){
 				try {
-					String line = _in.readLine();
+					String[] line = _in.readLine().split(" ");
 					//_area.setText(line+"\n"+_area.getText());
-					_area.append(line);
+					switch(line[0]){
+					case "red":
+						//_area.setC
+						break;
+					case "blue":
+						break;
+					case "orange":
+						break;
+					default:
+						
+					}
+					StringBuilder sb = new StringBuilder();
+					for(int i = 0; i < line.length; i++){
+						sb.append(line[i]).append(" ");
+					}
+					_area.append(sb.toString());
 					_area.append("\n");
 					if(_area.getLineCount()>_area.getRows()){
 						int offset = 0;
@@ -258,4 +282,9 @@ public class ChatClient {//extends JPanel{
 			kill();
 		}
 	}
+
+	public void setClient(CatanClient client) {
+		_client = client;
+	}
+	
 }

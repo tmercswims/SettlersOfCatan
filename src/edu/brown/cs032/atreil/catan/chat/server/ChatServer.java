@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.List;
 
 import edu.brown.cs032.atreil.catan.networking.server.ClientManager;
+import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 /**
  * This class handles sending and receiving messages to display to the chat box.
@@ -19,6 +21,8 @@ public class ChatServer extends Thread{
 	private boolean _running;
 	private int _maxClients; //number of maximum players
 	private static int TIMEOUT = 5000; //number of ms server should wait for connections before checking how many are connected
+	private List<Player> _players;
+	
 	
 	/**
 	 * Initializes a new CatanChatServer that will listen for connections and spawn
@@ -94,5 +98,9 @@ public class ChatServer extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void setPlayers(List<Player> playerList) {
+		_players = playerList;
 	}
 }

@@ -180,6 +180,7 @@ public class CatanServer extends Thread{
 		try {
 			_pool.broadcast(new Packet(Packet.STARTGAME, null, id++));
 			_pool.addUpdate("Starting the game\n");
+			_chatServer.setPlayers(_pool.getPlayerList());
 			//client will no longer listen to clients so shutdown its server
 			_server.close();
 			

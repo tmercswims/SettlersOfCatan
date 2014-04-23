@@ -31,6 +31,7 @@ public class GUI extends JPanel {
 		add(tabbedMenu, BorderLayout.SOUTH);
 		try {
 			ChatClient chatc = new ChatClient(cc.getIP(), cc.getChatPort(), client.getPlayer());
+			chatc.setClient(client);
 			add(chatc._panel, BorderLayout.EAST);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block

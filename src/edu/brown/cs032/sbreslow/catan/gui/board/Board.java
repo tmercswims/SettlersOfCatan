@@ -252,6 +252,7 @@ public class Board implements Serializable {
 		for(int k = 18; k < _tiles.length; k++){
 			if(_tiles[k]._resource==5){
 				_tiles[k].setNum(0);
+				_tiles[k].setRobber(true);
 			}
 			else{
 				_tiles[k].setNum(getNum(_tiles[k]));

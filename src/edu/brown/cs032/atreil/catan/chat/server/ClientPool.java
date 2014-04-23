@@ -38,7 +38,9 @@ class ClientPool {
 	 * @param sender The client that sent the message
 	 */
 	public synchronized void sendAll(String message, String sender){
-		String toSend = String.format("%s: %s", sender, message);
+		String color = message.split(" ")[0];
+		message = new String(message.split(" ")[1]);
+		String toSend = String.format("%s (%s): %s", sender, color, message);
 		
 		synchronized(_clients){
 			for(ChatClientManager mngr : _clients.values()){

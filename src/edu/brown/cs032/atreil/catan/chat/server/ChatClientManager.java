@@ -78,9 +78,9 @@ class ChatClientManager extends Thread{
 		String[] messageArray = message.split(" ");
 		if(messageArray.length >= 3){
 			//could be private message
-			if(messageArray[0].equals("/m") || messageArray[0].equals("/msg")){
+			if(messageArray[1].equals("/m") || messageArray[1].equals("/msg")){
 				//private message
-				String playername = messageArray[1];
+				String playername = messageArray[2];
 				
 				try{
 					String toSend = extractMessage(messageArray);
@@ -109,11 +109,11 @@ class ChatClientManager extends Thread{
 	private String extractMessage(String[] message){
 		String result = "";
 		
-		for(int i = 2; i < message.length; i++){
+		for(int i = 3; i < message.length; i++){
 			result += message[i] + " ";
 		}
 		
-		return ("*whisper* " + result);
+		return (message[0]+" *whisper* " + result);
 	}
 	
 	/**

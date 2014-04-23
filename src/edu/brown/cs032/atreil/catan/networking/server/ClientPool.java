@@ -31,6 +31,14 @@ public class ClientPool {
 		this._server = server;
 	}
 	
+	public List<Player> getPlayerList(){
+		ArrayList<Player> players = new ArrayList<Player>();
+		for(ClientManager client : _clients.values()){
+			players.add(client.getPlayer());
+		}
+		return players;
+	}
+	
 	/**
 	 * Adds a new client to the pool.
 	 * @param name Unique name of the client. If the name is already used, the old one is replaced and returned
