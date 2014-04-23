@@ -159,7 +159,7 @@ public class Node extends BoardComponent{
 
     @Override
 	public void grow() {
-		if(_scale==1){
+		/*if(_scale==1){
 			System.out.println("X: "+this.getX()+", Y: "+this.getY());
 			_o = new Ellipse2D.Double(this.getX()-_diam/2,this.getY()-_diam/2, _diam*Math.pow(2,_scale), _diam*Math.pow(2,_scale));
 			_scale++;
@@ -169,7 +169,10 @@ public class Node extends BoardComponent{
 			_o = new Ellipse2D.Double(this.getX()-3*_diam/4, this.getY()-3*_diam/4, _diam*2.5, _diam*2.5);
 			_scale++;
 			_vp++;
-		}
+		}*/
+    	if(_vp==0 || _vp==1){
+    		_vp++;
+    	}
 	}
 
 }
