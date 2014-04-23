@@ -187,21 +187,24 @@ public class ChatClient {//extends JPanel{
 		//red blue orange white
 		@Override
 		public void keyTyped(KeyEvent e) {
-			System.out.println("getKeyChar "+e.getKeyChar());
+			//System.out.println("getKeyChar "+e.getKeyChar());
 			if(e.getKeyChar()=='\n'){
 				String message = _field.getText();
 				_field.setText("");
-				if(_client.getPlayer().getColor()==Color.red){
+				if(_client.getPlayer().getColor().equals(Color.red)){
 					println("red "+message);
 				}
-				else if(_client.getPlayer().getColor()==Color.blue){
+				else if(_client.getPlayer().getColor().equals(Color.blue)){
 					println("blue "+message);
 				}
-				else if(_client.getPlayer().getColor()==Color.orange){
+				else if(_client.getPlayer().getColor().equals(Color.orange)){
 					println("orange "+message);
 				}
-				else{
+				else if(_client.getPlayer().getColor().equals(Color.white)){
 					println("white "+message);
+				}
+				else{
+					System.out.println(_client.getPlayer().getColor());
 				}
 			}
 		}
@@ -237,24 +240,9 @@ public class ChatClient {//extends JPanel{
 			//to the client.
 			while(_running){
 				try {
-					String[] line = _in.readLine().split(" ");
+					String line = _in.readLine();
 					//_area.setText(line+"\n"+_area.getText());
-					switch(line[0]){
-					case "red":
-						//_area.setC
-						break;
-					case "blue":
-						break;
-					case "orange":
-						break;
-					default:
-						
-					}
-					StringBuilder sb = new StringBuilder();
-					for(int i = 0; i < line.length; i++){
-						sb.append(line[i]).append(" ");
-					}
-					_area.append(sb.toString());
+					_area.append(line);
 					_area.append("\n");
 					if(_area.getLineCount()>_area.getRows()){
 						int offset = 0;

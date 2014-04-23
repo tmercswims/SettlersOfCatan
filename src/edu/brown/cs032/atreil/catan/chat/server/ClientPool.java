@@ -41,6 +41,7 @@ class ClientPool {
 		String color = message.split(" ")[0];
 		message = new String(message.split(" ")[1]);
 		String toSend = String.format("%s (%s): %s", sender, color, message);
+		System.out.println("Sending "+toSend);
 		
 		synchronized(_clients){
 			for(ChatClientManager mngr : _clients.values()){
