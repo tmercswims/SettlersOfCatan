@@ -174,6 +174,7 @@ public class Tile extends BoardComponent{
 			}
             else {
 				brush.setColor(Color.black);
+                brush.drawImage(robber, (int)r.getCenterX()-20, (int)r.getCenterY()-20, null);
 			}
             Image number = null;
             switch (_num) {

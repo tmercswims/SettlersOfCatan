@@ -13,6 +13,8 @@ import edu.brown.cs032.eheimark.catan.gui.navigator.TabbedPanel;
 import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class GUI extends JPanel {
 	private final CatanClient client;
@@ -22,6 +24,16 @@ public class GUI extends JPanel {
 	//TODO: Delete throws
 	public GUI(CatanClient cc) {
 		super(new BorderLayout());
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                   }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            System.err.println("ERROR: " + ex.getMessage());
+        }
 		this.client = cc;
 		this.client.setGUI(this);
 		this.client.start(); // start listening on client
