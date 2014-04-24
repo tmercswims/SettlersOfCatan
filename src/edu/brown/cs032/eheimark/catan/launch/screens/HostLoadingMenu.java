@@ -77,6 +77,7 @@ public class HostLoadingMenu extends CatanMenu {
 				while(cs.isServerRunning()) { //TODO: Switch to isRunning method
 					jta.append(cs.readStatus());
 				}
+				System.out.println("Done reading updates");
 			} catch(IOException e) {
 				e.printStackTrace();
 				jta.append("Error: " + e.getMessage() + "\n");

@@ -75,7 +75,7 @@ public class ChatServer extends Thread{
 	 * @param message Message to send
 	 */
 	public void sendAll(String message){
-		_clients.sendAll(message, "Server");
+		_clients.sendAll("server " + message, "Server");
 	}
 	
 	/**
@@ -84,7 +84,7 @@ public class ChatServer extends Thread{
 	 * @param player Name of the player to send to
 	 */
 	public void send(String message, String player){
-		_clients.send(player, message, "Server");
+		_clients.send(player, "server " + message, "Server");
 	}
 	
 	/**
