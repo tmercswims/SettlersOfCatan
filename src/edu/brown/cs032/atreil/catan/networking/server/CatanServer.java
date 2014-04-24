@@ -17,6 +17,7 @@ import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.Referee;
+import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
@@ -355,6 +356,17 @@ public class CatanServer extends Thread{
 		} catch(IOException e){
 			addUpdate(e.getMessage());
 		} catch(IllegalArgumentException e){
+			addUpdate(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Sends a last move object to all the clients
+	 */
+	public void sendLastMove(){
+		try {
+			_pool.broadcast(new Packet(Packet.LASTMOVE, null, 0));
+		} catch (IllegalArgumentException | IOException e) {
 			addUpdate(e.getMessage());
 		}
 	}
