@@ -98,7 +98,7 @@ public class Edge extends BoardComponent{
             portImage = brickPort;
 			//brush.drawChars(todraw, 0, todraw.length,(int)_l.getX2()+50,(int) _l.getY2()+20);
             brush.drawImage(portImage, (int)_l.getX2()+39, (int) _l.getY2()-14,
-            		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight()*/, null);
+            		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			int[] brickx = {(int) _l.getX1(), (int) _l.getX2(), (int) _l.getX1()};
 			int[] bricky = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY1()-40};
 			brush.setColor(new Color(255,102,0));
