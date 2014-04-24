@@ -437,7 +437,7 @@ public class CatanServer extends Thread{
 			_server.close();
 			_chatServer.kill();
 		} catch (IOException e) {
-			addUpdate(e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 }

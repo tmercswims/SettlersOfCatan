@@ -52,7 +52,7 @@ public class ChatServer extends Thread{
 		_running = true;
 		
 		//accept connections
-		while((_clients.getNumClients() < _maxClients) && _running){
+		while((_clients.getNumClients() < _maxClients)){
 			try {
 				Socket client = _server.accept();
 				//System.out.println("Connected to a client");
@@ -62,17 +62,16 @@ public class ChatServer extends Thread{
 				
 				//System.out.println(String.format("Number of connected clients: %s", _pool.getNumConnected()));
 			} catch(SocketException e){
-				_running = false;
+				kill();
 			} catch(SocketTimeoutException e){
 				//simply checking how many connections there are
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				_running = false;
+				kill();
 				e.printStackTrace();
 			}
 		}
 		
-		kill();
 	}
 	
 	/**
