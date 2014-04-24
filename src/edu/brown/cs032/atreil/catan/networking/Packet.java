@@ -165,6 +165,9 @@ public class Packet implements Serializable {
 		} else if(type == Packet.TRADE){
 			if(!(o instanceof TradeMove))
 				throw new IllegalArgumentException("Given object is not of type TradeMove");
+		} else if(type == Packet.LASTMOVE){
+			if(o != null)
+				throw new IllegalArgumentException("Given object is not null");
 		}
 		
 		else
