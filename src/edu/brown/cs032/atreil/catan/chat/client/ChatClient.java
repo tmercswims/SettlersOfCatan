@@ -86,10 +86,10 @@ public class ChatClient {//extends JPanel{
         scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);*/
         
-		_field = new JTextField(20);
+		_field = new JTextField(21);
 		_field.addKeyListener(new ChatListener());
 		_area = new JTextPane();
-		Dimension size = new Dimension(220,580);
+		Dimension size = new Dimension(230,580);
 		_area.setMaximumSize(size);
 		_area.setMinimumSize(size);
 		_area.setPreferredSize(size);
@@ -121,7 +121,7 @@ public class ChatClient {//extends JPanel{
 		_panel.add(_field);
 		//_panel.add(_send);
 		_panel.setVisible(true);
-		_field.requestFocus();
+		
 		
 		_red = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_red, "Helvetica");
@@ -140,6 +140,7 @@ public class ChatClient {//extends JPanel{
 		StyleConstants.setForeground(_server, Color.gray);
 		StyleConstants.setBold(_server, true);
 		
+		_field.requestFocus();
 		run();
 	}
 

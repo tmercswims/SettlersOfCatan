@@ -20,10 +20,7 @@ import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
 import java.awt.Color;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A Settlers of Catan referee.
@@ -39,7 +36,6 @@ public class Referee {
     private final PairOfDice _dice;
     private Node _startupSettlement = null;
     private int _startUp = 0;
-    private Map<String, Player> _playerMap;
     
     /**
      * Creates a new Referee, with clear fields.
@@ -53,7 +49,6 @@ public class Referee {
         _players = players;
         _board = new Board(true);
         _server = server;
-        _playerMap = Collections.synchronizedMap(new HashMap<String, Player>());
     }
     
     /**
@@ -74,7 +69,6 @@ public class Referee {
         for (Player p : _players) {
             p.addResources(new int[]{0,0,0,0,0});
             p.setColor(colors[i]);
-            _playerMap.put(p.getName(), p);
             i++;
         }
         
@@ -361,23 +355,7 @@ public class Referee {
     }
     
     private int tradeMove(TradeMove move) {
-        Player sender = _playerMap.get(move.getPlayerName());
-        Player receiver = _playerMap.get(move.getProposedTo());
-        int[] resources = move.getResources();
-        int[] sarray = sender.getResources();
-        int[] rarray = receiver.getResources();
-        for(int i = 0; i < resources.length; i++){
-        	if(resources[i]>0){
-        		if((rarray[i]-resources[i])<0){
-        			return -1;
-        		}
-        	}
-        	else if(resources[i]<0){
-        		if((sarray[i]-resources[i])<0){
-        			return -1;
-        		}
-        	}
-        }
+        
         return -1;
     }
     
