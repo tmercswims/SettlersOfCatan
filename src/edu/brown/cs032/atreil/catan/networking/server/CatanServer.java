@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
@@ -44,6 +45,7 @@ public class CatanServer extends Thread{
 	private Referee _ref;
 	private StringBuilder _update; //keeps track of updates of the server 
 	public boolean _isRunning; //keeps track if the server is running
+	private Integer _isRunningLock; //lock for _isRunning
 	
 	/**
 	 * This constructor initializes a server from a port and hostname. The instantiated object will NOT listen
@@ -99,6 +101,7 @@ public class CatanServer extends Thread{
 		_update = new StringBuilder();
 		_chatServer = startChatServer(_port);
 		_isRunning = true;
+		_isRunningLock = new Integer(-1);
 		_chatServer.start();
 	}
 	
@@ -142,26 +145,32 @@ public class CatanServer extends Thread{
 		addUpdate(String.format("This is your ip address: %s\nThis is your port: %s\nGive them to your friends" +
 				" so that they can connect to you!", getLocalIP(), getLocalPort()));
 		
-		while(_pool.getNumConnected() < _numClients){
-			try {
-				Socket client = _server.accept();
-				
-				//set up new client manager
-				_e.execute(new ClientRunnable(client, _pool, _chatPort, _numClients));
-				
-				sendConnected();
-			} catch(SocketTimeoutException e){
-				//simply checking how many connections there are
+		_isRunning = true;
+		try{
+			while((_pool.getNumConnected() < _numClients) && _isRunning){
 				try {
+					Socket client = _server.accept();
+					
+					//set up new client manager
+					_e.execute(new ClientRunnable(client, _pool, _chatPort, _numClients));
+					
 					sendConnected();
-				} catch (IllegalArgumentException e1) {
-					addUpdate(String.format("Error: %s", e1.getMessage()));
-				} catch (IOException e1) {
-					addUpdate(String.format("Error: %s", e1.getMessage()));
+				} catch(SocketTimeoutException e){
+					//simply checking how many connections there are
+					try {
+						sendConnected();
+					} catch (IllegalArgumentException e1) {
+						addUpdate(String.format("Error: %s", e1.getMessage()));
+					} catch (IOException e1) {
+						addUpdate(String.format("Error: %s", e1.getMessage()));
+					}
 				}
-			} catch (IOException e) {
-				addUpdate(e.getMessage());
 			}
+		} catch(SocketException e){
+			kill();
+		} catch(IOException e){
+			addUpdate(e.getMessage());
+			kill();
 		}
 	}
 	
@@ -174,19 +183,21 @@ public class CatanServer extends Thread{
 		accept();
 		
 		//start the game
-		try {
-			_pool.broadcast(new Packet(Packet.STARTGAME, null, id++));
-			_pool.addUpdate("Starting the game\n");
-			_chatServer.setPlayers(_pool.getPlayerList());
-			//client will no longer listen to clients so shutdown its server
-			_server.close();
-			
-			_ref = new Referee(_pool.getPlayers(), this);
-			_ref.runGame();
-		} catch (IllegalArgumentException e) {
-			addUpdate(e.getMessage());
-		} catch (IOException e) {
-			addUpdate(e.getMessage());
+		if(_isRunning){
+			try {
+				_pool.broadcast(new Packet(Packet.STARTGAME, null, id++));
+				_pool.addUpdate("Starting the game\n");
+				_chatServer.setPlayers(_pool.getPlayerList());
+				//client will no longer listen to clients so shutdown its server
+				_server.close();
+				
+				_ref = new Referee(_pool.getPlayers(), this);
+				_ref.runGame();
+			} catch (IllegalArgumentException e) {
+				addUpdate(e.getMessage());
+			} catch (IOException e) {
+				addUpdate(e.getMessage());
+			}
 		}
 	}
 	
@@ -414,7 +425,7 @@ public class CatanServer extends Thread{
 	 * @param message The update
 	 */
 	public void addUpdate(String message){
-		if(_isRunning){
+		if(true || _isRunning){
 			synchronized(_update){
 				_update.append(String.format("%s\n", message));
 				_update.notifyAll();
@@ -436,7 +447,9 @@ public class CatanServer extends Thread{
 	 * @return true, if it is running, and false otherwise
 	 */
 	public boolean isServerRunning(){
-		return _isRunning;
+		synchronized(_isRunningLock){
+			return _isRunning;
+		}
 	}
 	
 	/**
@@ -444,7 +457,10 @@ public class CatanServer extends Thread{
 	 */
 	public void kill(){
 		try {
-			_isRunning = false;
+			synchronized(_isRunningLock){
+				_isRunning = false;
+			}
+			addUpdate("Server is terminated.");
 			_pool.killAll();
 			_server.close();
 			_chatServer.kill();
