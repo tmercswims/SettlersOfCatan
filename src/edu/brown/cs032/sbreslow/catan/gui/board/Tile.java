@@ -28,6 +28,7 @@ public class Tile extends BoardComponent{
 	private Color _c;
 	private Point _indexPoint;
 	private List<Tile> _bors = new ArrayList<>();
+	private boolean _small;
 
 	public Tile(int resource, int num, List<Node> nodes){
 		_resource = resource;
@@ -51,6 +52,7 @@ public class Tile extends BoardComponent{
 		//this.setLocation(nodes[0].getX()+2, nodes[0].getY()+2);
 		//this.setBounds(r);
 		_indexPoint = null;
+		_small = false;
 	}
 	
 	public void setNum(int num){
@@ -148,7 +150,12 @@ public class Tile extends BoardComponent{
 		//brush.setColor(_c);
 		brush.setStroke(new BasicStroke());
 		//brush.fillPolygon(_p);
-        brush.drawImage(background, (int)_p.getBounds().x, (int)_p.getBounds().y, null);
+		if(_small){
+			background = background.getScaledInstance((int)_p.getBounds().getWidth()-10,
+					(int)_p.getBounds().getHeight()-10,Image.SCALE_FAST);
+		}
+        brush.drawImage(background, (int)_p.getBounds().x, (int)_p.getBounds().y, 
+        		(int)_p.getBounds().getWidth(), (int)_p.getBounds().getHeight(), null);
 		char[] toprint = Integer.toString(_num).toCharArray();
 		// = {num.charAt(0)};
 		//System.out.println(Integer.toString(_num));

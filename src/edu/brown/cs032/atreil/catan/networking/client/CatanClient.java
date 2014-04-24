@@ -83,7 +83,7 @@ public class CatanClient extends Thread{
 		//setting the fields
 		this._p = new Player(configs.getName());
 		_players = new Player[3]; //TODO: send number of players over network
-		_board = new Board();
+		_board = new Board(true);
 		_ip = configs.getHostName();
 		_isStarting = false;
 		

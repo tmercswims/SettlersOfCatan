@@ -47,7 +47,7 @@ public class Referee {
         _gameOver = _turnOver = false;
         _dice = new PairOfDice();
         _players = players;
-        _board = new Board();
+        _board = new Board(true);
         _server = server;
     }
     

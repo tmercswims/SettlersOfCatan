@@ -329,6 +329,7 @@ public class CatanServer extends Thread{
 	public void sendRoll(String playerName, int roll){
 		try {
 			_pool.send(playerName, new Packet(Packet.ROLL, new Integer(roll), id++));
+			_chatServer.sendAll(String.format("%s rolled a %s", playerName, roll));
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
 		}
