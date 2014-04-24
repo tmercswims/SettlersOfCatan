@@ -1,6 +1,8 @@
 package edu.brown.cs032.atreil.catan.chat.server;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This protected class contains references to the other clients.
@@ -9,13 +11,13 @@ import java.util.HashMap;
  */
 class ClientPool {
 
-	private HashMap<String, ChatClientManager> _clients; //maps a players name to the clientmanager
+	private Map<String, ChatClientManager> _clients; //maps a players name to the clientmanager
 	
 	/**
 	 * Initializes a new ClientPool
 	 */
 	public ClientPool(){
-		this._clients = new HashMap<>();
+		this._clients = Collections.synchronizedMap(new HashMap<String, ChatClientManager>());
 	}
 	
 	/**
@@ -44,7 +46,7 @@ class ClientPool {
 		String toSend = String.format("%s (%s): %s", sender, color, actualMessage);
 		
 		synchronized(_clients){
-			for(ChatClientManager mngr : _clients.values()){
+			for(ChatClientManager mngr : Collections.synchronizedCollection(_clients.values())){
 				mngr.send(toSend);
 			}
 		}
@@ -63,7 +65,7 @@ class ClientPool {
 		//check player exists
 		synchronized(_clients){
 			if(!_clients.containsKey(player))
-				throw new IllegalArgumentException("No player exists with that name");
+				throw new IllegalArgumentException(String.format("No player exists with that name: %s", player));
 			
 			String color = message.split(" ")[0];
 			StringBuilder sb = new StringBuilder();
@@ -76,8 +78,10 @@ class ClientPool {
 			}
 			message  = sb.toString().trim();
 			_clients.get(player).send(String.format("%s (%s): %s", sender, color, message));
+			
 			if(!sender.equalsIgnoreCase("Server"))
 				_clients.get(sender).send(String.format("%s (%s): %s", sender, color, message));
+			
 			System.out.println("Sending " + message);
 		}
 	}
@@ -108,7 +112,7 @@ class ClientPool {
 	 */
 	public void kill(){
 		synchronized(_clients){
-			for(ChatClientManager mngr : _clients.values())
+			for(ChatClientManager mngr : Collections.synchronizedCollection(_clients.values()))
 				mngr.kill();
 		}
 	}
