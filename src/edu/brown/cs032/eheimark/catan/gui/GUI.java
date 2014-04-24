@@ -54,6 +54,10 @@ public class GUI extends JPanel {
 		}
 	}
 	
+	public DrawingPanel getDP(){
+		return gameBoard;
+	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		gameBoard.repaint();

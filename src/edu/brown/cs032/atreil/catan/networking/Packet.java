@@ -72,6 +72,18 @@ public class Packet implements Serializable {
 	 */
 	public static int STARTGAME = 9;
 	
+	
+	/**
+	 * Indicates that the active player must place their initial settlement
+	 */
+	public static int SETTLEMENT = 10;
+	
+	
+	/**
+	 * Indicates that the active player must place their initial road
+	 */
+	public static int ROAD = 11;
+	
 	/*********************************************/
 	private final int _type; //the type of the object
 	private final Object _o; //the object
@@ -137,7 +149,14 @@ public class Packet implements Serializable {
 		} else if(type == Packet.STARTGAME){
 			if(o != null)
 				throw new IllegalArgumentException("Given object is not null");
+		} else if(type == Packet.SETTLEMENT){
+			if(o != null)
+				throw new IllegalArgumentException("Given object is not null");
+		} else if(type == Packet.ROAD){
+			if(o != null)
+				throw new IllegalArgumentException("Given object is not null");
 		}
+		
 		else
 			throw new IllegalArgumentException("Given invalid type!");
 	}

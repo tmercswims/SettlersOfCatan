@@ -275,19 +275,25 @@ public class CatanServer extends Thread{
 		
 	}
 	
-	/**
-	 * Notifies the player to start their turn
-	 * @param playerName The player to start the turn
-	 * @throws IllegalArgumentException If no player exists with that name
-	 */
-	public void startTurn(String playerName) throws IllegalArgumentException{
+	
+	public void startSettlement(String playerName) throws IllegalArgumentException{
 		try {
-			_pool.send(playerName, new Packet(Packet.START, null, id++));
-            addUpdate("It is " + playerName + "'s turn.");
+			_pool.send(playerName, new Packet(Packet.SETTLEMENT, null, id++));
+            addUpdate("It is " + playerName + "'s turn to place a settlement.");
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
 		}
 	}
+	
+	public void startRoad(String playerName) throws IllegalArgumentException{
+		try {
+			_pool.send(playerName, new Packet(Packet.ROAD, null, id++));
+            addUpdate("It is " + playerName + "'s turn to place a road.");
+		} catch (IOException e) {
+			addUpdate(e.getMessage());
+		}
+	}
+	
 	
 	/**
 	 * Sends an array of players to all the clients
@@ -396,9 +402,11 @@ public class CatanServer extends Thread{
 	 * @param message The update
 	 */
 	public void addUpdate(String message){
-		synchronized(_update){
-			_update.append(String.format("%s\n", message));
-			_update.notifyAll();
+		if(_isRunning){
+			synchronized(_update){
+				_update.append(String.format("%s\n", message));
+				_update.notifyAll();
+			}
 		}
 	}
 	
@@ -423,6 +431,7 @@ public class CatanServer extends Thread{
 	 */
 	public void kill(){
 		try {
+			_isRunning = false;
 			_pool.killAll();
 			_server.close();
 		} catch (IOException e) {

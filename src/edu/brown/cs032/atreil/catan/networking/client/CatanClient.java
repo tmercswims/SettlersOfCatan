@@ -223,12 +223,24 @@ public class CatanClient extends Thread{
 		} else if(type == Packet.ERROR){
 			//TODO: notify errors
 			System.out.println(String.format("Error: %s", (String) packet.getObject()));
+		} else if(type == Packet.SETTLEMENT){
+			placeSettlement();
+		} else if(type == Packet.ROAD){
+			placeRoad();
 		}
 		else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
 		}
 	}
 	
+	private void placeSettlement() {
+		_gui.getDP().setSelect(2);
+	}
+	
+	private void placeRoad() {
+		_gui.getDP().setSelect(1);
+	}
+
 	/**
 	 * Updates the clients copy of the player to the one in the player array
 	 */

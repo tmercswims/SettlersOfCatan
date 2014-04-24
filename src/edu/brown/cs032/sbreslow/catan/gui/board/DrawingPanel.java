@@ -50,7 +50,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 ////		Board b = _client.getBoard();
 ////		System.out.println("Got board!");
 //		_toDraw.addAll(b.getBoard());
-		_selectable = 3;
+		_selectable = -1;
 		_road = false;
 		_city = false;
 		_settlement = false;
@@ -167,6 +167,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 						//TODO: get build info to display in chat
 					}
 					_dp.repaint();
+					_selectable = -1;
 				}
 			}
 		}
