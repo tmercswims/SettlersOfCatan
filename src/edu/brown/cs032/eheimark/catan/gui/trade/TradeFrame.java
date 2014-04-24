@@ -18,4 +18,9 @@ public class TradeFrame extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pack();
 	}
+	
+	public void close() {
+		setVisible(false);
+		dispose();
+	}
 }

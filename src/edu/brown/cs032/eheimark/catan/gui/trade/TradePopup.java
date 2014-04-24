@@ -115,8 +115,7 @@ public class TradePopup extends JPanel {
 			trade.setType(1);
 			try {
 				client.sendMove(trade);
-				frame.setVisible(false);
-				frame.dispose();
+				frame.close();
 			} catch (IllegalArgumentException | IOException e1) {
 				e1.printStackTrace();
 			}
@@ -131,8 +130,7 @@ public class TradePopup extends JPanel {
 			trade.setType(0);
 			try {
 				client.sendMove(trade);
-				frame.setVisible(false);
-				frame.dispose();
+				frame.close();
 			} catch (IllegalArgumentException | IOException e1) {
 				e1.printStackTrace();
 			}

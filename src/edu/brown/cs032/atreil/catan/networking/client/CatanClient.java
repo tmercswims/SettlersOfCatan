@@ -37,6 +37,7 @@ public class CatanClient extends Thread{
 	private /*volatile*/ boolean _isStarting; //the game is actually starting and the client is no longer waiting //TODO: Needs to be volatile?
 	private GUI _gui; //the gui that displays the game
 	private int _chatPort; //port of the chatServer
+	private TradeFrame tradeframe;
 	
 	/*
 	 * Locks
@@ -232,7 +233,10 @@ public class CatanClient extends Thread{
 		} else if(type == Packet.TRADE){
 			//TODO: set up notifying trade
 			TradeMove trade = (TradeMove) packet.getObject();
-			new TradeFrame("Trade Received!", trade, this);
+			if(tradeframe != null) {
+				tradeframe.close();
+			}
+			tradeframe = new TradeFrame("Trade Received!", trade, this);
 		} else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
 		}
