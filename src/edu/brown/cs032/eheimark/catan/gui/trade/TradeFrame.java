@@ -12,7 +12,7 @@ public class TradeFrame extends JFrame{
 	public TradeFrame(String frameName, TradeMove trade, CatanClient client) {
 		super(frameName);
 		setMinimumSize(Constants.TABBED_MENU_SIZE);
-		add(new TradePopup(client, trade));
+		add(new TradePopup(client, trade, this));
 		setVisible(true);
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

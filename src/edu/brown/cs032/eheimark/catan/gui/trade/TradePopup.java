@@ -21,10 +21,12 @@ public class TradePopup extends JPanel {
 	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 14);
 	private final TradeMove trade;
 	private final CatanClient client;
+	private final TradeFrame frame;
 	
-	public TradePopup(CatanClient clientIn, TradeMove tradeIn) {
+	public TradePopup(CatanClient clientIn, TradeMove tradeIn, TradeFrame frameIn) {
 		super();
 		client = clientIn;
+		frame = frameIn;
 		trade = tradeIn;
 		trade.getPlayerName();
 		int[] resources = trade.getResources();
@@ -113,6 +115,8 @@ public class TradePopup extends JPanel {
 			trade.setType(1);
 			try {
 				client.sendMove(trade);
+				frame.setVisible(false);
+				frame.dispose();
 			} catch (IllegalArgumentException | IOException e1) {
 				e1.printStackTrace();
 			}
@@ -127,6 +131,8 @@ public class TradePopup extends JPanel {
 			trade.setType(0);
 			try {
 				client.sendMove(trade);
+				frame.setVisible(false);
+				frame.dispose();
 			} catch (IllegalArgumentException | IOException e1) {
 				e1.printStackTrace();
 			}
