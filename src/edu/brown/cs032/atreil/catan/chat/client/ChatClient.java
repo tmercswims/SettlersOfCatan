@@ -292,7 +292,7 @@ public class ChatClient {//extends JPanel{
 						StyleConstants.setFontFamily(_server, "Courier New Italics");
 					}
 					try {
-						_area.getDocument().insertString(_area.getText().length(),line+"\n",attr);
+						_area.getDocument().insertString(_area.getCaretPosition(),line+"\n",attr);
 						lines.add(line);
 					} catch (BadLocationException e1) {
 						// TODO Auto-generated catch block

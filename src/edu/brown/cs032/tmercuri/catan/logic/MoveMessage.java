@@ -22,45 +22,45 @@ public enum MoveMessage {
     /**
      * started turn
      */
-    MESSAGE_000(000, false, " has started their turn.\n"),
+    MESSAGE_000(000, false, " has started their turn."),
     
     /**
      * ended turn
      */
-    MESSAGE_001(001, false, " has completed their turn.\n"),
+    MESSAGE_001(001, false, " has completed their turn."),
     
     /**
      * it's not your turn
      */
-    MESSAGE_999(999, true, " it is not your turn.\n"),
+    MESSAGE_999(999, true, " it is not your turn."),
     
     /**
      * road
      */
-    MESSAGE_100(100, false, " built a road.\n"),
-    MESSAGE_101(101, true, "there is already a road there.\n"),
-    MESSAGE_102(102, true, "you do not have enough resources for a road.\n"),
-    MESSAGE_103(103, true, "you do not have any roads left to build.\n"),
-    MESSAGE_106(106, true, "you do not have a road that reaches that edge.\n"),
-    MESSAGE_107(107, true, "you must build the road touching your previous settlement.\n"),
+    MESSAGE_100(100, false, " built a road."),
+    MESSAGE_101(101, true, "there is already a road there."),
+    MESSAGE_102(102, true, "you do not have enough resources for a road."),
+    MESSAGE_103(103, true, "you do not have any roads left to build."),
+    MESSAGE_106(106, true, "you do not have a road that reaches that edge."),
+    MESSAGE_107(107, true, "you must build the road touching your previous settlement."),
     
     /**
      * settlement
      */
-    MESSAGE_200(200, false, " built a settlement.\n"),
-    MESSAGE_201(201, true, "there is already a settlement there.\n"),
-    MESSAGE_202(202, true, "you do not have enough resources for a settlement.\n"),
-    MESSAGE_203(203, true, "you do not have any settlements left to build.\n"),
-    MESSAGE_204(204, true, "there is a structure next to that intersection.\n"),
-    MESSAGE_206(206, true, "you do not have a road that reaches that intersection.\n"),
+    MESSAGE_200(200, false, " built a settlement."),
+    MESSAGE_201(201, true, "there is already a settlement there."),
+    MESSAGE_202(202, true, "you do not have enough resources for a settlement."),
+    MESSAGE_203(203, true, "you do not have any settlements left to build."),
+    MESSAGE_204(204, true, "there is a structure next to that intersection."),
+    MESSAGE_206(206, true, "you do not have a road that reaches that intersection."),
     
     /**
      * city
      */
-    MESSAGE_300(300, false, " built a city.\n"),
-    MESSAGE_301(301, true, "there is already a city there.\n"),
-    MESSAGE_302(302, true, "you do not have enough resources for a city.\n"),
-    MESSAGE_303(303, true, "you do not have any cities left to build.\n"),
+    MESSAGE_300(300, false, " built a city."),
+    MESSAGE_301(301, true, "there is already a city there."),
+    MESSAGE_302(302, true, "you do not have enough resources for a city."),
+    MESSAGE_303(303, true, "you do not have any cities left to build."),
     MESSAGE_305(305, true, "the settlement at that intersection is not yours.\n");
     
     private final int _code;

@@ -3,10 +3,10 @@ package edu.brown.cs032.atreil.catan.chat.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.List;
 
-import edu.brown.cs032.atreil.catan.networking.server.ClientManager;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 /**
@@ -52,7 +52,7 @@ public class ChatServer extends Thread{
 		_running = true;
 		
 		//accept connections
-		while(_clients.getNumClients() < _maxClients){
+		while((_clients.getNumClients() < _maxClients) && _running){
 			try {
 				Socket client = _server.accept();
 				//System.out.println("Connected to a client");
@@ -61,13 +61,18 @@ public class ChatServer extends Thread{
 				new ChatClientManager(_clients, client).start();
 				
 				//System.out.println(String.format("Number of connected clients: %s", _pool.getNumConnected()));
+			} catch(SocketException e){
+				_running = false;
 			} catch(SocketTimeoutException e){
 				//simply checking how many connections there are
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				_running = false;
 				e.printStackTrace();
 			}
 		}
+		
+		kill();
 	}
 	
 	/**
@@ -92,6 +97,7 @@ public class ChatServer extends Thread{
 	 */
 	public void kill(){
 		try {
+			_running = false;
 			_server.close();
 			_clients.kill();
 		} catch (IOException e) {

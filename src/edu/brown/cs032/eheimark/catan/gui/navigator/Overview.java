@@ -15,10 +15,12 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
+import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JTextField;
@@ -79,7 +81,7 @@ public class Overview extends JPanel {
 		myResources.setText("Player resources:");
 		myResources.setFont(MY_FONT);
 		myResources.setOpaque(false);
-		myResources.setBounds(534, 0, 385, 28);
+		myResources.setBounds(500, 0, 385, 28);
 		add(myResources);
 		
 		JButton endTurnButton = new JButton("End Turn");
@@ -104,9 +106,8 @@ public class Overview extends JPanel {
 			ps.setResources(p.getTotalResources() + "");
 			ps.setIcon(false);
 			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check
-				ps.setBold();
 				int[] resources = p.getResources();
-				String s = "MyResources: Ore:" + resources[3] + "/Wheat:" + resources[0] + "/Wool:" + resources[1] + "/Lumber:" + resources[4] + "/Brick:" + resources[2];
+				String s = "Ore:" + resources[3] + " Wheat:" + resources[0] + " Wool:" + resources[1] + " Lumber:" + resources[4] + " Brick:" + resources[2];
 				myResources.setText(s);
 				myResources.setForeground(p.getColor());
 			}
@@ -132,7 +133,12 @@ public class Overview extends JPanel {
 	class EndTurnActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("End turn action listener");
+			System.out.println("End turn action listener...");
+			try {
+				client.sendMove(new FirstMove(client.getPlayerName()));
+			} catch (IllegalArgumentException | IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	};
 }

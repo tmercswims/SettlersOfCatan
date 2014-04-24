@@ -68,10 +68,12 @@ class ChatClientManager extends Thread{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			kill();
+			//kill();
 		} catch(NullPointerException e){
-			kill();
+			//kill();
 		}
+		
+		kill();
 	}
 	
 	/**
