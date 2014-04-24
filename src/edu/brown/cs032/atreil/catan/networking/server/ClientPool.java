@@ -2,6 +2,7 @@ package edu.brown.cs032.atreil.catan.networking.server;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -99,7 +100,7 @@ public class ClientPool {
 	 * @throws IOException If anything goes wrong with the socket connection
 	 */
 	public void broadcast(Packet packet) throws IOException{
-		for(ClientManager mngr : _clients.values()){
+		for(ClientManager mngr : Collections.synchronizedCollection(_clients.values())){
 			
 			if(packet.getType() == Packet.BOARD){
 				Board board = (Board) packet.getObject();
