@@ -90,6 +90,8 @@ public class Packet implements Serializable {
 	 */
 	public static int TRADE = 12;
 	
+	public static int LASTMOVE = 13;
+	
 	/*********************************************/
 	private final int _type; //the type of the object
 	private final Object _o; //the object

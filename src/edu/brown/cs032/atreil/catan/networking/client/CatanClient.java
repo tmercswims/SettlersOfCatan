@@ -237,6 +237,10 @@ public class CatanClient extends Thread{
 				tradeframe.close();
 			}
 			tradeframe = new TradeFrame("Trade Received!", trade, this);
+		} else if (type == Packet.LASTMOVE){
+			if(tradeframe != null) {
+				tradeframe.close();
+			}
 		} else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
 		}
