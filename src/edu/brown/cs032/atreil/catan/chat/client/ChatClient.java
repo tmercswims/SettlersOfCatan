@@ -121,6 +121,7 @@ public class ChatClient {//extends JPanel{
 		_panel.add(_field);
 		//_panel.add(_send);
 		_panel.setVisible(true);
+		_field.requestFocus();
 		
 		_red = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_red, "Helvetica");
