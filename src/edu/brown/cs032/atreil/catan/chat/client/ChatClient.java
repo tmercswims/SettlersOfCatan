@@ -123,19 +123,19 @@ public class ChatClient {//extends JPanel{
 		_panel.setVisible(true);
 		
 		_red = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(_red, "Courier New");
+		StyleConstants.setFontFamily(_red, "Monaco");
 		StyleConstants.setForeground(_red, Color.red);
 		
 		_blue = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(_blue, "Courier New");
+		StyleConstants.setFontFamily(_blue, "Monaco");
 		StyleConstants.setForeground(_blue, Color.blue);
 		
 		_orange = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(_orange, "Courier New");
+		StyleConstants.setFontFamily(_orange, "Monaco");
 		StyleConstants.setForeground(_orange, Color.orange);
 		
 		_server = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(_server, "Courier New Bold");
+		StyleConstants.setFontFamily(_server, "Monaco Bold");
 		StyleConstants.setForeground(_server, Color.gray);
 		
 		run();
@@ -288,11 +288,24 @@ public class ChatClient {//extends JPanel{
 					if(color.equals("server")){
 						attr = _server;
 					}
+					//System.out.println(line);
 					if(line.split(" ")[2].equals("*whisper*")){
-						StyleConstants.setFontFamily(_server, "Courier New Italic");
+						//System.out.println("here");
+						StyleConstants.setFontFamily(attr, "Monaco Italic");
 					}
 					try {
-						_area.getDocument().insertString(_area.getCaretPosition(),line+"\n",attr);
+						String[] tmp = line.split(" ");
+						StringBuilder sb = new StringBuilder();
+						for(int i = 0; i < tmp.length; i++){
+							if(i!=1){
+								sb.append(tmp[i]+" ");
+							}
+							else{
+								sb = new StringBuilder(sb.toString().trim());
+								sb.append(tmp[i].charAt(tmp[i].length()-1));
+							}
+						}
+						_area.getDocument().insertString(_area.getCaretPosition(),sb.toString().trim()+"\n",attr);
 						lines.add(line);
 					} catch (BadLocationException e1) {
 						// TODO Auto-generated catch block
