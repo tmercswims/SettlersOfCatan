@@ -196,6 +196,9 @@ public class Referee {
     }
     
     private void setActivePlayer(int p) {
+        for (Player pa : _players) {
+            pa.setIsActive(false);
+        }
         Player player = _players[p];
         player.setIsActive(true);
         _turnOver = false;
@@ -204,6 +207,9 @@ public class Referee {
     }
     
     private void setActivePlayer(Player player) {
+        for (Player pa : _players) {
+            pa.setIsActive(false);
+        }
         player.setIsActive(true);
         _turnOver = false;
         _activePlayer = player;
