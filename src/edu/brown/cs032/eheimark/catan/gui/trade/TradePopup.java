@@ -2,13 +2,17 @@ package edu.brown.cs032.eheimark.catan.gui.trade;
 
 import java.awt.Graphics;
 import java.awt.Image;
+
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JButton;
+
 import edu.brown.cs032.eheimark.catan.gui.Constants;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -17,13 +21,9 @@ public class TradePopup extends JPanel {
 	private final Image img; // background image
 	private final String IMG_FILE_LOC = "images/Cards1000x140.png";
 	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 14);
-	private static final Color MY_BACKGROUND = Constants.CATAN_RED;
-	private static final Color MY_FOREGROUND = Constants.CATAN_YELLOW;
 	
 	public TradePopup(String playerName, Integer ore, Integer wheat, Integer wool, Integer lumber, Integer brick) {
 		super();
-
-		setForeground(MY_FOREGROUND);
 		this.img = new ImageIcon(IMG_FILE_LOC).getImage();
 
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
@@ -72,12 +72,14 @@ public class TradePopup extends JPanel {
 		add(oreLabel);
 		
 		JButton acceptButton = new JButton("Accept Trade");
+		acceptButton.setForeground(Constants.CATAN_YELLOW);
 		acceptButton.setFont(MY_FONT);
 		acceptButton.setBounds(374, 99, 125, 29);
 		acceptButton.addActionListener(new AcceptTradeActionListener());
 		add(acceptButton);
 		
 		JButton rejectTrade = new JButton("Reject Trade");
+		rejectTrade.setForeground(Constants.CATAN_RED);
 		rejectTrade.setFont(MY_FONT);
 		rejectTrade.addActionListener(new RejectTradeActionListener());
 		rejectTrade.setBounds(499, 99, 122, 29);
@@ -117,9 +119,7 @@ public class TradePopup extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(MY_BACKGROUND);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		super.repaint();
 		g.drawImage(img, 0, 0, null);
 	}
-	
 }
