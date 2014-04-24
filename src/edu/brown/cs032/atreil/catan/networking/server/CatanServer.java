@@ -1,16 +1,11 @@
 package edu.brown.cs032.atreil.catan.networking.server;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -23,6 +18,7 @@ import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.Referee;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
+import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
 
 /**
@@ -349,6 +345,21 @@ public class CatanServer extends Thread{
 	}
 	
 	/**
+	 * Sends a trade to the specified player
+	 * @param playerName The user to send to
+	 * @param trade The trade to offer
+	 */
+	public void sendTrade(String playerName, TradeMove trade){
+		try{
+			_pool.send(playerName, new Packet(Packet.TRADE, trade, 0));
+		} catch(IOException e){
+			addUpdate(e.getMessage());
+		} catch(IllegalArgumentException e){
+			addUpdate(e.getMessage());
+		}
+	}
+	
+	/**
 	 * Reads a move from the server.
 	 * @return The move
 	 */
@@ -411,10 +422,11 @@ public class CatanServer extends Thread{
 		}
 	}
 	
-	/**
+	/**@deprecated use {@link isServerRunning}
 	 * Returns whether or not the game is still going on
 	 * @return True, if the game is still going on and false otherwise
 	 */
+	@Deprecated
 	public boolean isRunning(){
 		return !_ref.isGameOver();
 	}

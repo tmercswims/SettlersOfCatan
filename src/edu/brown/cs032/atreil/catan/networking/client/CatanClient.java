@@ -227,8 +227,9 @@ public class CatanClient extends Thread{
 			placeSettlement();
 		} else if(type == Packet.ROAD){
 			placeRoad();
-		}
-		else{
+		} else if(type == Packet.TRADE){
+			//TODO: set up notifying trade
+		} else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
 		}
 	}
