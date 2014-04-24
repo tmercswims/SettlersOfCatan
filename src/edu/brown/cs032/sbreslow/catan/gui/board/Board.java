@@ -13,12 +13,16 @@ public class Board implements Serializable {
 	private final Tile[] _tiles = new Tile[37];
 	private final Node[] _nodes = new Node[96];
 	private final Edge[] _edges = new Edge[132];
-	private final int _x = 34;//25;//50
-	private final int _y = 55;//38;//75
+	private int _x = 34;//25;//50
+	private int _y = 55;//38;//75
 	private List<Integer> _resources = new ArrayList<>(19);
 	private List<Integer> _nums = new ArrayList<>(18);
 
-	public Board(){
+	public Board(boolean small){
+		if(small){
+			_x = 26;
+			_y = 42;
+		}
 		for(int i = 0; i < 19; i++){
 			if(i<1){
 				_resources.add(5);//desert

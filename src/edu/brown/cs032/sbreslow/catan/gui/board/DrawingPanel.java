@@ -67,7 +67,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		_toDraw = new ArrayList<>();
 		setVisible(true);
 		addMouseListener(new ClickList(this));
-		Board b = new Board();
+		Board b = new Board(false);
 		_toDraw.addAll(b.getBoard());
         _client = null;
 	}
