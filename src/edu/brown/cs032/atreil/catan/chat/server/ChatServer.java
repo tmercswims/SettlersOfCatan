@@ -51,9 +51,8 @@ public class ChatServer extends Thread{
 	public void run(){
 		_running = true;
 		
-		System.out.println("ChatServer " + getName());
 		//accept connections
-		while((_clients.getNumClients() < _maxClients) && _running){
+		while((_clients.getNumClients() < _maxClients)){
 			try {
 				Socket client = _server.accept();
 				//System.out.println("Connected to a client");

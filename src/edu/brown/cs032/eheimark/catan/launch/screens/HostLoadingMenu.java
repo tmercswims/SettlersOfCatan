@@ -46,7 +46,6 @@ public class HostLoadingMenu extends CatanMenu {
 						if(cs != null) { 
 							System.out.println("Trying to kill catan server...");
 							cs.kill(); 
-							System.out.println("Killed catan server");
 						}
 						if(su != null) {
 							su.interrupt();
@@ -76,9 +75,7 @@ public class HostLoadingMenu extends CatanMenu {
 				jta.append("Server launched successfully!\n");
 
 				while(cs.isServerRunning()) { //TODO: Switch to isRunning method
-					String status = cs.readStatus();
-					System.out.println(status);
-					jta.append(status);
+					jta.append(cs.readStatus());
 				}
 				System.out.println("Done reading updates");
 			} catch(IOException e) {
