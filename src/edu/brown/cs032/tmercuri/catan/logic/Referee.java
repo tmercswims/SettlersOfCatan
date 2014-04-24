@@ -34,6 +34,8 @@ public class Referee {
     private Player _road, _army, _activePlayer;
     private boolean _gameOver, _turnOver;
     private final PairOfDice _dice;
+    private Node _startupSettlement = null;
+    private int _startUp = 0;
     
     /**
      * Creates a new Referee, with clear fields.
@@ -47,6 +49,14 @@ public class Referee {
         _players = players;
         _board = new Board();
         _server = server;
+    }
+    
+    /**
+     * Tells whether the game is over.
+     * @return true if the game is over, false if not
+     */
+    public boolean isGameOver() {
+        return _gameOver;
     }
     
     /**
@@ -64,7 +74,13 @@ public class Referee {
         
         pushPlayers();
         pushBoard();
+        
+        // roll the dice for each player and order the players based on the rolls
         rollForOrder();
+        
+        _startUp = 1;
+        firstMoves();
+        _startUp = 0;
         
         for (int z=0; !_gameOver; z++) {
             int currentPlayer = z % _players.length;
@@ -74,10 +90,10 @@ public class Referee {
                 MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                 if (whatHappened.isError()) {
                     _server.sendMessage(move.getPlayerName(), "Move not allowed - " + whatHappened.getDescription());
-                    System.out.println(whatHappened.getDescription());
+                    System.out.println("Move not allowed - " + whatHappened.getDescription());
                 } else {
                     _server.sendMessage(null, _activePlayer.getName() + whatHappened.getDescription());
-                    System.out.println(whatHappened.getDescription());
+                    System.out.println(_activePlayer.getName() + whatHappened.getDescription());
                 }
                 pushPlayers();
                 pushBoard();
@@ -85,14 +101,6 @@ public class Referee {
             calculateVP();
         }
         // We have a winner!
-    }
-    
-    /**
-     * Tells whether the game is over.
-     * @return true if the game is over, false if not
-     */
-    public boolean isGameOver() {
-        return _gameOver;
     }
     
     private void rollForOrder() {
@@ -106,6 +114,85 @@ public class Referee {
                 return Integer.compare(o1.getInitRoll(), o2.getInitRoll());
             }
         });
+    }
+    
+    private void firstMoves() {
+        for (Player p : _players) {
+            setActivePlayer(p);
+            boolean validSettlement = false;
+            while (!validSettlement) {
+                _server.startSettlement(p.getName());
+                _server.sendMessage(p.getName(), "Click where you would like to build your first settlement.");
+                Move move = _server.readMove();
+                MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
+                if (whatHappened.isError()) {
+                    _server.sendMessage(move.getPlayerName(), "Move not allowed - " + whatHappened.getDescription());
+                    System.out.println("Move not allowed - " + whatHappened.getDescription());
+                } else {
+                    _server.sendMessage(null, _activePlayer.getName() + whatHappened.getDescription());
+                    validSettlement = true;
+                    System.out.println(_activePlayer.getName() + whatHappened.getDescription());
+                }
+                pushPlayers();
+                pushBoard();
+            }
+            boolean validRoad = false;
+            while (!validRoad) {
+                _server.startRoad(p.getName());
+                _server.sendMessage(p.getName(), "Click where you would like to build your first road.");
+                Move move = _server.readMove();
+                MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
+                if (whatHappened.isError()) {
+                    _server.sendMessage(move.getPlayerName(), "Move not allowed - " + whatHappened.getDescription());
+                    System.out.println("Move not allowed - " + whatHappened.getDescription());
+                } else {
+                    _server.sendMessage(null, _activePlayer.getName() + whatHappened.getDescription());
+                    validRoad = true;
+                    System.out.println(_activePlayer.getName() + whatHappened.getDescription());
+                }
+                pushPlayers();
+                pushBoard();
+            }
+        }
+        _startUp = 2;
+        for (int i=_players.length-1;i>=0;i--) {
+            Player p = _players[i];
+            setActivePlayer(p);
+            boolean validSettlement = false;
+            while (!validSettlement) {
+                _server.startSettlement(p.getName());
+                _server.sendMessage(p.getName(), "Click where you would like to build your second settlement.");
+                Move move = _server.readMove();
+                MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
+                if (whatHappened.isError()) {
+                    _server.sendMessage(move.getPlayerName(), "Move not allowed - " + whatHappened.getDescription());
+                    System.out.println("Move not allowed - " + whatHappened.getDescription());
+                } else {
+                    _server.sendMessage(null, _activePlayer.getName() + whatHappened.getDescription());
+                    validSettlement = true;
+                    System.out.println(_activePlayer.getName() + whatHappened.getDescription());
+                }
+                pushPlayers();
+                pushBoard();
+            }
+            boolean validRoad = false;
+            while (!validRoad) {
+                _server.startRoad(p.getName());
+                _server.sendMessage(p.getName(), "Click where you would like to build your second road.");
+                Move move = _server.readMove();
+                MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
+                if (whatHappened.isError()) {
+                    _server.sendMessage(move.getPlayerName(), "Move not allowed - " + whatHappened.getDescription());
+                    System.out.println("Move not allowed - " + whatHappened.getDescription());
+                } else {
+                    _server.sendMessage(null, _activePlayer.getName() + whatHappened.getDescription());
+                    validRoad = true;
+                    System.out.println(_activePlayer.getName() + whatHappened.getDescription());
+                }
+                pushPlayers();
+                pushBoard();
+            }
+        }
     }
     
     private void setActivePlayer(int p) {
@@ -150,28 +237,47 @@ public class Referee {
                 case ROAD:
                     System.out.println("They want to build a road at " + move.getBuildLocation() + ".");
                     Edge e = _board.getEdges()[move.getBuildLocation()];
-                    if (e.isRoad()) return 101;
-                    if (!_activePlayer.hasResources(BUILD_ROAD)) return 102;
-                    if (_activePlayer.getRoadCount() == 0) return 103;
-                    //if (!ownedRoadAdjacent(e)) return 106;
-                    _activePlayer.removeResources(BUILD_ROAD);
-                    _activePlayer.decRoadCount();
-                    e.setOwner(_activePlayer);
-                    e.grow();
-                    return 100;
+                    if (_startUp != 0) {
+                        if (e.isRoad()) return 101;
+                        if (!edgeIsNextToNode(e, _startupSettlement)) return 107;
+                        e.setOwner(_activePlayer);
+                        e.grow();
+                        return 100;
+                    } else {
+                        if (e.isRoad()) return 101;
+                        if (!_activePlayer.hasResources(BUILD_ROAD)) return 102;
+                        if (_activePlayer.getRoadCount() == 0) return 103;
+                        //if (!ownedRoadAdjacent(e)) return 106;                           <----- BE SURE TO RE-ENABLE LATER!!!
+                        _activePlayer.removeResources(BUILD_ROAD);
+                        _activePlayer.decRoadCount();
+                        e.setOwner(_activePlayer);
+                        e.grow();
+                        return 100;
+                    }
                 case SETTLEMENT:
                     System.out.println("They want to build a settlement at " + move.getBuildLocation() + ".");
                     Node ns = _board.getNodes()[move.getBuildLocation()];
-                    if (ns.getVP() == 1 || ns.isOwned()) return 201;
-                    if (!_activePlayer.hasResources(BUILD_SETTLEMENT)) return 202;
-                    if (_activePlayer.getSettlementCount() == 0) return 203;
-                    if (structureAdjacent(ns)) return 204;
-                    if (!ownedRoadAdjacent(ns)) return 206;
-                    _activePlayer.removeResources(BUILD_SETTLEMENT);
-                    _activePlayer.decSettlementCount();
-                    ns.setOwner(_activePlayer);
-                    ns.grow();
-                    return 200;
+                    if (_startUp != 0) {
+                        if (ns.getVP() == 1 || ns.isOwned()) return 201;
+                        if (structureAdjacent(ns)) return 204;
+                        _activePlayer.decSettlementCount();
+                        ns.setOwner(_activePlayer);
+                        if (_startUp == 2) distributeFirstResources(ns);
+                        _startupSettlement = ns;
+                        ns.grow();
+                        return 200;
+                    } else {
+                        if (ns.getVP() == 1 || ns.isOwned()) return 201;
+                        if (!_activePlayer.hasResources(BUILD_SETTLEMENT)) return 202;
+                        if (_activePlayer.getSettlementCount() == 0) return 203;
+                        if (structureAdjacent(ns)) return 204;
+                        if (!ownedRoadAdjacent(ns)) return 206;
+                        _activePlayer.removeResources(BUILD_SETTLEMENT);
+                        _activePlayer.decSettlementCount();
+                        ns.setOwner(_activePlayer);
+                        ns.grow();
+                        return 200;
+                    }
                 case CITY:
                     System.out.println("They want to build a city at " + move.getBuildLocation() + ".");
                     Node nc = _board.getNodes()[move.getBuildLocation()];
@@ -191,7 +297,15 @@ public class Referee {
                     return -1;
             }
         }
-        return 001;
+        return 999;
+    }
+    
+    private void distributeFirstResources(Node node) {
+        int[] resources = new int[]{0,0,0,0,0};
+        for (Tile t : node.getTiles()) {
+            resources[t.getResource()] += 1;
+        }
+        _activePlayer.addResources(resources);
     }
     
     private boolean structureAdjacent(Node node) {
@@ -220,6 +334,14 @@ public class Referee {
                     return true;
                 }
             }
+        }
+        return false;
+    }
+    
+    private boolean edgeIsNextToNode(Edge edge, Node node) {
+        for (Node n : edge.getNodes()) {
+            if (n.getIndex() == node.getIndex()) 
+                return true;
         }
         return false;
     }
