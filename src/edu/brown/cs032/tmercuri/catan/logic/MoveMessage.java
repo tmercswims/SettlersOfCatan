@@ -42,6 +42,7 @@ public enum MoveMessage {
     MESSAGE_102(102, true, "you do not have enough resources for a road.\n"),
     MESSAGE_103(103, true, "you do not have any roads left to build.\n"),
     MESSAGE_106(106, true, "you do not have a road that reaches that edge.\n"),
+    MESSAGE_107(107, true, "you must build the road touching your previous settlement.\n"),
     
     /**
      * settlement
