@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
@@ -20,7 +21,7 @@ import edu.brown.cs032.tmercuri.catan.logic.move.Move;
  */
 public class ClientPool {
 
-	private final HashMap<String, ClientManager> _clients; //keeps track of clients
+	private final Map<String, ClientManager> _clients; //keeps track of clients
 	private CatanServer _server; //use to pass moves
 	
 	/**
@@ -28,15 +29,21 @@ public class ClientPool {
 	 * @param server The server to give moves to
 	 */
 	public ClientPool(CatanServer server){
-		_clients = new HashMap<>();
+		_clients = Collections.synchronizedMap(new HashMap<String, ClientManager>());
 		this._server = server;
 	}
 	
+	/**
+	 * Returns a list of players
+	 * @return list of players connected
+	 */
 	public List<Player> getPlayerList(){
 		ArrayList<Player> players = new ArrayList<Player>();
-		for(ClientManager client : _clients.values()){
+		
+		for(ClientManager client : Collections.synchronizedCollection(_clients.values())){
 			players.add(client.getPlayer());
 		}
+		
 		return players;
 	}
 	
@@ -69,7 +76,7 @@ public class ClientPool {
 	public List<String> getPlayerNames(){
 		LinkedList<String> list = new LinkedList<>();
 		
-		for(ClientManager client : _clients.values()){
+		for(ClientManager client : Collections.synchronizedCollection(_clients.values())){
 			list.add(client.getPlayerName());
 		}
 		
@@ -136,7 +143,7 @@ public class ClientPool {
 	 * Kills all of the clients by freeing up their resources
 	 */
 	public void killAll(){
-		for(ClientManager client : _clients.values()){
+		for(ClientManager client : Collections.synchronizedCollection(_clients.values())){
 			client.kill();
 		}
 	}
@@ -149,7 +156,7 @@ public class ClientPool {
 		Player[] toReturn = new Player[_clients.size()];
 		int i = 0;
 		
-		for(ClientManager client : _clients.values())
+		for(ClientManager client : Collections.synchronizedCollection(_clients.values()))
 			toReturn[i++] = client.getPlayer(); 
 		
 		return toReturn;

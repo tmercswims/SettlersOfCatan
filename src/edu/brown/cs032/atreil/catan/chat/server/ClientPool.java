@@ -41,7 +41,6 @@ class ClientPool {
 	 */
 	public synchronized void sendAll(String message, String sender){
 		String color = message.split(" ")[0];
-		String[] split = message.split(" ");
 		String actualMessage = message.substring(message.indexOf(" "));
 		String toSend = String.format("%s (%s): %s", sender, color, actualMessage);
 		
