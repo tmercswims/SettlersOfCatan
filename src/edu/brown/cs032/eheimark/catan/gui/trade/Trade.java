@@ -43,14 +43,17 @@ public class Trade extends JPanel {
 		this.client = cc;
 
 		Player[] players = client.getPlayers();
-		String[] playerStringArray= new String[players.length-1];
+		String[] playerStringArray= new String[players.length];
 		
 		int i = 0;
 		for(Player p : players) {
 			if(!client.getPlayerName().equals(p.getName())) {
 				playerStringArray[i] = p.getName();
-				i++;
 			}
+			else { // adds merchant instead of player
+				playerStringArray[i] = "***Merchant***";
+			}
+			i++;
 		}
 
 		setForeground(MY_FOREGROUND);
