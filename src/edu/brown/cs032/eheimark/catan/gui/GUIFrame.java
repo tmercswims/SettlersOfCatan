@@ -28,5 +28,6 @@ public class GUIFrame extends JFrame {
 		setMinimumSize(Constants.GUI_SIZE);
 //
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pack();
 	}
 }

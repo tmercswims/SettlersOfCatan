@@ -1,14 +1,19 @@
 package edu.brown.cs032.eheimark.catan.gui.trade;
-import edu.brown.cs032.eheimark.catan.launch.CatanFrame;
 
-public class TradeFrame extends CatanFrame{
+import javax.swing.JFrame;
+import edu.brown.cs032.eheimark.catan.gui.Constants;
+
+public class TradeFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 
-	public TradeFrame(String frameName, String playerName, Integer ore, Integer wheat, Integer wool, Integer lumber, Integer brick) {
-		super(new TradePopup(playerName, ore, wheat, wool, lumber, brick), frameName);
-	}
+	public TradeFrame(String frameName, String playerName, int[] trade) {
+		super(frameName);
 
-	public static void main(String[] args) {
-		new TradeFrame("Trade Received!", "playerFrom", 1, 2, 3, 4, 5);
+		setMinimumSize(Constants.TABBED_MENU_SIZE);
+		add(new TradePopup(playerName, trade));
+		setVisible(true);
+		setResizable(true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		pack();
 	}
 }
