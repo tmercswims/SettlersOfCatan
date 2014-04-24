@@ -13,7 +13,7 @@ public class TradeMove extends Move {
     
     private static final long serialVersionUID = 7764431091933735922L;
     
-    private final int[] _giving, _receiving;
+    private final int[] _resources;
     private final String _playerName, _proposingTo;
     private int _type;
     
@@ -21,13 +21,11 @@ public class TradeMove extends Move {
      * Makes a new TradeMove.
      * @param playerName the player who played this move
      * @param proposingTo the player that the trade is being proposed to
-     * @param giving a resource array indicating what the proposing player is giving up
-     * @param receiving a resource array indicating what the proposing player wants in return
+     * @param resources a resource array indicating what the proposing player is giving up (negative) and wants (positive)
      * @param type the type of the trade move; -1: initial proposition; 0: reject; 1: accept
      */
-    public TradeMove(String playerName, String proposingTo, int[] giving, int[] receiving, int type) {
-        _giving = giving;
-        _receiving = receiving;
+    public TradeMove(String playerName, String proposingTo, int[] resources, int type) {
+        _resources = resources;
         _playerName = playerName;
         _proposingTo = proposingTo;
         _type = type;
@@ -51,19 +49,11 @@ public class TradeMove extends Move {
     }
     
     /**
-     * Gets the resource array that tells what the player is giving up.
-     * @return the resources that the player is giving up
+     * Gets the resource array that tells what the player is giving up and receiving.
+     * @return the resource array that tells what the player is giving up and receiving
      */
-    public int[] getGiving() {
-        return _giving;
-    }
-    
-    /**
-     * Gets the resource array that tells what the player wants.
-     * @return the resources that the player is receiving
-     */
-    public int[] getReceiving() {
-        return _receiving;
+    public int[] getResources() {
+        return _resources;
     }
     
     /**
