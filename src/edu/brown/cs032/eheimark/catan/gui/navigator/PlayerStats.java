@@ -108,16 +108,6 @@ public class PlayerStats extends JPanel {
 		name.setText(s);
 	}
 	
-	public void setBold() {
-		name.setFont(MY_FONT_BOLD);
-		vps.setFont(MY_FONT_BOLD);
-		devcards.setFont(MY_FONT_BOLD);
-		roads.setFont(MY_FONT_BOLD);
-		resources.setFont(MY_FONT_BOLD);
-		settlements.setFont(MY_FONT_BOLD);
-		cities.setFont(MY_FONT_BOLD);
-	}
-	
 	@Override
 	public void paintComponent(Graphics g) {
 		if(isActivePlayer) {
