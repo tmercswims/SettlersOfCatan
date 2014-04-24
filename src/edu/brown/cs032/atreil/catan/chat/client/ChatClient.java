@@ -282,17 +282,17 @@ public class ChatClient {//extends JPanel{
 					if(color.equalsIgnoreCase("red")){
 						attr = _red;
 					}
-					if(color.equalsIgnoreCase("blue")){
+					else if(color.equalsIgnoreCase("blue")){
 						attr = _blue;
 					}
-					if(color.equalsIgnoreCase("orange")){
+					else if(color.equalsIgnoreCase("orange")){
 						attr = _orange;
 					}
-					if(color.equalsIgnoreCase("server")){
+					else if(color.equalsIgnoreCase("server")){
 						attr = _server;
 					}
 					else{
-						System.out.println("COLOR IS WRONG: "+color);
+						//System.out.println("COLOR IS WRONG: "+color);
 					}
 					//System.out.println(line);
 					if(line.split(" ")[2].equals("*whisper*")){
