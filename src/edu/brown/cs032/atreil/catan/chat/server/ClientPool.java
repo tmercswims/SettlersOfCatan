@@ -66,7 +66,15 @@ class ClientPool {
 				throw new IllegalArgumentException("No player exists with that name");
 			
 			String color = message.split(" ")[0];
-			message  = message.split(" ")[1]+" "+message.split(" ")[2];
+			StringBuilder sb = new StringBuilder();
+			boolean first = true;
+			for(String s: message.split(" ")){
+				if(!first){
+					sb.append(s+" ");
+				}
+				first = false;
+			}
+			message  = sb.toString().trim();
 			_clients.get(player).send(String.format("%s (%s): %s", sender, color, message));
 			System.out.println("Sending " + message);
 		}

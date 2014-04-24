@@ -289,7 +289,7 @@ public class ChatClient {//extends JPanel{
 						attr = _server;
 					}
 					if(line.split(" ")[2].equals("*whisper*")){
-						StyleConstants.setFontFamily(_server, "Courier New Italics");
+						StyleConstants.setFontFamily(_server, "Courier New Italic");
 					}
 					try {
 						_area.getDocument().insertString(_area.getCaretPosition(),line+"\n",attr);
