@@ -14,19 +14,23 @@ public class TradeMove extends Move {
     private static final long serialVersionUID = 7764431091933735922L;
     
     private final int[] _giving, _receiving;
-    
-    private final String _playerName;
+    private final String _playerName, _proposingTo;
+    private int _type;
     
     /**
      * Makes a new TradeMove.
      * @param playerName the player who played this move
+     * @param proposingTo the player that the trade is being proposed to
      * @param giving a resource array indicating what the proposing player is giving up
      * @param receiving a resource array indicating what the proposing player wants in return
+     * @param type the type of the trade move; -1: initial proposition; 0: reject; 1: accept
      */
-    public TradeMove(String playerName, int[] giving, int[] receiving) {
+    public TradeMove(String playerName, String proposingTo, int[] giving, int[] receiving, int type) {
         _giving = giving;
         _receiving = receiving;
         _playerName = playerName;
+        _proposingTo = proposingTo;
+        _type = type;
     }
     
     /**
@@ -36,6 +40,14 @@ public class TradeMove extends Move {
     @Override
     public String getPlayerName() {
         return _playerName;
+    }
+    
+    /**
+     * Gets the name of the player that the trade is being proposed to.
+     * @return the name of the receiving player of the trade
+     */
+    public String getProposedTo() {
+        return _proposingTo;
     }
     
     /**
@@ -52,5 +64,21 @@ public class TradeMove extends Move {
      */
     public int[] getReceiving() {
         return _receiving;
+    }
+    
+    /**
+     * Gets the type of this trade.
+     * @return -1: initial proposition; 0: reject; 1: accept
+     */
+    public int getType() {
+        return _type;
+    }
+    
+    /**
+     * Sets the type of this trade.
+     * @param type the new type of the trade move; -1: initial proposition; 0: reject; 1: accept
+     */
+    public void setType(int type) {
+        _type = type;
     }
 }
