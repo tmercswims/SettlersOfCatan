@@ -422,6 +422,7 @@ public class Referee {
 
     private int endTurn() {
         _activePlayer.setIsActive(false);
+        _server.sendLastMove();
         _turnOver = true;
         return 001;
     }

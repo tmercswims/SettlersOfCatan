@@ -32,7 +32,7 @@ public enum MoveMessage {
     /**
      * it's not your turn
      */
-    MESSAGE_999(999, true, "%s, it is not your turn."),
+    MESSAGE_999(999, true, "it is not your turn."),
     
     /**
      * road

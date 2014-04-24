@@ -24,16 +24,6 @@ public class GUI extends JPanel {
 	//TODO: Delete throws
 	public GUI(CatanClient cc) {
 		super(new BorderLayout());
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                        UIManager.setLookAndFeel(info.getClassName());
-                        break;
-                   }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            System.err.println("ERROR: " + ex.getMessage());
-        }
 		this.client = cc;
 		this.client.setGUI(this);
 		this.client.start(); // start listening on client
