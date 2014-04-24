@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,9 +22,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
@@ -41,11 +47,16 @@ public class ChatClient {//extends JPanel{
 	private boolean _running;
 	private Thread _thread;
 	private JTextField _field;
-	private JTextArea _area;
+	private JTextPane _area;
 	private JButton _send;
 	public JPanel _panel;
 	private JScrollPane _scroll;
 	private CatanClient _client;
+	SimpleAttributeSet _red;
+	SimpleAttributeSet _blue;
+	SimpleAttributeSet _orange;
+	SimpleAttributeSet _server;
+	
 
 	/**
 	 * Creates a new ChatClient that will connect to a ChatServer. Upon creation,
@@ -77,17 +88,17 @@ public class ChatClient {//extends JPanel{
         
 		_field = new JTextField(20);
 		_field.addKeyListener(new ChatListener());
-		_area = new JTextArea(35,20);
-		Dimension size = _area.getSize();
+		_area = new JTextPane();
+		Dimension size = new Dimension(220,580);
 		_area.setMaximumSize(size);
 		_area.setMinimumSize(size);
 		_area.setPreferredSize(size);
-        //DefaultCaret caret = (DefaultCaret)_area.getCaret();
-        //caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-        //_area.setCaret(caret);
+        DefaultCaret caret = (DefaultCaret)_area.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        _area.setCaret(caret);
 		_area.setEditable(false);
-		_area.setLineWrap(true);
-        _area.setWrapStyleWord(true);
+		//_area.setLineWrap(true);
+        //_area.setWrapStyleWord(true);
         Border bl = BorderFactory.createLineBorder(Color.black);
         TitledBorder b = BorderFactory.createTitledBorder(bl,"Chat/Log");
         b.setTitleJustification(TitledBorder.CENTER);
@@ -105,11 +116,28 @@ public class ChatClient {//extends JPanel{
 		_scroll.setPreferredSize(size);
 		//_scroll.setSize(size);
 		
-		_panel.add(_area);
-		//_panel.add(_scroll);
+		//_panel.add(_area);
+		_panel.add(_scroll);
 		_panel.add(_field);
 		//_panel.add(_send);
 		_panel.setVisible(true);
+		
+		_red = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(_red, "Courier New");
+		StyleConstants.setForeground(_red, Color.red);
+		
+		_blue = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(_blue, "Courier New");
+		StyleConstants.setForeground(_blue, Color.blue);
+		
+		_orange = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(_orange, "Courier New");
+		StyleConstants.setForeground(_orange, Color.orange);
+		
+		_server = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(_server, "Courier New Bold");
+		StyleConstants.setForeground(_server, Color.gray);
+		
 		run();
 	}
 
@@ -239,14 +267,41 @@ public class ChatClient {//extends JPanel{
 		public void run() {
 			//TODO: Receive all the messages sent by the socket and display it
 			//to the client.
+			Queue<String> lines = new LinkedList<String>();
 			while(_running){
 				try {
 					String line = _in.readLine();
 					//_area.setText(line+"\n"+_area.getText());
-					_area.append(line);
-					_area.append("\n");
-					if(_area.getLineCount()>_area.getRows()){
-						int offset = 0;
+					SimpleAttributeSet attr = new SimpleAttributeSet();
+					String color = line.split(" ")[1];
+					color = color.substring(1,color.length()-2);
+					System.out.println(color);
+					if(color.equals("red")){
+						attr = _red;
+					}
+					else if(color.equals("blue")){
+						attr = _blue;
+					}
+					else if(color.equals("orange")){
+						attr = _orange;
+					}
+					else if(color.equals("server")){
+						attr = _server;
+					}
+					else{
+						//System.out.println("BAD COLOR WTF!!!!!");
+					}
+					try {
+						_area.getDocument().insertString(_area.getText().length(),line+"\n",attr);
+						lines.add(line);
+					} catch (BadLocationException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					//_area.append(line);
+					//_area.append("\n");
+					//if(_area.getLineCount()>_area.getRows()){
+						/*int offset = 0;
 						for(int i = 0; i < (_area.getLineCount()-_area.getRows())-1; i++){
 							try {
 								offset = _area.getLineEndOffset(i);
@@ -255,8 +310,8 @@ public class ChatClient {//extends JPanel{
 								e.printStackTrace();
 							}
 						}
-						_area.setText(_area.getText().substring(offset,_area.getText().length()));
-					}
+						_area.setText(_area.getText().substring(offset,_area.getText().length()));*/
+					//}
 					//readLine();
 					//System.out.println(_input.readLine());
 				} catch (SocketException e){
