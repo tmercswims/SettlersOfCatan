@@ -15,18 +15,20 @@ public class TradeMove extends Move {
     
     private final int[] _giving, _receiving;
     
-    private final String _playerName;
+    private final String _playerName, _proposingTo;
     
     /**
      * Makes a new TradeMove.
      * @param playerName the player who played this move
+     * @param proposingTo the player that the trade is being proposed to
      * @param giving a resource array indicating what the proposing player is giving up
      * @param receiving a resource array indicating what the proposing player wants in return
      */
-    public TradeMove(String playerName, int[] giving, int[] receiving) {
+    public TradeMove(String playerName, String proposingTo, int[] giving, int[] receiving) {
         _giving = giving;
         _receiving = receiving;
         _playerName = playerName;
+        _proposingTo = proposingTo;
     }
     
     /**
@@ -36,6 +38,14 @@ public class TradeMove extends Move {
     @Override
     public String getPlayerName() {
         return _playerName;
+    }
+    
+    /**
+     * Gets the name of the player that the trade is being proposed to.
+     * @return the name of the receiving player of the trade
+     */
+    public String getProposedTo() {
+        return _proposingTo;
     }
     
     /**
