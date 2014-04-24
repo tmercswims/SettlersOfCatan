@@ -22,22 +22,22 @@ public enum MoveMessage {
     /**
      * started turn
      */
-    MESSAGE_000(000, false, " has started their turn."),
+    MESSAGE_000(000, false, "%s has started their turn."),
     
     /**
      * ended turn
      */
-    MESSAGE_001(001, false, " has completed their turn."),
+    MESSAGE_001(001, false, "%s has completed their turn."),
     
     /**
      * it's not your turn
      */
-    MESSAGE_999(999, true, " it is not your turn."),
+    MESSAGE_999(999, true, "%s, it is not your turn."),
     
     /**
      * road
      */
-    MESSAGE_100(100, false, " built a road."),
+    MESSAGE_100(100, false, "%s built a road."),
     MESSAGE_101(101, true, "there is already a road there."),
     MESSAGE_102(102, true, "you do not have enough resources for a road."),
     MESSAGE_103(103, true, "you do not have any roads left to build."),
@@ -47,7 +47,7 @@ public enum MoveMessage {
     /**
      * settlement
      */
-    MESSAGE_200(200, false, " built a settlement."),
+    MESSAGE_200(200, false, "%s built a settlement."),
     MESSAGE_201(201, true, "there is already a settlement there."),
     MESSAGE_202(202, true, "you do not have enough resources for a settlement."),
     MESSAGE_203(203, true, "you do not have any settlements left to build."),
@@ -57,11 +57,20 @@ public enum MoveMessage {
     /**
      * city
      */
-    MESSAGE_300(300, false, " built a city."),
+    MESSAGE_300(300, false, "%s built a city."),
     MESSAGE_301(301, true, "there is already a city there."),
     MESSAGE_302(302, true, "you do not have enough resources for a city."),
     MESSAGE_303(303, true, "you do not have any cities left to build."),
-    MESSAGE_305(305, true, "the settlement at that intersection is not yours.\n");
+    MESSAGE_305(305, true, "the settlement at that intersection is not yours.\n"),
+    
+    /**
+     * trading
+     */
+    MESSAGE_400(400, false, "%s proposed a trade."),
+    MESSAGE_401(401, true, "you do not have enough resources for that trade."),
+    MESSAGE_402(402, true, "the other player does not have enough resources for that trade."),
+    MESSAGE_403(403, true, "the other player rejected the trade."),
+    MESSAGE_410(410, false, "%s completed a trade.");
     
     private final int _code;
     private final boolean _isError;

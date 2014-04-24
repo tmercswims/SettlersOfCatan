@@ -90,11 +90,11 @@ public class Referee {
                 Move move = _server.readMove();
                 MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                 if (whatHappened.isError()) {
-                    _server.sendMessage(move.getPlayerName(), "Move not allowed - " + whatHappened.getDescription());
-                    System.out.println("Move not allowed - " + whatHappened.getDescription());
+                    _server.sendMessage(move.getPlayerName(), "Not allowed - " + whatHappened.getDescription());
+                    System.out.println("Not allowed - " + whatHappened.getDescription());
                 } else {
-                    _server.sendMessage(null, _activePlayer.getName() + whatHappened.getDescription());
-                    System.out.println(_activePlayer.getName() + whatHappened.getDescription());
+                    _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
+                    System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
                 }
                 pushPlayers();
                 pushBoard();
@@ -127,12 +127,11 @@ public class Referee {
                 Move move = _server.readMove();
                 MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                 if (whatHappened.isError()) {
-                    _server.sendMessage(move.getPlayerName(), "Move not allowed - " + whatHappened.getDescription());
-                    System.out.println("Move not allowed - " + whatHappened.getDescription());
+                    _server.sendMessage(move.getPlayerName(), "Not allowed - " + whatHappened.getDescription());
+                    System.out.println("Not allowed - " + whatHappened.getDescription());
                 } else {
-                    _server.sendMessage(null, _activePlayer.getName() + whatHappened.getDescription());
-                    validSettlement = true;
-                    System.out.println(_activePlayer.getName() + whatHappened.getDescription());
+                    _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
+                    System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
                 }
                 pushPlayers();
                 pushBoard();
@@ -144,12 +143,11 @@ public class Referee {
                 Move move = _server.readMove();
                 MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                 if (whatHappened.isError()) {
-                    _server.sendMessage(move.getPlayerName(), "Move not allowed - " + whatHappened.getDescription());
-                    System.out.println("Move not allowed - " + whatHappened.getDescription());
+                    _server.sendMessage(move.getPlayerName(), "Not allowed - " + whatHappened.getDescription());
+                    System.out.println("Not allowed - " + whatHappened.getDescription());
                 } else {
-                    _server.sendMessage(null, _activePlayer.getName() + whatHappened.getDescription());
-                    validRoad = true;
-                    System.out.println(_activePlayer.getName() + whatHappened.getDescription());
+                    _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
+                    System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
                 }
                 pushPlayers();
                 pushBoard();
@@ -166,12 +164,11 @@ public class Referee {
                 Move move = _server.readMove();
                 MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                 if (whatHappened.isError()) {
-                    _server.sendMessage(move.getPlayerName(), "Move not allowed - " + whatHappened.getDescription());
-                    System.out.println("Move not allowed - " + whatHappened.getDescription());
+                    _server.sendMessage(move.getPlayerName(), "Not allowed - " + whatHappened.getDescription());
+                    System.out.println("Not allowed - " + whatHappened.getDescription());
                 } else {
-                    _server.sendMessage(null, _activePlayer.getName() + whatHappened.getDescription());
-                    validSettlement = true;
-                    System.out.println(_activePlayer.getName() + whatHappened.getDescription());
+                    _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
+                    System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
                 }
                 pushPlayers();
                 pushBoard();
@@ -183,12 +180,11 @@ public class Referee {
                 Move move = _server.readMove();
                 MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                 if (whatHappened.isError()) {
-                    _server.sendMessage(move.getPlayerName(), "Move not allowed - " + whatHappened.getDescription());
-                    System.out.println("Move not allowed - " + whatHappened.getDescription());
+                    _server.sendMessage(move.getPlayerName(), "Not allowed - " + whatHappened.getDescription());
+                    System.out.println("Not allowed - " + whatHappened.getDescription());
                 } else {
-                    _server.sendMessage(null, _activePlayer.getName() + whatHappened.getDescription());
-                    validRoad = true;
-                    System.out.println(_activePlayer.getName() + whatHappened.getDescription());
+                    _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
+                    System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
                 }
                 pushPlayers();
                 pushBoard();
@@ -238,74 +234,68 @@ public class Referee {
     }
     
     private int buildMove(BuildMove move) {
-        System.out.println(move.getPlayerName() + " played a building move.");
-        if (move.getPlayerName().equals(_activePlayer.getName())) {
-            switch (move.getBuildType()) {
-                case ROAD:
-                    System.out.println("They want to build a road at " + move.getBuildLocation() + ".");
-                    Edge e = _board.getEdges()[move.getBuildLocation()];
-                    if (_startUp != 0) {
-                        if (e.isRoad()) return 101;
-                        if (!edgeIsNextToNode(e, _startupSettlement)) return 107;
-                        _activePlayer.decRoadCount();
-                        e.setOwner(_activePlayer);
-                        e.grow();
-                        return 100;
-                    } else {
-                        if (e.isRoad()) return 101;
-                        if (!_activePlayer.hasResources(BUILD_ROAD)) return 102;
-                        if (_activePlayer.getRoadCount() == 0) return 103;
-                        //if (!ownedRoadAdjacent(e)) return 106;                           <----- BE SURE TO RE-ENABLE LATER!!!
-                        _activePlayer.removeResources(BUILD_ROAD);
-                        _activePlayer.decRoadCount();
-                        e.setOwner(_activePlayer);
-                        e.grow();
-                        return 100;
-                    }
-                case SETTLEMENT:
-                    System.out.println("They want to build a settlement at " + move.getBuildLocation() + ".");
-                    Node ns = _board.getNodes()[move.getBuildLocation()];
-                    if (_startUp != 0) {
-                        if (ns.getVP() == 1 || ns.isOwned()) return 201;
-                        if (structureAdjacent(ns)) return 204;
-                        _activePlayer.decSettlementCount();
-                        ns.setOwner(_activePlayer);
-                        if (_startUp == 2) distributeFirstResources(ns);
-                        _startupSettlement = ns;
-                        ns.grow();
-                        return 200;
-                    } else {
-                        if (ns.getVP() == 1 || ns.isOwned()) return 201;
-                        if (!_activePlayer.hasResources(BUILD_SETTLEMENT)) return 202;
-                        if (_activePlayer.getSettlementCount() == 0) return 203;
-                        if (structureAdjacent(ns)) return 204;
-                        if (!ownedRoadAdjacent(ns)) return 206;
-                        _activePlayer.removeResources(BUILD_SETTLEMENT);
-                        _activePlayer.decSettlementCount();
-                        ns.setOwner(_activePlayer);
-                        ns.grow();
-                        return 200;
-                    }
-                case CITY:
-                    System.out.println("They want to build a city at " + move.getBuildLocation() + ".");
-                    Node nc = _board.getNodes()[move.getBuildLocation()];
-                    if (nc.getVP() == 2) return 301;
-                    if (!_activePlayer.hasResources(BUILD_CITY)) return 302;
-                    if (_activePlayer.getCityCount() == 0) return 303;
-                    if (nc.getVP() == 1 && !_activePlayer.equals(nc.getOwner())) return 305;
-                    _activePlayer.removeResources(BUILD_CITY);
-                    _activePlayer.decCityCount();
-                    nc.grow();
-                    return 300;
-                case DEV_CARD:
-                    System.out.println("No dev cards yet :(");
-                    return -1;
-                default:
-                    System.out.println("build move had bad build type");
-                    return -1;
-            }
+        if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
+        switch (move.getBuildType()) {
+            case ROAD:
+                Edge e = _board.getEdges()[move.getBuildLocation()];
+                if (_startUp != 0) {
+                    if (e.isRoad()) return 101;
+                    if (!edgeIsNextToNode(e, _startupSettlement)) return 107;
+                    _activePlayer.decRoadCount();
+                    e.setOwner(_activePlayer);
+                    e.grow();
+                    return 100;
+                } else {
+                    if (e.isRoad()) return 101;
+                    if (!_activePlayer.hasResources(BUILD_ROAD)) return 102;
+                    if (_activePlayer.getRoadCount() == 0) return 103;
+                    if (!ownedRoadAdjacent(e)) return 106;
+                    _activePlayer.removeResources(BUILD_ROAD);
+                    _activePlayer.decRoadCount();
+                    e.setOwner(_activePlayer);
+                    e.grow();
+                    return 100;
+                }
+            case SETTLEMENT:
+                Node ns = _board.getNodes()[move.getBuildLocation()];
+                if (_startUp != 0) {
+                    if (ns.getVP() == 1 || ns.isOwned()) return 201;
+                    if (structureAdjacent(ns)) return 204;
+                    _activePlayer.decSettlementCount();
+                    ns.setOwner(_activePlayer);
+                    if (_startUp == 2) distributeFirstResources(ns);
+                    _startupSettlement = ns;
+                    ns.grow();
+                    return 200;
+                } else {
+                    if (ns.getVP() == 1 || ns.isOwned()) return 201;
+                    if (!_activePlayer.hasResources(BUILD_SETTLEMENT)) return 202;
+                    if (_activePlayer.getSettlementCount() == 0) return 203;
+                    if (structureAdjacent(ns)) return 204;
+                    if (!ownedRoadAdjacent(ns)) return 206;
+                    _activePlayer.removeResources(BUILD_SETTLEMENT);
+                    _activePlayer.decSettlementCount();
+                    ns.setOwner(_activePlayer);
+                    ns.grow();
+                    return 200;
+                }
+            case CITY:
+                Node nc = _board.getNodes()[move.getBuildLocation()];
+                if (nc.getVP() == 2) return 301;
+                if (!_activePlayer.hasResources(BUILD_CITY)) return 302;
+                if (_activePlayer.getCityCount() == 0) return 303;
+                if (nc.getVP() == 1 && !_activePlayer.equals(nc.getOwner())) return 305;
+                _activePlayer.removeResources(BUILD_CITY);
+                _activePlayer.decCityCount();
+                nc.grow();
+                return 300;
+            case DEV_CARD:
+                System.out.println("No dev cards yet :(");
+                return -1;
+            default:
+                System.out.println("build move had bad build type");
+                return -1;
         }
-        return 999;
     }
     
     private void distributeFirstResources(Node node) {
@@ -355,8 +345,49 @@ public class Referee {
     }
     
     private int tradeMove(TradeMove move) {
+        if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
         
-        return -1;
+        int[] giving = new int[]{0,0,0,0,0};
+        int[] receiving = new int[]{0,0,0,0,0};
+        for (int i=0; i<move.getResources().length;i++) {
+            int res = move.getResources()[i];
+            if (res < 0) {
+                giving[i] = 0-res;
+            } else if (res > 0) {
+                receiving[i] = res;
+            }
+        }
+
+        Player giver = null;
+        Player receiver = null;
+        for (Player p : _players) {
+            if (p.getName().equals(move.getPlayerName())) {
+                giver = p;
+            } else if (p.getName().equals(move.getProposedTo())) {
+                receiver = p;
+            }
+        }
+        
+        switch (move.getType()) {
+            case -1:
+                if (giver != null && !giver.hasResources(giving)) return 401;
+                if (receiver != null && !receiver.hasResources(receiving)) return 402;
+                _server.sendTrade(move.getProposedTo(), move);
+                return 400;
+            case 0:
+                return 403;
+            case 1:
+                if (giver != null && receiver != null) {
+                    giver.removeResources(giving);
+                    giver.addResources(receiving);
+                    receiver.removeResources(receiving);
+                    receiver.addResources(giving);
+                }
+                return 410;
+            default:
+                System.out.println("build move had bad build type");
+                return -1;
+        }
     }
     
     private int robberMove(RobberMove move) {
