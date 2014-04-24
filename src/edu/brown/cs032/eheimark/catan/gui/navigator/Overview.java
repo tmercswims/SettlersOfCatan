@@ -84,11 +84,11 @@ public class Overview extends JPanel {
 		myResources.setBounds(500, 0, 385, 28);
 		add(myResources);
 		
-		JButton endTurnButton = new JButton("End Turn");
-		endTurnButton.setFont(MY_FONT);
-		endTurnButton.setBounds(30, 1, 117, 29);
-		add(endTurnButton);
-		endTurnButton.addActionListener(new EndTurnActionListener());
+		JButton gameManagerButton = new JButton("Roll Die");
+		gameManagerButton.setFont(MY_FONT);
+		gameManagerButton.setBounds(30, 1, 117, 29);
+		add(gameManagerButton);
+		gameManagerButton.addActionListener(new RollDie());
 	}
 
 	public void refreshText() {
@@ -130,11 +130,11 @@ public class Overview extends JPanel {
 //		g.drawImage(img, 0, 0, null);
 	}
 	
-	class EndTurnActionListener implements ActionListener {
+	class RollDie implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("End turn action listener...");
 			try {
+				System.out.println("Trying to roll die...");
 				client.sendMove(new FirstMove(client.getPlayerName()));
 			} catch (IllegalArgumentException | IOException e1) {
 				e1.printStackTrace();
