@@ -1,4 +1,5 @@
 *.class
+/.classpath
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -21,4 +22,3 @@ hs_err_pid*
 /Test_FX/nbproject/private/
 /Test_FX/build/
 /dist/
-/.classpath/
