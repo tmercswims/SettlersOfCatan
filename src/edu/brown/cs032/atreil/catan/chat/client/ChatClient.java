@@ -123,19 +123,19 @@ public class ChatClient {//extends JPanel{
 		_panel.setVisible(true);
 		
 		_red = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(_red, "Monaco");
+		StyleConstants.setFontFamily(_red, "Helvetica");
 		StyleConstants.setForeground(_red, Color.red);
 		
 		_blue = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(_blue, "Monaco");
+		StyleConstants.setFontFamily(_blue, "Helvetica");
 		StyleConstants.setForeground(_blue, Color.blue);
 		
 		_orange = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(_orange, "Monaco");
+		StyleConstants.setFontFamily(_orange, "Helvetica");
 		StyleConstants.setForeground(_orange, Color.orange);
 		
 		_server = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(_server, "Monaco");
+		StyleConstants.setFontFamily(_server, "Helvetica");
 		StyleConstants.setForeground(_server, Color.gray);
 		StyleConstants.setBold(_server, true);
 		
