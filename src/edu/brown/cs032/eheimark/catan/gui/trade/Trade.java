@@ -128,13 +128,13 @@ public class Trade extends JPanel {
 		oreLabel.setForeground(Color.DARK_GRAY);
 		add(oreLabel);
 		
-		JButton proposeButton = new JButton("Propose Offer");
+		JButton proposeButton = new JButton("Propose");
 		proposeButton.setFont(MY_FONT);
 		proposeButton.setBounds(374, 99, 125, 29);
 		proposeButton.addActionListener(new ProposeTradeActionListener());
 		add(proposeButton);
 		
-		JButton cancelButton = new JButton("Cancel Offers");
+		JButton cancelButton = new JButton("Cancel");
 		cancelButton.setFont(MY_FONT);
 		cancelButton.addActionListener(new CancelTradesActionListener());
 		cancelButton.setBounds(499, 99, 122, 29);
