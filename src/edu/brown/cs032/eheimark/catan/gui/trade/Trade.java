@@ -46,12 +46,11 @@ public class Trade extends JPanel {
 		String[] playerStringArray= new String[players.length];
 		
 		int i = 0;
+		playerStringArray[i] = "***Merchant***";
+		i++;
 		for(Player p : players) {
 			if(!client.getPlayerName().equals(p.getName())) {
 				playerStringArray[i] = p.getName();
-			}
-			else { // adds merchant instead of player
-				playerStringArray[i] = "***Merchant***";
 			}
 			i++;
 		}
@@ -65,7 +64,7 @@ public class Trade extends JPanel {
 		setLayout(null);
 		
 		toPlayerCB = new JComboBox<String>(playerStringArray);
-		toPlayerCB.setBounds(53, 15, 117, 16);
+		toPlayerCB.setBounds(53, 15, 140, 16);
 		add(toPlayerCB);
 		
 		oreCB = new JComboBox<Integer>(tradeValues);
