@@ -376,6 +376,7 @@ public class Referee {
                             int[] newRes = new int[]{0,0,0,0,0};
                             newRes[t.getResource()] += n.getVP();
                             p.addResources(newRes);
+                            System.out.println(String.format("%s got %s wheat, %s sheep, %s brick, %s ore, %s wood", p.getName(), newRes[0], newRes[1], newRes[2], newRes[3], newRes[4]));
                         }
                     }
                 }
