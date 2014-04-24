@@ -65,7 +65,9 @@ class ClientPool {
 			if(!_clients.containsKey(player))
 				throw new IllegalArgumentException("No player exists with that name");
 			
-			_clients.get(player).send(String.format("%s: %s", sender, message));
+			String color = message.split(" ")[0];
+			message  = message.split(" ")[1]+" "+message.split(" ")[2];
+			_clients.get(player).send(String.format("%s (%s): %s", sender, color, message));
 			System.out.println("Sending " + message);
 		}
 	}

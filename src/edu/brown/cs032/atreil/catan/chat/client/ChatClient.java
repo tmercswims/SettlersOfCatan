@@ -110,8 +110,8 @@ public class ChatClient {//extends JPanel{
 		_send = new JButton("Send");
 		_send.addActionListener(new SendListener());
 		
-		_scroll = new JScrollPane(_area, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		_scroll = new JScrollPane(_area);//, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				//JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		//Dimension scroll = new Dimension(d);
 		_scroll.setPreferredSize(size);
 		//_scroll.setSize(size);
@@ -279,17 +279,17 @@ public class ChatClient {//extends JPanel{
 					if(color.equals("red")){
 						attr = _red;
 					}
-					else if(color.equals("blue")){
+					if(color.equals("blue")){
 						attr = _blue;
 					}
-					else if(color.equals("orange")){
+					if(color.equals("orange")){
 						attr = _orange;
 					}
-					else if(color.equals("server")){
+					if(color.equals("server")){
 						attr = _server;
 					}
-					else{
-						//System.out.println("BAD COLOR WTF!!!!!");
+					if(line.split(" ")[2].equals("*whisper*")){
+						StyleConstants.setFontFamily(_server, "Courier New Italics");
 					}
 					try {
 						_area.getDocument().insertString(_area.getText().length(),line+"\n",attr);

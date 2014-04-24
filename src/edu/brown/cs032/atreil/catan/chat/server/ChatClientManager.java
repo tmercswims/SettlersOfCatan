@@ -89,6 +89,8 @@ class ChatClientManager extends Thread{
 				
 				try{
 					String toSend = extractMessage(messageArray);
+					System.out.println("Message "+message);
+					System.out.println("toSend "+toSend);
 					_pool.send(playername, toSend, getPlayerName());
 					return;
 				} catch(IllegalArgumentException e){
