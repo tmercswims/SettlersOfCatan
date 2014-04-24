@@ -5,6 +5,7 @@ import java.io.Serializable;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
+import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
 
 /**
@@ -84,6 +85,11 @@ public class Packet implements Serializable {
 	 */
 	public static int ROAD = 11;
 	
+	/**
+	 * Indicates a trade move with the player
+	 */
+	public static int TRADE = 12;
+	
 	/*********************************************/
 	private final int _type; //the type of the object
 	private final Object _o; //the object
@@ -142,10 +148,9 @@ public class Packet implements Serializable {
 		} else if(type == Packet.ERROR){
 			if(!(o instanceof String))
 				throw new IllegalArgumentException("Given object is not of type String");
-		}
-		else if(type == Packet.HANDSHAKE){
+		} else if(type == Packet.HANDSHAKE){
 			if(!(o instanceof Handshake))
-				throw new IllegalArgumentException("Given object is not Handshake");
+				throw new IllegalArgumentException("Given object is not of type Handshake");
 		} else if(type == Packet.STARTGAME){
 			if(o != null)
 				throw new IllegalArgumentException("Given object is not null");
@@ -155,6 +160,9 @@ public class Packet implements Serializable {
 		} else if(type == Packet.ROAD){
 			if(o != null)
 				throw new IllegalArgumentException("Given object is not null");
+		} else if(type == Packet.TRADE){
+			if(!(o instanceof TradeMove))
+				throw new IllegalArgumentException("Given object is not of type TradeMove");
 		}
 		
 		else
