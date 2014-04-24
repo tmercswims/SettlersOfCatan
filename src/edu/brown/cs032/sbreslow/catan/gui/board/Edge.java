@@ -190,7 +190,7 @@ public class Edge extends BoardComponent{
 
 	@Override
 	public void grow() {
-		_c = red;
+		_c = _owner.getColor();
 	}
 
 }

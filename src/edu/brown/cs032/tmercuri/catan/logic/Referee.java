@@ -309,7 +309,7 @@ public class Referee {
     private void distributeFirstResources(Node node) {
         int[] resources = new int[]{0,0,0,0,0};
         for (Tile t : node.getTiles()) {
-            resources[t.getResource()] += 1;
+            if (t.getResource() < 5) resources[t.getResource()] += 1;
         }
         _activePlayer.addResources(resources);
     }
