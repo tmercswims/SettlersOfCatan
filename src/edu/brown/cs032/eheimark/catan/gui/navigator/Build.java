@@ -31,6 +31,7 @@ public class Build extends JPanel {
 	private static final Color MY_BACKGROUND = Constants.CATAN_RED;
 	private final CatanClient _client;
 	private final DrawingPanel _dp;
+	private JButton buildSettlementButton, buildDevCardButton, buildRoadButton, buildCityButton;
 	
 	public Build(CatanClient c, DrawingPanel dp) {
 		super();
@@ -43,28 +44,28 @@ public class Build extends JPanel {
 		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
 		setLayout(null);
 		
-		JButton buildSettlementButton = new JButton("Build Settlement");
+		buildSettlementButton = new JButton("Build Settlement");
 		buildSettlementButton.addActionListener(new BuildSettlementActionListener());
 		buildSettlementButton.setForeground(Constants.CATAN_RED);
 		buildSettlementButton.setFont(MY_FONT);
 		buildSettlementButton.setBounds(288, 26, 185, 29);
 		add(buildSettlementButton);
 		
-		JButton buildDevCardButton = new JButton("Build Dev. Card");
+		buildDevCardButton = new JButton("Build Dev. Card");
 		buildDevCardButton.addActionListener(new BuildDevCardActionListener());
 		buildDevCardButton.setForeground(Constants.CATAN_RED);
 		buildDevCardButton.setFont(MY_FONT);
 		buildDevCardButton.setBounds(763, 26, 170, 29);
 		add(buildDevCardButton);
 		
-		JButton buildRoadButton = new JButton("Build Road");
+		buildRoadButton = new JButton("Build Road");
 		buildRoadButton.addActionListener(new BuildRoadActionListener());
 		buildRoadButton.setForeground(Constants.CATAN_RED);
 		buildRoadButton.setFont(MY_FONT);
 		buildRoadButton.setBounds(73, 26, 148, 29);
 		add(buildRoadButton);
 		
-		JButton buildCityButton = new JButton("Build City");
+		buildCityButton = new JButton("Build City");
 		buildCityButton.addActionListener(new BuildCityActionListener());
 		buildCityButton.setForeground(Constants.CATAN_RED);
 		buildCityButton.setFont(MY_FONT);
@@ -126,6 +127,35 @@ public class Build extends JPanel {
 		label_2.setFont(new Font("Times", Font.ITALIC, 12));
 		label_2.setBounds(791, 71, 115, 16);
 		add(label_2);
+		//update();
+	}
+	
+	public void update(){
+		int[] resources = _client.getPlayer().getResources();
+		if(resources[2]<1 || resources[4]<1){
+			buildRoadButton.setEnabled(false);
+		}
+		else{
+			buildRoadButton.setEnabled(true);
+		}
+		if(resources[0]<1 || resources[1]<1 || resources[3]<1){
+			buildDevCardButton.setEnabled(false);
+		}
+		else{
+			buildDevCardButton.setEnabled(true);
+		}
+		if(resources[3]<3 || resources[0]<2){
+			buildCityButton.setEnabled(false);
+		}
+		else{
+			buildCityButton.setEnabled(true);
+		}
+		if(resources[0]<1 || resources[1]<1 || resources[2]<1 || resources[4]<1){
+			buildSettlementButton.setEnabled(false);
+		}
+		else{
+			buildSettlementButton.setEnabled(false);
+		}
 	}
 	
 	class BuildRoadActionListener implements ActionListener {
