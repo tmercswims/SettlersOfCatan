@@ -33,7 +33,7 @@ public class TabbedPanel extends JPanel{
 		build = new Build(client, dp);
 		tabbedPane.addTab("Build", null, build, null);
 		
-		trade = new Trade();
+		trade = new Trade(client);
 		tabbedPane.addTab("Trade", null, trade, null);
 		
 		devcard = new JPanel();

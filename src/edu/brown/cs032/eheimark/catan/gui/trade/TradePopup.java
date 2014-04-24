@@ -1,9 +1,5 @@
 package edu.brown.cs032.eheimark.catan.gui.trade;
 
-import java.awt.Graphics;
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,26 +8,24 @@ import java.awt.Color;
 import java.awt.Font;
 
 import edu.brown.cs032.eheimark.catan.gui.Constants;
+import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class TradePopup extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private final Image img; // background image
-	private final String IMG_FILE_LOC = "images/Cards1000x140.png";
 	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 14);
 	
-	public TradePopup(String playerName, Integer ore, Integer wheat, Integer wool, Integer lumber, Integer brick) {
+	public TradePopup(String playerFrom, int[] resources) {
 		super();
-		this.img = new ImageIcon(IMG_FILE_LOC).getImage();
-
-		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
+		setBackground(Color.BLUE);
+		
 		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
 		setLayout(null);
 		
-		JLabel brickLabel = new JLabel("Brick:" + brick);
+		JLabel brickLabel = new JLabel("Brick:" + resources[ResourceConstants.BRICK]);
 		brickLabel.setFont(MY_FONT);
 		brickLabel.setOpaque(true);
 		brickLabel.setBackground(Color.WHITE);
@@ -39,7 +33,7 @@ public class TradePopup extends JPanel {
 		brickLabel.setForeground(Color.RED);
 		add(brickLabel);
 		
-		JLabel lumberLabel = new JLabel("Lumber:" + lumber);
+		JLabel lumberLabel = new JLabel("Lumber:" + resources[ResourceConstants.WOOD]);
 		lumberLabel.setFont(MY_FONT);
 		lumberLabel.setOpaque(true);
 		lumberLabel.setBackground(Color.WHITE);
@@ -47,7 +41,7 @@ public class TradePopup extends JPanel {
 		lumberLabel.setForeground(Color.GREEN);
 		add(lumberLabel);
 		
-		JLabel woolLabel = new JLabel("Wool:" + wool);
+		JLabel woolLabel = new JLabel("Wool:" + + resources[ResourceConstants.SHEEP]);
 		woolLabel.setFont(MY_FONT);
 		woolLabel.setOpaque(true);
 		woolLabel.setBackground(Color.WHITE);
@@ -55,7 +49,7 @@ public class TradePopup extends JPanel {
 		woolLabel.setForeground(Color.LIGHT_GRAY);
 		add(woolLabel);
 		
-		JLabel grainLabel = new JLabel("Wheat:" + wheat);
+		JLabel grainLabel = new JLabel("Wheat:" + resources[ResourceConstants.WHEAT]);
 		grainLabel.setFont(MY_FONT);
 		grainLabel.setOpaque(true);
 		grainLabel.setBackground(Color.WHITE);
@@ -63,7 +57,7 @@ public class TradePopup extends JPanel {
 		grainLabel.setForeground(Color.ORANGE);
 		add(grainLabel);
 		
-		JLabel oreLabel = new JLabel("Ore:" + ore);
+		JLabel oreLabel = new JLabel("Ore:" + resources[ResourceConstants.ORE]);
 		oreLabel.setFont(MY_FONT);
 		oreLabel.setOpaque(true);
 		oreLabel.setBackground(Color.WHITE);
@@ -72,7 +66,7 @@ public class TradePopup extends JPanel {
 		add(oreLabel);
 		
 		JButton acceptButton = new JButton("Accept Trade");
-		acceptButton.setForeground(Constants.CATAN_YELLOW);
+		acceptButton.setForeground(Constants.CATAN_RED);
 		acceptButton.setFont(MY_FONT);
 		acceptButton.setBounds(374, 99, 125, 29);
 		acceptButton.addActionListener(new AcceptTradeActionListener());
@@ -85,7 +79,7 @@ public class TradePopup extends JPanel {
 		rejectTrade.setBounds(499, 99, 122, 29);
 		add(rejectTrade);
 		
-		JLabel fromLabel = new JLabel("From: " + playerName);
+		JLabel fromLabel = new JLabel("From: " + playerFrom);
 		fromLabel.setFont(MY_FONT);
 		fromLabel.setOpaque(true);
 		fromLabel.setForeground(Color.BLACK);
@@ -116,10 +110,4 @@ public class TradePopup extends JPanel {
 			System.out.println("Reject trade!");
 		}
 	};
-	
-	@Override
-	public void paintComponent(Graphics g) {
-		super.repaint();
-		g.drawImage(img, 0, 0, null);
-	}
 }

@@ -14,11 +14,13 @@ import java.net.UnknownHostException;
 import edu.brown.cs032.atreil.catan.networking.Handshake;
 import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.eheimark.catan.gui.GUI;
+import edu.brown.cs032.eheimark.catan.gui.trade.TradeFrame;
 import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
+import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
 /**
  * This class handles a client communicating with the server. The client will communicate with the server
@@ -229,6 +231,8 @@ public class CatanClient extends Thread{
 			placeRoad();
 		} else if(type == Packet.TRADE){
 			//TODO: set up notifying trade
+			TradeMove trade = (TradeMove) packet.getObject();
+			new TradeFrame("Trade Received!", trade.getPlayerName(), trade.getResources());
 		} else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
 		}
