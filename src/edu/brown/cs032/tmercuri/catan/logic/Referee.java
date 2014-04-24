@@ -67,7 +67,7 @@ public class Referee {
         Color[] colors = new Color[] {Color.RED, Color.BLUE, Color.ORANGE, Color.WHITE};
         int i = 0;
         for (Player p : _players) {
-            p.addResources(new int[]{20,20,20,20,20});
+            p.addResources(new int[]{0,0,0,0,0});
             p.setColor(colors[i]);
             i++;
         }
@@ -83,6 +83,7 @@ public class Referee {
         _startUp = 0;
         
         for (int z=0; !_gameOver; z++) {
+            System.out.println("Entering main game loop.");
             int currentPlayer = z % _players.length;
             setActivePlayer(currentPlayer);
             while (!_turnOver) {
@@ -373,8 +374,9 @@ public class Referee {
                         if (n.isOwned()) {
                             Player p = n.getOwner();
                             int[] newRes = new int[]{0,0,0,0,0};
-                            newRes[t.getResource()] = n.getVP();
+                            newRes[t.getResource()] += n.getVP();
                             p.addResources(newRes);
+                            System.out.println(String.format("%s got %s wheat, %s sheep, %s brick, %s ore, %s wood", p.getName(), newRes[0], newRes[1], newRes[2], newRes[3], newRes[4]));
                         }
                     }
                 }

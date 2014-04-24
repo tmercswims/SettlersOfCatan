@@ -123,13 +123,13 @@ public class Tile extends BoardComponent{
 			brush.setColor(new Color(255,205,0));
             background = wheatTile;
 			break;
-		case 1://brick
+		case 1://sheep
 			brush.setColor(new Color(119,255,0));
-            background = brickTile;
-			break;
-		case 2://sheep
-			brush.setColor(new Color(255,102,0));
             background = sheepTile;
+			break;
+		case 2://brick
+			brush.setColor(new Color(255,102,0));
+            background = brickTile;
 			break;
 		case 3://ore
 			brush.setColor(new Color(85,85,85));
