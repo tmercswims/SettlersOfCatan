@@ -34,7 +34,7 @@ public class Player implements Serializable {
         _settlementsRemaining = 5;
         _citiesRemaining = 4;
         _victoryPoints = _armySize = _longestRoad = _devCards = 0;
-        _name = name;
+        _name = name.replaceAll(" ", "");
         _isActive = false;
         _color = Color.BLACK;
     }

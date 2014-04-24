@@ -70,7 +70,12 @@ public enum MoveMessage {
     MESSAGE_401(401, true, "you do not have enough resources for that trade."),
     MESSAGE_402(402, true, "the other player does not have enough resources for that trade."),
     MESSAGE_403(403, true, "the other player rejected the trade."),
-    MESSAGE_410(410, false, "%s completed a trade.");
+    MESSAGE_404(404, true, "you must only receive one resource in order to trade with the merchant."),
+    MESSAGE_405(405, true, "you must only give up one type of resource in order to trade with the merchant."),
+    MESSAGE_406(406, true, "you do not have access to that port."),
+    MESSAGE_410(410, false, "%s completed a trade."),
+    MESSAGE_411(411, false, "%s traded with the bank."),
+    MESSAGE_412(412, false, "%s traded with a port.");
     
     private final int _code;
     private final boolean _isError;

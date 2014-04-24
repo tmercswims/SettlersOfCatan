@@ -361,6 +361,57 @@ public class Referee {
                 receiving[i] = res;
             }
         }
+        
+        if (move.getProposedTo().equals("***Merchant***")) {
+            int recNum = 0;
+            for (int r : receiving) {
+                recNum += r;
+            }
+            if (recNum != 1) return 404;
+            
+            int giveSum = 0;
+            int resIndex = -1;
+            for (int i=0; i<giving.length;i++) {
+                if (giving[i] > 0) giveSum++;
+                resIndex = i;
+            }
+            if (giveSum != 1 || resIndex == -1) return 405;
+            
+            switch (giving[resIndex]) {
+                case 4:
+                    if (_activePlayer.hasResources(giving)) {
+                        _activePlayer.removeResources(giving);
+                        _activePlayer.addResources(receiving);
+                    }
+                    return 411;
+                case 3:
+                    for (Node n : _board.getNodes()) {
+                        if (_activePlayer.equals(n.getOwner())) {
+                            if (n.getPort() == 5) {
+                                if (_activePlayer.hasResources(giving)) {
+                                    _activePlayer.removeResources(giving);
+                                    _activePlayer.addResources(receiving);
+                                }
+                            }
+                        }
+                    }
+                    return 412;
+                case 2:
+                    for (Node n : _board.getNodes()) {
+                        if (_activePlayer.equals(n.getOwner())) {
+                            if (n.getPort() == resIndex) {
+                                if (_activePlayer.hasResources(giving)) {
+                                    _activePlayer.removeResources(giving);
+                                    _activePlayer.addResources(receiving);
+                                }
+                            }
+                        }
+                    }
+                    return 412;
+                default:
+                    return 406;
+            }
+        }
 
         Player giver = null;
         Player receiver = null;
