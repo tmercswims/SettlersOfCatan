@@ -17,22 +17,23 @@ import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
 
 public class Overview extends JPanel {
 	private static final long serialVersionUID = 1L;
 	// TODO Fix background images
 //	private final Image img; // background image
 //	private final String IMG_FILE_LOC = "images/overview.png";
-	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 14);
+	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 13);
 	private static final Color MY_BACKGROUND = Constants.CATAN_BLACK;
 	private static final Color MY_FOREGROUND = Constants.CATAN_YELLOW;
-	private static final Font MY_RESOURCES_FONT = new Font("Georgia", Font.BOLD, 10);
-
 	private final CatanClient client;
-
 	private final ArrayList<PlayerStats> playerstats;
 	private final JLabel myResources;
 
@@ -51,18 +52,18 @@ public class Overview extends JPanel {
 		playerstats = new ArrayList<PlayerStats>();
 
 		PlayerStats ps1 = new PlayerStats();
-		ps1.setBounds(30, 30, 889, 21);
+		ps1.setBounds(30, 33, 889, 21);
 
 
 		PlayerStats ps2 = new PlayerStats();
-		ps2.setBounds(30, 55, 889, 21);
+		ps2.setBounds(30, 58, 889, 21);
 
 
 		PlayerStats ps3 = new PlayerStats();
-		ps3.setBounds(30, 80, 889, 21);
+		ps3.setBounds(30, 83, 889, 21);
 
 		PlayerStats ps4 = new PlayerStats();
-		ps4.setBounds(30, 105, 889, 21);
+		ps4.setBounds(30, 108, 889, 21);
 
 		add(ps1);
 		playerstats.add(ps1);
@@ -74,26 +75,25 @@ public class Overview extends JPanel {
 		playerstats.add(ps4);
 
 		myResources = new JLabel();
+		myResources.setHorizontalAlignment(SwingConstants.RIGHT);
 		myResources.setText("Player resources:");
-		myResources.setFont(MY_RESOURCES_FONT);
+		myResources.setFont(MY_FONT);
 		myResources.setOpaque(false);
-		myResources.setBounds(651, 0, 268, 28);
+		myResources.setBounds(534, 0, 385, 28);
 		add(myResources);
+		
+		JButton endTurnButton = new JButton("End Turn");
+		endTurnButton.setFont(MY_FONT);
+		endTurnButton.setBounds(30, 1, 117, 29);
+		add(endTurnButton);
+		endTurnButton.addActionListener(new EndTurnActionListener());
 	}
 
 	public void refreshText() {
-		System.out.println("Getting PLAYERS INITIAL");
 		Player[] players = this.client.getPlayers();
 		int i = 0;
-
-		System.out.println("players length " + players.length);
-		System.out.println("AFTER PLAYERS InITIAL");
-
-
 		for(Player p : players) {
 			PlayerStats ps = playerstats.get(i);
-			System.out.println(p);
-			System.out.println(p.getColor());
 			ps.setColor(p.getColor());
 			ps.setSettlements(p.getSettlementsBuilt());
 			ps.setCities(p.getCitiesBuilt());
@@ -106,12 +106,11 @@ public class Overview extends JPanel {
 			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check
 				ps.setBold();
 				int[] resources = p.getResources();
-				String s = "Ore:" + resources[3] + "/Wheat:" + resources[0] + "/Wool:" + resources[1] + "/Lumber" + resources[4] + "/Brick:" + resources[2];
+				String s = "MyResources: Ore:" + resources[3] + "/Wheat:" + resources[0] + "/Wool:" + resources[1] + "/Lumber:" + resources[4] + "/Brick:" + resources[2];
 				myResources.setText(s);
 				myResources.setForeground(p.getColor());
 			}
 			if(p.isActive()) {
-				System.out.println("THERE IS AN ACTIVE PLAYER!!");
 				ps.setIcon(true);
 			}
 			i++;
@@ -126,6 +125,14 @@ public class Overview extends JPanel {
 		refreshText();
 		g.setColor(MY_BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
+		System.out.println("Done repainting " + i + "...");
 //		g.drawImage(img, 0, 0, null);
 	}
+	
+	class EndTurnActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("End turn action listener");
+		}
+	};
 }
