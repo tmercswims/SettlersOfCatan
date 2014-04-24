@@ -5,6 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import edu.brown.cs032.atreil.catan.networking.Handshake;
 import edu.brown.cs032.atreil.catan.networking.Packet;
@@ -27,6 +30,7 @@ public class ClientManager extends Thread {
 	private boolean _running; 
 	private int _chatPort; //port of the chat server
 	private int _numPlayers; //number of players that will be connected
+	private List<String> _reservedNames = new ArrayList<>(Arrays.asList("merchant"));
 	
 	/**
 	 * This constructor initializes a new client from which the server can listen to
@@ -78,8 +82,7 @@ public class ClientManager extends Thread {
 				this._p = (Player) packet.getObject();
 				
 				//check to make sure that the name is not already taken
-				if(_pool.containsKey(_p.getName()))
-					throw new IllegalArgumentException("User name already taken! Dropping client...");
+				validateName(_p.getName());
 			} else
 				throw new ClassNotFoundException();
 			
@@ -96,6 +99,7 @@ public class ClientManager extends Thread {
 			throw new IllegalArgumentException(msg);
 		}
 	}
+	
 	
 	/**
 	 * Starts the ClientManager by listening for inputs
@@ -214,5 +218,23 @@ public class ClientManager extends Thread {
 	 */
 	public Player getPlayer(){
 		return _p;
+	}
+	
+	/**
+	 * Validates the player name. Makes sure that there are no duplicates,
+	 * or that it doesn't conflict with the reserved names.
+	 * @param name The player name to check
+	 */
+	private void validateName(String name) throws IllegalArgumentException{
+		
+		//check against connected users
+		if(_pool.containsKey(name))
+			throw new IllegalArgumentException(String.format("User name already taken!: %s", name));
+		
+		//check against reserved names
+		for(String reserved : _reservedNames)
+			if(name.toLowerCase().contains(reserved))
+				throw new IllegalArgumentException(String.format("User name is reserved: %s", name));
+		
 	}
 }
