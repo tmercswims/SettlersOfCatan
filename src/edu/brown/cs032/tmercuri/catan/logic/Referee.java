@@ -246,6 +246,7 @@ public class Referee {
                     if (_startUp != 0) {
                         if (e.isRoad()) return 101;
                         if (!edgeIsNextToNode(e, _startupSettlement)) return 107;
+                        _activePlayer.decRoadCount();
                         e.setOwner(_activePlayer);
                         e.grow();
                         return 100;

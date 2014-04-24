@@ -292,7 +292,7 @@ public class ChatClient {//extends JPanel{
 						//System.out.println("BAD COLOR WTF!!!!!");
 					}
 					try {
-						_area.getDocument().insertString(_area.getText().length(),line+"\n",attr);
+						_area.getDocument().insertString(_area.getCaretPosition(),line+"\n",attr);
 						lines.add(line);
 					} catch (BadLocationException e1) {
 						// TODO Auto-generated catch block
