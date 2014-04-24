@@ -232,7 +232,7 @@ public class CatanClient extends Thread{
 		} else if(type == Packet.TRADE){
 			//TODO: set up notifying trade
 			TradeMove trade = (TradeMove) packet.getObject();
-			new TradeFrame("Trade Received!", trade.getPlayerName(), trade.getResources());
+			new TradeFrame("Trade Received!", trade, this);
 		} else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
 		}

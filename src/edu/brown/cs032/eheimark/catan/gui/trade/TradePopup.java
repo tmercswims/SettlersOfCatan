@@ -7,18 +7,28 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Font;
 
+import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
+import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 public class TradePopup extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 14);
+	private final TradeMove trade;
+	private final CatanClient client;
 	
-	public TradePopup(String playerFrom, int[] resources) {
+	public TradePopup(CatanClient clientIn, TradeMove tradeIn) {
 		super();
+		client = clientIn;
+		trade = tradeIn;
+		trade.getPlayerName();
+		int[] resources = trade.getResources();
+		
 		setBackground(Color.BLUE);
 		
 		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
@@ -79,7 +89,7 @@ public class TradePopup extends JPanel {
 		rejectTrade.setBounds(499, 99, 122, 29);
 		add(rejectTrade);
 		
-		JLabel fromLabel = new JLabel("From: " + playerFrom);
+		JLabel fromLabel = new JLabel("From: " + trade.getPlayerName());
 		fromLabel.setFont(MY_FONT);
 		fromLabel.setOpaque(true);
 		fromLabel.setForeground(Color.BLACK);
@@ -100,6 +110,12 @@ public class TradePopup extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Accept trade!");
+			trade.setType(1);
+			try {
+				client.sendMove(trade);
+			} catch (IllegalArgumentException | IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	};
 	
@@ -108,6 +124,12 @@ public class TradePopup extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Reject trade!");
+			trade.setType(0);
+			try {
+				client.sendMove(trade);
+			} catch (IllegalArgumentException | IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	};
 }
