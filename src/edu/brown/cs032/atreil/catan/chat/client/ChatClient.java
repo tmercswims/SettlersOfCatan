@@ -135,8 +135,9 @@ public class ChatClient {//extends JPanel{
 		StyleConstants.setForeground(_orange, Color.orange);
 		
 		_server = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(_server, "Monaco Bold");
+		StyleConstants.setFontFamily(_server, "Monaco");
 		StyleConstants.setForeground(_server, Color.gray);
+		StyleConstants.setBold(_server, true);
 		
 		run();
 	}
@@ -276,22 +277,26 @@ public class ChatClient {//extends JPanel{
 					String color = line.split(" ")[1];
 					color = color.substring(1,color.length()-2);
 					System.out.println(color);
-					if(color.equals("red")){
+					if(color.equalsIgnoreCase("red")){
 						attr = _red;
 					}
-					if(color.equals("blue")){
+					if(color.equalsIgnoreCase("blue")){
 						attr = _blue;
 					}
-					if(color.equals("orange")){
+					if(color.equalsIgnoreCase("orange")){
 						attr = _orange;
 					}
-					if(color.equals("server")){
+					if(color.equalsIgnoreCase("server")){
 						attr = _server;
+					}
+					else{
+						System.out.println("COLOR IS WRONG: "+color);
 					}
 					//System.out.println(line);
 					if(line.split(" ")[2].equals("*whisper*")){
 						//System.out.println("here");
-						StyleConstants.setFontFamily(attr, "Monaco Italic");
+						StyleConstants.setFontFamily(attr, "Monaco");
+						StyleConstants.setItalic(attr, true);
 					}
 					try {
 						String[] tmp = line.split(" ");
