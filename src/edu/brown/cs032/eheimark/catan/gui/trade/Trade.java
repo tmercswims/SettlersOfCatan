@@ -15,6 +15,7 @@ import javax.swing.JButton;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
+import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
@@ -38,8 +39,17 @@ public class Trade extends JPanel {
 		super();
 		//TODO: Change below
 		tradeValues = new Integer[] {-5, -4, -3, -2, -1, +0, 1, 2, 3, 4, 5};
-		String[] players= new String[] {"Player1","Player2","Player3"};
+		
 		this.client = cc;
+
+		Player[] players = client.getPlayers();
+		String[] playerStringArray= new String[players.length];
+		
+		int i = 0;
+		for(Player p : players) {
+			playerStringArray[i] = p.getName();
+			i++;
+		}
 
 		setForeground(MY_FOREGROUND);
 		this.img = new ImageIcon(IMG_FILE_LOC).getImage();
@@ -49,7 +59,7 @@ public class Trade extends JPanel {
 		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
 		setLayout(null);
 		
-		toPlayerCB = new JComboBox<String>(players);
+		toPlayerCB = new JComboBox<String>(playerStringArray);
 		toPlayerCB.setBounds(53, 15, 117, 16);
 		add(toPlayerCB);
 		
