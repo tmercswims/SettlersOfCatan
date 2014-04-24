@@ -132,6 +132,7 @@ public class Referee {
                 } else {
                     _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
                     System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
+                    validSettlement = true;
                 }
                 pushPlayers();
                 pushBoard();
@@ -148,6 +149,7 @@ public class Referee {
                 } else {
                     _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
                     System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
+                    validRoad = true;
                 }
                 pushPlayers();
                 pushBoard();
