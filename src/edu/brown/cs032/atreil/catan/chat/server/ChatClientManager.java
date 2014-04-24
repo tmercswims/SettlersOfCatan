@@ -135,6 +135,7 @@ class ChatClientManager extends Thread{
 	 */
 	public synchronized void send(String message){
 		synchronized(_out){
+			System.out.println("Manager Sending " + message);
 			_out.println(message);
 		}
 	}

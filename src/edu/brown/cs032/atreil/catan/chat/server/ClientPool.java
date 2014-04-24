@@ -39,9 +39,9 @@ class ClientPool {
 	 */
 	public synchronized void sendAll(String message, String sender){
 		String color = message.split(" ")[0];
-		message = new String(message.split(" ")[1]);
-		String toSend = String.format("%s (%s): %s", sender, color, message);
-		System.out.println("Sending "+toSend);
+		String[] split = message.split(" ");
+		String actualMessage = message.substring(message.indexOf(" "));
+		String toSend = String.format("%s (%s): %s", sender, color, actualMessage);
 		
 		synchronized(_clients){
 			for(ChatClientManager mngr : _clients.values()){
@@ -66,6 +66,7 @@ class ClientPool {
 				throw new IllegalArgumentException("No player exists with that name");
 			
 			_clients.get(player).send(String.format("%s: %s", sender, message));
+			System.out.println("Sending " + message);
 		}
 	}
 	
