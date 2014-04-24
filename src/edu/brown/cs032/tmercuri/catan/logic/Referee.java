@@ -188,7 +188,7 @@ public class Referee {
                 } else {
                     _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
                     System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
-                    validSettlement = true;
+                    validRoad = true;
                 }
                 pushPlayers();
                 pushBoard();
