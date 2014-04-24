@@ -76,7 +76,7 @@ class ClientPool {
 			}
 			message  = sb.toString().trim();
 			_clients.get(player).send(String.format("%s (%s): %s", sender, color, message));
-			if(sender!=null && color!=null && message!=null)
+			if(!sender.equals("server"))
 				_clients.get(sender).send(String.format("%s (%s): %s", sender, color, message));
 			System.out.println("Sending " + message);
 		}
