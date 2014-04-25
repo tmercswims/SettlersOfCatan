@@ -9,19 +9,33 @@ import javax.swing.JPanel;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.trade.Trade;
-import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 
+/**
+ * The Class TabbedPanel is a JPanel that contains the tabs for navigating
+ * the main game gui. This allows users to see the overview menu, trade menu, build menu,
+ * and dev card menu contained within the tabbed panels.
+ */
 public class TabbedPanel extends JPanel{
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	private final DrawingPanel _dp;
+	
+	/** The overview. */
 	private final Overview overview;
+	
+	/** The devcard. */
 	private final JPanel build, trade, devcard;
 
+	/**
+	 * Instantiates a new tabbed panel.
+	 *
+	 * @param client the client
+	 * @param dp the dp
+	 */
 	public TabbedPanel(CatanClient client, DrawingPanel dp) {
 		super();
 		setLayout(new BorderLayout(0, 0));
-		_dp = dp;
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setOpaque(true);

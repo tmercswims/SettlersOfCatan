@@ -1,6 +1,7 @@
 package edu.brown.cs032.eheimark.catan.launch;
 
-// TODO: Auto-generated Javadoc
+import edu.brown.cs032.eheimark.catan.gui.Constants;
+
 /**
  * Class that maintains state of launch configuration. This information is then used by the Client/Server classes to launch 
  * the server and clients with the requested settings from the launch menus..
@@ -8,23 +9,21 @@ package edu.brown.cs032.eheimark.catan.launch;
  */
 public class LaunchConfiguration {	
 	private boolean FourPlayerGame; // if true, 4 player game; if false, 3 player game
-	private int joinPort; // port to connect to a server from "join" menu (acting only as client), 
+	private String joinPort; // port to connect to a server from "join" menu (acting only as client), 
 	private String hostname; // host server name (IP address)
-	private int hostPort; // port used when creating a server from "host" menu
+	private String hostPort; // port used when creating a server from "host" menu
 	private String name; // player name once game launches
 	private int boardSize; // small = 0, medium = 1, large = 2
 	private boolean inGameHelpOn; // whether in-game help is on
-	public static final int SMALL_BOARD = 0, MEDIUM_BOARD = 1, LARGE_BOARD = 2;
-	public static final int DEFAULT_PORT = 1700;
-	public static final String DEFAULT_HOSTNAME = "138.16.92.181";
+	public static final int SMALL_BOARD = 0, MEDIUM_BOARD = 1, LARGE_BOARD = 2; //TODO Change board size!
 
 	/**
 	 * Instantiates a new launch configuration.
 	 */
 	public LaunchConfiguration() {
-		this.joinPort = DEFAULT_PORT;
-		this.hostPort = DEFAULT_PORT;
-		this.hostname = DEFAULT_HOSTNAME;
+		this.joinPort = Constants.DEFAULT_PORT;
+		this.hostPort = Constants.DEFAULT_PORT;
+		this.hostname = Constants.DEFAULT_HOSTNAME;
 		setBoardSize(MEDIUM_BOARD);
 		setInGameHelpOn(true);
 		setName("username");
@@ -89,7 +88,7 @@ public class LaunchConfiguration {
 	 *
 	 * @return the join port
 	 */
-	public int getJoinPort() {
+	public String getJoinPort() {
 		return joinPort;
 	}
 
@@ -98,7 +97,7 @@ public class LaunchConfiguration {
 	 *
 	 * @param joinPort the new join port
 	 */
-	public void setJoinPort(int joinPort) {
+	public void setJoinPort(String joinPort) {
 		this.joinPort = joinPort;
 	}
 
@@ -107,7 +106,7 @@ public class LaunchConfiguration {
 	 *
 	 * @return the host port
 	 */
-	public int getHostPort() {
+	public String getHostPort() {
 		return hostPort;
 	}
 
@@ -116,7 +115,7 @@ public class LaunchConfiguration {
 	 *
 	 * @param hostPort the new host port
 	 */
-	public void setHostPort(int hostPort) {
+	public void setHostPort(String hostPort) {
 		this.hostPort = hostPort;
 	}
 

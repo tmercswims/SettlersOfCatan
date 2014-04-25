@@ -6,7 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import javax.swing.UIManager;
@@ -19,9 +18,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class CatanMenu extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private final Image img; // background image
-	private final String IMG_FILE_LOC = "images/CatanScaled700x700.png";
 	private GridBagConstraints gbc; // constraints
 	private	final JPanel buttonsPanel = new JPanel(); // Panel that contains buttons you can add on each launch menu page
+	
 	/**
 	 * Instantiates a new catan menu.
 	 */
@@ -37,15 +36,15 @@ public class CatanMenu extends JPanel {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             System.err.println("ERROR: " + ex.getMessage());
         }
-		this.img = new ImageIcon(IMG_FILE_LOC).getImage();
-		setPreferredSize(Constants.DEFAULT_MENU_SIZE);
-		setMinimumSize(Constants.DEFAULT_MENU_SIZE);
-		setMaximumSize(Constants.DEFAULT_MENU_SIZE);
+		this.img = Constants.CATAN_LAUNCH_MENU_BACKGROUND;
 		buttonsPanel.setOpaque(false);	
 		buttonsPanel.setLayout(new GridBagLayout());
 		buttonsPanel.setBorder(BorderFactory.createEmptyBorder(250, 0, 0, 0));
 		add(buttonsPanel);
 		gbc = new GridBagConstraints();
+		setPreferredSize(Constants.DEFAULT_MENU_SIZE);
+		setMinimumSize(Constants.DEFAULT_MENU_SIZE);
+		setMaximumSize(Constants.DEFAULT_MENU_SIZE);
 	}
 
 	/**

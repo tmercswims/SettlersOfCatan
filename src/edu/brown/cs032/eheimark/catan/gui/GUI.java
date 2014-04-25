@@ -3,25 +3,28 @@ package edu.brown.cs032.eheimark.catan.gui;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.io.IOException;
-import java.net.UnknownHostException;
-
 import javax.swing.JPanel;
-
 import edu.brown.cs032.atreil.catan.chat.client.ChatClient;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.navigator.TabbedPanel;
-import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
-import edu.brown.cs032.tmercuri.catan.logic.Player;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
+/**
+ * The Class GUI contains elements needed to run the game once it is initialized (that is,
+ * once the launch menus are complete). It is a JPanel that contains the board at the top,
+ * chat box on the right-hand side, and tabbed panel menu at the bottom.
+ */
 public class GUI extends JPanel {
+	private static final long serialVersionUID = 1L;
 	private final CatanClient client;
-	private JPanel tabbedMenu, chatBox;
+	private JPanel tabbedMenu;
 	private DrawingPanel gameBoard;
 	
-	//TODO: Delete throws
+	/**
+	 * Instantiates a new gui.
+	 *
+	 * @param cc the cc
+	 */
 	public GUI(CatanClient cc) {
 		super(new BorderLayout());
 		this.client = cc;
@@ -35,15 +38,16 @@ public class GUI extends JPanel {
 			ChatClient chatc = new ChatClient(cc.getIP(), cc.getChatPort(), client.getPlayer());
 			chatc.setClient(client);
 			add(chatc._panel, BorderLayout.EAST);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Gets the dp.
+	 *
+	 * @return the dp
+	 */
 	public DrawingPanel getDP(){
 		return gameBoard;
 	}
@@ -53,6 +57,4 @@ public class GUI extends JPanel {
 		gameBoard.repaint();
 		tabbedMenu.repaint();
 	}
-	
-	
 }

@@ -30,6 +30,7 @@ public class CatanFrame extends JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             System.err.println("ERROR: " + ex.getMessage());
         }
+		pack();
 		setPage(p);
 		setVisible(true);
 		setResizable(false);

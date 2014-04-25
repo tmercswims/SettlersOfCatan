@@ -3,13 +3,16 @@ package edu.brown.cs032.eheimark.catan.launch.screens;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+
 import edu.brown.cs032.atreil.catan.networking.server.CatanServer;
 import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanMenuButton;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanScrollableTextArea;
+
 import javax.swing.text.DefaultCaret;
 
 /**
@@ -18,12 +21,13 @@ import javax.swing.text.DefaultCaret;
  */
 public class HostLoadingMenu extends CatanMenu {
 	private static final long serialVersionUID = 1L;
-	private final JButton back;
-	private final CatanScrollableTextArea jsp;
-	private final JTextArea jta;
-	private CatanServer cs; // Reference to Catan Server
-	private ServerUpdate su; // Thread to up the JTextArea with messages from the CatanServer
+	private final JButton back; // Back button
+	private final CatanScrollableTextArea jsp; // Scrollable pane for jta
+	private final JTextArea jta; // JTA for server updates
+	private final ServerUpdate su; // Thread to up the JTextArea with messages from the CatanServer
 	private final SettlersOfCatan soc;
+	private CatanServer cs; // Reference to Catan Server
+
 	/**
 	 * Instantiates a new host loading menu.
 	 * @param soc reference to Settlers Of Catan class instance (which contains launch configurations etc)
@@ -66,22 +70,18 @@ public class HostLoadingMenu extends CatanMenu {
 	 * The Class ServerUpdate updates the JTextArea with messages from the server
 	 */
 	private class ServerUpdate extends Thread {
-		
 		@Override
 		public void run() {
 			try {
 				cs = new CatanServer(soc.getLaunchConfiguration());
 				cs.start();
 				jta.append("Server launched successfully!\n");
-
-				while(cs.isServerRunning()) { //TODO: Switch to isRunning method
+				while(cs.isServerRunning()) {
 					jta.append(cs.readStatus());
 				}
-				System.out.println("Done reading updates");
-			} catch(IOException e) {
-				e.printStackTrace();
+			} catch (IllegalArgumentException | IOException e) {
 				jta.append("Error: " + e.getMessage() + "\n");
-				e.printStackTrace();
+				jta.append("Please try again!");
 			}
 		}
 	}

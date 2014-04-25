@@ -3,12 +3,9 @@ package edu.brown.cs032.eheimark.catan.launch.screens;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.UnknownHostException;
-
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
-
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
@@ -27,10 +24,10 @@ public class JoinLoadingMenu extends CatanMenu {
 	private static final long serialVersionUID = 1L;
 	private final JButton back;
 	private final CatanScrollableTextArea jsp;
-	private CatanClient cc; // Reference to client
-	private ServerUpdate su; // Thread that continually gets a status update from server
+	private final ServerUpdate su; // Thread that continually gets a status update from server
 	private final JTextArea jta;
 	private final SettlersOfCatan soc;
+	private CatanClient cc; // Reference to client
 
 	/**
 	 * Instantiates a new join loading menu.
@@ -41,8 +38,8 @@ public class JoinLoadingMenu extends CatanMenu {
 		soc = socIn;
 		jsp = new CatanScrollableTextArea(); 
 		jta = jsp.getTextArea();
-        DefaultCaret caret = (DefaultCaret)jta.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		DefaultCaret caret = (DefaultCaret)jta.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		jta.append("Trying to connect to server...\n");
 		back = new CatanMenuButton("Main Menu");
 		back.addActionListener(new ActionListener() {
@@ -69,8 +66,8 @@ public class JoinLoadingMenu extends CatanMenu {
 	}
 
 	/**
-	 * The Class ServerUpdate continually displays status messages from the server (e.g. how many clients have connected to server
-	 * while waiting to launch).
+	 * The Class ServerUpdate continually displays status messages from the server 
+	 * (e.g. how many clients have connected to server while waiting to launch).
 	 */
 	class ServerUpdate extends Thread {
 		@Override
@@ -94,12 +91,7 @@ public class JoinLoadingMenu extends CatanMenu {
 					}
 				}
 			}
-			catch (UnknownHostException e) {
-				e.printStackTrace();
-				jta.append(e.getMessage() + "...\n");
-				jta.append("Please try again!");
-			} catch (IOException e) {
-				e.printStackTrace();
+			catch (IllegalArgumentException | IOException e) {
 				jta.append(e.getMessage() + "...\n");
 				jta.append("Please try again!");
 			}

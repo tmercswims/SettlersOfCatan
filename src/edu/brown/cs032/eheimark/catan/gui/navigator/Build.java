@@ -2,46 +2,44 @@ package edu.brown.cs032.eheimark.catan.gui.navigator;
 
 import java.awt.Graphics;
 import java.awt.Image;
-
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
-
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
-import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 
 
+/**
+ * The Class Build is a tabbed panel that helps users to manage building
+ * a road, settlement, city, etc.
+ */
 public class Build extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private final Image img; // background image
-	private final String IMG_FILE_LOC = "images/CatanLogo1000x140Mask50.png";;
-
 	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 18);
 	private static final Font MY_FONT2 = new Font("Times", Font.ITALIC, 12);
-
 	private static final Color MY_BACKGROUND = Constants.CATAN_RED;
 	private final CatanClient _client;
 	private final DrawingPanel _dp;
-	private JButton buildSettlementButton, buildDevCardButton, buildRoadButton, buildCityButton;
+	private final JButton buildSettlementButton, buildDevCardButton, buildRoadButton, buildCityButton;
 	
+	/**
+	 * Instantiates a new Build panel.
+	 *
+	 * @param c the client
+	 * @param dp the drawing panel that contains board
+	 */
 	public Build(CatanClient c, DrawingPanel dp) {
 		super();
 		_client  = c;
 		_dp = dp;
-		this.img = new ImageIcon(IMG_FILE_LOC).getImage();
+		this.img = Constants.BUILD_IMAGE;
 
-		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
 		setLayout(null);
 		
 		buildSettlementButton = new JButton("Build Settlement");
@@ -130,6 +128,10 @@ public class Build extends JPanel {
 		//update();
 	}
 	
+	//TODO Fix this
+	/**
+	 * Update.
+	 */
 	public void update(){
 		int[] resources = _client.getPlayer().getResources();
 		if(resources[2]<1 || resources[4]<1){
@@ -156,9 +158,28 @@ public class Build extends JPanel {
 		else{
 			buildSettlementButton.setEnabled(false);
 		}
+		
+		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
+		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
+		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
 	}
 	
+	/**
+	 * The listener interface for receiving buildRoadAction events.
+	 * The class that is interested in processing a buildRoadAction
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addBuildRoadActionListener<code> method. When
+	 * the buildRoadAction event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see BuildRoadActionEvent
+	 */
 	class BuildRoadActionListener implements ActionListener {
+		
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Trying to build road!");
@@ -168,6 +189,9 @@ public class Build extends JPanel {
 		}
 	};
 	
+	/**
+	 * ActionListener that is used to help build settlements
+	 */
 	class BuildSettlementActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -176,6 +200,9 @@ public class Build extends JPanel {
 		}
 	};
 	
+	/**
+	 * ActionListener that is used to build cities.
+	 */
 	class BuildCityActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -184,6 +211,9 @@ public class Build extends JPanel {
 		}
 	};
 	
+	/**
+	 * ActionListener that is used to help build devcards
+	 */
 	class BuildDevCardActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {

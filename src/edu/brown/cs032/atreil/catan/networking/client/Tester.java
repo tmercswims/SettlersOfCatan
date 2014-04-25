@@ -34,7 +34,7 @@ public class Tester {
             p.addResources(new int[]{20,20,20,20,20});
             LaunchConfiguration l = new LaunchConfiguration();
             l.setName(p.getName());
-            l.setJoinPort(Integer.parseInt(args[1]));
+            l.setJoinPort(args[1]);
             CatanClient client = new CatanClient(l);
             Scanner scanner = new Scanner(new InputStreamReader(System.in));
             

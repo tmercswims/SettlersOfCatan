@@ -37,12 +37,11 @@ public class JoinSettingsMenu extends CatanMenu {
 		super();
 		this.soc = socIn;
 		joinLbl = new CatanJLabel("Select Join Port:");
-		portTF = new CatanTextField(Integer.toString(soc.getLaunchConfiguration().getJoinPort()));
+		portTF = new CatanTextField(soc.getLaunchConfiguration().getJoinPort());
 		usernameLbl = new CatanJLabel("Select Username:");
 		usernameTF = new CatanTextField(soc.getLaunchConfiguration().getName());
 		hostnameLbl = new CatanJLabel("Select Hostname:");
 		hostnameTF = new CatanTextField(soc.getLaunchConfiguration().getHostName());
-
 		submit = new CatanMenuButton("Submit");
 		back = new CatanMenuButton("Back");
 
@@ -74,12 +73,22 @@ public class JoinSettingsMenu extends CatanMenu {
 		hostnameTF.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				hostnameTF.selectAll();
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						hostnameTF.selectAll();
+					}
+				});
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				hostnameTF.select(0, 0);
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						hostnameTF.select(0, 0);
+					}
+				});
 			}
 		});
 
@@ -98,25 +107,29 @@ public class JoinSettingsMenu extends CatanMenu {
 				change();
 			}
 			private void change() {
-				try {
-					int joinPort = Integer.parseInt(portTF.getText());
-					soc.getLaunchConfiguration().setJoinPort(joinPort);
-				}
-				catch(NumberFormatException e1) {
-					e1.printStackTrace();
-				}
+				soc.getLaunchConfiguration().setJoinPort(portTF.getText());
 			}
 		});
 
 		portTF.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				portTF.selectAll();
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						portTF.selectAll();
+					}
+				});
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				portTF.select(0, 0);
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						portTF.select(0, 0);
+					}
+				});
 			}
 		});
 
@@ -154,12 +167,22 @@ public class JoinSettingsMenu extends CatanMenu {
 		usernameTF.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				usernameTF.selectAll();
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						usernameTF.selectAll();
+					}
+				});
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				usernameTF.select(0, 0);
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						usernameTF.select(0, 0);
+					}
+				});
 			}
 		});
 

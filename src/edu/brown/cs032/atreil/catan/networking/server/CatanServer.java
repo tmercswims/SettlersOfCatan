@@ -63,7 +63,7 @@ public class CatanServer extends Thread{
 		
 		//check if port is valid
 		if(port <= 1024 || port > 65535)
-			throw new IllegalArgumentException(String.format("Port must be between 1024 exclusive and 65535 inclusive; got %d", port));
+			throw new IllegalArgumentException(String.format("Port must be b/w 1024 and 65535 inclusive; got %d", port));
 		
 		//setting up fields
 		_port = port;
@@ -81,9 +81,10 @@ public class CatanServer extends Thread{
 	 * to new connections until the start() command is executed.
 	 * @param configs The class that represents the configurations to be used
 	 * @throws IOException If anything goes wrong with setting up the server
+	 * @throws IllegalArgumentException If port is invalid
 	 */
-	public CatanServer(LaunchConfiguration configs) throws IOException{
-		int port = configs.getHostPort();
+	public CatanServer(LaunchConfiguration configs) throws IOException, IllegalArgumentException {
+		int port = Integer.parseInt(configs.getHostPort());
 		
 		//check if port is valid
 		if(port <= 1024 || port > 65535)

@@ -19,7 +19,7 @@ import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanToggleButt
 
 /**
  * The Class SettingsMenu is the settings page menu within the Catan launch menus, allowing the user
- * to toggle in-game help.
+ * to toggle Game help.
  */
 public class SettingsMenu extends CatanMenu {
 	private static final long serialVersionUID = 1L;
@@ -76,24 +76,29 @@ public class SettingsMenu extends CatanMenu {
 		});
 
 		if(soc.getLaunchConfiguration().isInGameHelpOn()) {
-			help = new CatanToggleButton("In-Game Help: On");
+			help = new CatanToggleButton("Game Help: On");
 		}
 		else {
-			help = new CatanToggleButton("In-Game Help: Off");		
+			help = new CatanToggleButton("Game Help: Off");		
 			help.setSelected(true);
 		}
 
 		help.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(help.isSelected()) {
-					help.setText("In-Game Help: Off");	
-					soc.getLaunchConfiguration().setInGameHelpOn(false);
-				}
-				else {
-					help.setText("In-Game Help: On");
-					soc.getLaunchConfiguration().setInGameHelpOn(true);
-				}
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						if(help.isSelected()) {
+							help.setText("Game Help: Off");	
+							soc.getLaunchConfiguration().setInGameHelpOn(false);
+						}
+						else {
+							help.setText("Game Help: On");
+							soc.getLaunchConfiguration().setInGameHelpOn(true);
+						}
+					}
+				});
 			}
 		});
 

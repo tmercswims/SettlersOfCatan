@@ -81,7 +81,7 @@ public class CatanClient extends Thread{
 	 * @throws IOException If anything goes wrong with the IO
 	 * @throws UnknownHostException If the host does not exist
 	 */
-	public CatanClient(LaunchConfiguration configs) throws UnknownHostException, IOException{
+	public CatanClient(LaunchConfiguration configs) throws IllegalArgumentException, UnknownHostException, IOException{
 		
 		//setting the fields
 		this._p = new Player(configs.getName());
@@ -91,8 +91,8 @@ public class CatanClient extends Thread{
 		_isStarting = false;
 		
 		//setting up socket
-		this._socket = new Socket(InetAddress.getByName(_ip).getHostName(), configs.getJoinPort());
-		
+		this._socket = new Socket(InetAddress.getByName(_ip).getHostName(), Integer.parseInt(configs.getJoinPort()));
+
 		//setting up readers
 		_out = new ObjectOutputStream(_socket.getOutputStream());
 		_out.flush();

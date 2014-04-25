@@ -7,11 +7,20 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
+/**
+ * The Class GUIFrame contains the main gui panel with the board at top
+ * and tabbed panels at the bottom.
+ */
 public class GUIFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Instantiates a new GUI frame.
+	 *
+	 * @param cc the cc
+	 */
 	public GUIFrame(CatanClient cc) {
-		super("Settlers of Catan -- " + cc.getPlayerName());
+		super("Settlers of Catan : " + cc.getPlayerName());
         try {
             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -24,9 +33,8 @@ public class GUIFrame extends JFrame {
         }
 		add(new GUI(cc));
 		setVisible(true);
-//		setResizable(false);
+//		setResizable(false); // TODO Fix resizing
 		setMinimumSize(Constants.GUI_SIZE);
-//
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 	}

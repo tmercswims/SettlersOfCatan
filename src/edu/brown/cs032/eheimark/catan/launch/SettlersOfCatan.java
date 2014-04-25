@@ -10,13 +10,13 @@ import edu.brown.cs032.eheimark.catan.launch.screens.MainMenu;
  */
 public class SettlersOfCatan {
 	private CatanFrame frame; // Reference to CatanFrame
-	private LaunchConfiguration lc; // Reference to launch configuration
+	private final LaunchConfiguration lc; // Reference to launch configuration
 
 	/**
 	 * Instantiates a new settlers of catan game.
 	 */
 	public SettlersOfCatan() {
-		setLaunchConfiguration(new LaunchConfiguration());
+		this.lc = new LaunchConfiguration();
 		setFrame(new CatanFrame(new MainMenu(this), "Settlers of Catan"));
 	}
 
@@ -36,6 +36,7 @@ public class SettlersOfCatan {
 	 */
 	public void setFrame(CatanFrame frame) {
 		this.frame = frame;
+		frame.pack();
 	}
 
 	/**
@@ -45,15 +46,6 @@ public class SettlersOfCatan {
 	 */
 	public LaunchConfiguration getLaunchConfiguration() {
 		return lc;
-	}
-
-	/**
-	 * Sets the launch configuration.
-	 *
-	 * @param lc the new launch configuration
-	 */
-	public void setLaunchConfiguration(LaunchConfiguration lc) {
-		this.lc = lc;
 	}
 
 	public static void main(String[] args) {
