@@ -52,13 +52,21 @@ public class Player implements Serializable {
         return _resources;
     }
     
+    public int getResourceCount() {
+        int sum = 0;
+        for (int r : _resources) {
+            sum += r;
+        }
+        return sum;
+    }
+    
     /**
      * Adds resources to this player.
      * @param newResources array of length 5, where each index is a certain resource and its value is the number of each resource to give to this player
      */
     public void addResources(int[] newResources) {
         for (int i=0; i<newResources.length; i++) {
-            this._resources[i] += newResources[i];
+            _resources[i] += newResources[i];
         }
     }
     
