@@ -225,7 +225,7 @@ public class ChatClient {//extends JPanel{
 		@Override
 		public void keyTyped(KeyEvent e) {
 			//System.out.println("getKeyChar "+e.getKeyChar());
-			if(e.getKeyChar() == KeyEvent.VK_ENTER) {
+			if(e.getKeyChar() == '\n') {
 				String message = _field.getText();
 				_field.setText("");
                 _history.addFirst(message);
