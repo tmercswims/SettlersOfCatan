@@ -25,6 +25,7 @@ import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 import java.awt.Color;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Random;
 
 /**
  * A Settlers of Catan referee.
@@ -353,7 +354,17 @@ public class Referee {
     }
     
     private int tradeMove(TradeMove move) {
-        if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
+        if (!move.getPlayerName().equals(_activePlayer.getName()) && !move.getPlayerName().equals(move.getProposedTo())) return 999;
+        
+        Player robbed = null;
+        for (Player p : _players) {
+            if (p.getName().equals(move.getPlayerName())) robbed = p;
+        }
+        
+        if (move.getPlayerName().equals(move.getProposedTo())) {
+            int[] res = move.getResources();
+            if (robbed != null) robbed.removeResources(res);
+        }
         
         int[] giving = new int[]{0,0,0,0,0};
         int[] receiving = new int[]{0,0,0,0,0};
@@ -450,6 +461,34 @@ public class Referee {
     }
     
     private int robberMove(RobberMove move) {
+        if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
+        //TODO make people give up resources
+        Tile newRobber = _board.getTiles()[move.getNewLocation()];
+        Player victim = null;
+        if (newRobber.hasRobber()) return 501;
+        for (Tile t : _board.getTiles()) {
+            if (t.hasRobber()) t.setRobber(false);
+        }
+        newRobber.setRobber(true);
+        if (move.getToStealFrom() != null) {
+            for (Node n : newRobber.getNodes()) {
+                if (n.getOwner() != null && move.getToStealFrom().equals(n.getOwner().getName())) {
+                    victim = n.getOwner();
+                }
+            }
+            if (victim == null) return 502;
+        
+            boolean foundRes = false;
+            int stealType = -1;
+            while (!foundRes) {
+                stealType = new Random().nextInt(5);
+                if (victim.getResources()[stealType] != 0) foundRes = true;
+            }
+            int[] resSwing = new int[]{0,0,0,0,0};
+            resSwing[stealType] = 1;
+            victim.removeResources(resSwing);
+            _activePlayer.addResources(resSwing);
+        }
         
         return -1;
     }
@@ -466,7 +505,7 @@ public class Referee {
                             int[] newRes = new int[]{0,0,0,0,0};
                             newRes[t.getResource()] += n.getVP();
                             p.addResources(newRes);
-                            System.out.println(String.format("%s got %s wheat, %s sheep, %s brick, %s ore, %s wood", p.getName(), newRes[0], newRes[1], newRes[2], newRes[3], newRes[4]));
+                            System.out.println(String.format("%s got %d wheat, %d sheep, %d brick, %d ore, %d wood", p.getName(), newRes[0], newRes[1], newRes[2], newRes[3], newRes[4]));
                         }
                     }
                 }

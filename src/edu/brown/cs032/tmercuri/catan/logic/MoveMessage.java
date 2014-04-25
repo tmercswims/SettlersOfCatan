@@ -22,12 +22,12 @@ public enum MoveMessage {
     /**
      * started turn
      */
-    MESSAGE_000(000, false, "%s has started their turn."),
+    MESSAGE_000(000, false, "%s started their turn."),
     
     /**
      * ended turn
      */
-    MESSAGE_001(001, false, "%s has completed their turn."),
+    MESSAGE_001(001, false, "%s completed their turn."),
     
     /**
      * it's not your turn
@@ -75,7 +75,14 @@ public enum MoveMessage {
     MESSAGE_406(406, true, "you do not have access to that port."),
     MESSAGE_410(410, false, "%s completed a trade."),
     MESSAGE_411(411, false, "%s traded with the bank."),
-    MESSAGE_412(412, false, "%s traded with a port.");
+    MESSAGE_412(412, false, "%s traded with a port."),
+    
+    /**
+     * robber
+     */
+    MESSAGE_500(500, false, "%s moved the robber."),
+    MESSAGE_501(501, true, "the robber is already on that hex."),
+    MESSAGE_502(502, true, "that player does not have a building on that hex.");
     
     private final int _code;
     private final boolean _isError;

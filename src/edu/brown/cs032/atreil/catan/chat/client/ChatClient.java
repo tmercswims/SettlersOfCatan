@@ -20,7 +20,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.Border;
@@ -56,6 +55,9 @@ public class ChatClient {//extends JPanel{
 	SimpleAttributeSet _blue;
 	SimpleAttributeSet _orange;
 	SimpleAttributeSet _server;
+    private final LinkedList<String> _history;
+    private int _position;
+    private String _unsentContents;
 	
 
 	/**
@@ -81,6 +83,9 @@ public class ChatClient {//extends JPanel{
 		_out = new PrintWriter(_socket.getOutputStream(), true);
 
 		_out.println(player.getName());
+        
+        _history = new LinkedList<>();
+        _position = -1;
 
         /*JScrollPane scroller = new JScrollPane(_area);
         scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -220,9 +225,11 @@ public class ChatClient {//extends JPanel{
 		@Override
 		public void keyTyped(KeyEvent e) {
 			//System.out.println("getKeyChar "+e.getKeyChar());
-			if(e.getKeyChar()=='\n'){
+			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 				String message = _field.getText();
 				_field.setText("");
+                _history.addFirst(message);
+                _unsentContents = "";
 				if(_client.getPlayer().getColor().equals(Color.red)){
 					println("red "+message);
 				}
@@ -238,7 +245,16 @@ public class ChatClient {//extends JPanel{
 				else{
 					System.out.println(_client.getPlayer().getColor());
 				}
-			}
+			} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+                _unsentContents = _field.getText();
+                _position = (_position+1 > _history.size()) ? _position : _position+1;
+                String text = _history.get(_position);
+                _field.setText(text);
+            } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                _position = (_position-1 < 0) ? -1 : _position-1;
+                String text = (_position == -1) ? _unsentContents : _history.get(_position);
+                _field.setText(text);
+            }
 		}
 
 		@Override
