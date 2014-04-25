@@ -42,15 +42,15 @@ public class OutstandingTrade extends JPanel {
 		setBackground(Constants.CATAN_BLUE);
 		setLayout(null);
 
-		JLabel brickLabel = new JLabel("Brick:" + resources[ResourceConstants.BRICK]);
-		brickLabel.setFont(Constants.DEFAULT_BUTTON_FONT);
+		JLabel brickLabel = new JLabel("Brick:" + -resources[ResourceConstants.BRICK]);
+		brickLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		brickLabel.setOpaque(true);
 		brickLabel.setBackground(Color.WHITE);
 		brickLabel.setBounds(801, 59, 60, 16);
 		brickLabel.setForeground(Color.RED);
 		add(brickLabel);
 
-		JLabel lumberLabel = new JLabel("Lumber:" + resources[ResourceConstants.WOOD]);
+		JLabel lumberLabel = new JLabel("Lumber:" + -resources[ResourceConstants.WOOD]);
 		lumberLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		lumberLabel.setOpaque(true);
 		lumberLabel.setBackground(Color.WHITE);
@@ -58,7 +58,7 @@ public class OutstandingTrade extends JPanel {
 		lumberLabel.setForeground(Color.GREEN);
 		add(lumberLabel);
 
-		JLabel woolLabel = new JLabel("Wool:" + + resources[ResourceConstants.SHEEP]);
+		JLabel woolLabel = new JLabel("Wool:" + -resources[ResourceConstants.SHEEP]);
 		woolLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		woolLabel.setOpaque(true);
 		woolLabel.setBackground(Color.WHITE);
@@ -66,7 +66,7 @@ public class OutstandingTrade extends JPanel {
 		woolLabel.setForeground(Color.LIGHT_GRAY);
 		add(woolLabel);
 
-		JLabel grainLabel = new JLabel("Wheat:" + resources[ResourceConstants.WHEAT]);
+		JLabel grainLabel = new JLabel("Wheat:" + -resources[ResourceConstants.WHEAT]);
 		grainLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		grainLabel.setOpaque(true);
 		grainLabel.setBackground(Color.WHITE);
@@ -74,7 +74,7 @@ public class OutstandingTrade extends JPanel {
 		grainLabel.setForeground(Color.ORANGE);
 		add(grainLabel);
 
-		JLabel oreLabel = new JLabel("Ore:" + resources[ResourceConstants.ORE]);
+		JLabel oreLabel = new JLabel("Ore:" + -resources[ResourceConstants.ORE]);
 		oreLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		oreLabel.setOpaque(true);
 		oreLabel.setBackground(Color.WHITE);
@@ -104,12 +104,12 @@ public class OutstandingTrade extends JPanel {
 		fromLabel.setBounds(28, 15, 150, 16);
 		add(fromLabel);
 
-		JLabel clarificationLabel = new JLabel("+ = Incoming, - = Outgoing");
+		JLabel clarificationLabel = new JLabel("+ = RECEIVE, - = SEND");
 		clarificationLabel.setOpaque(true);
 		clarificationLabel.setForeground(Color.BLACK);
 		clarificationLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		clarificationLabel.setBackground(Color.WHITE);
-		clarificationLabel.setBounds(28, 105, 136, 16);
+		clarificationLabel.setBounds(28, 105, 170, 16);
 		add(clarificationLabel);
 
 		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);

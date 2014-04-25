@@ -143,7 +143,7 @@ public class Trade extends JPanel {
 		toLabel.setBounds(28, 15, 138, 16);
 		add(toLabel);
 
-		JLabel clarificationLabel = new JLabel("+ = Incoming, - = Outgoing");
+		JLabel clarificationLabel = new JLabel("+ = RECEIVE, - = SEND");
 		clarificationLabel.setOpaque(true);
 		clarificationLabel.setForeground(Color.BLACK);
 		clarificationLabel.setFont(new Font("Times", Font.ITALIC, 12));
