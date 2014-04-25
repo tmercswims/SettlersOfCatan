@@ -230,11 +230,9 @@ public class Referee {
             return buildMove(bMove);
         } else if (move instanceof TradeMove) {
             TradeMove tMove = (TradeMove) move;
-            System.err.println("Can't trade yet.");
             return tradeMove(tMove);
         } else if (move instanceof RobberMove) {
             RobberMove rMove = (RobberMove) move;
-            System.err.println("Can't rob yet.");
             return robberMove(rMove);
         } else if (move instanceof LastMove) {
             return endTurn();
@@ -364,6 +362,7 @@ public class Referee {
         if (move.getPlayerName().equals(move.getProposedTo())) {
             int[] res = move.getResources();
             if (robbed != null) robbed.removeResources(res);
+            return 510;
         }
         
         int[] giving = new int[]{0,0,0,0,0};
@@ -488,6 +487,7 @@ public class Referee {
             resSwing[stealType] = 1;
             victim.removeResources(resSwing);
             _activePlayer.addResources(resSwing);
+            return 500;
         }
         
         return -1;
