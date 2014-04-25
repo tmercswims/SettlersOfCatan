@@ -1,5 +1,9 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.blue;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.orange;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.red;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.white;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Node.*;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import java.awt.BasicStroke;
@@ -122,28 +126,29 @@ public class Node extends BoardComponent{
         case 0:
             break;
         case 1:
-            if (_owner.getColor().equals(Color.RED)) {
+            if (_owner.getColor().equals(red)) {
                 building = settlementRed;
-            } else if (_owner.getColor().equals(Color.BLUE)) {
+            } else if (_owner.getColor().equals(blue)) {
                 building = settlementBlue;
-            } else if (_owner.getColor().equals(Color.ORANGE)) {
+            } else if (_owner.getColor().equals(orange)) {
                 building = settlementOrange;
-            } else if (_owner.getColor().equals(Color.WHITE)) {
+            } else if (_owner.getColor().equals(white)) {
                 building = settlementWhite;
             }
             break;
         case 2:
-            if (_owner.getColor().equals(Color.RED)) {
+            if (_owner.getColor().equals(red)) {
                 building = cityRed;
-            } else if (_owner.getColor().equals(Color.BLUE)) {
+            } else if (_owner.getColor().equals(blue)) {
                 building = cityBlue;
-            } else if (_owner.getColor().equals(Color.ORANGE)) {
+            } else if (_owner.getColor().equals(orange)) {
                 building = cityOrange;
-            } else if (_owner.getColor().equals(Color.WHITE)) {
+            } else if (_owner.getColor().equals(white)) {
                 building = cityWhite;
             }
             break;
         }
+        System.out.println("DRAWING SETTLEMENT - " + building);
         brush.drawImage(building, (int)r.getCenterX()-10, (int)r.getCenterY()-10, null);
 	}
 	

@@ -7,6 +7,10 @@ package edu.brown.cs032.tmercuri.catan.logic;
 
 import edu.brown.cs032.atreil.catan.networking.server.CatanServer;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.blue;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.orange;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.red;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.white;
 import edu.brown.cs032.sbreslow.catan.gui.board.Edge;
 import edu.brown.cs032.sbreslow.catan.gui.board.Node;
 import edu.brown.cs032.sbreslow.catan.gui.board.Tile;
@@ -64,7 +68,7 @@ public class Referee {
      */
     public void runGame() {
     	//TODO CLEAN THIS UP. -Eric
-        Color[] colors = new Color[] {new Color(252, 1, 1), new Color(0, 88, 147), new Color(183, 122, 1), new Color(252, 254, 254)};
+        Color[] colors = new Color[] {red, blue, orange, white};
         int i = 0;
         for (Player p : _players) {
             p.addResources(new int[]{0,0,0,0,0});

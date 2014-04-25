@@ -14,7 +14,7 @@ import javax.swing.ImageIcon;
  * @author Thomas Mercurio
  */
 public class BoardImages {
-    static class Node {
+    public static class Node {
         public static final Image settlementRed = new ImageIcon("images/pieces/settlement_red.png").getImage();
         public static final Image settlementBlue = new ImageIcon("images/pieces/settlement_blue.png").getImage();
         public static final Image settlementOrange = new ImageIcon("images/pieces/settlement_orange.png").getImage();
@@ -26,7 +26,7 @@ public class BoardImages {
         public static final Image cityWhite = new ImageIcon("images/pieces/city_white.png").getImage();
     }
     
-    static class Edge {
+    public static class Edge {
         public static final Image brickPort = new ImageIcon("images/ports/brick.png").getImage();
         public static final Image genericNorthPort = new ImageIcon("images/ports/generic_north.png").getImage();
         public static final Image genericNorthwestPort = new ImageIcon("images/ports/generic_northwest.png").getImage();
@@ -43,7 +43,7 @@ public class BoardImages {
         public static final Color white = new Color(252, 254, 254);
     }
     
-    static class Tile {
+    public static class Tile {
         public static final Image brickTile = new ImageIcon("images/tiles/brick.png").getImage();
         public static final Image desertTile = new ImageIcon("images/tiles/desert.png").getImage();
         public static final Image oceanTile = new ImageIcon("images/tiles/ocean.png").getImage();
