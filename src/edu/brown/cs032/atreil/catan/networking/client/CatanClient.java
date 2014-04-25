@@ -175,6 +175,30 @@ public class CatanClient extends Thread{
 	}
 	
 	/**
+	 * Waits until the board and players have been initialized
+	 */
+	public void initializeBoardAndPlayers(){
+		
+		//Wait until players are updated
+		synchronized(_players){
+			while(!_initializedPlayers){
+				try {
+					_players.wait();
+				} catch (InterruptedException e) {}
+			}
+		}
+		
+		//wait until board is updated
+		synchronized (_board) {
+			while(!_initializedBoard){
+				try{
+					_board.wait();
+				} catch (InterruptedException e){}
+			}			
+		}
+	}
+	
+	/**
 	 * Starts listening to the server once the game has started
 	 */
 	public void run(){
@@ -210,11 +234,11 @@ public class CatanClient extends Thread{
 				_initializedBoard = true;
 			}
 			
+			_gui.repaint();
+			
 			synchronized(_board){
 				_board.notifyAll();
 			}
-			
-			_gui.repaint();
 		} else if(type == Packet.PLAYERARRAY){
 			
 			synchronized(_playersLock){
