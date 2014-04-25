@@ -2,6 +2,7 @@
 //TODO: Need to convert IP to Hostname
 package edu.brown.cs032.atreil.catan.networking.client;
 
+import java.awt.Component;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -419,5 +420,10 @@ public class CatanClient extends Thread{
 	public int getChatPort() {
 		//TODO Implement setting the chat port
 		return _chatPort;
+	}
+
+	public GUI getGUI() {
+		// TODO Auto-generated method stub
+		return _gui;
 	}
 }

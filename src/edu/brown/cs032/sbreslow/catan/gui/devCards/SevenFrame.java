@@ -109,7 +109,7 @@ public class SevenFrame extends JFrame {
 		//setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMinimumSize(new Dimension(1000,200));
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		
+		setLocationRelativeTo(_cc.getGUI());
 		setVisible(true);
 		pack();
 	}
