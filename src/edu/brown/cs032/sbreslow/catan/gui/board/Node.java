@@ -148,7 +148,7 @@ public class Node extends BoardComponent{
             }
             break;
         }
-        System.out.println("DRAWING SETTLEMENT - " + building);
+        //System.out.println("DRAWING SETTLEMENT - " + building);
         brush.drawImage(building, (int)r.getCenterX()-10, (int)r.getCenterY()-10, null);
 	}
 	

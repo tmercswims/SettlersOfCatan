@@ -15,7 +15,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.Queue;
-
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.*;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -230,16 +230,16 @@ public class ChatClient {//extends JPanel{
 				_field.setText("");
                 //_history.addFirst(message);
                 //_unsentContents = "";
-				if(_client.getPlayer().getColor().equals(Color.red)){
+				if(_client.getPlayer().getColor().equals(red)){
 					println("red "+message);
 				}
-				else if(_client.getPlayer().getColor().equals(Color.blue)){
+				else if(_client.getPlayer().getColor().equals(blue)){
 					println("blue "+message);
 				}
-				else if(_client.getPlayer().getColor().equals(Color.orange)){
+				else if(_client.getPlayer().getColor().equals(orange)){
 					println("orange "+message);
 				}
-				else if(_client.getPlayer().getColor().equals(Color.white)){
+				else if(_client.getPlayer().getColor().equals(white)){
 					println("white "+message);
 				}
 				else{
