@@ -225,7 +225,7 @@ public class ChatClient {//extends JPanel{
 		@Override
 		public void keyTyped(KeyEvent e) {
 			//System.out.println("getKeyChar "+e.getKeyChar());
-			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if(e.getKeyChar() == KeyEvent.VK_ENTER) {
 				String message = _field.getText();
 				_field.setText("");
                 _history.addFirst(message);
@@ -245,16 +245,7 @@ public class ChatClient {//extends JPanel{
 				else{
 					System.out.println(_client.getPlayer().getColor());
 				}
-			} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-                _unsentContents = _field.getText();
-                _position = (_position+1 > _history.size()) ? _position : _position+1;
-                String text = _history.get(_position);
-                _field.setText(text);
-            } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                _position = (_position-1 < 0) ? -1 : _position-1;
-                String text = (_position == -1) ? _unsentContents : _history.get(_position);
-                _field.setText(text);
-            }
+			}
 		}
 
 		@Override
@@ -266,7 +257,16 @@ public class ChatClient {//extends JPanel{
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
+                _unsentContents = _field.getText();
+                _position = (_position+1 > _history.size()) ? _position : _position+1;
+                String text = _history.get(_position);
+                _field.setText(text);
+            } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                _position = (_position-1 < 0) ? -1 : _position-1;
+                String text = (_position == -1) ? _unsentContents : _history.get(_position);
+                _field.setText(text);
+            }
 		}
 		
 	}

@@ -160,6 +160,7 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 							else{
 								new RobberFrame(plist, t.getIndex(), _client);
 							}
+							_selectable = Integer.MAX_VALUE;
 						}
 					case 1:
 						buildtype = 0;

@@ -224,6 +224,7 @@ public class CatanClient extends Thread{
 			//TODO: notify of roll
 			synchronized(_rollLock){
 				_roll = ((Integer) packet.getObject()).intValue();
+				_gui.getDP().setSelect(0);
 				if(_roll==7 && _p.getResourceCount()>7){
 					new SevenFrame(this);
 				}
