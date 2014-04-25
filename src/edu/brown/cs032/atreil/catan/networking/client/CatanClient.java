@@ -205,9 +205,6 @@ public class CatanClient extends Thread{
 
 			synchronized(_boardLock){
 				_board = (Board) packet.getObject();
-			}
-			
-			synchronized(_board){
 				_board.notifyAll();
 			}
 			
@@ -217,9 +214,6 @@ public class CatanClient extends Thread{
 			synchronized(_playersLock){
 				_players = (Player[]) packet.getObject();
 				updateLocalPlayer();
-			}
-			
-			synchronized(_players){
 				_players.notifyAll();
 			}
 			
