@@ -53,6 +53,9 @@ public class CatanClient extends Thread{
 	private Board _board; //a cached version of the most recent version of the board
 	private Integer _playersLock;
 	private Player[] _players; //a cached version of the most recent version of players
+	
+	private boolean _initializedPlayers; //true if the player array contains valid players, and false otherwise
+	private boolean _initializedBoard; //true if the board contains an actual board, and false otherwise
 
 	
 	/**
@@ -202,6 +205,7 @@ public class CatanClient extends Thread{
 
 			synchronized(_boardLock){
 				_board = (Board) packet.getObject();
+				_board.notifyAll();
 			}
 			
 			_gui.repaint();
@@ -210,6 +214,7 @@ public class CatanClient extends Thread{
 			synchronized(_playersLock){
 				_players = (Player[]) packet.getObject();
 				updateLocalPlayer();
+				_players.notifyAll();
 			}
 			
 			_gui.repaint();
@@ -396,6 +401,40 @@ public class CatanClient extends Thread{
 	 */
 	public boolean getIsStarting(){
 		return _isStarting;
+	}
+	
+	/**
+	 * Waits until the player[] is updated. Guarantees that the
+	 * player array will be valid
+	 * @return player array
+	 */
+	public Player[] initializePlayer(){
+		synchronized(_players){
+			while(!_initializedPlayers){
+				try {
+					_players.wait();
+				} catch (InterruptedException e) {}
+			}
+			
+			return _players;
+		}
+	}
+	
+	/**
+	 * Waits until the Board is updated. Guaranteed that the
+	 * board will be valid
+	 * @return The board
+	 */
+	public Board initializeBoard(){
+		synchronized (_board) {
+			while(!_initializedBoard){
+				try{
+					_board.wait();
+				} catch (InterruptedException e){}
+			}
+			
+			return _board;
+		}
 	}
 	
 	/**
