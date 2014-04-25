@@ -31,7 +31,7 @@ public class SevenFrame extends JFrame {
 		_cc = cc;
 		this.img = Constants.TRADE_TAB_IMAGE;
 		setLayout(null); // absolute layout
-		final Integer[] tradeValues = new Integer[] {-5, -4, -3, -2, -1, +0};
+		final Integer[] tradeValues = new Integer[] {5, 4, 3, 2, 1, 0};
 		
 		oreCB = new JComboBox<Integer>(tradeValues);
 		oreCB.setSelectedIndex(5);
@@ -135,10 +135,20 @@ public class SevenFrame extends JFrame {
 					sum += trade[i];
 				}
 				if(!(sum < _cc.getPlayer().getResourceCount()/2)){
-					String toPlayer = (String) _cc.getPlayerName();
-					_cc.sendMove(new TradeMove(_cc.getPlayerName(), toPlayer, trade, -1));
-					_frame.setVisible(false);
-					_frame.dispose();
+					boolean good = true;
+					int[] resources = _cc.getPlayer().getResources();
+					for(int i = 0; i < trade.length; i++){
+						if(trade[i]>resources[i]){
+							good = false;
+							break;
+						}
+					}
+					if(good){
+						String toPlayer = (String) _cc.getPlayerName();
+						_cc.sendMove(new TradeMove(_cc.getPlayerName(), toPlayer, trade, -1));
+						_frame.setVisible(false);
+						_frame.dispose();
+					}
 				}
 			} catch (IllegalArgumentException | IOException e1) {
 				e1.printStackTrace();
