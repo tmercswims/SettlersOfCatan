@@ -10,7 +10,10 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import edu.brown.cs032.sbreslow.catan.gui.devCards.RobberFrame;
 import edu.brown.cs032.tmercuri.catan.logic.move.*;
+import edu.brown.cs032.tmercuri.catan.logic.*;
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -136,6 +139,28 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 					//c.grow();
 					int buildtype = -1;
 					switch(_selectable){
+					case 0:
+						Tile t = (Tile) c;
+						if(!t.hasRobber()){
+							ArrayList<Player> plist = new ArrayList<Player>(0);
+							for(Node n:t.getNodes()){
+								if(n.isOwned()){
+									plist.add(n.getOwner());
+								}
+							}
+							if(plist.size()==0){
+								RobberMove rm = new RobberMove(_client.getPlayer().getName(), t.getIndex(), null);
+								try {
+									_client.sendMove(rm);
+								} catch (IllegalArgumentException | IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							}
+							else{
+								new RobberFrame(plist, t.getIndex(), _client);
+							}
+						}
 					case 1:
 						buildtype = 0;
 						break;
