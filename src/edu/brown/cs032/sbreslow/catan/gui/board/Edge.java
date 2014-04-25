@@ -74,8 +74,8 @@ public class Edge extends BoardComponent{
 			int[] wheaty = {(int) _l.getY1()+2, (int) _l.getY2()+2, (int)_l.getY1()+20};
 			brush.setColor(new Color(255,205,0));
 			//brush.fill(new Polygon(wheatx,wheaty,3));
-            brush.drawImage(wheatPort, (int)_l.getX1(), (int)_l.getY1(), 
-            		(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(), null);
+            brush.drawImage(wheatPort, (int)(_l.getX1()-wheatPort.getWidth(this)*.1), (int)_l.getY1(), 
+            		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			break;
 		case 1:
 			todraw = "Sheep Port".toCharArray();
@@ -84,7 +84,7 @@ public class Edge extends BoardComponent{
 			int[] sheepy = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY2()-40};
 			brush.setColor(new Color(119,255,0));
 			//brush.fill(new Polygon(sheepx,sheepy,3));
-            brush.drawImage(sheepPort, (int)_l.getX1()-49, (int)_l.getY1()-3, 
+            brush.drawImage(sheepPort, (int)(_l.getX1()-sheepPort.getWidth(this)), (int)(_l.getY1()-sheepPort.getHeight(this)*.25), 
             		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			break;
 		case 2:
@@ -94,7 +94,7 @@ public class Edge extends BoardComponent{
 			int[] bricky = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY1()-40};
 			brush.setColor(new Color(255,102,0));
 			//brush.fill(new Polygon(brickx,bricky,3));
-            brush.drawImage(brickPort, (int)_l.getX2()+5, (int)_l.getY2()-5,
+            brush.drawImage(brickPort, (int)_l.getX2(), (int)(_l.getY2()-brickPort.getHeight(this)*.25),
             		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			break;
 		case 3:
@@ -104,7 +104,7 @@ public class Edge extends BoardComponent{
 			int[] orey = {(int) _l.getY1()+2, (int) _l.getY2()+2, (int)_l.getY1()+20};
 			brush.setColor(new Color(85,85,85));
 			//brush.fill(new Polygon(orex,orey,3));
-            brush.drawImage(orePort, (int)_l.getX1(), (int)_l.getY1(),
+            brush.drawImage(orePort, (int)(_l.getX1()-orePort.getWidth(this)*.1), (int)_l.getY1(),
             		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			break;
 		case 4:
@@ -114,7 +114,7 @@ public class Edge extends BoardComponent{
 			int[] woody = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY1()-40};
 			brush.setColor(new Color(38,73,29));
 			//brush.fill(new Polygon(woodx,woody,3));
-            brush.drawImage(woodPort, (int)_l.getX2()+5, (int)_l.getY2()-5,
+            brush.drawImage(woodPort, (int)_l.getX2(), (int)_l.getY2()-15,
             		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			break;
 		case 5:
@@ -126,7 +126,7 @@ public class Edge extends BoardComponent{
 				int[] y = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY1()-20};
 				brush.setColor(Color.black);
 				//brush.fill(new Polygon(x,y,3));
-                brush.drawImage(genericNorthPort, (int)_l.getX2(), (int)_l.getY2()-23,
+                brush.drawImage(genericNorthPort, (int)(_l.getX2()-genericNorthPort.getWidth(this)*.1), (int)_l.getY2()-genericNorthPort.getHeight(this),
                 		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			}
 			if(_index==88){
@@ -135,7 +135,7 @@ public class Edge extends BoardComponent{
 				int[] y = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY2()-40};
 				brush.setColor(Color.black);
 				//brush.fill(new Polygon(x,y,3));
-                brush.drawImage(genericNorthwestPort, (int)_l.getX1()-49, (int)_l.getY1()-3,
+                brush.drawImage(genericNorthwestPort, (int)(_l.getX2()-genericNorthwestPort.getWidth(this)/1.5), (int)_l.getY2()-genericNorthwestPort.getHeight(this),
                 		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			}
 			if(_index==51){
@@ -144,7 +144,7 @@ public class Edge extends BoardComponent{
 				int[] y = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY1()+40};
 				brush.setColor(Color.black);
 				//brush.fill(new Polygon(x,y,3));
-                brush.drawImage(genericSouthwestPort, (int)_l.getX1()-13, (int)_l.getY1()+7,
+                brush.drawImage(genericSouthwestPort, (int)(_l.getX1()-genericNorthwestPort.getWidth(this)/1.5), (int)_l.getY1(),
                 		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			}
 			if(_index==67){
@@ -153,7 +153,7 @@ public class Edge extends BoardComponent{
 				int[] y = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY2()+40};
 				brush.setColor(Color.black);
 				//brush.fill(new Polygon(x,y,3));
-                brush.drawImage(genericSoutheastPort, (int)_l.getX2()-28, (int)_l.getY2()+7,
+                brush.drawImage(genericSoutheastPort, (int)(_l.getX2()-genericSoutheastPort.getWidth(this)*.4), (int)(_l.getY2()-genericSoutheastPort.getHeight(this)*.2),
                 		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			}
 			break;
