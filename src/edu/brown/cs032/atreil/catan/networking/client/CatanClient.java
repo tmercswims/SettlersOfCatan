@@ -108,6 +108,8 @@ public class CatanClient extends Thread{
 		_startTurn = false;
 		_boardLock = new Integer(-1);
 		_playersLock = new Integer(-1);
+		_initializedBoard = false;
+		_initializedPlayers = false;
 		
 		//connecting
 		connect();
@@ -205,6 +207,7 @@ public class CatanClient extends Thread{
 
 			synchronized(_boardLock){
 				_board = (Board) packet.getObject();
+				_initializedBoard = true;
 			}
 			
 			synchronized(_board){
@@ -216,6 +219,7 @@ public class CatanClient extends Thread{
 			
 			synchronized(_playersLock){
 				_players = (Player[]) packet.getObject();
+				_initializedPlayers = true;
 				updateLocalPlayer();
 			}
 			
