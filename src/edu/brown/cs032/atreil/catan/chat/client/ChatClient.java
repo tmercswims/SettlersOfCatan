@@ -228,8 +228,8 @@ public class ChatClient {//extends JPanel{
 			if(e.getKeyChar() == '\n') {
 				String message = _field.getText();
 				_field.setText("");
-                _history.addFirst(message);
-                _unsentContents = "";
+                //_history.addFirst(message);
+                //_unsentContents = "";
 				if(_client.getPlayer().getColor().equals(Color.red)){
 					println("red "+message);
 				}
@@ -257,7 +257,7 @@ public class ChatClient {//extends JPanel{
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
-			if (e.getKeyCode() == KeyEvent.VK_UP) {
+			/*if (e.getKeyCode() == KeyEvent.VK_UP) {
                 _unsentContents = _field.getText();
                 _position = (_position+1 > _history.size()) ? _position : _position+1;
                 String text = _history.get(_position);
@@ -266,7 +266,7 @@ public class ChatClient {//extends JPanel{
                 _position = (_position-1 < 0) ? -1 : _position-1;
                 String text = (_position == -1) ? _unsentContents : _history.get(_position);
                 _field.setText(text);
-            }
+            }*/
 		}
 		
 	}
