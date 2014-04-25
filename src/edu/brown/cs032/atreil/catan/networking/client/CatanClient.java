@@ -17,6 +17,7 @@ import edu.brown.cs032.eheimark.catan.gui.GUI;
 import edu.brown.cs032.eheimark.catan.gui.trade.TradeFrame;
 import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
+import edu.brown.cs032.sbreslow.catan.gui.devCards.SevenFrame;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
@@ -262,7 +263,7 @@ public class CatanClient extends Thread{
 			synchronized(_rollLock){
 				_roll = ((Integer) packet.getObject()).intValue();
 				if(_roll==7 && _p.getResourceCount()>7){
-					
+					new SevenFrame(this);
 				}
 			}
 		} else if(type == Packet.ERROR){
