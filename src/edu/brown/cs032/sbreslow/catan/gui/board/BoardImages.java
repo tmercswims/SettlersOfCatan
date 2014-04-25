@@ -27,15 +27,11 @@ public class BoardImages {
     }
     
     static class Edge {
-        public static final Image northPort = new ImageIcon("images/ports/north.png").getImage();
-        public static final Image northeastPort = new ImageIcon("images/ports/northeast.png").getImage();
-        public static final Image northwestPort = new ImageIcon("images/ports/northwest.png").getImage();
-        public static final Image southPort = new ImageIcon("images/ports/south.png").getImage();
-        public static final Image southwestPort = new ImageIcon("images/ports/southwest.png").getImage();
-        public static final Image southeastPort = new ImageIcon("images/ports/southeast.png").getImage();
-        
         public static final Image brickPort = new ImageIcon("images/ports/brick.png").getImage();
-        public static final Image genericPort = new ImageIcon("images/ports/generic.png").getImage();
+        public static final Image genericNorthPort = new ImageIcon("images/ports/generic_north.png").getImage();
+        public static final Image genericNorthwestPort = new ImageIcon("images/ports/generic_northwest.png").getImage();
+        public static final Image genericSoutheastPort = new ImageIcon("images/ports/generic_southeast.png").getImage();
+        public static final Image genericSouthwestPort = new ImageIcon("images/ports/generic_southwest.png").getImage();
         public static final Image orePort = new ImageIcon("images/ports/ore.png").getImage();
         public static final Image sheepPort = new ImageIcon("images/ports/sheep.png").getImage();
         public static final Image wheatPort = new ImageIcon("images/ports/wheat.png").getImage();

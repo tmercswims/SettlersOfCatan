@@ -64,7 +64,7 @@ public class Referee {
      */
     public void runGame() {
     	//TODO CLEAN THIS UP. -Eric
-        Color[] colors = new Color[] {Color.RED, Color.BLUE, Color.ORANGE, Color.WHITE};
+        Color[] colors = new Color[] {new Color(252, 1, 1), new Color(0, 88, 147), new Color(183, 122, 1), new Color(252, 254, 254)};
         int i = 0;
         for (Player p : _players) {
             p.addResources(new int[]{0,0,0,0,0});

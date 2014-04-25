@@ -69,115 +69,91 @@ public class Edge extends BoardComponent{
 		switch(_port){
 		case 0:
 			char[] todraw = "Wheat Port".toCharArray();
-            Image portImage = wheatPort;
 			//brush.drawChars(todraw, 0, todraw.length,(int)_l.getX1()+2,(int) _l.getY1()+30);
-            brush.drawImage(portImage, (int)_l.getX1()+14, (int) _l.getY1()+20,
-            		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			int[] wheatx = {(int) _l.getX1(), (int) _l.getX2(), (int) (_l.getX1()+Math.abs(_l.getX2()-_l.getX1())/2)};
 			int[] wheaty = {(int) _l.getY1()+2, (int) _l.getY2()+2, (int)_l.getY1()+20};
 			brush.setColor(new Color(255,205,0));
 			//brush.fill(new Polygon(wheatx,wheaty,3));
-            brush.drawImage(southPort, (int)_l.getX1(), (int)_l.getY1(), 
+            brush.drawImage(wheatPort, (int)_l.getX1(), (int)_l.getY1(), 
             		(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(), null);
 			break;
 		case 1:
 			todraw = "Sheep Port".toCharArray();
-            portImage = sheepPort;
 			//brush.drawChars(todraw, 0, todraw.length,(int)_l.getX1()-100,(int) _l.getY1());
-            brush.drawImage(portImage, (int)_l.getX1()-78, (int) _l.getY1()-15,
-            		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			int[] sheepx = {(int) _l.getX1(), (int) _l.getX2(), (int) _l.getX2()};
 			int[] sheepy = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY2()-40};
 			brush.setColor(new Color(119,255,0));
 			//brush.fill(new Polygon(sheepx,sheepy,3));
-            brush.drawImage(northwestPort, (int)_l.getX1()-49, (int)_l.getY1()-3, 
+            brush.drawImage(sheepPort, (int)_l.getX1()-49, (int)_l.getY1()-3, 
             		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			break;
 		case 2:
 			todraw = "Brick Port".toCharArray();
-            portImage = brickPort;
 			//brush.drawChars(todraw, 0, todraw.length,(int)_l.getX2()+50,(int) _l.getY2()+20);
-            brush.drawImage(portImage, (int)_l.getX2()+39, (int) _l.getY2()-14,
-            		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			int[] brickx = {(int) _l.getX1(), (int) _l.getX2(), (int) _l.getX1()};
 			int[] bricky = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY1()-40};
 			brush.setColor(new Color(255,102,0));
 			//brush.fill(new Polygon(brickx,bricky,3));
-            brush.drawImage(northeastPort, (int)_l.getX2()+5, (int)_l.getY2()-5,
+            brush.drawImage(brickPort, (int)_l.getX2()+5, (int)_l.getY2()-5,
             		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			break;
 		case 3:
 			todraw = "Ore Port".toCharArray();
-            portImage = orePort;
 			//brush.drawChars(todraw, 0, todraw.length,(int)_l.getX1()+7,(int) _l.getY1()+30);
-            brush.drawImage(portImage, (int)_l.getX1()+14, (int) _l.getY1()+20,
-            		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			int[] orex = {(int) _l.getX1(), (int) _l.getX2(), (int) (_l.getX1()+Math.abs(_l.getX2()-_l.getX1())/2)};
 			int[] orey = {(int) _l.getY1()+2, (int) _l.getY2()+2, (int)_l.getY1()+20};
 			brush.setColor(new Color(85,85,85));
 			//brush.fill(new Polygon(orex,orey,3));
-            brush.drawImage(southPort, (int)_l.getX1(), (int)_l.getY1(),
+            brush.drawImage(orePort, (int)_l.getX1(), (int)_l.getY1(),
             		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			break;
 		case 4:
 			todraw = "Wood Port".toCharArray();
-            portImage = woodPort;
 			//brush.drawChars(todraw, 0, todraw.length,(int)_l.getX2()+50,(int) _l.getY2()+20);
-            brush.drawImage(portImage, (int)_l.getX2()+39, (int) _l.getY2()-14,
-            		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			int[] woodx = {(int) _l.getX1(), (int) _l.getX2(), (int) _l.getX1()};
 			int[] woody = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY1()-40};
 			brush.setColor(new Color(38,73,29));
 			//brush.fill(new Polygon(woodx,woody,3));
-            brush.drawImage(northeastPort, (int)_l.getX2()+5, (int)_l.getY2()-5,
+            brush.drawImage(woodPort, (int)_l.getX2()+5, (int)_l.getY2()-5,
             		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			break;
 		case 5:
 			todraw = "3-1 Port".toCharArray();
-            portImage = genericPort;
 			brush.setColor(Color.white);
 			if(_index==83){
 				//brush.drawChars(todraw, 0, todraw.length,(int)_l.getX2()+7,(int) _l.getY1()-30);
-                brush.drawImage(portImage, (int)_l.getX2()+13, (int) _l.getY2()-63,
-                		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 				int[] x = {(int) _l.getX1(), (int) _l.getX2(), (int) (_l.getX2()+Math.abs(_l.getX1()-_l.getX2())/2)};
 				int[] y = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY1()-20};
 				brush.setColor(Color.black);
 				//brush.fill(new Polygon(x,y,3));
-                brush.drawImage(northPort, (int)_l.getX2(), (int)_l.getY2()-23,
+                brush.drawImage(genericNorthPort, (int)_l.getX2(), (int)_l.getY2()-23,
                 		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			}
 			if(_index==88){
 				//brush.drawChars(todraw, 0, todraw.length,(int)_l.getX2()-50,(int) _l.getY1());
-                brush.drawImage(portImage, (int)_l.getX1()-78, (int) _l.getY1()-15,
-                		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 				int[] x = {(int) _l.getX1(), (int) _l.getX2(), (int) _l.getX2()};
 				int[] y = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY2()-40};
 				brush.setColor(Color.black);
 				//brush.fill(new Polygon(x,y,3));
-                brush.drawImage(northwestPort, (int)_l.getX1()-49, (int)_l.getY1()-3,
+                brush.drawImage(genericNorthwestPort, (int)_l.getX1()-49, (int)_l.getY1()-3,
                 		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			}
 			if(_index==51){
 				//brush.drawChars(todraw, 0, todraw.length,(int)_l.getX2()-100,(int) _l.getY1()+50);
-                brush.drawImage(portImage, (int)_l.getX1()-42, (int) _l.getY1()+27,
-                		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 				int[] x = {(int) _l.getX1(), (int) _l.getX2(), (int) _l.getX1()};
 				int[] y = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY1()+40};
 				brush.setColor(Color.black);
 				//brush.fill(new Polygon(x,y,3));
-                brush.drawImage(southwestPort, (int)_l.getX1()-13, (int)_l.getY1()+7,
+                brush.drawImage(genericSouthwestPort, (int)_l.getX1()-13, (int)_l.getY1()+7,
                 		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			}
 			if(_index==67){
 				//brush.drawChars(todraw, 0, todraw.length,(int)_l.getX2()+10,(int) _l.getY1()-10);
-                brush.drawImage(portImage, (int)_l.getX2()+6, (int) _l.getY2()+24,
-                		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 				int[] x = {(int) _l.getX1(), (int) _l.getX2(), (int) _l.getX2()};
 				int[] y = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY2()+40};
 				brush.setColor(Color.black);
 				//brush.fill(new Polygon(x,y,3));
-                brush.drawImage(southeastPort, (int)_l.getX2()-28, (int)_l.getY2()+7,
+                brush.drawImage(genericSoutheastPort, (int)_l.getX2()-28, (int)_l.getY2()+7,
                 		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			}
 			break;
