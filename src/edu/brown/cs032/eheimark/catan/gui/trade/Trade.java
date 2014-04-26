@@ -2,17 +2,23 @@ package edu.brown.cs032.eheimark.catan.gui.trade;
 
 import java.awt.Graphics;
 import java.awt.Image;
+
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import java.awt.Color;
 import java.awt.Font;
+
 import javax.swing.JButton;
+
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
+import edu.brown.cs032.eheimark.catan.gui.Update;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -21,12 +27,12 @@ import java.io.IOException;
  * The Class Trade is the tabbed pane window that allows users to propose a trade to another
  * player at the bottom of the main GUI interface.
  */
-public class Trade extends JPanel {
+public class Trade extends JPanel implements Update {
 	private static final long serialVersionUID = 1L;
 	private final Image img; // background image
 	private static final Color MY_BACKGROUND = Constants.CATAN_RED;
 	private final JComboBox<Integer> oreCB, wheatCB, woolCB, lumberCB, brickCB;
-	private final JComboBox<String> toPlayerCB;
+	private JComboBox<String> toPlayerCB;
 	private final CatanClient client;
 
 	/**
@@ -39,22 +45,10 @@ public class Trade extends JPanel {
 		final Integer[] tradeValues = new Integer[] {-5, -4, -3, -2, -1, +0, 1, 2, 3, 4, 5};
 		this.client = cc;
 
-		Player[] players = client.getPlayers();
-		String[] playerStringArray= new String[players.length];
-		int i = 0; // Always adds merchant to board as potential option for interacting w/ ports
-		playerStringArray[i] = "***Merchant***";
-		i++;
-		for(Player p : players) { // Adds all other players except current player to trade with
-			if(!client.getPlayerName().equals(p.getName())) {
-				playerStringArray[i] = p.getName();
-				i++;
-			}
-		}
-
 		this.img = Constants.TRADE_TAB_IMAGE;
 		setLayout(null); // absolute layout
 
-		toPlayerCB = new JComboBox<String>(playerStringArray);
+		toPlayerCB = new JComboBox<String>();
 		toPlayerCB.setBounds(53, 15, 140, 16);
 		add(toPlayerCB);
 
@@ -192,5 +186,27 @@ public class Trade extends JPanel {
 		g.setColor(MY_BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.drawImage(img, 0, 0, null);
+	}
+
+	private boolean updated = false;
+	@Override
+	public void update() {
+		if(!updated) {
+			System.out.println("IN TRADE MENU UPDATE");
+			Player[] players = client.getPlayers();
+
+			int i = 0;
+			toPlayerCB.insertItemAt("***MERCHANT***", i);
+			for(Player p : players) { // Adds all other players except current player to trade with
+				if(!client.getPlayerName().equals(p.getName())) {
+					toPlayerCB.insertItemAt(p.getName(), i++);
+				}
+			}		
+
+			toPlayerCB.repaint();
+			repaint();
+			System.out.println("DONE WITH TRADE MENU UPDATE");
+		}
+		updated = true;
 	}
 }

@@ -1,6 +1,7 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.eheimark.catan.gui.Update;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -17,7 +18,7 @@ import edu.brown.cs032.tmercuri.catan.logic.*;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public class DrawingPanel extends JPanel{// implements MouseListener{
+public class DrawingPanel extends JPanel implements Update {// implements MouseListener{
     
     private static final long serialVersionUID = 333238774355322463L;
 	
@@ -49,10 +50,6 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 		_toDraw = new ArrayList<>();
 		this.setVisible(true);
 		this.addMouseListener(new ClickList(this));
-////		System.out.println("Trying to get board...");
-////		Board b = _client.getBoard();
-////		System.out.println("Got board!");
-//		_toDraw.addAll(b.getBoard());
 		_selectable = -1;
 		_road = false;
 		_city = false;
@@ -77,11 +74,6 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 	
 	@Override
 	public void paintComponent(Graphics g){
-		_toDraw.clear();
-		System.out.println("TRYING TO GET BOARD IN BOARDING PANEL!");
-		_toDraw.addAll(_client.getBoard().getBoard()); //TODO Fix this
-		System.out.println("GOT BOARD BACK FROM SERVER");
-		
 		super.paintComponent(g);
 		int i = 0;
 		for(BoardComponent c : _toDraw){
@@ -234,6 +226,15 @@ public class DrawingPanel extends JPanel{// implements MouseListener{
 	 */
 	public void setSelect(int s){
 		_selectable = s;
+	}
+
+	@Override
+	public void update() {
+		_toDraw.clear();
+		System.out.println("TRYING TO GET BOARD IN DRAWING PANEL!");
+		_toDraw.addAll(_client.getBoard().getBoard()); //TODO Fix this
+		System.out.println("GOT BOARD BACK FROM SERVER");
+		repaint();
 	}
 
 	/*@Override

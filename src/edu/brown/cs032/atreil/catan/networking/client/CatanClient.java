@@ -206,7 +206,7 @@ public class CatanClient extends Thread{
 				_board = (Board) packet.getObject();
 			}
 			
-			_gui.repaint();
+			_gui.updateBoard();
 		} else if(type == Packet.PLAYERARRAY){
 			
 			synchronized(_playersLock){
@@ -214,7 +214,7 @@ public class CatanClient extends Thread{
 				updateLocalPlayer();
 			}
 			
-			_gui.repaint();
+			_gui.updatePlayers();
 		} else if(type == Packet.START){
 			//TODO: notify the start
 			synchronized(_startTurnLock){

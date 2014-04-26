@@ -2,15 +2,20 @@ package edu.brown.cs032.eheimark.catan.gui.navigator;
 
 import java.awt.Graphics;
 import java.awt.Image;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
+
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
+import edu.brown.cs032.eheimark.catan.gui.Update;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 
 
@@ -18,7 +23,7 @@ import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
  * The Class Build is a tabbed panel that helps users to manage building
  * a road, settlement, city, etc.
  */
-public class Build extends JPanel {
+public class Build extends JPanel implements Update {
 	private static final long serialVersionUID = 1L;
 	private final Image img; // background image
 	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 18);
@@ -125,13 +130,16 @@ public class Build extends JPanel {
 		label_2.setFont(new Font("Times", Font.ITALIC, 12));
 		label_2.setBounds(791, 71, 115, 16);
 		add(label_2);
-		//update();
+		
+		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
+		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
+		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
 	}
 	
-	//TODO Fix this
 	/**
 	 * Update.
 	 */
+	@Override
 	public void update(){
 		int[] resources = _client.getPlayer().getResources();
 		if(resources[2]<1 || resources[4]<1){
@@ -158,10 +166,8 @@ public class Build extends JPanel {
 		else{
 			buildSettlementButton.setEnabled(false);
 		}
-		
-		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
+
+		repaint();
 	}
 	
 	/**

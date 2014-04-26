@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
+import edu.brown.cs032.eheimark.catan.gui.Update;
 import edu.brown.cs032.eheimark.catan.gui.trade.Trade;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 
@@ -16,16 +17,18 @@ import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
  * the main game gui. This allows users to see the overview menu, trade menu, build menu,
  * and dev card menu contained within the tabbed panels.
  */
-public class TabbedPanel extends JPanel{
+public class TabbedPanel extends JPanel implements Update {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
 	/** The overview. */
 	private final Overview overview;
+	private final Trade trade;
+	private final Build build;
 	
 	/** The devcard. */
-	private final JPanel build, trade, devcard;
+	private final JPanel devcard; //TODO Fix this
 
 	/**
 	 * Instantiates a new tabbed panel.
@@ -57,12 +60,11 @@ public class TabbedPanel extends JPanel{
 		setPreferredSize(Constants.TABBED_MENU_SIZE);
 		setMaximumSize(Constants.TABBED_MENU_SIZE);
 	}
-	
+
 	@Override
-	public void paintComponent(Graphics g) {
-		overview.repaint();
-		trade.repaint();
-		devcard.repaint();
-		build.repaint();
+	public void update() {
+		overview.update();
+		trade.update();
+		build.update();
 	}
 }

@@ -14,11 +14,11 @@ import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
  * once the launch menus are complete). It is a JPanel that contains the board at the top,
  * chat box on the right-hand side, and tabbed panel menu at the bottom.
  */
-public class GUI extends JPanel {
+public class GUI extends JPanel implements Update {
 	private static final long serialVersionUID = 1L;
 	private final CatanClient client;
-	private JPanel tabbedMenu;
-	private DrawingPanel gameBoard;
+	private final TabbedPanel tabbedMenu;
+	private final DrawingPanel gameBoard;
 	
 	/**
 	 * Instantiates a new gui.
@@ -28,12 +28,13 @@ public class GUI extends JPanel {
 	public GUI(CatanClient cc) {
 		super(new BorderLayout());
 		this.client = cc;
-		this.client.setGUI(this);
-		this.client.start(); // start listening on client
 		gameBoard = new DrawingPanel(client);
 		add(gameBoard, BorderLayout.CENTER);		
 		tabbedMenu = new TabbedPanel(client, gameBoard);
 		add(tabbedMenu, BorderLayout.SOUTH);
+		//TODO Eric changed order explain this
+		this.client.setGUI(this);
+		this.client.start(); // start listening on client
 		try {
 			ChatClient chatc = new ChatClient(cc.getIP(), cc.getChatPort(), client.getPlayer());
 			chatc.setClient(client);
@@ -53,8 +54,16 @@ public class GUI extends JPanel {
 	}
 	
 	@Override
-	public void paintComponent(Graphics g) {
-		gameBoard.repaint();
-		tabbedMenu.repaint();
+	public void update() {
+		gameBoard.update();
+		tabbedMenu.update();
+	}
+	
+	public void updateBoard() {
+		gameBoard.update();
+	}
+	
+	public void updatePlayers() {
+		tabbedMenu.update();
 	}
 }
