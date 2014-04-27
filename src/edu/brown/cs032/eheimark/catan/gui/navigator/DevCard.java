@@ -1,0 +1,126 @@
+package edu.brown.cs032.eheimark.catan.gui.navigator;
+
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
+import edu.brown.cs032.sbreslow.catan.gui.devCards.YoPFrame;
+
+public class DevCard extends JPanel {
+	
+	private int[] _cards = {0,0,0,0,0};
+	/**
+	 * knight = 0;
+	 * roadbuilder = 1;
+	 * year of plenty = 2;
+	 * monopoly = 3;
+	 * vp = 4;
+	 */
+	private JLabel _vp, _knight, _rb, _mono, _yop;
+	private CatanClient _cc;
+	private DrawingPanel _dp;
+	private JButton[] _buttons;
+	//button.setIcon(imageicon)
+	public DevCard(CatanClient cc, DrawingPanel dp){
+		super();
+		_cc = cc;
+		_dp = dp;
+		this.setLayout(new GridLayout(2,5));
+		_vp = new JLabel("Victory Point Card(s)");
+		_knight = new JLabel("Knight Card(s)");
+		_rb = new JLabel("Road Builder Card(s)");
+		_mono = new JLabel("Monopoly Card(s)");
+		_yop = new JLabel("Year of Plenty Card(s)");
+		this.add(_vp);
+		this.add(_knight);
+		this.add(_rb);
+		this.add(_mono);
+		this.add(_yop);
+		for(int i = 0; i < 5; i++){
+			switch(i){
+			case 0:
+				_buttons[i] = new JButton("Play Victory Point");
+				_buttons[i].addActionListener(new VPList());
+				break;
+			case 1:
+				_buttons[i] = new JButton("Play Knight");
+				_buttons[i].addActionListener(new KnightList());
+				break;
+			case 2:
+				_buttons[i] = new JButton("Play Road Builder");
+				_buttons[i].addActionListener(new RBList());
+				break;
+			case 3:
+				_buttons[i] = new JButton("Play Monopoly");
+				break;
+			case 4:
+				_buttons[i] = new JButton("Play Year of Plenty");
+				break;
+			}
+			this.add(_buttons[i]);
+		}
+		//add button listeners
+		this.update();
+	}
+	
+	public void update(){
+		_cards = _cc.getPlayer().getDevCards();
+		for(int i = 0; i < 5; i++){
+			if(_cards[i]==0){
+				_buttons[i].setEnabled(false);
+			}
+			else{
+				_buttons[i].setEnabled(true);
+			}
+		}
+		this.repaint();
+	}
+	
+	private class KnightList implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			_cards[0]--;
+			_dp.setSelect(0);
+			_cc.getPlayer().incLargestArmy();
+		}
+		
+	}
+	
+	private class VPList implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			_cards[4]--;
+			_cc.getPlayer().incVictoryPoints();
+		}
+		
+	}
+	
+	private class RBList implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			_cards[1]--;
+			_dp.setSelect(4);
+		}
+		
+	}
+	
+	private class YoPList implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new YoPFrame(_cc);
+		}
+		
+	}
+
+}
