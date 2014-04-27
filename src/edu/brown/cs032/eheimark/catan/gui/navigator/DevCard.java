@@ -26,7 +26,7 @@ public class DevCard extends JPanel {
 	private JLabel _vp, _knight, _rb, _mono, _yop;
 	private CatanClient _cc;
 	private DrawingPanel _dp;
-	private JButton[] _buttons;
+	private JButton[] _buttons = new JButton[5];
 	//button.setIcon(imageicon)
 	public DevCard(CatanClient cc, DrawingPanel dp){
 		super();

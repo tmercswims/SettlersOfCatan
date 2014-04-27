@@ -53,6 +53,11 @@ public class YoPFrame extends JFrame {
 		}
 		JButton submit = new JButton("Submit");
 		submit.addActionListener(new SubmitList());
+		panel.add(submit);
+		this.add(panel);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		this.pack();
 	}
 	
 	private class SubmitList implements ActionListener{
@@ -70,6 +75,19 @@ public class YoPFrame extends JFrame {
 				if(b.isSelected()){
 					bcount++;
 				}
+			}
+			if(tcount==1 && bcount==1){
+				int tdex = 0;
+				int bdex = 0;
+				for(int i = 0; i < 5; i++){
+					if(_tbuttons[i].isSelected()){
+						tdex = i;
+					}
+					if(_bbuttons[i].isSelected()){
+						bdex = i;
+					}
+				}
+				//send YoP move to server
 			}
 		}
 		
