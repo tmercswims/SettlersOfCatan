@@ -51,19 +51,19 @@ public class DevCard extends JPanel implements Update{
 		for(int i = 0; i < 5; i++){
 			switch(i){
 			case 0:
-				_buttons[i] = new DevCardButton(victoryPoint);
-                //_buttons[i].setIcon(victoryPoint);
-				_buttons[i].addActionListener(new VPList());
-				break;
-			case 1:
 				_buttons[i] = new DevCardButton(knight);
                 //_buttons[i].setIcon(knight);
 				_buttons[i].addActionListener(new KnightList());
 				break;
-			case 2:
+			case 1:
 				_buttons[i] = new DevCardButton(roadBuilder);
                 //_buttons[i].setIcon(roadBuilder);
 				_buttons[i].addActionListener(new RBList());
+				break;
+			case 2:
+				_buttons[i] = new DevCardButton(yearOfPlenty);
+                //_buttons[i].setIcon(yearOfPlenty);
+                _buttons[i].addActionListener(new YoPList());
 				break;
 			case 3:
 				_buttons[i] = new DevCardButton(monopoly);
@@ -71,9 +71,9 @@ public class DevCard extends JPanel implements Update{
 				_buttons[i].addActionListener(new MonoList());
 				break;
 			case 4:
-				_buttons[i] = new DevCardButton(yearOfPlenty);
-                //_buttons[i].setIcon(yearOfPlenty);
-                _buttons[i].addActionListener(new YoPList());
+				_buttons[i] = new DevCardButton(victoryPoint);
+                //_buttons[i].setIcon(victoryPoint);
+				_buttons[i].addActionListener(new VPList());
 				break;
 			}
 			_buttons[i].setEnabled(false);
