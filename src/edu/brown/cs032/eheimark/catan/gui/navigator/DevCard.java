@@ -10,12 +10,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.eheimark.catan.gui.Update;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.*;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.YoPFrame;
 import edu.brown.cs032.tmercuri.catan.logic.move.DevCardMove;
 
-public class DevCard extends JPanel {
+public class DevCard extends JPanel implements Update{
 	
 	private int[] _cards = {0,0,0,0,0};
 	/**
@@ -28,18 +29,18 @@ public class DevCard extends JPanel {
 	private JLabel _vp, _knight, _rb, _mono, _yop;
 	private CatanClient _cc;
 	private DrawingPanel _dp;
-	private JButton[] _buttons = new JButton[5];
+	private DevCardButton[] _buttons = new DevCardButton[5];
 	//button.setIcon(imageicon)
 	public DevCard(CatanClient cc, DrawingPanel dp){
 		super();
 		_cc = cc;
 		_dp = dp;
 		this.setLayout(new GridLayout(2,5));
-		_vp = new JLabel("Victory Point Card(s)");
-		_knight = new JLabel("Knight Card(s)");
-		_rb = new JLabel("Road Builder Card(s)");
-		_mono = new JLabel("Monopoly Card(s)");
-		_yop = new JLabel("Year of Plenty Card(s)");
+		_vp = new JLabel("Victory Point Card(s): 0");
+		_knight = new JLabel("Knight Card(s): 0");
+		_rb = new JLabel("Road Builder Card(s): 0");
+		_mono = new JLabel("Monopoly Card(s): 0");
+		_yop = new JLabel("Year of Plenty Card(s): 0");
 		this.add(_vp);
 		this.add(_knight);
 		this.add(_rb);
@@ -48,34 +49,35 @@ public class DevCard extends JPanel {
 		for(int i = 0; i < 5; i++){
 			switch(i){
 			case 0:
-				_buttons[i] = new JButton("Play Victory Point");
-                _buttons[i].setIcon(victoryPoint);
+				_buttons[i] = new DevCardButton(victoryPoint);
+                //_buttons[i].setIcon(victoryPoint);
 				_buttons[i].addActionListener(new VPList());
 				break;
 			case 1:
-				_buttons[i] = new JButton("Play Knight");
-                _buttons[i].setIcon(knight);
+				_buttons[i] = new DevCardButton(knight);
+                //_buttons[i].setIcon(knight);
 				_buttons[i].addActionListener(new KnightList());
 				break;
 			case 2:
-				_buttons[i] = new JButton("Play Road Builder");
-                _buttons[i].setIcon(roadBuilder);
+				_buttons[i] = new DevCardButton(roadBuilder);
+                //_buttons[i].setIcon(roadBuilder);
 				_buttons[i].addActionListener(new RBList());
 				break;
 			case 3:
-				_buttons[i] = new JButton("Play Monopoly");
-                _buttons[i].setIcon(monopoly);
+				_buttons[i] = new DevCardButton(monopoly);
+                //_buttons[i].setIcon(monopoly);
 				break;
 			case 4:
-				_buttons[i] = new JButton("Play Year of Plenty");
-                _buttons[i].setIcon(yearOfPlenty);
+				_buttons[i] = new DevCardButton(yearOfPlenty);
+                //_buttons[i].setIcon(yearOfPlenty);
                 _buttons[i].addActionListener(new YoPList());
 				break;
 			}
+			_buttons[i].setEnabled(false);
 			this.add(_buttons[i]);
 		}
 		//add button listeners
-		this.update();
+		//this.update();
 	}
 	
 	public void update(){
