@@ -85,32 +85,39 @@ public class DevCard extends JPanel implements Update{
 	
 	public void ericUpdate(){
 		_cards = _cc.getPlayer().getDevCards();
-		for(int i = 0; i < 5; i++){
-			if(_cards[i]==0){
-				switch(i){
-				case 0:
-					_knight.setText("Knight Card(s): "+_cards[i]);
-					break;
-				case 1:
-					_rb.setText("Road Building Card(s): "+_cards[i]);
-					break;
-				case 2:
-					_yop.setText("Year of Plenty Card(s): "+_cards[i]);
-					break;
-				case 3:
-					_mono.setText("Monopoly Card(s): "+_cards[i]);
-					break;
-				case 4:
-					_vp.setText("Victory Point Card(s): "+_cards[i]);
-					break;
+		if(_cc.getPlayer().isActive()){
+			for(int i = 0; i < 5; i++){
+				if(_cards[i]==0){
+					switch(i){
+					case 0:
+						_knight.setText("Knight Card(s): "+_cards[i]);
+						break;
+					case 1:
+						_rb.setText("Road Building Card(s): "+_cards[i]);
+						break;
+					case 2:
+						_yop.setText("Year of Plenty Card(s): "+_cards[i]);
+						break;
+					case 3:
+						_mono.setText("Monopoly Card(s): "+_cards[i]);
+						break;
+					case 4:
+						_vp.setText("Victory Point Card(s): "+_cards[i]);
+						break;
+					}
+					_buttons[i].setEnabled(false);
 				}
-				_buttons[i].setEnabled(false);
+				else{
+					_buttons[i].setEnabled(true);
+				}
 			}
-			else{
-				_buttons[i].setEnabled(true);
+			this.repaint();
+		}
+		else{
+			for(JButton b: _buttons){
+				b.setEnabled(false);
 			}
 		}
-		this.repaint();
 	}
 	
 	private class KnightList implements ActionListener {
