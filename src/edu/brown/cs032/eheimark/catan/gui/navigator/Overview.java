@@ -140,7 +140,7 @@ public class Overview extends JPanel implements Update {
 	}
 
 	@Override
-	public void update() {
+	public void ericUpdate() {
 		Player[] players = this.client.getPlayers();
 		int i = 0;
 		for(Player p : players) {

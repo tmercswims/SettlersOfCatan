@@ -38,7 +38,7 @@ public class DevCard extends JPanel implements Update{
 		this.setLayout(new GridLayout(2,5));
 		_vp = new JLabel("Victory Point Card(s): 0");
 		_knight = new JLabel("Knight Card(s): 0");
-		_rb = new JLabel("Road Builder Card(s): 0");
+		_rb = new JLabel("Road Building Card(s): 0");
 		_mono = new JLabel("Monopoly Card(s): 0");
 		_yop = new JLabel("Year of Plenty Card(s): 0");
 		this.add(_vp);
@@ -80,10 +80,27 @@ public class DevCard extends JPanel implements Update{
 		//this.update();
 	}
 	
-	public void update(){
+	public void ericUpdate(){
 		_cards = _cc.getPlayer().getDevCards();
 		for(int i = 0; i < 5; i++){
 			if(_cards[i]==0){
+				switch(i){
+				case 0:
+					_knight.setText("Knight Card(s): "+_cards[i]);
+					break;
+				case 1:
+					_rb.setText("Road Building Card(s): "+_cards[i]);
+					break;
+				case 2:
+					_yop.setText("Year of Plenty Card(s): "+_cards[i]);
+					break;
+				case 3:
+					_mono.setText("Monopoly Card(s): "+_cards[i]);
+					break;
+				case 4:
+					_vp.setText("Victory Point Card(s): "+_cards[i]);
+					break;
+				}
 				_buttons[i].setEnabled(false);
 			}
 			else{

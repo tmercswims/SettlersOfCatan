@@ -140,7 +140,7 @@ public class Build extends JPanel implements Update {
 	 * Update.
 	 */
 	@Override
-	public void update(){
+	public void ericUpdate(){
 		int[] resources = _client.getPlayer().getResources();
 		if(resources[2]<1 || resources[4]<1){
 			buildRoadButton.setEnabled(false);
