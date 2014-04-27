@@ -22,6 +22,7 @@ import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 import edu.brown.cs032.tmercuri.catan.logic.move.RobberMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
+import edu.brown.cs032.tmercuri.catan.logic.move.YearOfPlentyMove;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -239,6 +240,9 @@ public class Referee {
         } else if (move instanceof DevCardMove) {
             DevCardMove dcMove = (DevCardMove) move;
             return devCardMove(dcMove);
+        } else if (move instanceof YearOfPlentyMove) {
+            YearOfPlentyMove yopMove = (YearOfPlentyMove) move;
+            return yearOfPlentyMove(yopMove);
         } else if (move instanceof LastMove) {
             return endTurn();
         }
@@ -512,6 +516,19 @@ public class Referee {
         }
         
         return -1;
+    }
+    
+    private int yearOfPlentyMove(YearOfPlentyMove move) {
+        Player played = null;
+        for (Player p : _players) {
+            if (p.getName().equals(move.getPlayerName()))
+                played = p;
+        }
+        int[] newRes = {0,0,0,0,0};
+        newRes[move.getType1()] = 1;
+        newRes[move.getType2()] = 1;
+        played.addResources(newRes);
+        return 620;
     }
     
     private int devCardMove(DevCardMove move) {
