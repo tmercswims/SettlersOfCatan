@@ -229,7 +229,8 @@ public class Referee {
 
     private int makeMove(Move move) {
         if (move instanceof FirstMove) {
-            return startTurn();
+            FirstMove fMove = (FirstMove) move;
+            return startTurn(fMove);
         } else if (move instanceof BuildMove) {
             BuildMove bMove = (BuildMove) move;
             return buildMove(bMove);
@@ -252,7 +253,8 @@ public class Referee {
             VictoryPointMove vpMove = (VictoryPointMove) move;
             return victoryPointMove(vpMove);
         } else if (move instanceof LastMove) {
-            return endTurn();
+            LastMove lMove = (LastMove) move;
+            return endTurn(lMove);
         }
         return -1;
     }
@@ -531,6 +533,7 @@ public class Referee {
     }
     
     private int yearOfPlentyMove(YearOfPlentyMove move) {
+        if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
         Player played = null;
         for (Player p : _players) {
             if (p.getName().equals(move.getPlayerName()))
@@ -544,6 +547,7 @@ public class Referee {
     }
     
     private int monopolyMove(MonopolyMove move) {
+        if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
         Player played = null;
         for (Player p : _players) {
             if (p.getName().equals(move.getPlayerName()))
@@ -563,6 +567,7 @@ public class Referee {
     }
     
     private int victoryPointMove(VictoryPointMove move) {
+        if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
         Player played = null;
         for (Player p : _players) {
             if (p.getName().equals(move.getPlayerName()))
@@ -573,6 +578,7 @@ public class Referee {
     }
     
     private int devCardMove(DevCardMove move) {
+        if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
         Player played = null;
         for (Player p : _players) {
             if (p.getName().equals(move.getPlayerName()))
@@ -583,7 +589,8 @@ public class Referee {
         return 600;
     }
     
-    private int startTurn() {
+    private int startTurn(FirstMove move) {
+        if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
         int roll = _dice.roll();
         _server.sendRoll(_activePlayer.getName(), roll);
         if (roll != 7) {
@@ -616,7 +623,8 @@ public class Referee {
         return 000;
     }
 
-    private int endTurn() {
+    private int endTurn(LastMove move) {
+        if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
         _activePlayer.setIsActive(false);
         _server.sendLastMove();
         _turnOver = true;
