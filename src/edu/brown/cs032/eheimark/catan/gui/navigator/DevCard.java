@@ -3,6 +3,7 @@ package edu.brown.cs032.eheimark.catan.gui.navigator;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,6 +13,7 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.*;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.YoPFrame;
+import edu.brown.cs032.tmercuri.catan.logic.move.DevCardMove;
 
 public class DevCard extends JPanel {
 	
@@ -92,7 +94,12 @@ public class DevCard extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			_cards[0]--;
+			try {
+				_cc.sendMove(new DevCardMove(_cc.getPlayerName(), 0));
+			} catch (IllegalArgumentException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			_dp.setSelect(0);
 			_cc.getPlayer().incLargestArmy();
 		}
@@ -103,7 +110,13 @@ public class DevCard extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			_cards[4]--;
+			try {
+				_cc.sendMove(new DevCardMove(_cc.getPlayerName(), 4));
+			} catch (IllegalArgumentException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			//_cards[4]--;
 			_cc.getPlayer().incVictoryPoints();
 		}
 		
@@ -113,7 +126,13 @@ public class DevCard extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			_cards[1]--;
+			try {
+				_cc.sendMove(new DevCardMove(_cc.getPlayerName(), 1));
+			} catch (IllegalArgumentException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			//_cards[1]--;
 			_dp.setSelect(4);
 		}
 		
@@ -123,6 +142,12 @@ public class DevCard extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			try {
+				_cc.sendMove(new DevCardMove(_cc.getPlayerName(), 2));
+			} catch (IllegalArgumentException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			new YoPFrame(_cc);
 		}
 		
