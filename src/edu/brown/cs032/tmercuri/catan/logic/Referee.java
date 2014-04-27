@@ -321,7 +321,9 @@ public class Referee {
                 nc.grow();
                 return 300;
             case DEV_CARD:
-                _activePlayer.addDevCard(_deck.getCard());
+                int card = _deck.getCard();
+                if (card == -1) return 701;
+                _activePlayer.addDevCard(card);
                 return 700;
             case ROAD_BUILDER:
                 Edge eRB = _board.getEdges()[move.getBuildLocation()];

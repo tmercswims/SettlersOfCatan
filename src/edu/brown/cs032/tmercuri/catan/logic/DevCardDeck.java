@@ -39,7 +39,8 @@ public class DevCardDeck {
 	}
 	
 	public int getCard(){
-		return _cards.remove(0);
+		if (!_cards.isEmpty()) return _cards.remove(0);
+        return -1;
 	}
 
 }
