@@ -16,6 +16,7 @@ import edu.brown.cs032.sbreslow.catan.gui.board.Node;
 import edu.brown.cs032.sbreslow.catan.gui.board.Tile;
 import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.*;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
+import edu.brown.cs032.tmercuri.catan.logic.move.DevCardMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
@@ -235,6 +236,9 @@ public class Referee {
         } else if (move instanceof RobberMove) {
             RobberMove rMove = (RobberMove) move;
             return robberMove(rMove);
+        } else if (move instanceof DevCardMove) {
+            DevCardMove dcMove = (DevCardMove) move;
+            return devCardMove(dcMove);
         } else if (move instanceof LastMove) {
             return endTurn();
         }
@@ -492,6 +496,16 @@ public class Referee {
         }
         
         return -1;
+    }
+    
+    private int devCardMove(DevCardMove move) {
+        Player played = null;
+        for (Player p : _players) {
+            if (p.getName().equals(move.getPlayerName()))
+                played = p;
+        }
+        played.removeDevCard(move.getIndex());
+        return 600;
     }
     
     private int startTurn() {

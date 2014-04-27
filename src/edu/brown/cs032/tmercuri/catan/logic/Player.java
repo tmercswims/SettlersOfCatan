@@ -125,6 +125,14 @@ public class Player implements Serializable {
     }
     
     /**
+     * Removes one card from the given index.
+     * @param index the type of card to remove
+     */
+    public void removeDevCard(int index) {
+        _devCards[index]--;
+    }
+    
+    /**
      * Gets the number of development cards that this player has.
      * @return how many development cards this player has
      */
