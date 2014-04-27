@@ -28,6 +28,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	private boolean _road;
 	private boolean _city;
 	private boolean _settlement;
+	private int _rbcount;
 	
 	public DrawingPanel(CatanClient client){
 		super();
@@ -54,6 +55,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		_road = false;
 		_city = false;
 		_settlement = false;
+		_rbcount = 0;
 	}
     
     @Deprecated
@@ -127,7 +129,8 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			// TODO Auto-generated method stub
 			System.out.println("clicked: "+e.getX()+", "+e.getY());
 			for(BoardComponent c: _toDraw){
-				if(c.getShape().contains(e.getPoint()) && (c.getType()==_selectable || (c.getType()==2 && _selectable==3))){
+				if(c.getShape().contains(e.getPoint()) && (c.getType()==_selectable || (c.getType()==2 && _selectable==3)
+						|| (c.getType()==1 && _selectable==4))){
 					//c.grow();
 					int buildtype = -1;
 					switch(_selectable){
@@ -156,20 +159,33 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 							}
 							_selectable = Integer.MAX_VALUE;
 						}
+						_selectable = -1;
 						break;
 					case 1:
 						buildtype = 0;
+						_selectable = -1;
 						break;
 					case 2:
 						Node n = (Node) c;
 						if(n.getVP()==0){
 							buildtype = 1;
 						}
+						_selectable = -1;
 						break;
 					case 3:
 						n = (Node) c;
 						if(n.getVP()==1){
 							buildtype = 2;
+						}
+						_selectable = -1;
+						break;
+					case 4:
+						if(_rbcount < 2){
+							buildtype = 0;
+						}
+						else{
+							_rbcount = 0;
+							_selectable = -1;
 						}
 						break;
 					}
@@ -189,7 +205,6 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 						//TODO: get build info to display in chat
 					}
 					_dp.repaint();
-					_selectable = -1;
 				}
 			}
 		}
@@ -225,6 +240,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	 * Edge = 1;
 	 * Settlement = 2;
 	 * City = 3;
+	 * RoadBuilder = 4;
 	 * Nothing = anything else;
 	 * @param s
 	 */

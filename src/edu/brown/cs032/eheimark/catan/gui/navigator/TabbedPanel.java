@@ -28,7 +28,7 @@ public class TabbedPanel extends JPanel implements Update {
 	private final Build build;
 	
 	/** The devcard. */
-	private final JPanel devcard; //TODO Fix this
+	private final DevCard devcard;
 
 	/**
 	 * Instantiates a new tabbed panel.
@@ -53,7 +53,7 @@ public class TabbedPanel extends JPanel implements Update {
 		trade = new Trade(client);
 		tabbedPane.addTab("Trade", null, trade, null);
 		
-		devcard = new JPanel();
+		devcard = new DevCard(client, dp);
 		tabbedPane.addTab("Dev Card", null, devcard, null);
 		
 		setMinimumSize(Constants.TABBED_MENU_SIZE);

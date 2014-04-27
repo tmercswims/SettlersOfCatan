@@ -18,7 +18,9 @@ public class Player implements Serializable {
     private static final long serialVersionUID = 1571495798749582725L;
     
     private final int[] _resources;
-    private int _roadsRemaining, _settlementsRemaining, _citiesRemaining, _victoryPoints, _armySize, _longestRoad, _devCards;
+    private int _roadsRemaining, _settlementsRemaining, _citiesRemaining, _victoryPoints, _armySize, _longestRoad;
+
+	int[] _devCards;
     private final String _name;
     private Color _color;
     private boolean _isActive;
@@ -33,10 +35,11 @@ public class Player implements Serializable {
         _roadsRemaining = 15;
         _settlementsRemaining = 5;
         _citiesRemaining = 4;
-        _victoryPoints = _armySize = _longestRoad = _devCards = 0;
+        _victoryPoints = _armySize = _longestRoad = 0;
         _name = name.replaceAll(" ", "");
         _isActive = false;
         _color = Color.BLACK;
+        _devCards = new int[]{0,0,0,0,0};
     }
     
     /**
@@ -117,7 +120,7 @@ public class Player implements Serializable {
      * Gets the number of development cards that this player has.
      * @return how many development cards this player has
      */
-    public int getDevCards() {
+    public int[] getDevCards() {
         return _devCards;
     }
     
@@ -304,4 +307,8 @@ public class Player implements Serializable {
 		}
 		return sum;
     }
+
+	public void incLargestArmy() {
+		_armySize++;
+	}
 }
