@@ -6,29 +6,29 @@
 package edu.brown.cs032.tmercuri.catan.logic.move;
 
 /**
- * A move to remove one of the given type of dev card from this player.
+ * A move for Monopoly dev card.
  * @author Thomas Mercurio
  */
-public class DevCardMove extends Move {
+public class MonopolyMove extends Move {
     
-    private static final long serialVersionUID = 727514557442984259L;
+    private static final long serialVersionUID = 5130676700128920752L;
     
     private final String _playerName;
-    private final int _index;
+    private final int _type;
     
-    public DevCardMove(String playerName, int index) {
+    public MonopolyMove(String playerName, int type) {
         _playerName = playerName;
-        _index = index;
-    }
-    
-    /**
-     * Gets the index of the type of card.
-     * @return 
-     */
-    public int getIndex() {
-        return _index;
+        _type = type;
     }
 
+    /**
+     * Gets the type of resource that the player wants to take.
+     * @return 
+     */
+    public int getType() {
+        return _type;
+    }
+    
     /**
      * Gets the name of the player who played this move.
      * @return 

@@ -6,29 +6,19 @@
 package edu.brown.cs032.tmercuri.catan.logic.move;
 
 /**
- * A move to remove one of the given type of dev card from this player.
+ * A move for playing a victory point card.
  * @author Thomas Mercurio
  */
-public class DevCardMove extends Move {
+public class VictoryPointMove extends Move {
     
-    private static final long serialVersionUID = 727514557442984259L;
-    
-    private final String _playerName;
-    private final int _index;
-    
-    public DevCardMove(String playerName, int index) {
-        _playerName = playerName;
-        _index = index;
-    }
-    
-    /**
-     * Gets the index of the type of card.
-     * @return 
-     */
-    public int getIndex() {
-        return _index;
-    }
+    private static final long serialVersionUID = 7245826125048625202L;
 
+    private final String _playerName;
+    
+    public VictoryPointMove(String playerName) {
+        _playerName = playerName;
+    }
+    
     /**
      * Gets the name of the player who played this move.
      * @return 

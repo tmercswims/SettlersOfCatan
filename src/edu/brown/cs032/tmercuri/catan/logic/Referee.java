@@ -278,6 +278,7 @@ public class Referee {
                     if (ns.getVP() == 1 || ns.isOwned()) return 201;
                     if (structureAdjacent(ns)) return 204;
                     _activePlayer.decSettlementCount();
+                    _activePlayer.incVictoryPoints();
                     ns.setOwner(_activePlayer);
                     if (_startUp == 2) distributeFirstResources(ns);
                     _startupSettlement = ns;
@@ -291,6 +292,7 @@ public class Referee {
                     if (!ownedRoadAdjacent(ns)) return 206;
                     _activePlayer.removeResources(BUILD_SETTLEMENT);
                     _activePlayer.decSettlementCount();
+                    _activePlayer.incVictoryPoints();
                     ns.setOwner(_activePlayer);
                     ns.grow();
                     return 200;
@@ -303,6 +305,7 @@ public class Referee {
                 if (nc.getVP() == 1 && !_activePlayer.equals(nc.getOwner())) return 305;
                 _activePlayer.removeResources(BUILD_CITY);
                 _activePlayer.decCityCount();
+                _activePlayer.incVictoryPoints();
                 nc.grow();
                 return 300;
             case DEV_CARD:
@@ -321,6 +324,7 @@ public class Referee {
                     return 601;
                 }
                 _activePlayer.decRoadCount();
+                _activePlayer.incVictoryPoints();
                 eRB.setOwner(_activePlayer);
                 eRB.grow();
                 return 610;
@@ -590,10 +594,6 @@ public class Referee {
     }
     
     private void calculateVP() {
-        
-    }
-
-    private void calculateVP(Player player) {
         
     }
 
