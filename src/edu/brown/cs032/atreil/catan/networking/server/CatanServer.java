@@ -470,7 +470,7 @@ public class CatanServer extends Thread{
 		_pool.send(name, new Packet(Packet.SEVEN, null, 0));
 	}
 	
-	public void sendRB(String name){
-		_pool.send(name, new Packet(Packet.BAD_RB, null, 0);
+	public void sendRB(String name) throws IOException{
+		_pool.send(name, new Packet(Packet.BAD_RB, null, 0));
 	}
 }

@@ -88,7 +88,9 @@ public enum MoveMessage {
     /**
      * dev card
      */
-    MESSAGE_600(600, false, "%s played a development card.");
+    MESSAGE_600(600, false, "%s played a development card."),
+    MESSAGE_601(601, true, "you cannot build a road there."),
+    MESSAGE_610(610, false, "%s played a Road Builder.");
     
     private final int _code;
     private final boolean _isError;
