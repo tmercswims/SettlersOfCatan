@@ -92,6 +92,8 @@ public class Packet implements Serializable {
 	
 	public static int LASTMOVE = 13;
 	
+	public static int SEVEN = 14;
+	
 	/*********************************************/
 	private final int _type; //the type of the object
 	private final Object _o; //the object
@@ -166,6 +168,10 @@ public class Packet implements Serializable {
 			if(!(o instanceof TradeMove))
 				throw new IllegalArgumentException("Given object is not of type TradeMove");
 		} else if(type == Packet.LASTMOVE){
+			if(o != null)
+				throw new IllegalArgumentException("Given object is not null");
+		}
+		else if(type == Packet.SEVEN){
 			if(o != null)
 				throw new IllegalArgumentException("Given object is not null");
 		}

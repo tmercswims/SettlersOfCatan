@@ -23,6 +23,7 @@ import edu.brown.cs032.tmercuri.catan.logic.move.RobberMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
@@ -72,7 +73,7 @@ public class Referee {
         Color[] colors = new Color[] {red, blue, orange, white};
         int i = 0;
         for (Player p : _players) {
-            p.addResources(new int[]{0,0,0,0,0});
+            p.addResources(new int[]{8,0,0,0,0});
             p.setColor(colors[i]);
             i++;
         }
@@ -494,7 +495,7 @@ public class Referee {
     }
     
     private int startTurn() {
-        int roll = _dice.roll();
+        int roll = 7;//_dice.roll();
         _server.sendRoll(_activePlayer.getName(), roll);
         if (roll != 7) {
             for (Tile t : _board.getTiles()) {
@@ -510,6 +511,18 @@ public class Referee {
                     }
                 }
             }
+        }
+        else{
+        	for(Player p: _players){
+        		if(p.getResourceCount()>7){
+        			try {
+						_server.sendSeven(p.getName());
+					} catch (IllegalArgumentException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        		}
+        	}
         }
         return 000;
     }

@@ -225,10 +225,12 @@ public class CatanClient extends Thread{
 			synchronized(_rollLock){
 				_roll = ((Integer) packet.getObject()).intValue();
 				_gui.getDP().setSelect(0);
-				if(_roll==7 && _p.getResourceCount()>7){
+				/*if(_roll==7 && _p.getResourceCount()>7){
 					new SevenFrame(this);
-				}
+				}*/
 			}
+		} else if (type == Packet.SEVEN){
+			new SevenFrame(this);
 		} else if(type == Packet.ERROR){
 			//TODO: notify errors
 			System.out.println(String.format("Error: %s", (String) packet.getObject()));
@@ -271,6 +273,10 @@ public class CatanClient extends Thread{
 				_p = _players[i];
 			i++;
 		}
+	}
+	
+	public void sendMessage(Packet p) throws IOException{
+		_out.writeObject(p);
 	}
 	
 	/**

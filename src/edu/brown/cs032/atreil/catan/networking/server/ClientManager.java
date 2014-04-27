@@ -175,7 +175,8 @@ public class ClientManager extends Thread {
 		if(type == Packet.MOVE){
 			_pool.addUpdate(String.format("Player %s tried to make a move", getPlayerName()));
 			_pool.addMove((Move) packet.getObject());
-		} else{
+		}
+		else{
 			//only moves can be sent; send an error
 			String msg = "Invalid protocol. Expected a move object";
 			sendError(msg);
