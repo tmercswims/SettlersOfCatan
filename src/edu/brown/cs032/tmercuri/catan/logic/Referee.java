@@ -73,7 +73,7 @@ public class Referee {
         Color[] colors = new Color[] {red, blue, orange, white};
         int i = 0;
         for (Player p : _players) {
-            p.addResources(new int[]{8,0,0,0,0});
+            p.addResources(new int[]{0,0,0,0,0});
             p.setColor(colors[i]);
             i++;
         }
@@ -495,7 +495,7 @@ public class Referee {
     }
     
     private int startTurn() {
-        int roll = 7;//_dice.roll();
+        int roll = _dice.roll();
         _server.sendRoll(_activePlayer.getName(), roll);
         if (roll != 7) {
             for (Tile t : _board.getTiles()) {
