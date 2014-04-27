@@ -178,45 +178,46 @@ public class Tile extends BoardComponent{
 				else{
 					//brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);
 				}
+				Image number = null;
+	            switch (_num) {
+	            case 2:
+	                number = two;
+	                break;
+	            case 3:
+	                number = three;
+	                break;
+	            case 4:
+	                number = four;
+	                break;
+	            case 5:
+	                number = five;
+	                break;
+	            case 6:
+	                number = six;
+	                break;
+	            case 8:
+	                number = eight;
+	                break;
+	            case 9:
+	                number = nine;
+	                break;
+	            case 10:
+	                number = ten;
+	                break;
+	            case 11:
+	                number = eleven;
+	                break;
+	            case 12:
+	                number = twelve;
+	                break;
+	            }
+	            brush.drawImage(number, (int)r.getCenterX()-20, (int)r.getCenterY()-20, null);
 			}
             else {
 				brush.setColor(Color.black);
                 brush.drawImage(robber, (int)r.getCenterX()-20, (int)r.getCenterY()-20, null);
 			}
-            Image number = null;
-            switch (_num) {
-            case 2:
-                number = two;
-                break;
-            case 3:
-                number = three;
-                break;
-            case 4:
-                number = four;
-                break;
-            case 5:
-                number = five;
-                break;
-            case 6:
-                number = six;
-                break;
-            case 8:
-                number = eight;
-                break;
-            case 9:
-                number = nine;
-                break;
-            case 10:
-                number = ten;
-                break;
-            case 11:
-                number = eleven;
-                break;
-            case 12:
-                number = twelve;
-                break;
-            }
-            brush.drawImage(number, (int)r.getCenterX()-20, (int)r.getCenterY()-20, null);
+            
             /*brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
             brush.setColor(Color.white);
             char[] tmp = {'R'};

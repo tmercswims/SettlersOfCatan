@@ -156,6 +156,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 							}
 							_selectable = Integer.MAX_VALUE;
 						}
+						break;
 					case 1:
 						buildtype = 0;
 						break;
@@ -170,6 +171,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 						if(n.getVP()==1){
 							buildtype = 2;
 						}
+						break;
 					}
 					if(buildtype!=-1){
 						BuildMove bm = new BuildMove(_client.getPlayer().getName(), buildtype, c.getIndex());
