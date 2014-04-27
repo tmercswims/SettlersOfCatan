@@ -184,7 +184,8 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 						break;
 					case 4:
 						if(_rbcount < 2){
-							buildtype = 0;
+							buildtype = 4;
+							_rbcount++;
 						}
 						else{
 							_rbcount = 0;
@@ -258,6 +259,10 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		_toDraw.addAll(_client.getBoard().getBoard()); //TODO Fix this
 		System.out.println("GOT BOARD BACK FROM SERVER");
 		repaint();
+	}
+	
+	public void decRBCount(){
+		_rbcount--;
 	}
 
 	/*@Override

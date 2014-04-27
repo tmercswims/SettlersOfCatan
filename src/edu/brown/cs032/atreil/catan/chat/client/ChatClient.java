@@ -289,7 +289,7 @@ public class ChatClient {//extends JPanel{
 			Queue<String> lines = new LinkedList<String>();
 			while(_running){
 				try {
-					String line = _in.readLine();
+					String line = _in.readLine().trim();
 					//_area.setText(line+"\n"+_area.getText());
 					SimpleAttributeSet attr = new SimpleAttributeSet();
 					String color = line.split(" ")[1];

@@ -304,6 +304,22 @@ public class Referee {
             case DEV_CARD:
                 System.out.println("No dev cards yet :(");
                 return -1;
+            case ROAD_BUILDER:
+                Edge eRB = _board.getEdges()[move.getBuildLocation()];
+                if (eRB.isRoad() || _activePlayer.getRoadCount() == 0 || !ownedRoadAdjacent(eRB)) {
+                    try {
+                        _server.sendRB(move.getPlayerName());
+                    } catch (IllegalArgumentException | IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    System.out.println(eRB.isRoad() + " " + _activePlayer.getRoadCount() + " " + !ownedRoadAdjacent(eRB));
+                    return 601;
+                }
+                _activePlayer.decRoadCount();
+                eRB.setOwner(_activePlayer);
+                eRB.grow();
+                return 610;
             default:
                 System.out.println("build move had bad build type");
                 return -1;
@@ -340,7 +356,7 @@ public class Referee {
     private boolean ownedRoadAdjacent(Edge edge) {
         for (Node n : edge.getNodes()) {
             for (Edge e : n.getEdges()) {
-                if (e.getIndex() != edge.getIndex() && e.isRoad() && e.getOwner().getName().equals(edge.getOwner().getName())) {
+                if (e.getIndex() != edge.getIndex() && e.isRoad() && e.getOwner().equals(_activePlayer)) {
                     return true;
                 }
             }

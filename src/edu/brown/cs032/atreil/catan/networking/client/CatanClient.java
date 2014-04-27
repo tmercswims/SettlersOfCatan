@@ -284,7 +284,10 @@ public class CatanClient extends Thread{
 				tradeframe.close();
 			}
 			confirmPacket();
-		} else{
+		} else if (type == Packet.BAD_RB) {
+            _gui.getDP().decRBCount();
+            confirmPacket();
+        } else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
 			confirmPacket();
 		}
