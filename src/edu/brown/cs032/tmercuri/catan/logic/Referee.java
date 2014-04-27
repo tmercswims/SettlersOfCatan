@@ -19,9 +19,11 @@ import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.DevCardMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
+import edu.brown.cs032.tmercuri.catan.logic.move.MonopolyMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 import edu.brown.cs032.tmercuri.catan.logic.move.RobberMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
+import edu.brown.cs032.tmercuri.catan.logic.move.VictoryPointMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.YearOfPlentyMove;
 
 import java.awt.Color;
@@ -243,6 +245,12 @@ public class Referee {
         } else if (move instanceof YearOfPlentyMove) {
             YearOfPlentyMove yopMove = (YearOfPlentyMove) move;
             return yearOfPlentyMove(yopMove);
+        } else if (move instanceof MonopolyMove) {
+            MonopolyMove mMove = (MonopolyMove) move;
+            return monopolyMove(mMove);
+        } else if (move instanceof VictoryPointMove) {
+            VictoryPointMove vpMove = (VictoryPointMove) move;
+            return victoryPointMove(vpMove);
         } else if (move instanceof LastMove) {
             return endTurn();
         }
@@ -535,6 +543,35 @@ public class Referee {
         return 620;
     }
     
+    private int monopolyMove(MonopolyMove move) {
+        Player played = null;
+        for (Player p : _players) {
+            if (p.getName().equals(move.getPlayerName()))
+                played = p;
+        }
+        int add = 0;
+        for (Player p : _players) {
+            if (!p.equals(played)) {
+                add += p.getResources()[move.getType()];
+                p.getResources()[move.getType()] = 0;
+            }
+        }
+        int[] newRes = {0,0,0,0,0};
+        newRes[move.getType()] = add;
+        played.addResources(newRes);
+        return 630;
+    }
+    
+    private int victoryPointMove(VictoryPointMove move) {
+        Player played = null;
+        for (Player p : _players) {
+            if (p.getName().equals(move.getPlayerName()))
+                played = p;
+        }
+        played.incVictoryPoints();
+        return 640;
+    }
+    
     private int devCardMove(DevCardMove move) {
         Player played = null;
         for (Player p : _players) {
@@ -542,6 +579,7 @@ public class Referee {
                 played = p;
         }
         played.removeDevCard(move.getIndex());
+        if (move.getIndex() == 0) played.incLargestArmy();
         return 600;
     }
     
