@@ -35,7 +35,7 @@ public class DevCardDeck {
 	}
 	
 	public int getCard(){
-		return _cards.remove((int)Math.random()*_cards.size());
+		return _cards.remove((int)(Math.random()*_cards.size()));
 	}
 
 }
