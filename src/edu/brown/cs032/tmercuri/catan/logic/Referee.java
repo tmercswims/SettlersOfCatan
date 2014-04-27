@@ -308,7 +308,12 @@ public class Referee {
                 Edge eRB = _board.getEdges()[move.getBuildLocation()];
                 if (eRB.isRoad()) return 101;
                     if (!_activePlayer.hasResources(BUILD_ROAD) || _activePlayer.getRoadCount() == 0 || !ownedRoadAdjacent(eRB)) {
-                        _server.sendRB(move.getPlayerName());
+                        try {
+							_server.sendRB(move.getPlayerName());
+						} catch (IllegalArgumentException | IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
                         return 601;
                     }
                     _activePlayer.removeResources(BUILD_ROAD);
