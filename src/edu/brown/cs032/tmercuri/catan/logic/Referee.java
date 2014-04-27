@@ -44,6 +44,7 @@ public class Referee {
     private Player _road, _army, _activePlayer;
     private boolean _gameOver, _turnOver;
     private final PairOfDice _dice;
+    private final DevCardDeck _deck;
     private Node _startupSettlement = null;
     private int _startUp = 0;
     
@@ -56,6 +57,7 @@ public class Referee {
         _road = _army = null;
         _gameOver = _turnOver = false;
         _dice = new PairOfDice();
+        _deck = new DevCardDeck();
         _players = players;
         _board = new Board(true);
         _server = server;
@@ -319,8 +321,8 @@ public class Referee {
                 nc.grow();
                 return 300;
             case DEV_CARD:
-                System.out.println("No dev cards yet :(");
-                return -1;
+                _activePlayer.addDevCard(_deck.getCard());
+                return 700;
             case ROAD_BUILDER:
                 Edge eRB = _board.getEdges()[move.getBuildLocation()];
                 if (eRB.isRoad() || _activePlayer.getRoadCount() == 0 || !ownedRoadAdjacent(eRB)) {

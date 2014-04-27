@@ -17,10 +17,9 @@ public class Player implements Serializable {
     
     private static final long serialVersionUID = 1571495798749582725L;
     
-    private final int[] _resources;
+    private final int[] _resources, _devCards;
     private int _roadsRemaining, _settlementsRemaining, _citiesRemaining, _victoryPoints, _armySize, _longestRoad;
 
-	int[] _devCards;
     private final String _name;
     private Color _color;
     private boolean _isActive;
@@ -122,6 +121,14 @@ public class Player implements Serializable {
      */
     public int[] getDevCards() {
         return _devCards;
+    }
+    
+    /**
+     * Adds one card to the given index.
+     * @param index the type of card to add
+     */
+    public void addDevCard(int index) {
+        _devCards[index]++;
     }
     
     /**

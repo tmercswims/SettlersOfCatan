@@ -17,6 +17,9 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
+import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.DEV_CARD;
+import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
+import java.io.IOException;
 
 
 /**
@@ -224,6 +227,11 @@ public class Build extends JPanel implements Update {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Trying to build devcard!");
+            try {
+                _client.sendMove(new BuildMove(_client.getPlayerName(), DEV_CARD, 0));
+            } catch (IllegalArgumentException | IOException ex) {
+                System.err.println("ERROR: " + ex.getMessage());
+            }
 		}
 	};
 

@@ -1,4 +1,4 @@
-package edu.brown.cs032.sbreslow.catan.gui.devCards;
+package edu.brown.cs032.tmercuri.catan.logic;
 
 import java.util.*;
 
