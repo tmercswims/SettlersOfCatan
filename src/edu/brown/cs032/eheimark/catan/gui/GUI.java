@@ -41,6 +41,7 @@ public class GUI extends JPanel implements Update {
 			ChatClient chatc = new ChatClient(cc.getIP(), cc.getChatPort(), client.getPlayer());
 			chatc.setClient(client);
 			add(chatc._panel, BorderLayout.EAST);
+			chatc.run();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
