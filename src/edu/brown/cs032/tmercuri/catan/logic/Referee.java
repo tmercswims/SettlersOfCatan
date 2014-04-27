@@ -304,6 +304,18 @@ public class Referee {
             case DEV_CARD:
                 System.out.println("No dev cards yet :(");
                 return -1;
+            case ROAD_BUILDER:
+                Edge eRB = _board.getEdges()[move.getBuildLocation()];
+                if (eRB.isRoad()) return 101;
+                    if (!_activePlayer.hasResources(BUILD_ROAD) || _activePlayer.getRoadCount() == 0 || !ownedRoadAdjacent(eRB)) {
+                        _server.sendRB(move.getPlayerName());
+                        return 601;
+                    }
+                    _activePlayer.removeResources(BUILD_ROAD);
+                    _activePlayer.decRoadCount();
+                    eRB.setOwner(_activePlayer);
+                    eRB.grow();
+                    return 610;
             default:
                 System.out.println("build move had bad build type");
                 return -1;

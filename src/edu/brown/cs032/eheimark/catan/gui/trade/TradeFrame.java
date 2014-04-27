@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * The Class TradeFrame is a frame for the Trade Proposal JPanel. A trade proposal
@@ -22,6 +24,16 @@ public class TradeFrame extends JFrame{
 	 */
 	public TradeFrame(String frameName, TradeMove trade, CatanClient client) {
 		super(frameName);
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                   }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            System.err.println("ERROR: " + ex.getMessage());
+        }
 		setMinimumSize(Constants.TABBED_MENU_SIZE);
 		add(new OutstandingTrade(client, trade, this));
 		pack();
