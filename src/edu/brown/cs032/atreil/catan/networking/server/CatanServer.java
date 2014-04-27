@@ -469,4 +469,8 @@ public class CatanServer extends Thread{
 	public void sendSeven(String name) throws IllegalArgumentException, IOException {
 		_pool.send(name, new Packet(Packet.SEVEN, null, 0));
 	}
+	
+	public void sendRB(String name){
+		_pool.send(name, new Packet(Packet.BAD_RB, null, 0);
+	}
 }
