@@ -151,7 +151,7 @@ public class Overview extends JPanel implements Update {
 			ps.setRoads(p.getRoadsBuilt());
 			ps.setName(p.getName());
 			ps.setVPs(p.getVictoryPoints() + "");
-			ps.setDevCards(p.getDevCards() + "");
+			ps.setDevCards(p.getDevCardCount() + "");
 			ps.setResources(p.getTotalResources() + "");
 			ps.setActivePlayer(false);
 			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check

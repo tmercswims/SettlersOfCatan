@@ -15,7 +15,7 @@ import edu.brown.cs032.sbreslow.catan.gui.devCards.YoPFrame;
 
 public class DevCard extends JPanel {
 	
-	private int[] _cards = {0,0,0,0,0};
+	private int[] _cards = {2,2,2,2,2};
 	/**
 	 * knight = 0;
 	 * roadbuilder = 1;

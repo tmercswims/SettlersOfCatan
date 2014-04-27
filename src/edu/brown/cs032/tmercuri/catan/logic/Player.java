@@ -117,11 +117,23 @@ public class Player implements Serializable {
     }
     
     /**
-     * Gets the number of development cards that this player has.
-     * @return how many development cards this player has
+     * Gets the development cards that this player has.
+     * @return development cards this player has
      */
     public int[] getDevCards() {
         return _devCards;
+    }
+    
+    /**
+     * Gets the number of development cards that this player has.
+     * @return how many development cards this player has
+     */
+    public int getDevCardCount() {
+        int sum = 0;
+        for (int d : _devCards) {
+            sum += d;
+        }
+        return sum;
     }
     
     /**
