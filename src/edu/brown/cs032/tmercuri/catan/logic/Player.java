@@ -39,7 +39,7 @@ public class Player implements Serializable {
         _name = name.replaceAll(" ", "");
         _isActive = false;
         _color = Color.BLACK;
-        _devCards = new int[]{0,0,0,0,0};
+        _devCards = new int[]{2,2,2,2,2};
     }
     
     /**
