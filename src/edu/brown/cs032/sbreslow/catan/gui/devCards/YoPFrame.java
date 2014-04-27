@@ -24,7 +24,7 @@ public class YoPFrame extends JFrame {
 		super();
 		_cc = cc;
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(2,5));
+		panel.setLayout(new GridLayout(2,4));
 		for(int i = 0; i < 5; i++){
 			switch(i){
 			case 0:
