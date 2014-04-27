@@ -17,8 +17,8 @@ import edu.brown.cs032.tmercuri.catan.logic.move.YearOfPlentyMove;
 public class YoPFrame extends JFrame {
 	
 	private CatanClient _cc;
-	private JRadioButton[] _tbuttons;
-	private JRadioButton[] _bbuttons;
+	private JRadioButton[] _tbuttons = new JRadioButton[5];
+	private JRadioButton[] _bbuttons = new JRadioButton[5];;
 	
 	public YoPFrame(CatanClient cc){
 		super();
