@@ -525,8 +525,8 @@ public class Referee {
                 played = p;
         }
         int[] newRes = {0,0,0,0,0};
-        newRes[move.getType1()] = 1;
-        newRes[move.getType2()] = 1;
+        newRes[move.getType1()] += 1;
+        newRes[move.getType2()] += 1;
         played.addResources(newRes);
         return 620;
     }
