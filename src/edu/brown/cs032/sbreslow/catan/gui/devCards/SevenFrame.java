@@ -148,6 +148,7 @@ public class SevenFrame extends JFrame {
 						_cc.sendMove(new TradeMove(_cc.getPlayerName(), toPlayer, trade, -1));
 						_frame.setVisible(false);
 						_frame.dispose();
+						_cc.confirmPacket(); //done processing this move
 					}
 				}
 			} catch (IllegalArgumentException | IOException e1) {

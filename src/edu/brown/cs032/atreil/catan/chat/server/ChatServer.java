@@ -88,7 +88,12 @@ public class ChatServer extends Thread{
 	 * @param player Name of the player to send to
 	 */
 	public void send(String message, String player){
-		_clients.send(player, "server " + message, "Server");
+		try{
+			_clients.send(player, "server " + message, "Server");
+		} catch(IllegalArgumentException e){
+			//player not here
+			//TODO: 
+		}
 	}
 	
 	/**

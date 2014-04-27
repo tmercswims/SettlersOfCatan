@@ -65,5 +65,6 @@ public class GUI extends JPanel implements Update {
 	
 	public void updatePlayers() {
 		tabbedMenu.update();
+	    client.confirmPacket();
 	}
 }

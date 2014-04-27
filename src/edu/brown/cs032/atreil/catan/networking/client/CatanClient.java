@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.LinkedList;
 
 import edu.brown.cs032.atreil.catan.networking.Handshake;
 import edu.brown.cs032.atreil.catan.networking.Packet;
@@ -48,6 +49,9 @@ public class CatanClient extends Thread{
 	private boolean _startTurn; //indicates if it's the players turn
 	private Integer _rollLock; //lock on this to set _roll
 	private int _roll; //the roll of the player
+	private boolean _servicing; //whether or not the client is done with the given move
+	private Integer _servicingLock; //lock for _servicing
+	
 
 	private String _ip;	//ip of the computer hosting the game
 	
@@ -107,6 +111,7 @@ public class CatanClient extends Thread{
 		_startTurn = false;
 		_boardLock = new Integer(-1);
 		_playersLock = new Integer(-1);
+		_servicingLock = new Integer(-1);
 		
 		//connecting
 		connect();
@@ -179,6 +184,22 @@ public class CatanClient extends Thread{
 			while(_isStarting){
 				Packet packet = (Packet) readPacket();
 				
+				System.out.println("ENTERING LOCK " + packet.getType());
+				//check to make sure that client is not servicing
+				synchronized(_servicingLock){
+					while(_servicing){
+						try {
+							_servicingLock.wait();
+						} catch (InterruptedException e) {
+							//TODO: not much to do
+							System.out.println("Interrupted in Client");
+							_servicing = false;
+						}
+					}
+					_servicing = true;
+				}
+				System.out.println("EXITING LOCK " + packet.getType());
+				
 				parsePacket(packet);
 			}
 		} catch (SocketException e){
@@ -194,10 +215,20 @@ public class CatanClient extends Thread{
 	}
 	
 	/**
-	 * Parses a packet and performs an appropriate action
+	 * Parses a packet and performs an appropriate action.
+	 * <p> If you want to call this, you need to be <i>absolutely sure<i> that
+	 * the client is done with the previous instruction. Use {@link confirmPacket} once
+	 * you are done servicing a request (the actual gui shoudl call it)
+	 * <p>
 	 * @param packet The packet to parse
 	 */
 	private void parsePacket(Packet packet){
+		
+		//we are servicing an instruction
+		synchronized(_servicingLock){
+			_servicing = true;
+		}
+		
 		int type = packet.getType();
 		
 		if(type == Packet.BOARD){
@@ -207,6 +238,7 @@ public class CatanClient extends Thread{
 			}
 			
 			_gui.updateBoard();
+			//TODO: make sure _gui finishes
 		} else if(type == Packet.PLAYERARRAY){
 			
 			synchronized(_playersLock){
@@ -215,11 +247,7 @@ public class CatanClient extends Thread{
 			}
 			
 			_gui.updatePlayers();
-		} else if(type == Packet.START){
-			//TODO: notify the start
-			synchronized(_startTurnLock){
-				_startTurn = true;
-			}
+			//TODO: make sure _gui finishes
 		} else if(type == Packet.ROLL){
 			//TODO: notify of roll
 			synchronized(_rollLock){
@@ -228,16 +256,21 @@ public class CatanClient extends Thread{
 				/*if(_roll==7 && _p.getResourceCount()>7){
 					new SevenFrame(this);
 				}*/
+				confirmPacket();
 			}
 		} else if (type == Packet.SEVEN){
 			new SevenFrame(this);
+			confirmPacket();
 		} else if(type == Packet.ERROR){
 			//TODO: notify errors
 			System.out.println(String.format("Error: %s", (String) packet.getObject()));
+			confirmPacket();
 		} else if(type == Packet.SETTLEMENT){
 			placeSettlement();
+			confirmPacket();
 		} else if(type == Packet.ROAD){
 			placeRoad();
+			confirmPacket();
 		} else if(type == Packet.TRADE){
 			//TODO: set up notifying trade
 			TradeMove trade = (TradeMove) packet.getObject();
@@ -245,12 +278,15 @@ public class CatanClient extends Thread{
 				tradeframe.close();
 			}
 			tradeframe = new TradeFrame("Trade Received!", trade, this);
+			confirmPacket();
 		} else if (type == Packet.LASTMOVE){
 			if(tradeframe != null) {
 				tradeframe.close();
 			}
+			confirmPacket();
 		} else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
+			confirmPacket();
 		}
 	}
 	
@@ -388,11 +424,12 @@ public class CatanClient extends Thread{
 	 * Indicates if the client should start the turn
 	 * @return True, if the client should start, and false otherwise
 	 */
-	public boolean getStartTurn(){
-		synchronized (_startTurnLock) {
-			return _startTurn;
-		}
-	}
+	//TODO: check this out
+//	public boolean getStartTurn(){
+//		synchronized (_startTurnLock) {
+//			return _startTurn;
+//		}
+//	}
 	
 	/**
 	 * Returns the player's name
@@ -432,5 +469,17 @@ public class CatanClient extends Thread{
 	public GUI getGUI() {
 		// TODO Auto-generated method stub
 		return _gui;
+	}
+	
+	/**
+	 * Confirms that the client is finished with the last server instruction
+	 * and is ready for the next instruction
+	 */
+	public void confirmPacket(){
+		
+		synchronized(_servicingLock){
+			_servicing = false;
+			_servicingLock.notifyAll();
+		}
 	}
 }
