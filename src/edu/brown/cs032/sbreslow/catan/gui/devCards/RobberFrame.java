@@ -30,12 +30,17 @@ public class RobberFrame extends JFrame {
 		_players = plist;
 		_buttons = new ArrayList<JButton>();
 		for(Player p : _players){
+			System.out.println(p.getName()+" ");
 			if(!p.equals(_cur)){
-				JButton tmp = new JButton(p.getName());
-				tmp.addActionListener(new RobList(p.getName(), this));
-				_buttons.add(tmp);
-				this.add(tmp);
+				//JButton tmp = new JButton(p.getName());
+				//tmp.addActionListener(new RobList(p.getName(), this));
+				_buttons.add(new JButton(p.getName()));
+				System.out.println("here");
 			}
+		}
+		for(JButton b: _buttons){
+			b.addActionListener(new RobList(b.getText(), this));
+			this.add(b);
 		}
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
