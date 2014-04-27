@@ -1,6 +1,9 @@
 package edu.brown.cs032.tmercuri.catan.logic;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 public class DevCardDeck {
 	
@@ -11,10 +14,10 @@ public class DevCardDeck {
 	 * monopoly = 3;
 	 * vp = 4;
 	 */
-	private List<Integer> _cards;
+	private final List<Integer> _cards;
 	
 	public DevCardDeck(){
-		_cards = new ArrayList<Integer>(25);
+		_cards = new ArrayList<>(25);
 		for(int i = 0; i < 25; i++){
 			if(i < 14){
 				_cards.add(0);
@@ -32,10 +35,11 @@ public class DevCardDeck {
 				_cards.add(3);
 			}
 		}
+        Collections.shuffle(_cards);
 	}
 	
 	public int getCard(){
-		return _cards.remove((int)Math.random()*_cards.size());
+		return _cards.remove(0);
 	}
 
 }
