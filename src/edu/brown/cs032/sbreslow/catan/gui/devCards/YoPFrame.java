@@ -3,6 +3,7 @@ package edu.brown.cs032.sbreslow.catan.gui.devCards;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.tmercuri.catan.logic.move.YearOfPlentyMove;
 
 public class YoPFrame extends JFrame {
 	
@@ -52,7 +54,7 @@ public class YoPFrame extends JFrame {
 			panel.add(b);
 		}
 		JButton submit = new JButton("Submit");
-		submit.addActionListener(new SubmitList());
+		submit.addActionListener(new SubmitList(this));
 		panel.add(submit);
 		this.add(panel);
 		this.setVisible(true);
@@ -61,6 +63,12 @@ public class YoPFrame extends JFrame {
 	}
 	
 	private class SubmitList implements ActionListener{
+		
+		private JFrame _frame;
+		
+		private SubmitList(JFrame frame){
+			_frame = frame;
+		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -87,7 +95,14 @@ public class YoPFrame extends JFrame {
 						bdex = i;
 					}
 				}
-				//send YoP move to server
+				try {
+					_cc.sendMove(new YearOfPlentyMove(_cc.getPlayerName(), tdex, bdex));
+				} catch (IllegalArgumentException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				_frame.setVisible(false);
+				_frame.dispose();
 			}
 		}
 		

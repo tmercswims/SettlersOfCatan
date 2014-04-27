@@ -69,6 +69,7 @@ public class DevCard extends JPanel {
 			case 4:
 				_buttons[i] = new JButton("Play Year of Plenty");
                 _buttons[i].setIcon(yearOfPlenty);
+                _buttons[i].addActionListener(new YoPList());
 				break;
 			}
 			this.add(_buttons[i]);
