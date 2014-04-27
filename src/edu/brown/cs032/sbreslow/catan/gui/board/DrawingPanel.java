@@ -115,7 +115,6 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			i++;
 		}
 		
-		//TODO: added confirmation
 		_client.confirmPacket();
 	}
 	
@@ -253,7 +252,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	}
 
 	@Override
-	public void update() {
+	public void ericUpdate() {
 		_toDraw.clear();
 		System.out.println("TRYING TO GET BOARD IN DRAWING PANEL!");
 		_toDraw.addAll(_client.getBoard().getBoard()); //TODO Fix this

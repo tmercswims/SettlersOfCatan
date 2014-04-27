@@ -62,9 +62,9 @@ public class TabbedPanel extends JPanel implements Update {
 	}
 
 	@Override
-	public void update() {
-		overview.update();
-		trade.update();
-		build.update();
+	public void ericUpdate() {
+		overview.ericUpdate();
+		trade.ericUpdate();
+		build.ericUpdate();
 	}
 }

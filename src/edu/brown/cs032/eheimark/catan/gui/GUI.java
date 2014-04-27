@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.io.IOException;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import edu.brown.cs032.atreil.catan.chat.client.ChatClient;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.navigator.TabbedPanel;
@@ -54,17 +56,30 @@ public class GUI extends JPanel implements Update {
 	}
 	
 	@Override
-	public void update() {
-		gameBoard.update();
-		tabbedMenu.update();
+	public void ericUpdate() {
+		gameBoard.ericUpdate();
+		tabbedMenu.ericUpdate();
 	}
 	
 	public void updateBoard() {
-		gameBoard.update();
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				gameBoard.ericUpdate();
+				client.confirmPacket();
+			}
+		});
 	}
 	
 	public void updatePlayers() {
-		tabbedMenu.update();
-	    client.confirmPacket();
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				tabbedMenu.ericUpdate();
+				client.confirmPacket();
+			}
+		});
 	}
 }

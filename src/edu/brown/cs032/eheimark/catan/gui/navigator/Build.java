@@ -140,7 +140,7 @@ public class Build extends JPanel implements Update {
 	 * Update.
 	 */
 	@Override
-	public void update(){
+	public void ericUpdate(){
 		int[] resources = _client.getPlayer().getResources();
 		if(resources[2]<1 || resources[4]<1){
 			buildRoadButton.setEnabled(false);
@@ -232,6 +232,6 @@ public class Build extends JPanel implements Update {
 		g.setColor(MY_BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.drawImage(img, 0, 0, null);
-		_client.confirmPacket();
+		//_client.confirmPacket();
 	}
 }
