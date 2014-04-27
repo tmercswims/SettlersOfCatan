@@ -87,7 +87,7 @@ public class YoPFrame extends JFrame {
 						bdex = i;
 					}
 				}
-				//send YoP move to server
+				_cc.sendMove(new YearOfPlentyMove(_cc.getPlayerName(), tdex, bdex));
 			}
 		}
 		
