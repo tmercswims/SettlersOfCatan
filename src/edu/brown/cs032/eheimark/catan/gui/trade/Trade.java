@@ -190,7 +190,7 @@ public class Trade extends JPanel implements Update {
 
 	private boolean updated = false;
 	@Override
-	public void update() {
+	public void ericUpdate() {
 		if(!updated) {
 			System.out.println("IN TRADE MENU UPDATE");
 			Player[] players = client.getPlayers();

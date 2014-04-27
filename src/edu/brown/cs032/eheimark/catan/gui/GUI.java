@@ -54,17 +54,17 @@ public class GUI extends JPanel implements Update {
 	}
 	
 	@Override
-	public void update() {
-		gameBoard.update();
-		tabbedMenu.update();
+	public void ericUpdate() {
+		gameBoard.ericUpdate();
+		tabbedMenu.ericUpdate();
 	}
 	
 	public void updateBoard() {
-		gameBoard.update();
+		gameBoard.ericUpdate();
 	}
 	
 	public void updatePlayers() {
-		tabbedMenu.update();
+		tabbedMenu.ericUpdate();
 	    client.confirmPacket();
 	}
 }
