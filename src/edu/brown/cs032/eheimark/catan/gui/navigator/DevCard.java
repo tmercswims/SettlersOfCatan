@@ -13,8 +13,10 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Update;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.*;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
+import edu.brown.cs032.sbreslow.catan.gui.devCards.MonoFrame;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.YoPFrame;
 import edu.brown.cs032.tmercuri.catan.logic.move.DevCardMove;
+import edu.brown.cs032.tmercuri.catan.logic.move.VictoryPointMove;
 
 public class DevCard extends JPanel implements Update{
 	
@@ -66,6 +68,7 @@ public class DevCard extends JPanel implements Update{
 			case 3:
 				_buttons[i] = new DevCardButton(monopoly);
                 //_buttons[i].setIcon(monopoly);
+				_buttons[i].addActionListener(new MonoList());
 				break;
 			case 4:
 				_buttons[i] = new DevCardButton(yearOfPlenty);
@@ -121,7 +124,6 @@ public class DevCard extends JPanel implements Update{
 				e1.printStackTrace();
 			}
 			_dp.setSelect(0);
-			_cc.getPlayer().incLargestArmy();
 		}
 		
 	}
@@ -132,12 +134,13 @@ public class DevCard extends JPanel implements Update{
 		public void actionPerformed(ActionEvent e) {
 			try {
 				_cc.sendMove(new DevCardMove(_cc.getPlayerName(), 4));
+				_cc.sendMove(new VictoryPointMove(_cc.getPlayerName()));
 			} catch (IllegalArgumentException | IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			//_cards[4]--;
-			_cc.getPlayer().incVictoryPoints();
+			//_cc.getPlayer().incVictoryPoints();
 		}
 		
 	}
@@ -169,6 +172,21 @@ public class DevCard extends JPanel implements Update{
 				e1.printStackTrace();
 			}
 			new YoPFrame(_cc);
+		}
+		
+	}
+	
+	private class MonoList implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				_cc.sendMove(new DevCardMove(_cc.getPlayerName(), 3));
+			} catch (IllegalArgumentException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			new MonoFrame(_cc);
 		}
 		
 	}
