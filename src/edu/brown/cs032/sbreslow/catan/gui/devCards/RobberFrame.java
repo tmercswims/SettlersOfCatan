@@ -11,8 +11,10 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.tmercuri.catan.logic.*;
 import edu.brown.cs032.tmercuri.catan.logic.move.*;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class RobberFrame extends JFrame {
 
@@ -29,6 +31,8 @@ public class RobberFrame extends JFrame {
 		_cur = cc.getPlayer();
 		_players = plist;
 		_buttons = new ArrayList<JButton>();
+		JPanel list = new JPanel();
+		list.setLayout(new BoxLayout(list, BoxLayout.PAGE_AXIS));
 		for(Player p : _players){
 			System.out.println(p.getName()+" ");
 			if(!p.equals(_cur)){
@@ -40,8 +44,10 @@ public class RobberFrame extends JFrame {
 		}
 		for(JButton b: _buttons){
 			b.addActionListener(new RobList(b.getText(), this));
-			this.add(b);
+			list.add(b);
 		}
+		list.setVisible(true);
+		this.add(list);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.pack();
