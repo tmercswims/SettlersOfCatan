@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.io.IOException;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import edu.brown.cs032.atreil.catan.chat.client.ChatClient;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.navigator.TabbedPanel;
@@ -39,6 +41,7 @@ public class GUI extends JPanel implements Update {
 			ChatClient chatc = new ChatClient(cc.getIP(), cc.getChatPort(), client.getPlayer());
 			chatc.setClient(client);
 			add(chatc._panel, BorderLayout.EAST);
+			chatc.run();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -60,11 +63,24 @@ public class GUI extends JPanel implements Update {
 	}
 	
 	public void updateBoard() {
-		gameBoard.ericUpdate();
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				gameBoard.ericUpdate();
+				client.confirmPacket();
+			}
+		});
 	}
 	
 	public void updatePlayers() {
-		tabbedMenu.ericUpdate();
-	    client.confirmPacket();
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				tabbedMenu.ericUpdate();
+				client.confirmPacket();
+			}
+		});
 	}
 }

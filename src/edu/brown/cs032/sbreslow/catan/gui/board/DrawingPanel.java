@@ -115,7 +115,6 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			i++;
 		}
 		
-		//TODO: added confirmation
 		_client.confirmPacket();
 	}
 	

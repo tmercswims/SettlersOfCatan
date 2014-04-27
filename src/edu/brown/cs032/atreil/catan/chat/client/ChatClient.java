@@ -146,7 +146,7 @@ public class ChatClient {//extends JPanel{
 		StyleConstants.setBold(_server, true);
 		
 		_field.requestFocus();
-		run();
+//		run();
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class ChatClient {//extends JPanel{
 		}
 	}
 
-	private void run()
+	public void run()
 	{
 		// Listen for any commandline input; quit on "exit" or emptyline
 		_thread = new ReceiveThread();

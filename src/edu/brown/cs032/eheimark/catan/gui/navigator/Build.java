@@ -232,6 +232,6 @@ public class Build extends JPanel implements Update {
 		g.setColor(MY_BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.drawImage(img, 0, 0, null);
-		_client.confirmPacket();
+		//_client.confirmPacket();
 	}
 }
