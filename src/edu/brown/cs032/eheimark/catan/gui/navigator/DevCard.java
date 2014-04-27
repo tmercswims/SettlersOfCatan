@@ -43,11 +43,11 @@ public class DevCard extends JPanel implements Update{
 		_rb = new JLabel("Road Building Card(s): 0");
 		_mono = new JLabel("Monopoly Card(s): 0");
 		_yop = new JLabel("Year of Plenty Card(s): 0");
-		this.add(_vp);
 		this.add(_knight);
 		this.add(_rb);
-		this.add(_mono);
 		this.add(_yop);
+		this.add(_mono);
+		this.add(_vp);
 		for(int i = 0; i < 5; i++){
 			switch(i){
 			case 0:
