@@ -62,6 +62,7 @@ public class GUI extends JPanel implements Update {
 	}
 	
 	public void updateBoard() {
+<<<<<<< HEAD
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
@@ -81,5 +82,13 @@ public class GUI extends JPanel implements Update {
 				client.confirmPacket();
 			}
 		});
+=======
+		gameBoard.ericUpdate();
+	}
+	
+	public void updatePlayers() {
+		tabbedMenu.ericUpdate();
+	    client.confirmPacket();
+>>>>>>> 0952ed719b0135227d6acc4a3a4ff67dd9b136ff
 	}
 }

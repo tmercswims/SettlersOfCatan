@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,13 +19,17 @@ public class YoPFrame extends JFrame {
 	
 	private CatanClient _cc;
 	private JRadioButton[] _tbuttons = new JRadioButton[5];
-	private JRadioButton[] _bbuttons = new JRadioButton[5];;
+	private JRadioButton[] _bbuttons = new JRadioButton[5];
+	private final ButtonGroup _top;
+	private final ButtonGroup _bot;
 	
 	public YoPFrame(CatanClient cc){
 		super();
 		_cc = cc;
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(2,5));
+		panel.setLayout(new GridLayout(2,4));
+		_top = new ButtonGroup();
+		_bot = new ButtonGroup();
 		for(int i = 0; i < 5; i++){
 			switch(i){
 			case 0:
@@ -48,6 +53,8 @@ public class YoPFrame extends JFrame {
 				_bbuttons[i] = new JRadioButton("Lumber");
 				break;
 			}
+			_top.add(_tbuttons[i]);
+			_bot.add(_bbuttons[i]);
 			panel.add(_tbuttons[i]);
 		}
 		for(JRadioButton b: _bbuttons){

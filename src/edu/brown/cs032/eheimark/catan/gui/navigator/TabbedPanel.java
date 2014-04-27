@@ -66,5 +66,6 @@ public class TabbedPanel extends JPanel implements Update {
 		overview.ericUpdate();
 		trade.ericUpdate();
 		build.ericUpdate();
+		devcard.ericUpdate();
 	}
 }
