@@ -1,6 +1,5 @@
 package edu.brown.cs032.eheimark.catan.gui.navigator;
 
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.*;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.YoPFrame;
 
@@ -47,21 +47,26 @@ public class DevCard extends JPanel {
 			switch(i){
 			case 0:
 				_buttons[i] = new JButton("Play Victory Point");
+                _buttons[i].setIcon(victoryPoint);
 				_buttons[i].addActionListener(new VPList());
 				break;
 			case 1:
 				_buttons[i] = new JButton("Play Knight");
+                _buttons[i].setIcon(knight);
 				_buttons[i].addActionListener(new KnightList());
 				break;
 			case 2:
 				_buttons[i] = new JButton("Play Road Builder");
+                _buttons[i].setIcon(roadBuilder);
 				_buttons[i].addActionListener(new RBList());
 				break;
 			case 3:
 				_buttons[i] = new JButton("Play Monopoly");
+                _buttons[i].setIcon(monopoly);
 				break;
 			case 4:
 				_buttons[i] = new JButton("Play Year of Plenty");
+                _buttons[i].setIcon(yearOfPlenty);
 				break;
 			}
 			this.add(_buttons[i]);
