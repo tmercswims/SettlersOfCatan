@@ -116,7 +116,8 @@ public class Referee {
             }
             findWinner();
         }
-        _server.sendMessage(null, String.format("%s has won the game!", _winner));
+        //_server.sendMessage(null, String.format("%s has won the game!", _winner));
+        _server.sendGameOver(_winner.getName());
     }
     
     private void rollForOrder() {
