@@ -100,7 +100,6 @@ public class CatanServer extends Thread{
 		_moveBuffer = new LinkedList<>();
 		_update = new StringBuilder();
 		_chatServer = startChatServer(_port);
-		_isRunning = true;
 		_chatServer.start();
 	}
 	
@@ -144,7 +143,7 @@ public class CatanServer extends Thread{
 		addUpdate(String.format("This is your ip address: %s\nThis is your port: %s\nGive them to your friends" +
 				" so that they can connect to you!", getLocalIP(), getLocalPort()));
 		
-		while(_pool.getNumConnected() < _numClients){
+		while((_pool.getNumConnected() < _numClients) && _isRunning){
 			try {
 				Socket client = _server.accept();
 				
@@ -162,7 +161,7 @@ public class CatanServer extends Thread{
 					addUpdate(String.format("Error: %s", e1.getMessage()));
 				}
 			} catch (IOException e) {
-				addUpdate(e.getMessage());
+				addUpdate(String.format("Error: %s", e.getMessage()));
 			}
 		}
 	}
@@ -172,24 +171,30 @@ public class CatanServer extends Thread{
 	 * once all players have connected
 	 */
 	public void run(){
+		_isRunning = true;
+				
 		//accept connections
 		accept();
 		
-		//start the game
-		try {
-			_pool.broadcast(new Packet(Packet.STARTGAME, null, id++));
-			_pool.addUpdate("Starting the game\n");
-			_chatServer.setPlayers(_pool.getPlayerList());
-			//client will no longer listen to clients so shutdown its server
-			_server.close();
-			
-			_ref = new Referee(_pool.getPlayers(), this);
-			_ref.runGame();
-		} catch (IllegalArgumentException e) {
-			addUpdate(e.getMessage());
-		} catch (IOException e) {
-			addUpdate(e.getMessage());
+		if(_isRunning){
+			//start the game
+			try {
+				_pool.broadcast(new Packet(Packet.STARTGAME, null, id++));
+				_pool.addUpdate("Starting the game\n");
+				_chatServer.setPlayers(_pool.getPlayerList());
+				//client will no longer listen to clients so shutdown its server
+				_server.close();
+				
+				_ref = new Referee(_pool.getPlayers(), this);
+				_ref.runGame();
+			} catch (IllegalArgumentException e) {
+				addUpdate(e.getMessage());
+			} catch (IOException e) {
+				addUpdate(e.getMessage());
+			}
 		}
+		
+		kill();
 	}
 	
 	/**
@@ -407,7 +412,7 @@ public class CatanServer extends Thread{
 	 */
 	public String readStatus(){
 		synchronized(_update){
-			while(_update.length() == 0){
+			while(_update.length() == 0 && _isRunning){
 				try {
 					_update.wait();
 				} catch (InterruptedException e) {
@@ -461,6 +466,10 @@ public class CatanServer extends Thread{
 			_pool.killAll();
 			_server.close();
 			_chatServer.kill();
+			
+			synchronized (_update) {
+				_update.notifyAll();
+			}
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}

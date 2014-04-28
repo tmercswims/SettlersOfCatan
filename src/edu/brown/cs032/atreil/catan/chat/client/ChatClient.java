@@ -55,6 +55,7 @@ public class ChatClient {//extends JPanel{
 	SimpleAttributeSet _blue;
 	SimpleAttributeSet _orange;
 	SimpleAttributeSet _server;
+	SimpleAttributeSet _white;
     private final LinkedList<String> _history;
     private int _position;
     private String _unsentContents;
@@ -72,7 +73,7 @@ public class ChatClient {//extends JPanel{
 	public ChatClient(String hostname, int port, Player player) throws UnknownHostException, IOException{
 		//super();
 		_panel = new JPanel();
-		Dimension d = new Dimension(250,770);
+		Dimension d = new Dimension(400,600);
 		//this.setPreferredSize(d);
 		_panel.setPreferredSize(d);
 		//_panel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -91,12 +92,13 @@ public class ChatClient {//extends JPanel{
         scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);*/
         
-		_field = new JTextField(21);
+		_field = new JTextField(30);
 		_field.addKeyListener(new ChatListener());
 		_area = new JTextPane();
-		Dimension size = new Dimension(230,580);
+		Dimension size = new Dimension(380,540);
+		_area.setBackground(Color.black);
 		_area.setMaximumSize(size);
-		_area.setMinimumSize(size);
+		//_area.setMinimumSize(size);
 		_area.setPreferredSize(size);
         DefaultCaret caret = (DefaultCaret)_area.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -130,15 +132,19 @@ public class ChatClient {//extends JPanel{
 		
 		_red = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_red, "Helvetica");
-		StyleConstants.setForeground(_red, Color.red);
+		StyleConstants.setForeground(_red, red);
 		
 		_blue = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_blue, "Helvetica");
-		StyleConstants.setForeground(_blue, Color.blue);
+		StyleConstants.setForeground(_blue, blue);
 		
 		_orange = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_orange, "Helvetica");
-		StyleConstants.setForeground(_orange, Color.orange);
+		StyleConstants.setForeground(_orange, orange);
+		
+		_white = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(_white, "Helvetica");
+		StyleConstants.setForeground(_white, Color.white);
 		
 		_server = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_server, "Helvetica");
@@ -292,9 +298,10 @@ public class ChatClient {//extends JPanel{
 					String line = _in.readLine().trim();
 					//_area.setText(line+"\n"+_area.getText());
 					SimpleAttributeSet attr = new SimpleAttributeSet();
-					String color = line.split(" ")[1];
+					String[] linearray = line.split(" ");
+					String color = linearray[1];
 					color = color.substring(1,color.length()-2);
-					System.out.println(color);
+					//System.out.println(color);
 					if(color.equalsIgnoreCase("red")){
 						attr = _red;
 					}
@@ -308,31 +315,33 @@ public class ChatClient {//extends JPanel{
 						attr = _server;
 					}
 					else{
-						//System.out.println("COLOR IS WRONG: "+color);
+						attr = _white;//System.out.println("COLOR IS WRONG: "+color);
 					}
 					//System.out.println(line);
-					if(line.split(" ")[2].equals("*whisper*")){
-						//System.out.println("here");
-						StyleConstants.setFontFamily(attr, "Monaco");
-						StyleConstants.setItalic(attr, true);
-					}
-					try {
-						String[] tmp = line.split(" ");
-						StringBuilder sb = new StringBuilder();
-						for(int i = 0; i < tmp.length; i++){
-							if(i!=1){
-								sb.append(tmp[i]+" ");
-							}
-							else{
-								sb = new StringBuilder(sb.toString().trim());
-								sb.append(tmp[i].charAt(tmp[i].length()-1));
-							}
+					if(linearray.length>=3){
+						if(linearray[2].equals("*whisper*")){
+							//System.out.println("here");
+							StyleConstants.setFontFamily(attr, "Monaco");
+							StyleConstants.setItalic(attr, true);
 						}
-						_area.getDocument().insertString(_area.getCaretPosition(),sb.toString().trim()+"\n",attr);
-						lines.add(line);
-					} catch (BadLocationException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						try {
+							String[] tmp = line.split(" ");
+							StringBuilder sb = new StringBuilder();
+							for(int i = 0; i < tmp.length; i++){
+								if(i!=1){
+									sb.append(tmp[i]+" ");
+								}
+								else{
+									sb = new StringBuilder(sb.toString().trim());
+									sb.append(tmp[i].charAt(tmp[i].length()-1));
+								}
+							}
+							_area.getDocument().insertString(_area.getCaretPosition(),sb.toString().trim()+"\n",attr);
+							lines.add(line);
+						} catch (BadLocationException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 					//_area.append(line);
 					//_area.append("\n");

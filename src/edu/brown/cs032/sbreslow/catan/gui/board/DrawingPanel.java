@@ -15,9 +15,6 @@ import edu.brown.cs032.sbreslow.catan.gui.devCards.RobberFrame;
 import edu.brown.cs032.tmercuri.catan.logic.move.*;
 import edu.brown.cs032.tmercuri.catan.logic.*;
 
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 public class DrawingPanel extends JPanel implements Update {// implements MouseListener{
     
     private static final long serialVersionUID = 333238774355322463L;
@@ -32,19 +29,9 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	
 	public DrawingPanel(CatanClient client){
 		super();
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                        UIManager.setLookAndFeel(info.getClassName());
-                        break;
-                   }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            System.err.println("ERROR: " + ex.getMessage());
-        }
 		_client = client;
 		setBackground(new Color(41, 105, 168));
-		setSize(750,770);
+		setSize(600,610);
 		setPreferredSize(getSize());
 		setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());
@@ -62,7 +49,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
     public DrawingPanel(){
 		super();
 		setBackground(new Color(41, 105, 168));
-		setSize(750,770);
+		setSize(600,610);
 		setPreferredSize(getSize());
 		setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());
@@ -115,7 +102,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			i++;
 		}
 		
-		_client.confirmPacket();
+		//_client.confirmPacket();
 	}
 	
 	private class ClickList implements MouseListener{

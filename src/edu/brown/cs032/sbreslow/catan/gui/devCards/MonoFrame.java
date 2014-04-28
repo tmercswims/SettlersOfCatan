@@ -23,7 +23,7 @@ public class MonoFrame extends JFrame {
 	private final ButtonGroup _top;
 
 	public MonoFrame(CatanClient cc){
-		super();
+		super("Monopoly");
 		_cc = cc;
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1,4));

@@ -73,9 +73,13 @@ public class BoardImages {
     
     public static class DevCard {
         public static final Image knight = new ImageIcon("images/dev_cards/knight.png").getImage();
+        public static final double w = new ImageIcon("images/dev_cards/knight.png").getIconWidth();
+        public static final double h = new ImageIcon("images/dev_cards/knight.png").getIconHeight();
         public static final Image monopoly = new ImageIcon("images/dev_cards/monopoly.png").getImage();
         public static final Image roadBuilder = new ImageIcon("images/dev_cards/road_builder.png").getImage();
         public static final Image yearOfPlenty = new ImageIcon("images/dev_cards/year_of_plenty.png").getImage();
         public static final Image victoryPoint = new ImageIcon("images/dev_cards/victory_point.png").getImage();
+        public static final double wVP = new ImageIcon("images/dev_cards/victory_point.png").getIconWidth();
+        public static final double hVP = new ImageIcon("images/dev_cards/victory_point.png").getIconHeight();
     }
 }

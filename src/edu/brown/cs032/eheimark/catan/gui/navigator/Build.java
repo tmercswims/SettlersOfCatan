@@ -55,6 +55,7 @@ public class Build extends JPanel implements Update {
 		buildSettlementButton.setForeground(Constants.CATAN_RED);
 		buildSettlementButton.setFont(MY_FONT);
 		buildSettlementButton.setBounds(288, 26, 185, 29);
+		buildSettlementButton.setEnabled(false);
 		add(buildSettlementButton);
 		
 		buildDevCardButton = new JButton("Build Dev. Card");
@@ -62,6 +63,7 @@ public class Build extends JPanel implements Update {
 		buildDevCardButton.setForeground(Constants.CATAN_RED);
 		buildDevCardButton.setFont(MY_FONT);
 		buildDevCardButton.setBounds(763, 26, 170, 29);
+		buildDevCardButton.setEnabled(false);
 		add(buildDevCardButton);
 		
 		buildRoadButton = new JButton("Build Road");
@@ -69,6 +71,7 @@ public class Build extends JPanel implements Update {
 		buildRoadButton.setForeground(Constants.CATAN_RED);
 		buildRoadButton.setFont(MY_FONT);
 		buildRoadButton.setBounds(73, 26, 148, 29);
+		buildRoadButton.setEnabled(false);
 		add(buildRoadButton);
 		
 		buildCityButton = new JButton("Build City");
@@ -76,6 +79,7 @@ public class Build extends JPanel implements Update {
 		buildCityButton.setForeground(Constants.CATAN_RED);
 		buildCityButton.setFont(MY_FONT);
 		buildCityButton.setBounds(548, 26, 148, 29);
+		buildCityButton.setEnabled(false);
 		add(buildCityButton);
 		
 		JLabel roadCostLabel = new JLabel("Cost: 1 Brick, 1 Lumber");
@@ -167,7 +171,7 @@ public class Build extends JPanel implements Update {
 			buildSettlementButton.setEnabled(false);
 		}
 		else{
-			buildSettlementButton.setEnabled(false);
+			buildSettlementButton.setEnabled(true);
 		}
 
 		repaint();

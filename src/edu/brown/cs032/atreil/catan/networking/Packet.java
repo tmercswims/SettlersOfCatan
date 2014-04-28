@@ -95,6 +95,8 @@ public class Packet implements Serializable {
 	public static int SEVEN = 14;
     
     public static int BAD_RB = 15;
+    
+    public static int GAME_OVER = 16;
 	
 	/*********************************************/
 	private final int _type; //the type of the object
@@ -178,6 +180,10 @@ public class Packet implements Serializable {
 		} else if(type == Packet.BAD_RB){
 			if(o != null)
 				throw new IllegalArgumentException("Given object is not null");
+		} else if(type == Packet.GAME_OVER){
+			if(!(o instanceof String)){
+				throw new IllegalArgumentException("Given object is not a String");
+			}
 		}
 		
 		else

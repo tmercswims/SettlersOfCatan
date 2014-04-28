@@ -27,14 +27,19 @@ public class Constants {
 	public static final Dimension TEXTAREA_SIZE = new Dimension(400, 200);
 	public static final Dimension POINTS_MENU_SIZE  = new Dimension(675, 125);
 	public static final Dimension MENU_SIZE  = new Dimension(1000, 200);
-	public static final Dimension TAB_PANEL_MENU_SIZE = new Dimension(1000, 135); // each tab in tab panel
-	public static final Dimension TABBED_MENU_SIZE = new Dimension(1000, 180); // tabbed panel overall
-	public static final Dimension GUI_SIZE = new Dimension(1000, 1000);
-	
+	private static final int tabPanel = 150;
+	private static final int  bottomMenu = 25;
+	public static final Dimension TAB_PANEL_MENU_SIZE = new Dimension(1000, tabPanel); // each tab in tab panel
+	public static final Dimension ACTIVEPLAYER_MENU_SIZE = new Dimension(1000, bottomMenu); // size of active player field in red at bottom
+	public static final Dimension TABBED_MENU_SIZE = new Dimension(1000, tabPanel + bottomMenu + 10); // tabbed panel overall
+	public static final Dimension GUI_SIZE = new Dimension(1000, 850);
 	public static final String DEFAULT_HOSTNAME = "localhost";
 	public static final String DEFAULT_PORT = "1700";
 	
 	public static final Image CATAN_LAUNCH_MENU_BACKGROUND =  new ImageIcon("images/CatanScaled700x700.png").getImage();
 	public static final Image BUILD_IMAGE = new ImageIcon("images/CatanLogo1000x140Mask50.png").getImage();
 	public static final Image TRADE_TAB_IMAGE = new ImageIcon("images/Cards1000x140.png").getImage();
+	
+	public static final Dimension ROLL_BUTTON = new Dimension(117,29);
+	public static final Font MY_FONT_ACTIVEPLAYER = new Font("Georgia", Font.BOLD, 15);
 }

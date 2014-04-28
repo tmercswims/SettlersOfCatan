@@ -32,13 +32,9 @@ import javax.swing.SwingConstants;
 public class Overview extends JPanel implements Update {
 	private static final long serialVersionUID = 1L;
 	// TODO Fix background images
-	private static final Color MY_BACKGROUND = Constants.CATAN_BLACK;
-	private static final Color MY_FOREGROUND = Constants.CATAN_YELLOW;
+	private static final Color MY_BACKGROUND = Constants.CATAN_WHITE;
 	private final CatanClient client;
 	private final ArrayList<PlayerStats> playerstats;
-	private final JLabel myResources;
-	private final JButton gameManagerButton; // manages a turn, allowing user to either roll die or end turn
-	private boolean rollDie; // indicates whether in roll die mode or end turn mode
 
 	/**
 	 * Instantiates a new overview panel.
@@ -47,22 +43,25 @@ public class Overview extends JPanel implements Update {
 	 */
 	public Overview(CatanClient cc) {
 		super();
-		setForeground(MY_FOREGROUND);
 		setBackground(MY_BACKGROUND);
 		this.client = cc;
-		
+
 		setLayout(null);
 
-		playerstats = new ArrayList<PlayerStats>();
+		PlayerStats psLabels = new PlayerStats();
+		psLabels.setBounds(44, 0, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
+		add(psLabels); // just contains labels for player stats
 
+		playerstats = new ArrayList<PlayerStats>();
 		PlayerStats ps1 = new PlayerStats();
-		ps1.setBounds(30, 33, 889, 21);
+		ps1.setBounds(44, 20, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
 		PlayerStats ps2 = new PlayerStats();
-		ps2.setBounds(30, 58, 889, 21);
+		ps2.setBounds(44, 40, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
 		PlayerStats ps3 = new PlayerStats();
-		ps3.setBounds(30, 83, 889, 21);
+		ps3.setBounds(44, 60, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
 		PlayerStats ps4 = new PlayerStats();
-		ps4.setBounds(30, 108, 889, 21);
+		ps4.setBounds(44, 80, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
+		ps4.setColor(MY_BACKGROUND); // set ps4 to background
 
 		add(ps1);
 		playerstats.add(ps1);
@@ -72,22 +71,6 @@ public class Overview extends JPanel implements Update {
 		playerstats.add(ps3);
 		add(ps4);
 		playerstats.add(ps4);
-
-		myResources = new JLabel();
-		myResources.setHorizontalAlignment(SwingConstants.RIGHT);
-		myResources.setText("Player resources:");
-		myResources.setFont(Constants.MY_FONT_SMALL);
-		myResources.setOpaque(false);
-		myResources.setBounds(500, 0, 385, 28);
-		add(myResources);
-
-		gameManagerButton = new JButton("Roll Die");
-		gameManagerButton.setFont(Constants.MY_FONT_SMALL);
-		gameManagerButton.setBounds(30, 1, 117, 29);
-		add(gameManagerButton);
-		gameManagerButton.addActionListener(new TurnListener());
-
-		this.rollDie = true;
 
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
@@ -105,40 +88,6 @@ public class Overview extends JPanel implements Update {
 		System.out.println("Done repainting " + i + "...");
 	}
 
-	/**
-	 * ActionListener that allows user to roll die or end turn.
-	 */
-	class TurnListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			System.out.println("Trying to roll die...");
-			if(client.getPlayer().isActive()) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							if(rollDie) {
-								client.sendMove(new FirstMove(client.getPlayerName()));
-								gameManagerButton.setText("End turn");
-								rollDie = false;
-							}
-							else {
-								client.sendMove(new LastMove(client.getPlayerName()));
-								gameManagerButton.setText("Roll die");
-								rollDie = true;
-							}
-						} catch (IllegalArgumentException | IOException e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-			else {
-				System.out.println("Not active player! CANNOT ROLL!");
-			}
-		}
-	}
-
 	@Override
 	public void ericUpdate() {
 		Player[] players = this.client.getPlayers();
@@ -154,17 +103,11 @@ public class Overview extends JPanel implements Update {
 			ps.setDevCards(p.getDevCardCount() + "");
 			ps.setResources(p.getTotalResources() + "");
 			ps.setActivePlayer(false);
-			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check
-				int[] resources = p.getResources();
-				String s = "Ore:" + resources[3] + " Wheat:" + resources[0] + " Wool:" + resources[1] + " Lumber:" + resources[4] + " Brick:" + resources[2];
-				myResources.setText(s);
-				myResources.setForeground(p.getColor());
-			}
 			if(p.isActive()) {
 				ps.setActivePlayer(true);
 			}
 			i++;
 		}
 		repaint();
-	};
+	}
 }

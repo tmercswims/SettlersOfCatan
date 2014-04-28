@@ -1,5 +1,6 @@
 package edu.brown.cs032.atreil.catan.chat.client;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,8 +31,9 @@ public class Main {
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			System.out.print("Name?: ");
 			String name = in.readLine();
-			
-			ChatClient client = new ChatClient("localhost", Integer.parseInt(args[0]), new Player(name));
+			Player p = new Player(name);
+			p.setColor(new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255)));
+			ChatClient client = new ChatClient("localhost", Integer.parseInt(args[0]), p);
 			JFrame frame = new JFrame();
 			Dimension d = new Dimension(250,770);
 			frame.setPreferredSize(d);
