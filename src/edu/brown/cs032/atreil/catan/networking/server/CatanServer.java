@@ -349,9 +349,9 @@ public class CatanServer extends Thread{
 		
 		try{
 			if(playerName == null)
-				_pool.sendAllChat(message, "server");
+				_pool.sendAllChat("server " + message, "server");
 			else
-				_pool.sendChat(playerName, message, "server");
+				_pool.sendChat(playerName, "server " + message, "server");
 		} catch(IOException e){
 			System.err.println(e.getMessage());
 		}
