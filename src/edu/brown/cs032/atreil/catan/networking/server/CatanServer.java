@@ -342,13 +342,19 @@ public class CatanServer extends Thread{
 	 * Sends a message to the specified client
 	 * @param playerName The client to send the error to
 	 * @param message The message to send
+	 * @throws IOException 
+	 * @throws IllegalArgumentException 
 	 */
 	public void sendMessage(String playerName, String message){
 		
-		if(playerName == null)
-			_chatServer.sendAll(message);
-		else
-			_chatServer.send(message, playerName);
+		try{
+			if(playerName == null)
+				_pool.sendAllChat(message, "server");
+			else
+				_pool.sendChat(playerName, message, "server");
+		} catch(IOException e){
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	/**
