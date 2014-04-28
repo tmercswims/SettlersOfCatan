@@ -14,6 +14,7 @@ import edu.brown.cs032.tmercuri.catan.logic.move.*;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class RobberFrame extends JFrame {
@@ -25,7 +26,7 @@ public class RobberFrame extends JFrame {
 	private CatanClient _cc;
 	
 	public RobberFrame(List<Player> plist, int index, CatanClient cc) {
-		super("Choose a player to steal a random resource from....");
+		super("Robber");
 		_cc = cc;
 		_index = index;
 		_cur = cc.getPlayer();
@@ -33,6 +34,7 @@ public class RobberFrame extends JFrame {
 		_buttons = new ArrayList<JButton>();
 		JPanel list = new JPanel();
 		list.setLayout(new BoxLayout(list, BoxLayout.PAGE_AXIS));
+		list.add(new JLabel("Please Choose a Player to Steal a Random Resource From:"));
 		for(Player p : _players){
 			System.out.println(p.getName()+" ");
 			if(!p.equals(_cur)){
