@@ -123,6 +123,7 @@ public class ClientManager extends Thread {
 					_pool.addUpdate(String.format("Client %s disconnecting", _p.getName()));
 					_running = false;
 					kill();
+					_pool.broadcast(new Packet(Packet.GAME_OVER, _p.getName(), 0));
 				}
 				catch (ClassNotFoundException e) {
 					//invalid protocol; probably an internal error

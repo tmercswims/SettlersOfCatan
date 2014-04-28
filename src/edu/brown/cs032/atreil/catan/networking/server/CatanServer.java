@@ -332,7 +332,7 @@ public class CatanServer extends Thread{
 	public void sendRoll(String playerName, int roll){
 		try {
 			_pool.send(playerName, new Packet(Packet.ROLL, new Integer(roll), id++));
-			_chatServer.sendAll(String.format("%s rolled a %s", playerName, roll));
+			_pool.sendAllChat(String.format("server %s rolled a %s", playerName, roll), "Server");
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
 		}
@@ -474,6 +474,7 @@ public class CatanServer extends Thread{
 	 */
 	public void stopGame(String message){
 		//TODO: stop the game
+		
 	}
 	
 	/**
