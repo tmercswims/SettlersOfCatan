@@ -83,7 +83,7 @@ public class JoinLoadingMenu extends CatanMenu {
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override	
 							public void run() {
-								new GUIFrame(cc);
+								cc.setFrame(new GUIFrame(cc));
 							}
 						});
 						soc.getFrame().exit();
