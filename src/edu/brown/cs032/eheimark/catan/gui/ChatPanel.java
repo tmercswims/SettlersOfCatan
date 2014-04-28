@@ -69,6 +69,7 @@ public class ChatPanel extends JPanel {
 	}
 	
 	public void addMessage(String message){
+		System.out.println("MESSAGE: "+message);
 		String line = message.trim();
 		SimpleAttributeSet attr = new SimpleAttributeSet();
 		String[] linearray = line.split(" ");
