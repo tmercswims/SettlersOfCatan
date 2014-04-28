@@ -11,8 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.tmercuri.catan.logic.move.MonopolyMove;
@@ -26,13 +24,6 @@ public class MonoFrame extends JFrame {
 
 	public MonoFrame(CatanClient cc){
 		super("Monopoly");
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		_cc = cc;
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1,4));

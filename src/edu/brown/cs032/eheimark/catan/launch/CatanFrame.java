@@ -2,9 +2,6 @@ package edu.brown.cs032.eheimark.catan.launch;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * The Class CatanFrame is a generic JFrame for the Catan game.
@@ -20,21 +17,10 @@ public class CatanFrame extends JFrame {
 	 */
 	public CatanFrame(JPanel p, String name) {
 		super(name);
-        try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                        UIManager.setLookAndFeel(info.getClassName());
-                        break;
-                   }
-            }
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            System.err.println("ERROR: " + ex.getMessage());
-        }
-		pack();
 		setPage(p);
 		setVisible(true);
 		setResizable(false);
+		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 

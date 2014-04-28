@@ -32,8 +32,7 @@ import javax.swing.SwingConstants;
 public class Overview extends JPanel implements Update {
 	private static final long serialVersionUID = 1L;
 	// TODO Fix background images
-	private static final Color MY_BACKGROUND = Constants.CATAN_BLACK;
-	private static final Color MY_FOREGROUND = Constants.CATAN_YELLOW;
+	private static final Color MY_BACKGROUND = Constants.CATAN_WHITE;
 	private final CatanClient client;
 	private final ArrayList<PlayerStats> playerstats;
 	private final JLabel myResources;
@@ -47,22 +46,22 @@ public class Overview extends JPanel implements Update {
 	 */
 	public Overview(CatanClient cc) {
 		super();
-		setForeground(MY_FOREGROUND);
 		setBackground(MY_BACKGROUND);
 		this.client = cc;
-		
+
 		setLayout(null);
 
-		playerstats = new ArrayList<PlayerStats>();
+		PlayerStats psLabels = new PlayerStats();
+		psLabels.setBounds(44, 0, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
+		add(psLabels); // just contains labels for player stats
 
+		playerstats = new ArrayList<PlayerStats>();
 		PlayerStats ps1 = new PlayerStats();
-		ps1.setBounds(30, 33, 889, 21);
+		ps1.setBounds(44, 20, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
 		PlayerStats ps2 = new PlayerStats();
-		ps2.setBounds(30, 58, 889, 21);
+		ps2.setBounds(44, 40, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
 		PlayerStats ps3 = new PlayerStats();
-		ps3.setBounds(30, 83, 889, 21);
-		PlayerStats ps4 = new PlayerStats();
-		ps4.setBounds(30, 108, 889, 21);
+		ps3.setBounds(44, 60, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
 
 		add(ps1);
 		playerstats.add(ps1);
@@ -70,28 +69,28 @@ public class Overview extends JPanel implements Update {
 		playerstats.add(ps2);
 		add(ps3);
 		playerstats.add(ps3);
-		add(ps4);
-		playerstats.add(ps4);
-
-		myResources = new JLabel();
-		myResources.setHorizontalAlignment(SwingConstants.RIGHT);
-		myResources.setText("Player resources:");
-		myResources.setFont(Constants.MY_FONT_SMALL);
-		myResources.setOpaque(false);
-		myResources.setBounds(500, 0, 385, 28);
-		add(myResources);
-
-		gameManagerButton = new JButton("Roll Die");
-		gameManagerButton.setFont(Constants.MY_FONT_SMALL);
-		gameManagerButton.setBounds(30, 1, 117, 29);
-		add(gameManagerButton);
-		gameManagerButton.addActionListener(new TurnListener());
 
 		this.rollDie = true;
 
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
+
+		myResources = new JLabel();
+		myResources.setBounds(336, 81, 385, 28);
+		add(myResources);
+		myResources.setHorizontalAlignment(SwingConstants.RIGHT);
+		myResources.setText("Player resources:");
+		myResources.setFont(Constants.MY_FONT_SMALL);
+		myResources.setOpaque(false);
+
+		gameManagerButton = new JButton("Roll Die");
+		gameManagerButton.setBounds(852, 82, 117, 29);
+		add(gameManagerButton);
+		gameManagerButton.setFont(Constants.MY_FONT_SMALL);
+		gameManagerButton.setBackground(Constants.CATAN_RED);
+		gameManagerButton.setForeground(Constants.CATAN_YELLOW);
+		gameManagerButton.addActionListener(new TurnListener());
 	}
 
 	// TODO Remove this, cut down number of repaints
@@ -166,5 +165,5 @@ public class Overview extends JPanel implements Update {
 			i++;
 		}
 		repaint();
-	};
+	}
 }

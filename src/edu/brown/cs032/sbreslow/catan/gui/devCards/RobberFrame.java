@@ -18,9 +18,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 public class RobberFrame extends JFrame {
 
@@ -32,13 +29,6 @@ public class RobberFrame extends JFrame {
 	
 	public RobberFrame(List<Player> plist, int index, CatanClient cc) {
 		super("Robber");
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		_cc = cc;
 		_index = index;
 		//_cur = cc.getPlayer();
