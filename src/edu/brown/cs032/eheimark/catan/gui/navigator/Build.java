@@ -171,7 +171,7 @@ public class Build extends JPanel implements Update {
 			buildSettlementButton.setEnabled(false);
 		}
 		else{
-			buildSettlementButton.setEnabled(false);
+			buildSettlementButton.setEnabled(true);
 		}
 
 		repaint();
