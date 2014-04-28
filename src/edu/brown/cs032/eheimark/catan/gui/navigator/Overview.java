@@ -35,9 +35,6 @@ public class Overview extends JPanel implements Update {
 	private static final Color MY_BACKGROUND = Constants.CATAN_WHITE;
 	private final CatanClient client;
 	private final ArrayList<PlayerStats> playerstats;
-	private final JLabel myResources;
-	private final JButton gameManagerButton; // manages a turn, allowing user to either roll die or end turn
-	private boolean rollDie; // indicates whether in roll die mode or end turn mode
 
 	/**
 	 * Instantiates a new overview panel.
@@ -62,6 +59,9 @@ public class Overview extends JPanel implements Update {
 		ps2.setBounds(44, 40, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
 		PlayerStats ps3 = new PlayerStats();
 		ps3.setBounds(44, 60, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
+		PlayerStats ps4 = new PlayerStats();
+		ps4.setBounds(44, 80, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
+		ps4.setColor(MY_BACKGROUND); // set ps4 to background
 
 		add(ps1);
 		playerstats.add(ps1);
@@ -69,28 +69,12 @@ public class Overview extends JPanel implements Update {
 		playerstats.add(ps2);
 		add(ps3);
 		playerstats.add(ps3);
-
-		this.rollDie = true;
+		add(ps4);
+		playerstats.add(ps4);
 
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
-
-		myResources = new JLabel();
-		myResources.setBounds(336, 81, 385, 28);
-		add(myResources);
-		myResources.setHorizontalAlignment(SwingConstants.RIGHT);
-		myResources.setText("Player resources:");
-		myResources.setFont(Constants.MY_FONT_SMALL);
-		myResources.setOpaque(false);
-
-		gameManagerButton = new JButton("Roll Die");
-		gameManagerButton.setBounds(852, 82, 117, 29);
-		add(gameManagerButton);
-		gameManagerButton.setFont(Constants.MY_FONT_SMALL);
-		gameManagerButton.setBackground(Constants.CATAN_RED);
-		gameManagerButton.setForeground(Constants.CATAN_YELLOW);
-		gameManagerButton.addActionListener(new TurnListener());
 	}
 
 	// TODO Remove this, cut down number of repaints
@@ -102,40 +86,6 @@ public class Overview extends JPanel implements Update {
 		g.setColor(MY_BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		System.out.println("Done repainting " + i + "...");
-	}
-
-	/**
-	 * ActionListener that allows user to roll die or end turn.
-	 */
-	class TurnListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			System.out.println("Trying to roll die...");
-			if(client.getPlayer().isActive()) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							if(rollDie) {
-								client.sendMove(new FirstMove(client.getPlayerName()));
-								gameManagerButton.setText("End turn");
-								rollDie = false;
-							}
-							else {
-								client.sendMove(new LastMove(client.getPlayerName()));
-								gameManagerButton.setText("Roll die");
-								rollDie = true;
-							}
-						} catch (IllegalArgumentException | IOException e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-			else {
-				System.out.println("Not active player! CANNOT ROLL!");
-			}
-		}
 	}
 
 	@Override
@@ -153,12 +103,6 @@ public class Overview extends JPanel implements Update {
 			ps.setDevCards(p.getDevCardCount() + "");
 			ps.setResources(p.getTotalResources() + "");
 			ps.setActivePlayer(false);
-			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check
-				int[] resources = p.getResources();
-				String s = "Ore:" + resources[3] + " Wheat:" + resources[0] + " Wool:" + resources[1] + " Lumber:" + resources[4] + " Brick:" + resources[2];
-				myResources.setText(s);
-				myResources.setForeground(p.getColor());
-			}
 			if(p.isActive()) {
 				ps.setActivePlayer(true);
 			}
