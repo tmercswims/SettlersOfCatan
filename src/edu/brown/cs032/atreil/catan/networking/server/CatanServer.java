@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
@@ -17,7 +18,6 @@ import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.Referee;
-import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
@@ -189,12 +189,12 @@ public class CatanServer extends Thread{
 				_ref.runGame();
 			} catch (IllegalArgumentException e) {
 				addUpdate(e.getMessage());
+			} catch (SocketException e){
+				//game is over
 			} catch (IOException e) {
 				addUpdate(e.getMessage());
 			}
 		}
-		
-		kill();
 	}
 	
 	/**
@@ -380,16 +380,20 @@ public class CatanServer extends Thread{
 	/**
 	 * Reads a move from the server.
 	 * @return The move
+	 * @throws SocketException If the game is over
 	 */
-	public Move readMove(){
+	public Move readMove() throws SocketException{
 		synchronized(_moveBuffer){
-			while(_moveBuffer.isEmpty()){
+			while(_moveBuffer.isEmpty() && _isRunning){
 				try {
 					_moveBuffer.wait();
 				} catch (InterruptedException e) {}
 			}
 			
-			return _moveBuffer.poll();
+			if(_isRunning)
+				return _moveBuffer.poll();
+			else
+				throw new SocketException("Game is over");
 		}
 	}
 	
@@ -458,6 +462,15 @@ public class CatanServer extends Thread{
 	}
 	
 	/**
+	 * Stops the game if any client/server disconnects or wins
+	 * the game.
+	 * @param message A message describing what happened
+	 */
+	public void stopGame(String message){
+		//TODO: stop the game
+	}
+	
+	/**
 	 * Closes down the server and its associated resources
 	 */
 	public void kill(){
@@ -467,8 +480,14 @@ public class CatanServer extends Thread{
 			_server.close();
 			_chatServer.kill();
 			
+			//notify anybody reading updates
 			synchronized (_update) {
 				_update.notifyAll();
+			}
+			
+			//notify anybody reading moves
+			synchronized(_moveBuffer){
+				_moveBuffer.notifyAll();
 			}
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

@@ -28,6 +28,7 @@ import edu.brown.cs032.tmercuri.catan.logic.move.YearOfPlentyMove;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
@@ -74,7 +75,7 @@ public class Referee {
     /**
      * Starts the game, and runs it until a player wins.
      */
-    public void runGame() {
+    public void runGame() throws SocketException {
     	//TODO CLEAN THIS UP. -Eric
         Color[] colors = new Color[] {red, blue, orange, white};
         int i = 0;
@@ -129,7 +130,7 @@ public class Referee {
         });
     }
     
-    private void firstMoves() {
+    private void firstMoves() throws SocketException{
         for (Player p : _players) {
             setActivePlayer(p);
             boolean validSettlement = false;
