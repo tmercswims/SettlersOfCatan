@@ -7,7 +7,6 @@ package edu.brown.cs032.sbreslow.catan.gui.board;
 
 import java.awt.Color;
 import java.awt.Image;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
@@ -69,6 +68,11 @@ public class BoardImages {
     
     public static class Misc {
         public static final Image arrow = new ImageIcon("images/misc/arrow.png").getImage();
+    }
+    
+    public static class Background {
+        public static final Image felt = new ImageIcon("images/backgrounds/felt.png").getImage();
+        public static final Image wood = new ImageIcon("images/backgrounds/wood.png").getImage();
     }
     
     public static class DevCard {

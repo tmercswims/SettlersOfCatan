@@ -28,8 +28,11 @@ import edu.brown.cs032.tmercuri.catan.logic.move.YearOfPlentyMove;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -41,7 +44,7 @@ public class Referee {
     private final Player[] _players;
     private final Board _board;
     private final CatanServer _server;
-    private Player _road, _army, _activePlayer;
+    private Player _road, _army, _activePlayer, _winner;
     private boolean _gameOver, _turnOver;
     private final PairOfDice _dice;
     private final DevCardDeck _deck;
@@ -73,9 +76,9 @@ public class Referee {
     
     /**
      * Starts the game, and runs it until a player wins.
+     * @throws SocketException if the server exits
      */
-    public void runGame() {
-    	//TODO CLEAN THIS UP. -Eric
+    public void runGame() throws SocketException {
         Color[] colors = new Color[] {red, blue, orange, white};
         int i = 0;
         for (Player p : _players) {
@@ -111,9 +114,9 @@ public class Referee {
                 pushPlayers();
                 pushBoard();
             }
-            calculateVP();
+            findWinner();
         }
-        // We have a winner!
+        _server.sendMessage(null, String.format("%s has won the game!", _winner));
     }
     
     private void rollForOrder() {
@@ -129,7 +132,7 @@ public class Referee {
         });
     }
     
-    private void firstMoves() {
+    private void firstMoves() throws SocketException {
         for (Player p : _players) {
             setActivePlayer(p);
             boolean validSettlement = false;
@@ -330,9 +333,8 @@ public class Referee {
                 if (eRB.isRoad() || _activePlayer.getRoadCount() == 0 || !ownedRoadAdjacent(eRB)) {
                     try {
                         _server.sendRB(move.getPlayerName());
-                    } catch (IllegalArgumentException | IOException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
+                    } catch (IllegalArgumentException | IOException ex) {
+                        System.err.println("ERROR: " + ex.getMessage());
                     }
                     System.out.println(eRB.isRoad() + " " + _activePlayer.getRoadCount() + " " + !ownedRoadAdjacent(eRB));
                     return 601;
@@ -504,7 +506,6 @@ public class Referee {
     
     private int robberMove(RobberMove move) {
         if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
-        //TODO make people give up resources
         Tile newRobber = _board.getTiles()[move.getNewLocation()];
         Player victim = null;
         if (newRobber.hasRobber()) return 501;
@@ -546,7 +547,7 @@ public class Referee {
         int[] newRes = {0,0,0,0,0};
         newRes[move.getType1()] += 1;
         newRes[move.getType2()] += 1;
-        played.addResources(newRes);
+        if (played != null) played.addResources(newRes);
         return 620;
     }
     
@@ -566,7 +567,7 @@ public class Referee {
         }
         int[] newRes = {0,0,0,0,0};
         newRes[move.getType()] = add;
-        played.addResources(newRes);
+        if (played != null) played.addResources(newRes);
         return 630;
     }
     
@@ -577,7 +578,7 @@ public class Referee {
             if (p.getName().equals(move.getPlayerName()))
                 played = p;
         }
-        played.incVictoryPoints();
+        if (played != null) played.incVictoryPoints();
         return 640;
     }
     
@@ -588,8 +589,11 @@ public class Referee {
             if (p.getName().equals(move.getPlayerName()))
                 played = p;
         }
-        played.removeDevCard(move.getIndex());
-        if (move.getIndex() == 0) played.incLargestArmy();
+        if (played != null) played.removeDevCard(move.getIndex());
+        if (move.getIndex() == 0) {
+            if (played != null) played.incLargestArmy();
+            if ((played != null) && ((_army == null && played.getArmySize() >= 3) || (played.getArmySize() > _army.getArmySize() && !_army.equals(played)))) _army = played;
+        }
         return 600;
     }
     
@@ -617,9 +621,8 @@ public class Referee {
         		if(p.getResourceCount()>7){
         			try {
 						_server.sendSeven(p.getName());
-					} catch (IllegalArgumentException | IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					} catch (IllegalArgumentException | IOException ex) {
+                        System.err.println("ERROR: " + ex.getMessage());
 					}
         		}
         	}
@@ -643,11 +646,92 @@ public class Referee {
         _server.sendBoard(_board);
     }
     
-    private void calculateVP() {
-        
+    private void findWinner() {
+        findLongestRoad();
+        for (Player p : _players) {
+            int score = p.getVictoryPoints();
+            if (p.equals(_army)) score+=2;
+            if (p.equals(_road)) score+=2;
+            if (score >= 10) {
+                _gameOver = true;
+                _winner = p;
+            }
+        }
     }
-
-    private void findLongestRoad(Player player) {
-        
+    
+    private void findLongestRoad() {
+        for (Player p : _players) {
+            List<List<Edge>> edgeSets = new ArrayList<>();
+            for (Edge e : _board.getEdges()) {
+                List<Edge> set = new ArrayList<>();
+                findConnected(p, e, set);
+                edgeSets.add(set);
+            }
+            _board.clearEdges();
+            for (List<Edge> set : edgeSets) {
+                for (int i=0; i<set.size(); i++) {
+                    Edge e = set.get(i);
+                    if (isEndEdge(e, set) || i == set.size()) {
+                        p.setLongestRoad(findLongestRoadInSet(e, set, getEndNode(e, set), 0));
+                    }
+                }
+            }
+            _board.clearEdges();
+            if ((_road == null && p.getLongestRoad() >= 5) || (p.getLongestRoad() > _road.getLongestRoad() && !_road.equals(p))) _road = p;
+        }
+    }
+    
+    private void findConnected(Player p, Edge e, List<Edge> set) {
+        if (!e.wasVisited() && e.isRoad() && e.getOwner().equals(p)) {
+            e.setVisited(true);
+            set.add(e);
+            for (Node n : e.getNodes()) {
+                if (n.getOwner() == null || n.getOwner().equals(p)) {
+                    for (Edge ed : n.getEdges()) {
+                        if (ed.getIndex() != e.getIndex()) {
+                            findConnected(p, ed, set);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private int findLongestRoadInSet(Edge e, List<Edge> set, Node last, int length) {
+        for (Node n : e.getNodes()) {
+            if (n.getIndex() != last.getIndex()) {
+                for (Edge ed : n.getEdges()) {
+                    if (ed.getIndex() != e.getIndex() && set.contains(ed)) {
+                        return findLongestRoadInSet(ed, set, n, length+1);
+                    }
+                }
+            }
+        }
+        return length;
+    }
+    
+    private boolean isEndEdge(Edge e, List<Edge> set) {
+        boolean ret = false;
+        for (Node n : e.getNodes()) {
+            boolean loc = true;
+            for (Edge ed : n.getEdges()) {
+                if (ed.getIndex() != e.getIndex() && set.contains(ed)) loc = false;
+            }
+            ret = ret||loc;
+        }
+        return ret;
+    }
+    
+    private Node getEndNode(Edge e, List<Edge> set) {
+        Node fallback = null;
+        for (Node n : e.getNodes()) {
+            boolean end = true;
+            for (Edge ed : n.getEdges()) {
+                if (ed.getIndex() != e.getIndex() && set.contains(ed)) end = false;
+            }
+            if (end) return n;
+            fallback = n;
+        }
+        return fallback;
     }
 }

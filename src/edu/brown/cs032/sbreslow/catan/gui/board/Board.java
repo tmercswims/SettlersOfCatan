@@ -251,6 +251,12 @@ public class Board implements Serializable {
 			e.printStackTrace();
 		}
 	}
+    
+    public void clearEdges() {
+        for (Edge e : _edges) {
+            e.setVisited(false);
+        }
+    }
 
 	private void layoutNums() {
 		for(int k = 18; k < _tiles.length; k++){

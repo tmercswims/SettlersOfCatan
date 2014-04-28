@@ -22,9 +22,11 @@ public class Edge extends BoardComponent{
 	private Color _c;
 	private int _port;
 	private final int _index;
+    private boolean _visited;
 	
 	public Edge(Node[] nodes, int index){
 		_road = false;
+        _visited = false;
 		_owner = null;
 		_nodes = nodes;
 		_l = new Line2D.Double(_nodes[0].getX()+Node._diam/2, _nodes[0].getY()+Node._diam/2, 
@@ -35,6 +37,14 @@ public class Edge extends BoardComponent{
 		_port = 6;
 		_index = index;
 	}
+    
+    public boolean wasVisited() {
+        return _visited;
+    }
+    
+    public void setVisited(boolean visited) {
+        _visited = visited;
+    }
 	
 	public int getPort(){
 		return _port;
