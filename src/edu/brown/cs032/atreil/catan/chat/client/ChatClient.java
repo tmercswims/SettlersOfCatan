@@ -55,6 +55,7 @@ public class ChatClient {//extends JPanel{
 	SimpleAttributeSet _blue;
 	SimpleAttributeSet _orange;
 	SimpleAttributeSet _server;
+	SimpleAttributeSet _white;
     private final LinkedList<String> _history;
     private int _position;
     private String _unsentContents;
@@ -95,6 +96,7 @@ public class ChatClient {//extends JPanel{
 		_field.addKeyListener(new ChatListener());
 		_area = new JTextPane();
 		Dimension size = new Dimension(380,540);
+		_area.setBackground(Color.black);
 		_area.setMaximumSize(size);
 		//_area.setMinimumSize(size);
 		_area.setPreferredSize(size);
@@ -139,6 +141,10 @@ public class ChatClient {//extends JPanel{
 		_orange = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_orange, "Helvetica");
 		StyleConstants.setForeground(_orange, Color.orange);
+		
+		_white = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(_white, "Helvetica");
+		StyleConstants.setForeground(_white, Color.white);
 		
 		_server = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_server, "Helvetica");
@@ -309,7 +315,7 @@ public class ChatClient {//extends JPanel{
 						attr = _server;
 					}
 					else{
-						//System.out.println("COLOR IS WRONG: "+color);
+						attr = _white;//System.out.println("COLOR IS WRONG: "+color);
 					}
 					//System.out.println(line);
 					if(linearray.length>=3){
