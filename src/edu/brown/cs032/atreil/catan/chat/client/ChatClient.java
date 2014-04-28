@@ -292,9 +292,10 @@ public class ChatClient {//extends JPanel{
 					String line = _in.readLine().trim();
 					//_area.setText(line+"\n"+_area.getText());
 					SimpleAttributeSet attr = new SimpleAttributeSet();
-					String color = line.split(" ")[1];
+					String[] linearray = line.split(" ");
+					String color = linearray[1];
 					color = color.substring(1,color.length()-2);
-					System.out.println(color);
+					//System.out.println(color);
 					if(color.equalsIgnoreCase("red")){
 						attr = _red;
 					}
@@ -311,28 +312,30 @@ public class ChatClient {//extends JPanel{
 						//System.out.println("COLOR IS WRONG: "+color);
 					}
 					//System.out.println(line);
-					if(line.split(" ")[2].equals("*whisper*")){
-						//System.out.println("here");
-						StyleConstants.setFontFamily(attr, "Monaco");
-						StyleConstants.setItalic(attr, true);
-					}
-					try {
-						String[] tmp = line.split(" ");
-						StringBuilder sb = new StringBuilder();
-						for(int i = 0; i < tmp.length; i++){
-							if(i!=1){
-								sb.append(tmp[i]+" ");
-							}
-							else{
-								sb = new StringBuilder(sb.toString().trim());
-								sb.append(tmp[i].charAt(tmp[i].length()-1));
-							}
+					if(linearray.length>=3){
+						if(linearray[2].equals("*whisper*")){
+							//System.out.println("here");
+							StyleConstants.setFontFamily(attr, "Monaco");
+							StyleConstants.setItalic(attr, true);
 						}
-						_area.getDocument().insertString(_area.getCaretPosition(),sb.toString().trim()+"\n",attr);
-						lines.add(line);
-					} catch (BadLocationException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						try {
+							String[] tmp = line.split(" ");
+							StringBuilder sb = new StringBuilder();
+							for(int i = 0; i < tmp.length; i++){
+								if(i!=1){
+									sb.append(tmp[i]+" ");
+								}
+								else{
+									sb = new StringBuilder(sb.toString().trim());
+									sb.append(tmp[i].charAt(tmp[i].length()-1));
+								}
+							}
+							_area.getDocument().insertString(_area.getCaretPosition(),sb.toString().trim()+"\n",attr);
+							lines.add(line);
+						} catch (BadLocationException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 					//_area.append(line);
 					//_area.append("\n");
