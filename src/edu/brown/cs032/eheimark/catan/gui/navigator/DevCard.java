@@ -56,44 +56,45 @@ public class DevCard extends JPanel implements Update{
 		this.add(_yop);
 		this.add(_mono);
 		this.add(_vp);*/
+		System.out.println(w + " " +h);
 		for(int i = 0; i < 5; i++){
 			switch(i){
 			case 0:
 				_buttons[i] = new DevCardButton(new ImageIcon(knight.getScaledInstance(
-						(int)Constants.TABBED_MENU_SIZE.getWidth()/10, 
-						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/4, Image.SCALE_DEFAULT)));
+						(int)((w/h)*Constants.TABBED_MENU_SIZE.getHeight()*3/5), 
+						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
                 //_buttons[i].setIcon(knight);
 				_buttons[i].setText("Knight Card(s): 0");
 				_buttons[i].addActionListener(new KnightList());
 				break;
 			case 1:
 				_buttons[i] = new DevCardButton(new ImageIcon(roadBuilder.getScaledInstance(
-						(int)Constants.TABBED_MENU_SIZE.getWidth()/10, 
-						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/4, Image.SCALE_DEFAULT)));
+						(int)((w/h)*Constants.TABBED_MENU_SIZE.getHeight()*3/5), 
+						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
                 //_buttons[i].setIcon(roadBuilder);
 				_buttons[i].setText("Road Building Card(s): 0");
 				_buttons[i].addActionListener(new RBList());
 				break;
 			case 2:
 				_buttons[i] = new DevCardButton(new ImageIcon(yearOfPlenty.getScaledInstance(
-						(int)Constants.TABBED_MENU_SIZE.getWidth()/10, 
-						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/4, Image.SCALE_DEFAULT)));
+						(int)((w/h)*Constants.TABBED_MENU_SIZE.getHeight()*3/5),
+						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
                 //_buttons[i].setIcon(yearOfPlenty);
 				_buttons[i].setText("Year of Plenty Card(s): 0");
                 _buttons[i].addActionListener(new YoPList());
 				break;
 			case 3:
 				_buttons[i] = new DevCardButton(new ImageIcon(monopoly.getScaledInstance(
-						(int)Constants.TABBED_MENU_SIZE.getWidth()/10, 
-						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/4, Image.SCALE_DEFAULT)));
+						(int)((w/h)*Constants.TABBED_MENU_SIZE.getHeight()*3/5),
+						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
                 //_buttons[i].setIcon(monopoly);
 				_buttons[i].setText("Monopoly Card(s): 0");
 				_buttons[i].addActionListener(new MonoList());
 				break;
 			case 4:
 				_buttons[i] = new DevCardButton(new ImageIcon(victoryPoint.getScaledInstance(
-						(int)Constants.TABBED_MENU_SIZE.getWidth()/10, 
-						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/4, Image.SCALE_DEFAULT)));
+						(int)((wVP/hVP)*Constants.TABBED_MENU_SIZE.getHeight()*3/5),
+						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
                 //_buttons[i].setIcon(victoryPoint);
 				_buttons[i].setText("Victory Point Card(s): 0");
 				_buttons[i].addActionListener(new VPList());
