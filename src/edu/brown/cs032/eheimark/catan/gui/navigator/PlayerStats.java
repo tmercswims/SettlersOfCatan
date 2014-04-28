@@ -76,6 +76,8 @@ public class PlayerStats extends JPanel {
 		cities.setBounds(847, 2, 97, LABEL_HEIGHT);
 		add(cities);
 		
+		setColor(Color.black); // default color
+		
 		setPreferredSize(MY_SIZE);
 		setMinimumSize(MY_SIZE);
 		setMaximumSize(MY_SIZE);
