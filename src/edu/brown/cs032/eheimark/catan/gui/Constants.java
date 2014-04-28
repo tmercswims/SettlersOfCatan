@@ -39,4 +39,6 @@ public class Constants {
 	public static final Image CATAN_LAUNCH_MENU_BACKGROUND =  new ImageIcon("images/CatanScaled700x700.png").getImage();
 	public static final Image BUILD_IMAGE = new ImageIcon("images/CatanLogo1000x140Mask50.png").getImage();
 	public static final Image TRADE_TAB_IMAGE = new ImageIcon("images/Cards1000x140.png").getImage();
+	
+	public static final Dimension ROLL_BUTTON = new Dimension(117,29);
 }

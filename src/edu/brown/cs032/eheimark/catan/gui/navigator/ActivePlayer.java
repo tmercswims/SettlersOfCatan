@@ -44,11 +44,15 @@ public class ActivePlayer extends JPanel implements Update {
 		setPreferredSize(Constants.ACTIVEPLAYER_MENU_SIZE);
 		
 		gameManagerButton = new JButton("Roll Die");
-		gameManagerButton.setBounds(852, 82, 117, 29);
+		gameManagerButton.setBounds(852, 82, (int)Constants.ROLL_BUTTON.getWidth(), (int)Constants.ROLL_BUTTON.getHeight());
 		add(gameManagerButton, BorderLayout.EAST);
 		gameManagerButton.setFont(Constants.MY_FONT_SMALL);
 		gameManagerButton.setForeground(Constants.CATAN_RED);
 		gameManagerButton.addActionListener(new TurnListener());
+		gameManagerButton.setSize(Constants.ROLL_BUTTON);
+		gameManagerButton.setPreferredSize(Constants.ROLL_BUTTON);
+		gameManagerButton.setMinimumSize(Constants.ROLL_BUTTON);
+		gameManagerButton.setMaximumSize(Constants.ROLL_BUTTON);
 	}
 
 	@Override

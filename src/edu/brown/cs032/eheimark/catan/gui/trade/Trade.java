@@ -57,31 +57,37 @@ public class Trade extends JPanel implements Update {
 
 		toPlayerCB = new JComboBox<String>();
 		toPlayerCB.setBounds(53, sendHeight, 140, 16);
+		toPlayerCB.setBorder(BorderFactory.createLineBorder(Color.black));
 		add(toPlayerCB);
 
 		oreCB = new JComboBox<Integer>(tradeValues);
 		oreCB.setSelectedIndex(5);
 		oreCB.setBounds(155, resourceHeight, 67, 16);
+		oreCB.setBorder(BorderFactory.createLineBorder(Color.black));
 		add(oreCB);
 
 		wheatCB = new JComboBox<Integer>(tradeValues);
 		wheatCB.setSelectedIndex(5);
 		wheatCB.setBounds(328, resourceHeight, 67, 16);
+		wheatCB.setBorder(BorderFactory.createLineBorder(Color.black));
 		add(wheatCB);
 
 		woolCB = new JComboBox<Integer>(tradeValues);
 		woolCB.setSelectedIndex(5);
 		woolCB.setBounds(501, resourceHeight, 67, 16);
+		woolCB.setBorder(BorderFactory.createLineBorder(Color.black));
 		add(woolCB);
 
 		lumberCB = new JComboBox<Integer>(tradeValues);
 		lumberCB.setSelectedIndex(5);
 		lumberCB.setBounds(674, resourceHeight, 67, 16);
+		lumberCB.setBorder(BorderFactory.createLineBorder(Color.black));
 		add(lumberCB);
 
 		brickCB = new JComboBox<Integer>(tradeValues);
 		brickCB.setSelectedIndex(5);
 		brickCB.setBounds(847, resourceHeight, 67, 16);
+		brickCB.setBorder(BorderFactory.createLineBorder(Color.black));
 		add(brickCB);
 
 		JLabel brickLabel = new JLabel("Brick:");
