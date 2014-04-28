@@ -94,9 +94,9 @@ public class ChatClient {//extends JPanel{
 		_field = new JTextField(30);
 		_field.addKeyListener(new ChatListener());
 		_area = new JTextPane();
-		Dimension size = new Dimension(380,580);
-		//_area.setMaximumSize(size);
-		_area.setMinimumSize(size);
+		Dimension size = new Dimension(380,540);
+		_area.setMaximumSize(size);
+		//_area.setMinimumSize(size);
 		_area.setPreferredSize(size);
         DefaultCaret caret = (DefaultCaret)_area.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);

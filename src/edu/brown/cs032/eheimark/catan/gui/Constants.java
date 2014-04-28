@@ -27,8 +27,8 @@ public class Constants {
 	public static final Dimension TEXTAREA_SIZE = new Dimension(400, 200);
 	public static final Dimension POINTS_MENU_SIZE  = new Dimension(675, 125);
 	public static final Dimension MENU_SIZE  = new Dimension(1000, 200);
-	public static final Dimension TAB_PANEL_MENU_SIZE = new Dimension(1000, 135); // each tab in tab panel
-	public static final Dimension TABBED_MENU_SIZE = new Dimension(1000, 180); // tabbed panel overall
+	public static final Dimension TAB_PANEL_MENU_SIZE = new Dimension(1000, 210); // each tab in tab panel
+	public static final Dimension TABBED_MENU_SIZE = new Dimension(1000, 220); // tabbed panel overall
 	public static final Dimension GUI_SIZE = new Dimension(1000, 850);
 	
 	public static final String DEFAULT_HOSTNAME = "localhost";
