@@ -66,6 +66,29 @@ public class ChatPanel extends JPanel {
 		_scroll.setPreferredSize(size);
 		this.add(_scroll);
 		this.add(_field);
+		
+		_red = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(_red, "Helvetica");
+		StyleConstants.setForeground(_red, red);
+		
+		_blue = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(_blue, "Helvetica");
+		StyleConstants.setForeground(_blue, blue);
+		
+		_orange = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(_orange, "Helvetica");
+		StyleConstants.setForeground(_orange, orange);
+		
+		_white = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(_white, "Helvetica");
+		StyleConstants.setForeground(_white, Color.white);
+		
+		_server = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(_server, "Helvetica");
+		StyleConstants.setForeground(_server, Color.gray);
+		StyleConstants.setBold(_server, true);
+		
+		_field.requestFocus();
 	}
 	
 	public void addMessage(String message){
