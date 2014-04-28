@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.brown.cs032.eheimark.catan.gui.Constants;
+import javax.swing.SwingConstants;
 
 /**
  * The Class PlayerStats contains the stats for one player placed onto a JPanel. Stats
@@ -16,10 +17,8 @@ import edu.brown.cs032.eheimark.catan.gui.Constants;
  */
 public class PlayerStats extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private static final int LABEL_WIDTH = 80;
-	private static final int LABEL_HEIGHT = 15;
-	public static final Dimension MY_SIZE = new Dimension(850, 20);
-	private static final int HEIGHT = 4;
+	private static final int LABEL_HEIGHT = 18;
+	public static final Dimension MY_SIZE = new Dimension(950, 20);
 	private final JLabel name, vps, devcards, roads, settlements, resources, cities;
 	private final Image img;
 	private boolean isActivePlayer;
@@ -36,41 +35,47 @@ public class PlayerStats extends JPanel {
 		this.img = edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.arrow;
 
 		name = new JLabel("Name");
-		name.setBounds(36, HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
+		name.setHorizontalAlignment(SwingConstants.LEFT);
+		name.setBounds(30, 2, 120, LABEL_HEIGHT);
 		add(name);
 		name.setFont(Constants.MY_FONT_SMALL);
 		
-		vps = new JLabel("VPs");
-		vps.setBounds(152, HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
+		vps = new JLabel("Victory Points");
+		vps.setHorizontalAlignment(SwingConstants.CENTER);
+		vps.setBounds(166, 2, 109, LABEL_HEIGHT);
 		add(vps);
 		vps.setFont(Constants.MY_FONT_SMALL);
 		
-		devcards = new JLabel("devCards");
-		devcards.setBounds(384, HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
+		devcards = new JLabel("Development Cards");
+		devcards.setHorizontalAlignment(SwingConstants.CENTER);
+		devcards.setBounds(459, 2, 139, LABEL_HEIGHT);
 		add(devcards);
 		devcards.setFont(Constants.MY_FONT_SMALL);
 		
-		roads = new JLabel("roads");
-		roads.setBounds(500, HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
+		roads = new JLabel("Roads");
+		roads.setHorizontalAlignment(SwingConstants.CENTER);
+		roads.setBounds(610, 2, 97, LABEL_HEIGHT);
 		add(roads);
 		roads.setFont(Constants.MY_FONT_SMALL);
 		
-		settlements = new JLabel("settlements");
-		settlements.setBounds(616, HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
+		settlements = new JLabel("Settlements");
+		settlements.setHorizontalAlignment(SwingConstants.CENTER);
+		settlements.setBounds(721, 2, 114, LABEL_HEIGHT);
 		add(settlements);
 		settlements.setFont(Constants.MY_FONT_SMALL);
 		
-		resources = new JLabel("resourceCards");
-		resources.setBounds(268, HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
+		resources = new JLabel("Resource Cards");
+		resources.setHorizontalAlignment(SwingConstants.CENTER);
+		resources.setBounds(313, 2, 114, LABEL_HEIGHT);
 		resources.setFont(Constants.MY_FONT_SMALL);
 		add(resources);
 		
-		cities = new JLabel("cities");
+		cities = new JLabel("Cities");
+		cities.setHorizontalAlignment(SwingConstants.CENTER);
 		cities.setFont(Constants.MY_FONT_SMALL);
-		cities.setBounds(732, HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
+		cities.setBounds(847, 2, 97, LABEL_HEIGHT);
 		add(cities);
 		
-
 		setPreferredSize(MY_SIZE);
 		setMinimumSize(MY_SIZE);
 		setMaximumSize(MY_SIZE);

@@ -12,8 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
@@ -30,13 +28,6 @@ public class SevenFrame extends JFrame {
 	
 	public SevenFrame(CatanClient cc){
 		super("Please drop half of your resources...");
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		_cc = cc;
 		this.img = Constants.TRADE_TAB_IMAGE;
 		setLayout(null); // absolute layout

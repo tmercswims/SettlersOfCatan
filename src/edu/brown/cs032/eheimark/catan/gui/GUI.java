@@ -31,7 +31,7 @@ public class GUI extends JPanel implements Update {
 		super(new BorderLayout());
 		this.client = cc;
 		gameBoard = new DrawingPanel(client);
-		add(gameBoard, BorderLayout.CENTER);		
+		add(gameBoard, BorderLayout.CENTER);
 		tabbedMenu = new TabbedPanel(client, gameBoard);
 		add(tabbedMenu, BorderLayout.SOUTH);
 		//TODO Eric changed order explain this
