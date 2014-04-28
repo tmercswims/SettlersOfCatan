@@ -120,6 +120,7 @@ public class ClientManager extends Thread {
 					parsePacket(packet);
 				} catch (SocketException e){
 					//disconnect
+					_pool.addUpdate(String.format("Client %s disconnecting", _p.getName()));
 					_running = false;
 					kill();
 				}
@@ -175,13 +176,65 @@ public class ClientManager extends Thread {
 		if(type == Packet.MOVE){
 			_pool.addUpdate(String.format("Player %s tried to make a move", getPlayerName()));
 			_pool.addMove((Move) packet.getObject());
-		}
-		else{
+		} else if(type == Packet.MESSAGE){
+			//TODO: sending chat messages
+			parseMessage((String) packet.getObject());
+		} else{
 			//only moves can be sent; send an error
 			String msg = "Invalid protocol. Expected a move object";
 			sendError(msg);
 			_pool.addUpdate(msg);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param message
+	 * @throws IOException 
+	 */
+	private void parseMessage(String message) throws IOException{
+		
+		String[] messageArray = message.split(" ");
+		if(messageArray.length >= 3){
+			//could be private message
+			if(messageArray[1].equals("/m") || messageArray[1].equals("/msg")){
+				//private message
+				String playername = messageArray[2];
+				
+				try{
+					String toSend = extractMessage(messageArray);
+					//System.out.println("Message "+message);
+					//System.out.println("toSend "+toSend);
+					_pool.sendChat(playername, toSend, getPlayerName());
+					return;
+				} catch(IllegalArgumentException e){
+					//TODO: throw back something to client
+					synchronized(_out){
+						send(new Packet(Packet.MESSAGE, String.format("Server: No player exists with the name '%s'", playername), 0));
+					}
+				}
+			}
+		}
+		
+		//otherwise, broadcast to all
+		//System.out.println(message);
+		_pool.sendAllChat(message, getPlayerName());
+	}
+	
+	/**
+	 * Removes the commands from a private message and extracts the message
+	 * @param message The array where the first two indices contain the private
+	 * message keyword and the user name.
+	 * @return The message to send to the user
+	 */
+	private String extractMessage(String[] message){
+		String result = "";
+		
+		for(int i = 3; i < message.length; i++){
+			result += message[i] + " ";
+		}
+		
+		return (message[0]+" *whisper* " + result);
 	}
 	
 	/**

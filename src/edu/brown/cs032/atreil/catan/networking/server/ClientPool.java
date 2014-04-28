@@ -102,6 +102,60 @@ public class ClientPool {
 	}
 	
 	/**
+	 * Sends a message to all of the clients from a given client manager
+	 * @param message The message to send
+	 * @param sender The client that sent the message
+	 * @throws IOException 
+	 * @throws IllegalArgumentException 
+	 */
+	public synchronized void sendAllChat(String message, String sender) throws IllegalArgumentException, IOException{
+		String color = message.split(" ")[0];
+		String actualMessage = message.substring(message.indexOf(" "));
+		String toSend = String.format("%s (%s): %s", sender, color, actualMessage);
+		
+		synchronized(_clients){
+			for(ClientManager mngr : Collections.synchronizedCollection(_clients.values())){
+				mngr.send(new Packet(Packet.MESSAGE, toSend, 0));
+			}
+		}
+	}
+	
+	/**
+	 * Sends a private message to a specific player. If the player does not exist, an
+	 * exception is thrown.
+	 * @param player The name of the player to send the message to
+	 * @param message The message to send
+	 * @param sender The sender
+	 * @throws IllegalArgumentException If no player exists with the given name
+	 * @throws IOException 
+	 */
+	public synchronized void sendChat(String player, String message, String sender) throws IllegalArgumentException, IOException{
+		
+		//check player exists
+		synchronized(_clients){
+			if(!_clients.containsKey(player))
+				throw new IllegalArgumentException(String.format("No player exists with that name: %s\n", player));
+			
+			String color = message.split(" ")[0];
+			StringBuilder sb = new StringBuilder();
+			boolean first = true;
+			for(String s: message.split(" ")){
+				if(!first){
+					sb.append(s+" ");
+				}
+				first = false;
+			}
+			message  = sb.toString().trim();
+			_clients.get(player).send(new Packet(Packet.MESSAGE, String.format("%s (%s): %s", sender, color, message), 0));
+			
+			if(!sender.equalsIgnoreCase("Server"))
+				_clients.get(sender).send(new Packet(Packet.MESSAGE, String.format("%s (%s): %s", sender, color, message), 0));
+			
+			System.out.println("Sending " + message);
+		}
+	}
+	
+	/**
 	 * Broadcasts a packets to all of the clients
 	 * @param packet The packet to send to the clients
 	 * @throws IOException If anything goes wrong with the socket connection
