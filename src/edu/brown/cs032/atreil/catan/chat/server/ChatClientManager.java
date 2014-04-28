@@ -63,17 +63,16 @@ class ChatClientManager extends Thread{
 				catch(IOException e){
 					// TODO: 
 					e.printStackTrace();
+					kill();
 				}
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			//kill();
+			kill();
 		} catch(NullPointerException e){
-			//kill();
+			kill();
 		}
-		
-		kill();
 	}
 	
 	/**
@@ -150,7 +149,6 @@ class ChatClientManager extends Thread{
 	public void kill(){
 		try {
 			_running = false;
-			_pool.remove(this);
 			_in.close();
 			_out.close();
 			_client.close();

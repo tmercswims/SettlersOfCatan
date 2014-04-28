@@ -52,7 +52,7 @@ public class ChatServer extends Thread{
 		_running = true;
 		
 		//accept connections
-		while((_clients.getNumClients() < _maxClients)){
+		while((_clients.getNumClients() < _maxClients) && _running){
 			try {
 				Socket client = _server.accept();
 				//System.out.println("Connected to a client");
@@ -103,7 +103,7 @@ public class ChatServer extends Thread{
 		try {
 			_running = false;
 			_server.close();
-			_clients.kill();
+			_clients.killAll();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

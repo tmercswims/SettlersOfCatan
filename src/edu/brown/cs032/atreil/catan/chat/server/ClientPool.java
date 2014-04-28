@@ -109,10 +109,12 @@ class ClientPool {
 	/**
 	 * Kills all of the clients
 	 */
-	public void kill(){
+	public void killAll(){
 		synchronized(_clients){
 			for(ChatClientManager mngr : Collections.synchronizedCollection(_clients.values()))
 				mngr.kill();
+			
+			_clients.clear();
 		}
 	}
 }
