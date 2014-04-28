@@ -45,7 +45,7 @@ public class GUI extends JPanel implements Update {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}*/
-		this.add(new ChatPanel(cc));
+		this.add(new ChatPanel(cc), BorderLayout.EAST);
 	}
 	
 	/**

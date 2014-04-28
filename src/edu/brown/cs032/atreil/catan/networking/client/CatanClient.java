@@ -314,8 +314,8 @@ public class CatanClient extends Thread{
 		}
 	}
 	
-	public void sendMessage(Packet p) throws IOException{
-		_out.writeObject(p);
+	public void sendMessage(String message) throws IOException{
+		_out.writeObject(new Packet(Packet.MESSAGE, message, 0));
 	}
 	
 	/**

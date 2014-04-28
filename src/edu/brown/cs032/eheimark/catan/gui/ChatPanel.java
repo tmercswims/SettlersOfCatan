@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -25,6 +26,7 @@ import javax.swing.text.DefaultCaret;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 
 public class ChatPanel extends JPanel {
@@ -115,7 +117,12 @@ public class ChatPanel extends JPanel {
 	}
 	
 	private void println(String message){
-		
+		try {
+			_client.sendMessage(message);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private class SendListener implements ActionListener{
