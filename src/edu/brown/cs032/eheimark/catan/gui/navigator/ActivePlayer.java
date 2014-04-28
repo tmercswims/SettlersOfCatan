@@ -32,10 +32,10 @@ public class ActivePlayer extends JPanel implements Update {
 		this.client = cc;
 		this.rollDie = true;
 
-		setBackground(Constants.CATAN_RED);
+		setBackground(Constants.CATAN_BLACK);
 		
 		mystats = new JLabel("MY STATISTICS");
-		mystats.setFont(Constants.DEFAULT_LABEL_FONT);
+		mystats.setFont(Constants.MY_FONT_ACTIVEPLAYER);
 		mystats.setForeground(Constants.CATAN_YELLOW);
 		mystats.setHorizontalAlignment(SwingConstants.CENTER);
 		add(mystats, BorderLayout.CENTER);
@@ -44,11 +44,14 @@ public class ActivePlayer extends JPanel implements Update {
 		setPreferredSize(Constants.ACTIVEPLAYER_MENU_SIZE);
 		
 		gameManagerButton = new JButton("Roll Die");
-		gameManagerButton.setBounds(852, 82, (int)Constants.ROLL_BUTTON.getWidth(), (int)Constants.ROLL_BUTTON.getHeight());
 		add(gameManagerButton, BorderLayout.EAST);
-		gameManagerButton.setFont(Constants.MY_FONT_SMALL);
-		gameManagerButton.setForeground(Constants.CATAN_RED);
+		gameManagerButton.setFont(Constants.MY_FONT_ACTIVEPLAYER);
+		gameManagerButton.setBackground(Constants.CATAN_RED);
+		gameManagerButton.setForeground(Constants.CATAN_YELLOW);
+		gameManagerButton.setOpaque(true);
+		gameManagerButton.setBorderPainted(false);
 		gameManagerButton.addActionListener(new TurnListener());
+		gameManagerButton.setBounds(852, 82, (int)Constants.ROLL_BUTTON.getWidth(), (int)Constants.ROLL_BUTTON.getHeight());
 		gameManagerButton.setSize(Constants.ROLL_BUTTON);
 		gameManagerButton.setPreferredSize(Constants.ROLL_BUTTON);
 		gameManagerButton.setMinimumSize(Constants.ROLL_BUTTON);
@@ -63,6 +66,7 @@ public class ActivePlayer extends JPanel implements Update {
 				int[] resources = p.getResources();
 				String s = "Ore:" + resources[3] + " Wheat:" + resources[0] + " Wool:" + resources[1] + " Lumber:" + resources[4] + " Brick:" + resources[2];
 				mystats.setText(s);
+				mystats.setForeground(p.getColor());
 			}		
 		}
 	}

@@ -41,4 +41,5 @@ public class Constants {
 	public static final Image TRADE_TAB_IMAGE = new ImageIcon("images/Cards1000x140.png").getImage();
 	
 	public static final Dimension ROLL_BUTTON = new Dimension(117,29);
+	public static final Font MY_FONT_ACTIVEPLAYER = new Font("Georgia", Font.BOLD, 15);
 }
