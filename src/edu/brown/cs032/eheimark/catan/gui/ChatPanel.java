@@ -33,7 +33,6 @@ public class ChatPanel extends JPanel {
 	
 	private JTextField _field;
 	private JTextPane _area;
-	private JButton _send;
 	public JPanel _panel;
 	private JScrollPane _scroll;
 	private CatanClient _client;
@@ -63,8 +62,6 @@ public class ChatPanel extends JPanel {
         b.setTitleJustification(TitledBorder.CENTER);
         this.setBorder(b);
         _area.setBorder(bl);
-		_send = new JButton("Send");
-		_send.addActionListener(new SendListener());
 		_scroll = new JScrollPane(_area);
 		_scroll.setPreferredSize(size);
 		this.add(_scroll);
@@ -125,16 +122,6 @@ public class ChatPanel extends JPanel {
 		}
 	}
 	
-	private class SendListener implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String message = _field.getText();
-			_field.setText("");
-			println(message);
-		}
-
-	}
 	
 	private class ChatListener implements KeyListener {
 		//red blue orange white

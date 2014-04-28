@@ -21,6 +21,7 @@ public class GUI extends JPanel implements Update {
 	private final CatanClient client;
 	private final TabbedPanel tabbedMenu;
 	private final DrawingPanel gameBoard;
+	private final ChatPanel chat;
 	
 	/**
 	 * Instantiates a new gui.
@@ -45,7 +46,8 @@ public class GUI extends JPanel implements Update {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}*/
-		this.add(new ChatPanel(cc), BorderLayout.EAST);
+		this.chat = new ChatPanel(cc);
+		this.add(this.chat, BorderLayout.EAST);
 	}
 	
 	/**
@@ -83,5 +85,9 @@ public class GUI extends JPanel implements Update {
 				client.confirmPacket();
 			}
 		});
+	}
+
+	public ChatPanel getChat() {
+		return this.chat;
 	}
 }

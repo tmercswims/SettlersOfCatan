@@ -287,7 +287,11 @@ public class CatanClient extends Thread{
 		} else if (type == Packet.BAD_RB) {
             _gui.getDP().decRBCount();
             confirmPacket();
-        } else{
+        } else if (type == Packet.MESSAGE) {
+        	_gui.getChat().addMessage((String)packet.getObject());
+        	confirmPacket();
+        }
+        else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
 			confirmPacket();
 		}
