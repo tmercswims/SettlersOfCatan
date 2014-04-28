@@ -383,6 +383,14 @@ public class CatanServer extends Thread{
 		}
 	}
 	
+	public void sendGameOver(String player){
+		try{
+			_pool.broadcast(new Packet(Packet.GAME_OVER, player, 0));
+		} catch (IllegalArgumentException | IOException e) {
+			addUpdate(e.getMessage());
+		}
+	}
+	
 	/**
 	 * Reads a move from the server.
 	 * @return The move

@@ -25,7 +25,7 @@ public class AlertFrame extends JFrame {
 		panel.add(label);
 		JButton menu = new JButton("Return to Main Menu");
 		menu.setAlignmentX(SwingConstants.CENTER);
-		menu.addActionListener(new MenuList());
+		menu.addActionListener(new MenuList(this));
 		panel.add(menu);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.add(panel);
@@ -34,6 +34,12 @@ public class AlertFrame extends JFrame {
 	}
 	
 	private class MenuList implements ActionListener {
+		
+		private JFrame _frame;
+		
+		public MenuList(JFrame frame){
+			_frame  = frame;
+		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -44,6 +50,8 @@ public class AlertFrame extends JFrame {
 					new SettlersOfCatan();
 				}
 			});
+			_frame.setVisible(false);
+			_frame.dispose();
 		}
 		
 	}

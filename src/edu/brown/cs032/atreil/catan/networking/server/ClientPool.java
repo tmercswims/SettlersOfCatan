@@ -161,14 +161,16 @@ public class ClientPool {
 	 * @throws IOException If anything goes wrong with the socket connection
 	 */
 	public void broadcast(Packet packet) throws IOException{
-		for(ClientManager mngr : Collections.synchronizedCollection(_clients.values())){
-			
-			if(packet.getType() == Packet.BOARD){
-				Board board = (Board) packet.getObject();
-				System.out.println("SENDING TO CLIENT " + mngr.getName() + " " + board.getNodes()[90].getVP() + " PACKET " + packet.getUID());
+		synchronized(_clients){
+			for(ClientManager mngr : Collections.synchronizedCollection(_clients.values())){
+				
+				if(packet.getType() == Packet.BOARD){
+					Board board = (Board) packet.getObject();
+					System.out.println("SENDING TO CLIENT " + mngr.getName() + " " + board.getNodes()[90].getVP() + " PACKET " + packet.getUID());
+				}
+				
+				mngr.send(packet);
 			}
-			
-			mngr.send(packet);
 		}
 	}
 	
@@ -189,7 +191,7 @@ public class ClientPool {
 	 */
 	public synchronized ClientManager remove(ClientManager client) {
 		synchronized(_clients){
-			return _clients.remove(client);
+			return _clients.remove(client.getPlayerName());
 		}
 	}
 	
