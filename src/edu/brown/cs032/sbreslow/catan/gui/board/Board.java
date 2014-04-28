@@ -201,7 +201,7 @@ public class Board implements Serializable {
 				if(i==72){
 					_edges[i].setPort(4);
 				}
-				if(i==75){
+				if(i==78){
 					_edges[i].setPort(2);
 				}
 				if(i==46){
