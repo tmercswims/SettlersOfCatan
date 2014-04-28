@@ -25,4 +25,9 @@ public class GUIFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 	}
+	
+	public void exit(){
+		super.setVisible(false);
+		super.dispose();
+	}
 }
