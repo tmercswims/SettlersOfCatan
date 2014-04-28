@@ -72,7 +72,7 @@ public class ChatClient {//extends JPanel{
 	public ChatClient(String hostname, int port, Player player) throws UnknownHostException, IOException{
 		//super();
 		_panel = new JPanel();
-		Dimension d = new Dimension(400,770);
+		Dimension d = new Dimension(400,600);
 		//this.setPreferredSize(d);
 		_panel.setPreferredSize(d);
 		//_panel.setBorder(BorderFactory.createLineBorder(Color.black));

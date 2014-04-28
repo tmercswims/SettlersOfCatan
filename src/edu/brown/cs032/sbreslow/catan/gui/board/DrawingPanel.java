@@ -45,7 +45,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
         }
 		_client = client;
 		setBackground(new Color(41, 105, 168));
-		setSize(600,770);
+		setSize(600,600);
 		setPreferredSize(getSize());
 		setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());
@@ -63,7 +63,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
     public DrawingPanel(){
 		super();
 		setBackground(new Color(41, 105, 168));
-		setSize(600,770);
+		setSize(600,600);
 		setPreferredSize(getSize());
 		setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());
