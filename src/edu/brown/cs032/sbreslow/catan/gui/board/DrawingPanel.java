@@ -39,6 +39,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
                         break;
                    }
             }
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             System.err.println("ERROR: " + ex.getMessage());
         }

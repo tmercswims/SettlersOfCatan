@@ -27,6 +27,7 @@ public class CatanFrame extends JFrame {
                         break;
                    }
             }
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             System.err.println("ERROR: " + ex.getMessage());
         }
