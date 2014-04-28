@@ -20,8 +20,10 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 
@@ -68,7 +70,48 @@ public class ChatPanel extends JPanel {
 	}
 	
 	public void addMessage(String message){
-		
+		String line = message.trim();
+		SimpleAttributeSet attr = new SimpleAttributeSet();
+		String[] linearray = line.split(" ");
+		String color = linearray[1];
+		color = color.substring(1,color.length()-2);
+		if(color.equalsIgnoreCase("red")){
+			attr = _red;
+		}
+		else if(color.equalsIgnoreCase("blue")){
+			attr = _blue;
+		}
+		else if(color.equalsIgnoreCase("orange")){
+			attr = _orange;
+		}
+		else if(color.equalsIgnoreCase("server")){
+			attr = _server;
+		}
+		else{
+			attr = _white;
+		}
+		if(linearray.length>=3){
+			if(linearray[2].equals("*whisper*")){
+				StyleConstants.setFontFamily(attr, "Monaco");
+				StyleConstants.setItalic(attr, true);
+			}
+			try {
+				String[] tmp = line.split(" ");
+				StringBuilder sb = new StringBuilder();
+				for(int i = 0; i < tmp.length; i++){
+					if(i!=1){
+						sb.append(tmp[i]+" ");
+					}
+					else{
+						sb = new StringBuilder(sb.toString().trim());
+						sb.append(tmp[i].charAt(tmp[i].length()-1));
+					}
+				}
+				_area.getDocument().insertString(_area.getCaretPosition(),sb.toString().trim()+"\n",attr);
+			} catch (BadLocationException e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 	
 	private void println(String message){
