@@ -72,7 +72,7 @@ public class ChatClient {//extends JPanel{
 	public ChatClient(String hostname, int port, Player player) throws UnknownHostException, IOException{
 		//super();
 		_panel = new JPanel();
-		Dimension d = new Dimension(250,770);
+		Dimension d = new Dimension(400,770);
 		//this.setPreferredSize(d);
 		_panel.setPreferredSize(d);
 		//_panel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -91,11 +91,11 @@ public class ChatClient {//extends JPanel{
         scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);*/
         
-		_field = new JTextField(21);
+		_field = new JTextField(30);
 		_field.addKeyListener(new ChatListener());
 		_area = new JTextPane();
-		Dimension size = new Dimension(230,580);
-		_area.setMaximumSize(size);
+		Dimension size = new Dimension(380,580);
+		//_area.setMaximumSize(size);
 		_area.setMinimumSize(size);
 		_area.setPreferredSize(size);
         DefaultCaret caret = (DefaultCaret)_area.getCaret();

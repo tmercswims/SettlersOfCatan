@@ -45,7 +45,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
         }
 		_client = client;
 		setBackground(new Color(41, 105, 168));
-		setSize(750,770);
+		setSize(600,770);
 		setPreferredSize(getSize());
 		setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());
@@ -63,7 +63,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
     public DrawingPanel(){
 		super();
 		setBackground(new Color(41, 105, 168));
-		setSize(750,770);
+		setSize(600,770);
 		setPreferredSize(getSize());
 		setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());
@@ -116,7 +116,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			i++;
 		}
 		
-		_client.confirmPacket();
+		//_client.confirmPacket();
 	}
 	
 	private class ClickList implements MouseListener{
