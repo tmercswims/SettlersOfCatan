@@ -37,14 +37,15 @@ public class GUI extends JPanel implements Update {
 		//TODO Eric changed order explain this
 		this.client.setGUI(this);
 		this.client.start(); // start listening on client
-		try {
+		/*try {
 			ChatClient chatc = new ChatClient(cc.getIP(), cc.getChatPort(), client.getPlayer());
 			chatc.setClient(client);
 			add(chatc._panel, BorderLayout.EAST);
 			chatc.run();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
+		this.add(new ChatPanel(cc));
 	}
 	
 	/**
