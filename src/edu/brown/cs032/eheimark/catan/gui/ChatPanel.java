@@ -69,12 +69,12 @@ public class ChatPanel extends JPanel {
 	}
 	
 	public void addMessage(String message){
-		System.out.println("MESSAGE: "+message);
 		String line = message.trim();
 		SimpleAttributeSet attr = new SimpleAttributeSet();
 		String[] linearray = line.split(" ");
 		String color = linearray[1];
 		color = color.substring(1,color.length()-2);
+		System.out.println("COLOR " + color);
 		if(color.equalsIgnoreCase("red")){
 			attr = _red;
 		}

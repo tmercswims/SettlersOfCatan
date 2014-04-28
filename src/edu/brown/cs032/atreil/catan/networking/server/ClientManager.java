@@ -215,6 +215,10 @@ public class ClientManager extends Thread {
 				}
 			}
 		}
+		
+		//otherwise, broadcast to all
+		//System.out.println(message);
+		_pool.sendAllChat(message, getPlayerName());
 	}
 	
 	/**

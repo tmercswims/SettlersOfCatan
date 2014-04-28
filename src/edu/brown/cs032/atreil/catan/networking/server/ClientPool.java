@@ -134,7 +134,7 @@ public class ClientPool {
 		//check player exists
 		synchronized(_clients){
 			if(!_clients.containsKey(player))
-				throw new IllegalArgumentException(String.format("No player exists with that name: %s", player));
+				throw new IllegalArgumentException(String.format("No player exists with that name: %s\n", player));
 			
 			String color = message.split(" ")[0];
 			StringBuilder sb = new StringBuilder();
