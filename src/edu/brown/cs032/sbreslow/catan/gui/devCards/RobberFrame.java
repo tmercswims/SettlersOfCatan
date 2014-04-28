@@ -36,11 +36,15 @@ public class RobberFrame extends JFrame {
 		_players = plist;
 		_buttons = new ArrayList<JButton>();
 		JPanel list = new JPanel();
+		Dimension size = new Dimension(365,50*(plist.size()+1));
+		list.setPreferredSize(size);
+		list.setMinimumSize(size);
 		list.setLayout(new BoxLayout(list, BoxLayout.PAGE_AXIS));
 		JLabel label = new JLabel("Please Choose a Player to Steal a Random Resource From:");
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		list.add(label);
-		//Dimension largest = new Dimension();
+		//Dimension d = label.getSize();
+		//System.out.println(d.getWidth());
 		for(Player p : _players){
 			//System.out.println(p.getName()+" ");
 			if(!p.equals(_cur)){
@@ -59,6 +63,11 @@ public class RobberFrame extends JFrame {
 			b.addActionListener(new RobList(b.getText(), this));
 			//b.setMinimumSize(largest);
 			b.setAlignmentX(Component.CENTER_ALIGNMENT);
+			Dimension d = new Dimension(360,50);
+			b.setPreferredSize(d);
+			b.setMaximumSize(d);
+			b.setMinimumSize(d);
+			b.setSize(d);
 			list.add(b);
 		}
 		list.setVisible(true);
@@ -67,6 +76,8 @@ public class RobberFrame extends JFrame {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.pack();
+		//Dimension d = label.getSize();
+		//System.out.println(d.getWidth());
 	}
 	
 	private class RobList implements ActionListener {

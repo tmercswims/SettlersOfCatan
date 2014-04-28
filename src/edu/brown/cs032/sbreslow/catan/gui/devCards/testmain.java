@@ -20,6 +20,7 @@ public class testmain {
 		test.add(p1);
 		test.add(p2);
 		new RobberFrame(test, 3, null);
+		//new MonoFrame(null);
 	}
 
 }
