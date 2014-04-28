@@ -94,7 +94,7 @@ public class Edge extends BoardComponent{
 			int[] bricky = {(int) _l.getY1(), (int) _l.getY2(), (int) _l.getY1()-40};
 			brush.setColor(new Color(255,102,0));
 			//brush.fill(new Polygon(brickx,bricky,3));
-            brush.drawImage(brickPort, (int)_l.getX2(), (int)(_l.getY2()-brickPort.getHeight(this)*.25),
+            brush.drawImage(brickPort, (int)_l.getX2(), (int)(_l.getY2()-brickPort.getHeight(this)*.3),
             		/*(int)_l.getBounds().getWidth(), (int)_l.getBounds().getHeight(),*/ null);
 			break;
 		case 3:

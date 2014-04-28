@@ -24,10 +24,10 @@ public class YoPFrame extends JFrame {
 	private final ButtonGroup _bot;
 	
 	public YoPFrame(CatanClient cc){
-		super();
+		super("Year Of Plenty");
 		_cc = cc;
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(2,4));
+		panel.setLayout(new GridLayout(2,5));
 		_top = new ButtonGroup();
 		_bot = new ButtonGroup();
 		for(int i = 0; i < 5; i++){
@@ -57,6 +57,7 @@ public class YoPFrame extends JFrame {
 			_bot.add(_bbuttons[i]);
 			panel.add(_tbuttons[i]);
 		}
+		panel.add(new JLabel(""));
 		for(JRadioButton b: _bbuttons){
 			panel.add(b);
 		}

@@ -1,6 +1,7 @@
 package edu.brown.cs032.eheimark.catan.gui.navigator;
 
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -8,8 +9,11 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.*;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
@@ -28,7 +32,7 @@ public class DevCard extends JPanel implements Update{
 	 * monopoly = 3;
 	 * vp = 4;
 	 */
-	private JLabel _vp, _knight, _rb, _mono, _yop;
+	//private JLabel _vp, _knight, _rb, _mono, _yop;
 	private CatanClient _cc;
 	private DrawingPanel _dp;
 	private DevCardButton[] _buttons = new DevCardButton[5];
@@ -37,8 +41,12 @@ public class DevCard extends JPanel implements Update{
 		super();
 		_cc = cc;
 		_dp = dp;
-		this.setLayout(new GridLayout(2,5));
-		_vp = new JLabel("Victory Point Card(s): 0");
+		setMinimumSize(Constants.TABBED_MENU_SIZE);
+		setPreferredSize(Constants.TABBED_MENU_SIZE);
+		setMaximumSize(Constants.TABBED_MENU_SIZE);
+		GridLayout gl = new GridLayout(1,5, 5, 5);
+		this.setLayout(gl);
+		/*_vp = new JLabel("Victory Point Card(s): 0");
 		_knight = new JLabel("Knight Card(s): 0");
 		_rb = new JLabel("Road Building Card(s): 0");
 		_mono = new JLabel("Monopoly Card(s): 0");
@@ -47,38 +55,57 @@ public class DevCard extends JPanel implements Update{
 		this.add(_rb);
 		this.add(_yop);
 		this.add(_mono);
-		this.add(_vp);
+		this.add(_vp);*/
 		for(int i = 0; i < 5; i++){
 			switch(i){
 			case 0:
-				_buttons[i] = new DevCardButton(knight);
+				_buttons[i] = new DevCardButton(new ImageIcon(knight.getScaledInstance(
+						(int)Constants.TABBED_MENU_SIZE.getWidth()/10, 
+						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/4, Image.SCALE_DEFAULT)));
                 //_buttons[i].setIcon(knight);
+				_buttons[i].setText("Knight Card(s): 0");
 				_buttons[i].addActionListener(new KnightList());
 				break;
 			case 1:
-				_buttons[i] = new DevCardButton(roadBuilder);
+				_buttons[i] = new DevCardButton(new ImageIcon(roadBuilder.getScaledInstance(
+						(int)Constants.TABBED_MENU_SIZE.getWidth()/10, 
+						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/4, Image.SCALE_DEFAULT)));
                 //_buttons[i].setIcon(roadBuilder);
+				_buttons[i].setText("Road Building Card(s): 0");
 				_buttons[i].addActionListener(new RBList());
 				break;
 			case 2:
-				_buttons[i] = new DevCardButton(yearOfPlenty);
+				_buttons[i] = new DevCardButton(new ImageIcon(yearOfPlenty.getScaledInstance(
+						(int)Constants.TABBED_MENU_SIZE.getWidth()/10, 
+						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/4, Image.SCALE_DEFAULT)));
                 //_buttons[i].setIcon(yearOfPlenty);
+				_buttons[i].setText("Year of Plenty Card(s): 0");
                 _buttons[i].addActionListener(new YoPList());
 				break;
 			case 3:
-				_buttons[i] = new DevCardButton(monopoly);
+				_buttons[i] = new DevCardButton(new ImageIcon(monopoly.getScaledInstance(
+						(int)Constants.TABBED_MENU_SIZE.getWidth()/10, 
+						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/4, Image.SCALE_DEFAULT)));
                 //_buttons[i].setIcon(monopoly);
+				_buttons[i].setText("Monopoly Card(s): 0");
 				_buttons[i].addActionListener(new MonoList());
 				break;
 			case 4:
-				_buttons[i] = new DevCardButton(victoryPoint);
+				_buttons[i] = new DevCardButton(new ImageIcon(victoryPoint.getScaledInstance(
+						(int)Constants.TABBED_MENU_SIZE.getWidth()/10, 
+						(int)Constants.TABBED_MENU_SIZE.getHeight()*3/4, Image.SCALE_DEFAULT)));
                 //_buttons[i].setIcon(victoryPoint);
+				_buttons[i].setText("Victory Point Card(s): 0");
 				_buttons[i].addActionListener(new VPList());
 				break;
 			}
+			_buttons[i].setHorizontalTextPosition(SwingConstants.CENTER);
+			_buttons[i].setVerticalTextPosition(SwingConstants.TOP);
 			_buttons[i].setEnabled(false);
 			this.add(_buttons[i]);
 		}
+		
+		
 		//add button listeners
 		//this.update();
 	}
@@ -87,24 +114,24 @@ public class DevCard extends JPanel implements Update{
 		_cards = _cc.getPlayer().getDevCards();
 		if(_cc.getPlayer().isActive()){
 			for(int i = 0; i < 5; i++){
+				switch(i){
+				case 0:
+					_buttons[i].setText("Knight Card(s): "+_cards[i]);
+					break;
+				case 1:
+					_buttons[i].setText("Road Building Card(s): "+_cards[i]);
+					break;
+				case 2:
+					_buttons[i].setText("Year of Plenty Card(s): "+_cards[i]);
+					break;
+				case 3:
+					_buttons[i].setText("Monopoly Card(s): "+_cards[i]);
+					break;
+				case 4:
+					_buttons[i].setText("Victory Point Card(s): "+_cards[i]);
+					break;
+				}
 				if(_cards[i]==0){
-					switch(i){
-					case 0:
-						_knight.setText("Knight Card(s): "+_cards[i]);
-						break;
-					case 1:
-						_rb.setText("Road Building Card(s): "+_cards[i]);
-						break;
-					case 2:
-						_yop.setText("Year of Plenty Card(s): "+_cards[i]);
-						break;
-					case 3:
-						_mono.setText("Monopoly Card(s): "+_cards[i]);
-						break;
-					case 4:
-						_vp.setText("Victory Point Card(s): "+_cards[i]);
-						break;
-					}
 					_buttons[i].setEnabled(false);
 				}
 				else{
