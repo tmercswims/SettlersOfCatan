@@ -15,7 +15,9 @@ import java.util.LinkedList;
 
 import edu.brown.cs032.atreil.catan.networking.Handshake;
 import edu.brown.cs032.atreil.catan.networking.Packet;
+import edu.brown.cs032.eheimark.catan.gui.AlertFrame;
 import edu.brown.cs032.eheimark.catan.gui.GUI;
+import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.eheimark.catan.gui.trade.TradeFrame;
 import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
@@ -59,6 +61,7 @@ public class CatanClient extends Thread{
 	private Board _board; //a cached version of the most recent version of the board
 	private Integer _playersLock;
 	private Player[] _players; //a cached version of the most recent version of players
+	private GUIFrame _frame;
 
 
 	/**
@@ -112,9 +115,12 @@ public class CatanClient extends Thread{
 		_boardLock = new Integer(-1);
 		_playersLock = new Integer(-1);
 		_servicingLock = new Integer(-1);
-
 		//connecting
 		connect();
+	}
+	
+	public void setFrame(GUIFrame frame){
+		_frame = frame;
 	}
 
 	/**
@@ -290,6 +296,9 @@ public class CatanClient extends Thread{
 		} else if (type == Packet.MESSAGE) {
 			_gui.getChat().addMessage((String)packet.getObject());
 			confirmPacket();
+		} else if (type == Packet.GAME_OVER) {
+			new AlertFrame("ERROR: Player "+(String)packet.getObject()+" has left the game."
+					+"Please return to the main menu.",_frame);
 		}
 		else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
