@@ -11,6 +11,7 @@ import java.awt.Color;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
+import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
@@ -94,7 +95,11 @@ public class Overview extends JPanel implements Update {
 		int i = 0;
 		for(Player p : players) {
 			PlayerStats ps = playerstats.get(i);
-			ps.setColor(p.getColor());
+			Color c = p.getColor();
+			if(!c.equals(BoardImages.Edge.white))
+					ps.setColor(c);
+			else
+				ps.setColor(Constants.CATAN_BLACK);
 			ps.setSettlements(p.getSettlementsBuilt());
 			ps.setCities(p.getCitiesBuilt());
 			ps.setRoads(p.getRoadsBuilt());
