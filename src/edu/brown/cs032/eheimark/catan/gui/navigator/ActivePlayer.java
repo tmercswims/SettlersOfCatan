@@ -24,6 +24,7 @@ import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.*;
+import java.awt.Insets;
 
 public class ActivePlayer extends JPanel implements Update {
 
@@ -42,23 +43,39 @@ public class ActivePlayer extends JPanel implements Update {
 		setPreferredSize(new Dimension(600, 50));
 		setMinimumSize(new Dimension(600, 50));
 		setMaximumSize(new Dimension(600, 50));
+		
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{600, 0};
+		gridBagLayout.rowHeights = new int[]{25, 25, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		setLayout(gridBagLayout);
 		gameManagerButton = new JButton("Roll Die");
-		gameManagerButton.setBounds(243, 29, 115, 18);
+		gameManagerButton.setPreferredSize(Constants.ROLL_BUTTON);
+		gameManagerButton.setMaximumSize(Constants.ROLL_BUTTON);
+		gameManagerButton.setMinimumSize(Constants.ROLL_BUTTON);
 		gameManagerButton.setFont(Constants.MY_FONT_ACTIVEPLAYER);
 		gameManagerButton.setBackground(Constants.CATAN_RED);
 		gameManagerButton.setForeground(Constants.CATAN_YELLOW);
 		gameManagerButton.setOpaque(true);
 		gameManagerButton.setBorderPainted(false);
 		gameManagerButton.addActionListener(new TurnListener());
-		setLayout(null);
 
 		mystats = new JLabel("MY STATISTICS");
-		mystats.setBounds(0, 7, 600, 18);
 		mystats.setFont(Constants.MY_FONT_ACTIVEPLAYER);
 		mystats.setForeground(Constants.CATAN_YELLOW);
 		mystats.setHorizontalAlignment(SwingConstants.CENTER);
-		add(mystats);
-		add(gameManagerButton);
+		GridBagConstraints gbc_mystats = new GridBagConstraints();
+		gbc_mystats.fill = GridBagConstraints.BOTH;
+		gbc_mystats.insets = new Insets(0, 0, 5, 0);
+		gbc_mystats.gridx = 0;
+		gbc_mystats.gridy = 0;
+		add(mystats, gbc_mystats);
+		GridBagConstraints gbc_gameManagerButton = new GridBagConstraints();
+		gbc_gameManagerButton.fill = GridBagConstraints.VERTICAL;
+		gbc_gameManagerButton.gridx = 0;
+		gbc_gameManagerButton.gridy = 1;
+		add(gameManagerButton, gbc_gameManagerButton);
 
 	}
 

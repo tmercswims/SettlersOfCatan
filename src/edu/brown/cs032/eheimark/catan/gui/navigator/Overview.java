@@ -4,6 +4,9 @@ import java.awt.Graphics;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import java.awt.Color;
@@ -11,6 +14,8 @@ import java.awt.Color;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
+import edu.brown.cs032.eheimark.catan.gui.navigator.TableRenderDemo.MyRenderer;
+import edu.brown.cs032.eheimark.catan.gui.navigator.TableRenderDemo.MyTableModel;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
@@ -23,6 +28,15 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+import java.awt.Insets;
 //import java.awt.Image;
 
 /**
@@ -36,6 +50,9 @@ public class Overview extends JPanel implements Update {
 	private static final Color MY_BACKGROUND = Constants.CATAN_WHITE;
 	private final CatanClient client;
 	private final ArrayList<PlayerStats> playerstats;
+	private final MyRenderer myColorRenderer;
+	private final MyTableModel myTableModel;
+
 
 	/**
 	 * Instantiates a new overview panel.
@@ -43,75 +60,118 @@ public class Overview extends JPanel implements Update {
 	 * @param cc the cc
 	 */
 	public Overview(CatanClient cc) {
-		super();
+		super(new GridLayout(1, 0));
 		setBackground(MY_BACKGROUND);
-		this.client = cc;
-
-		setLayout(null);
-
-		PlayerStats psLabels = new PlayerStats();
-		psLabels.setBounds(44, 0, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
-		add(psLabels); // just contains labels for player stats
-
 		playerstats = new ArrayList<PlayerStats>();
-		PlayerStats ps1 = new PlayerStats();
-		ps1.setBounds(44, 20, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
-		PlayerStats ps2 = new PlayerStats();
-		ps2.setBounds(44, 40, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
-		PlayerStats ps3 = new PlayerStats();
-		ps3.setBounds(44, 60, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
-		PlayerStats ps4 = new PlayerStats();
-		ps4.setBounds(44, 80, PlayerStats.MY_SIZE.width, PlayerStats.MY_SIZE.height);
-		ps4.setColor(MY_BACKGROUND); // set ps4 to background
-
-		add(ps1);
-		playerstats.add(ps1);
-		add(ps2);
-		playerstats.add(ps2);
-		add(ps3);
-		playerstats.add(ps3);
-		add(ps4);
-		playerstats.add(ps4);
-
-		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
+		myTableModel = new MyTableModel();
+		myColorRenderer = new MyRenderer();
+		final JTable table = new JTable(myTableModel);
+		table.setPreferredScrollableViewportSize(new Dimension(600, 200));
+		table.setFillsViewportHeight(true);
+		table.setDefaultRenderer(Object.class, myColorRenderer);
+		JScrollPane scrollPane = new JScrollPane(table);
+		add(scrollPane);
+		this.client = cc;
 	}
 
-	// TODO Remove this, cut down number of repaints
-	private int i;
+	public Color getTableCellBackground(JTable table, int row, int col) {
+		TableCellRenderer renderer = table.getCellRenderer(row, col);
+		Component component = table.prepareRenderer(renderer, row, col);    
+		return component.getBackground();
+	}
+
+	class MyRenderer implements TableCellRenderer {
+		ArrayList<Color> rowColors;
+
+		public MyRenderer() {
+			rowColors = new ArrayList<Color>();
+		}
+
+		public void addColor(Color c) {
+			rowColors.add(c);
+		}
+
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+				boolean hasFocus, int row, int column) {
+			JTextField editor = new JTextField();
+			if (value != null) {
+				editor.setText(value.toString());
+			}
+			if(rowColors.size() > row) {
+				editor.setForeground(rowColors.get(row));
+			}
+			editor.setFont(Constants.MY_FONT_SMALL);
+			return editor;
+		}
+	}
+
+	class MyTableModel extends AbstractTableModel {
+		private static final long serialVersionUID = 1L;
+		private String[] columnNames = {"Name",
+				"Victory Points",
+				"Resource Cards",
+				"Development Cards",
+				"Roads",
+				"Cities",
+				"Settlements"};
+		private Object[][] data = {{"Name",
+				"Victory Points",
+				"Resource Cards",
+				"Development Cards",
+				"Roads",
+				"Cities",
+				"Settlements"}};
+		
+		public void initializeData(int numberPlayers) {
+			data = new Object[numberPlayers][7];
+		}
+
+		public int getColumnCount() {
+			return columnNames.length;
+		}
+
+		public int getRowCount() {
+			return data.length;
+		}
+
+		public String getColumnName(int col) {
+			return columnNames[col];
+		}
+
+		public Object getValueAt(int row, int col) {
+			return data[row][col];
+		}
+
+		public void updatePlayer(Player p, int row) {
+			int column = 0;
+			data[row][column++] = p.getName();
+			data[row][column++] = p.getVictoryPoints();
+			data[row][column++] = p.getTotalResources();
+			data[row][column++] = p.getDevCardCount();
+			data[row][column++] = p.getRoadsBuilt();
+			data[row][column++] = p.getCitiesBuilt();
+			data[row][column++] = p.getSettlementsBuilt();
+			Color c = p.getColor();
+			if(!c.equals(BoardImages.Edge.white))
+				myColorRenderer.addColor(c);
+			else
+				myColorRenderer.addColor(Color.black);
+		}
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
-		System.out.println("Repainting " + i + "...");
-		i++;
 		g.setColor(MY_BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
-		System.out.println("Done repainting " + i + "...");
 	}
 
 	@Override
 	public void ericUpdate() {
 		Player[] players = this.client.getPlayers();
-		int i = 0;
+		myTableModel.initializeData(players.length);
+		int row = 0;
 		for(Player p : players) {
-			PlayerStats ps = playerstats.get(i);
-			Color c = p.getColor();
-			if(!c.equals(BoardImages.Edge.white))
-					ps.setColor(c);
-			else
-				ps.setColor(Constants.CATAN_BLACK);
-			ps.setSettlements(p.getSettlementsBuilt());
-			ps.setCities(p.getCitiesBuilt());
-			ps.setRoads(p.getRoadsBuilt());
-			ps.setName(p.getName());
-			ps.setVPs(p.getVictoryPoints() + "");
-			ps.setDevCards(p.getDevCardCount() + "");
-			ps.setResources(p.getTotalResources() + "");
-			ps.setActivePlayer(false);
-			if(p.isActive()) {
-				ps.setActivePlayer(true);
-			}
-			i++;
+			myTableModel.updatePlayer(p, row++);
 		}
 		repaint();
 	}
