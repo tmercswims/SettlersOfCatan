@@ -1,5 +1,6 @@
 package edu.brown.cs032.eheimark.catan.gui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,6 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
+import edu.brown.cs032.sbreslow.catan.gui.devCards.BackgroundPanel;
 
 public class AlertFrame extends JFrame {
 	
@@ -19,9 +21,10 @@ public class AlertFrame extends JFrame {
 	public AlertFrame(String message, GUIFrame gui){
 		super("ALERT!!!");
 		_gui = gui;
-		JPanel panel = new JPanel();
+		JPanel panel = new BackgroundPanel();
 		JLabel label = new JLabel(message);
 		label.setAlignmentX(SwingConstants.CENTER);
+		label.setForeground(Color.white);
 		panel.add(label);
 		JButton menu = new JButton("Return to Main Menu");
 		menu.setAlignmentX(SwingConstants.CENTER);
