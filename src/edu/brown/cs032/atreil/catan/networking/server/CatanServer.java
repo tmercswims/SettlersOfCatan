@@ -489,23 +489,25 @@ public class CatanServer extends Thread{
 	public void kill(){
 		
 		if(_isRunning){
-			try {
-				_isRunning = false;
-				_pool.killAll();
+			_isRunning = false;
+			_pool.killAll();
+			
+			try{
 				_server.close();
-				_chatServer.kill();
-				
-				//notify anybody reading updates
-				synchronized (_update) {
-					_update.notifyAll();
-				}
-				
-				//notify anybody reading moves
-				synchronized(_moveBuffer){
-					_moveBuffer.notifyAll();
-				}
-			} catch (IOException e) {
-				System.out.println(e.getMessage());
+			} catch(IOException e){
+				//already closed
+			}
+			
+			_chatServer.kill();
+			
+			//notify anybody reading updates
+			synchronized (_update) {
+				_update.notifyAll();
+			}
+			
+			//notify anybody reading moves
+			synchronized(_moveBuffer){
+				_moveBuffer.notifyAll();
 			}
 		}
 	}
