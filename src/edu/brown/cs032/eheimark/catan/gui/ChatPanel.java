@@ -7,14 +7,11 @@ import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.white;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -26,13 +23,13 @@ import javax.swing.text.DefaultCaret;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
-import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import javax.swing.JTextArea;
 
 public class ChatPanel extends JPanel {
 	
 	private JTextField _field;
-	private JTextPane _area;
+	private JTextArea _area;
 	public JPanel _panel;
 	private JScrollPane _scroll;
 	private CatanClient _client;
@@ -48,7 +45,7 @@ public class ChatPanel extends JPanel {
 		this.setPreferredSize(new Dimension(400, 650));
 		_field = new JTextField(30);
 		_field.addKeyListener(new ChatListener());
-		_area = new JTextPane();
+		_area = new JTextArea();
 		Dimension size = new Dimension(380,540);
 		_area.setBackground(Color.black);
 		_area.setPreferredSize(new Dimension(380, 595));
@@ -56,12 +53,16 @@ public class ChatPanel extends JPanel {
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         _area.setCaret(caret);
 		_area.setEditable(false);
+        _area.setLineWrap(true);
+        _area.setWrapStyleWord(true);
         Border bl = BorderFactory.createLineBorder(Color.black);
         TitledBorder b = BorderFactory.createTitledBorder(bl,"Chat/Log");
         b.setTitleJustification(TitledBorder.CENTER);
         this.setBorder(b);
         _area.setBorder(bl);
 		_scroll = new JScrollPane(_area);
+        _scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        _scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		_scroll.setPreferredSize(new Dimension(380, 595));
 		this.add(_scroll);
 		this.add(_field);
