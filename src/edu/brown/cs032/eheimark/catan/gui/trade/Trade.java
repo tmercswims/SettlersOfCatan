@@ -217,8 +217,8 @@ public class Trade extends JPanel implements Update {
 
 		JLabel toLabel = new JLabel("To:");
 		toLabel.setFont( Constants.DEFAULT_LABEL_FONT);
-		toLabel.setOpaque(true);
-		//toLabel.setForeground(Color.BLACK);
+		toLabel.setOpaque(false);
+		toLabel.setForeground(Color.white);
 		//toLabel.setBackground(Color.WHITE);
 		//toLabel.setBounds(28, sendHeight, 138, 16);
 		//toLabel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -230,8 +230,8 @@ public class Trade extends JPanel implements Update {
 		toPanel.add(toPlayerCB);
 
 		JLabel clarificationLabel = new JLabel("+ = RECEIVE, - = SEND");
-		clarificationLabel.setOpaque(true);
-		clarificationLabel.setForeground(Color.BLACK);
+		clarificationLabel.setOpaque(false);
+		clarificationLabel.setForeground(Color.white);
 		clarificationLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		//clarificationLabel.setBackground(Color.WHITE);
 		//clarificationLabel.setBounds(28, 90, 136, 16);
