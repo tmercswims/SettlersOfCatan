@@ -3,18 +3,22 @@ package edu.brown.cs032.sbreslow.catan.gui.devCards;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
+import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
@@ -30,35 +34,47 @@ public class SevenFrame extends JFrame {
 		super("Please drop half of your resources...");
 		_cc = cc;
 		this.img = Constants.TRADE_TAB_IMAGE;
-		setLayout(null); // absolute layout
+		//setLayout(null); // absolute layout
 		final Integer[] tradeValues = new Integer[] {5, 4, 3, 2, 1, 0};
+		JPanel comboPanel = new JPanel();
+		comboPanel.setLayout(new GridLayout(2,5));
+		comboPanel.add(new JLabel(Misc.oreToken));
+		comboPanel.add(new JLabel(Misc.wheatToken));
+		comboPanel.add(new JLabel(Misc.woolToken));
+		comboPanel.add(new JLabel(Misc.woodToken));
+		comboPanel.add(new JLabel(Misc.brickToken));
 		
 		oreCB = new JComboBox<Integer>(tradeValues);
 		oreCB.setSelectedIndex(5);
-		oreCB.setBounds(155, 59, 67, 16);
-		add(oreCB);
+		oreCB.setToolTipText("Ore");
+		//oreCB.setBounds(155, 59, 67, 16);
+		comboPanel.add(oreCB);
 
 		wheatCB = new JComboBox<Integer>(tradeValues);
 		wheatCB.setSelectedIndex(5);
-		wheatCB.setBounds(328, 59, 67, 16);
-		add(wheatCB);
+		wheatCB.setToolTipText("Wheat");
+		//wheatCB.setBounds(328, 59, 67, 16);
+		comboPanel.add(wheatCB);
 
 		woolCB = new JComboBox<Integer>(tradeValues);
 		woolCB.setSelectedIndex(5);
-		woolCB.setBounds(501, 59, 67, 16);
-		add(woolCB);
+		//woolCB.setBounds(501, 59, 67, 16);
+		woolCB.setToolTipText("Wool");
+		comboPanel.add(woolCB);
 
 		lumberCB = new JComboBox<Integer>(tradeValues);
 		lumberCB.setSelectedIndex(5);
-		lumberCB.setBounds(674, 59, 67, 16);
-		add(lumberCB);
+		//lumberCB.setBounds(674, 59, 67, 16);
+		lumberCB.setToolTipText("Lumber");
+		comboPanel.add(lumberCB);
 
 		brickCB = new JComboBox<Integer>(tradeValues);
 		brickCB.setSelectedIndex(5);
-		brickCB.setBounds(847, 59, 67, 16);
-		add(brickCB);
+		brickCB.setToolTipText("Brick");
+		//brickCB.setBounds(847, 59, 67, 16);
+		comboPanel.add(brickCB);
 
-		JLabel brickLabel = new JLabel("Brick:");
+		/*JLabel brickLabel = new JLabel("Brick:");
 		brickLabel.setFont( Constants.DEFAULT_LABEL_FONT);
 		brickLabel.setOpaque(true);
 		brickLabel.setBackground(Color.WHITE);
@@ -96,20 +112,26 @@ public class SevenFrame extends JFrame {
 		oreLabel.setBackground(Color.WHITE);
 		oreLabel.setBounds(123, 59, 31, 16);
 		oreLabel.setForeground(Color.DARK_GRAY);
-		add(oreLabel);
+		add(oreLabel);*/
 
 		JButton proposeButton = new JButton("Propose");
 		proposeButton.setFont( Constants.DEFAULT_LABEL_FONT);
-		proposeButton.setBounds(374, 99, 125, 29);
+		//proposeButton.setBounds(374, 99, 125, 29);
 		proposeButton.addActionListener(new ProposeTradeActionListener(this));
-		add(proposeButton);
+		JPanel bp = new JPanel();
+		bp.add(proposeButton);
 		
 		//setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
-		setBackground(Color.red);
+		//setBackground(Color.red);
 		//setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMinimumSize(new Dimension(1000,200));
+		//setMinimumSize(new Dimension(1000,200));
+		JPanel mp = new JPanel();
+		mp.setLayout(new BoxLayout(mp, BoxLayout.PAGE_AXIS));
+		mp.add(comboPanel);
+		mp.add(bp);
+		this.add(mp);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		setLocationRelativeTo(_cc.getGUI());
+		//setLocationRelativeTo(_cc.getGUI());
 		setVisible(true);
 		pack();
 	}

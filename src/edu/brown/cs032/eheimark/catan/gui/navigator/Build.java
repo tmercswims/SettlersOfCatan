@@ -149,25 +149,33 @@ public class Build extends JPanel implements Update {
 	@Override
 	public void ericUpdate(){
 		int[] resources = _client.getPlayer().getResources();
-		if(resources[2]<1 || resources[4]<1){
+		if((resources[2]<1 || resources[4]<1)||
+				(!_client.getPlayer().isActive())||
+				(!_client.getPlayer().hasRolled())){
 			buildRoadButton.setEnabled(false);
 		}
 		else{
 			buildRoadButton.setEnabled(true);
 		}
-		if(resources[0]<1 || resources[1]<1 || resources[3]<1){
+		if((resources[0]<1 || resources[1]<1 || resources[3]<1)||
+				(!_client.getPlayer().isActive())||
+				(!_client.getPlayer().hasRolled())){
 			buildDevCardButton.setEnabled(false);
 		}
 		else{
 			buildDevCardButton.setEnabled(true);
 		}
-		if(resources[3]<3 || resources[0]<2){
+		if((resources[3]<3 || resources[0]<2)||
+				(!_client.getPlayer().isActive())||
+				(!_client.getPlayer().hasRolled())){
 			buildCityButton.setEnabled(false);
 		}
 		else{
 			buildCityButton.setEnabled(true);
 		}
-		if(resources[0]<1 || resources[1]<1 || resources[2]<1 || resources[4]<1){
+		if((resources[0]<1 || resources[1]<1 || resources[2]<1 || resources[4]<1)||
+				(!_client.getPlayer().isActive())||
+				(!_client.getPlayer().hasRolled())){
 			buildSettlementButton.setEnabled(false);
 		}
 		else{

@@ -132,7 +132,8 @@ public class DevCard extends JPanel implements Update{
 					_buttons[i].setText("Victory Point Card(s): "+_cards[i]);
 					break;
 				}
-				if(_cards[i]==0){
+				if((_cards[i]==0)||(!_cc.getPlayer().isActive())||
+						((!_cc.getPlayer().hasRolled())&&(i!=0))){
 					_buttons[i].setEnabled(false);
 				}
 				else{

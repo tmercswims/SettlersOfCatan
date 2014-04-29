@@ -22,7 +22,7 @@ public class Player implements Serializable {
 
     private final String _name;
     private Color _color;
-    private boolean _isActive;
+    private boolean _isActive, _rolled;
     private int _initRoll;
     
     /**
@@ -105,6 +105,7 @@ public class Player implements Serializable {
      */
     public void setIsActive(boolean isActive) {
         _isActive = isActive;
+        if (!isActive) _rolled = false;
     }
     
     /**
@@ -113,6 +114,22 @@ public class Player implements Serializable {
      */
     public boolean isActive() {
         return _isActive;
+    }
+    
+    /**
+     * Sets whether this Player has rolled.
+     * @param rolled have they rolled?
+     */
+    public void setRolled(boolean rolled) {
+        _rolled = rolled;
+    }
+    
+    /**
+     * Tells whether this player (if active) has rolled or not.
+     * @return true if this player is active and has rolled, false otherwise
+     */
+    public boolean hasRolled() {
+        return _rolled;
     }
     
     /**
@@ -234,6 +251,13 @@ public class Player implements Serializable {
      */
     public int getVictoryPoints() {
         return _victoryPoints;
+    }
+    
+    /**
+     * Decreases this player's victory point count by 1.
+     */
+    public void decVictoryPoints() {
+        _victoryPoints--;
     }
     
     /**
