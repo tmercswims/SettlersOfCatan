@@ -697,7 +697,7 @@ public class Referee {
                 for (int i=0; i<set.size(); i++) {
                     System.out.println(String.format("i: %d", i));
                     Edge e = set.get(i);
-                    if (isEndEdge(e, set) || i == set.size()) {
+                    if (isEndEdge(e, set) || i == set.size()-1) {
                         System.out.println("passed if");
                         System.out.println(String.format("edge: %d", e.getIndex()));
                         int l = findLongestRoadInSet(e, set, getEndNode(e, set), 1);
