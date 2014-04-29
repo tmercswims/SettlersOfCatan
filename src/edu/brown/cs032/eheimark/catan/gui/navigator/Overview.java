@@ -65,6 +65,7 @@ public class Overview extends JPanel implements Update {
 		table.getTableHeader().setAlignmentX(SwingConstants.CENTER);
 		table.setShowGrid(false);
 		table.setOpaque(false);
+		table.getTableHeader().setReorderingAllowed(false);
 		table.setRowHeight(20);
 		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		JScrollPane scrollPane = new JScrollPane(table);
