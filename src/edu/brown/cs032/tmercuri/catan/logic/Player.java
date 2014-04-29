@@ -30,7 +30,7 @@ public class Player implements Serializable {
      * @param name the _name of this player
      */
     public Player(String name) {
-        _resources = new int[]{10,10,10,10,10};
+        _resources = new int[]{0,0,0,0,0};
         _roadsRemaining = 15;
         _settlementsRemaining = 5;
         _citiesRemaining = 4;
