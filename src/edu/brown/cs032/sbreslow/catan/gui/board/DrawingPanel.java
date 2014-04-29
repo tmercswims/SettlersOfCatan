@@ -32,7 +32,6 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		super();
 		_client = client;
 		//setBackground(new Color(41, 105, 168));
-        setOpaque(false);
 		setSize(600,600);
 		setPreferredSize(getSize());
 		setMaximumSize(getPreferredSize());
@@ -72,7 +71,6 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
         if (iw > 0 && ih > 0) {
             for (int x = 0; x < getWidth(); x += iw) {
                 for (int y = 0; y < getHeight(); y += ih) {
-                    System.out.println("DREW A BG TILE");
                     g.drawImage(background, x, y, iw, ih, this);
                 }
             }
