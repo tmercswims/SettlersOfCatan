@@ -37,6 +37,7 @@ public class Trade extends JPanel implements Update {
 	private final CatanClient client;
 	private final int resourceHeight;
 	private final int sendHeight;
+	private JButton proposeButton;
 
 	/**
 	 * Instantiates a new trade.
@@ -147,7 +148,7 @@ public class Trade extends JPanel implements Update {
 		oreLabel.setBorder(BorderFactory.createLineBorder(Color.black));
 		add(oreLabel);
 
-		JButton proposeButton = new JButton("Send");
+		proposeButton = new JButton("Send");
 		proposeButton.setFont( Constants.DEFAULT_LABEL_FONT);
 		proposeButton.setBounds(195, sendHeight, 70, 16);
 		proposeButton.addActionListener(new ProposeTradeActionListener());
@@ -217,7 +218,14 @@ public class Trade extends JPanel implements Update {
 				if(!client.getPlayerName().equals(p.getName())) {
 					toPlayerCB.insertItemAt(p.getName(), i++);
 				}
-			}		
+			}
+			
+			if((!client.getPlayer().isActive())||(!client.getPlayer().hasRolled())){
+				proposeButton.setEnabled(false);
+			}
+			else{
+				proposeButton.setEnabled(true);
+			}
 
 			toPlayerCB.repaint();
 			repaint();

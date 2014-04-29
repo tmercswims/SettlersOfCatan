@@ -27,7 +27,7 @@ public class TradeFrame extends JFrame{
 		add(new OutstandingTrade(client, trade, this));
 		pack();
 		setVisible(true);
-		setResizable(true);
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	

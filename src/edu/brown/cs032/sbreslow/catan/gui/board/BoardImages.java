@@ -7,6 +7,8 @@ package edu.brown.cs032.sbreslow.catan.gui.board;
 
 import java.awt.Color;
 import java.awt.Image;
+
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
@@ -68,6 +70,11 @@ public class BoardImages {
     
     public static class Misc {
         public static final Image arrow = new ImageIcon("images/misc/arrow.png").getImage();
+        public static final Icon brickToken = new ImageIcon("images/resource_tokens/brick.png");//.getImage();
+        public static final Icon oreToken = new ImageIcon("images/resource_tokens/ore.png");//.getImage();
+        public static final Icon woolToken = new ImageIcon("images/resource_tokens/sheep.png");//.getImage();
+        public static final Icon wheatToken = new ImageIcon("images/resource_tokens/wheat.png");//.getImage();
+        public static final Icon woodToken = new ImageIcon("images/resource_tokens/wood.png");//.getImage();
     }
     
     public static class Background {

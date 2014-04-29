@@ -1,15 +1,21 @@
 package edu.brown.cs032.eheimark.catan.gui.trade;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
+
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
+import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -39,82 +45,99 @@ public class OutstandingTrade extends JPanel {
 		trade.getPlayerName();
 		int[] resources = trade.getResources(); // Reference to resource exchange involved in the trade
 
-		setBackground(Constants.CATAN_BLUE);
-		setLayout(null);
-
+		//setBackground(Constants.CATAN_BLUE);
+		//setLayout(null);
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		JPanel comboPanel = new JPanel();
+		comboPanel.setLayout(new GridLayout(2,5));
+		comboPanel.add(new JLabel(Misc.brickToken));
+		comboPanel.add(new JLabel(Misc.woodToken));
+		comboPanel.add(new JLabel(Misc.woolToken));
+		comboPanel.add(new JLabel(Misc.wheatToken));
+		comboPanel.add(new JLabel(Misc.oreToken));
+		
 		JLabel brickLabel = new JLabel("Brick:" + -resources[ResourceConstants.BRICK]);
 		brickLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		brickLabel.setOpaque(true);
 		brickLabel.setBackground(Color.WHITE);
-		brickLabel.setBounds(801, 59, 60, 16);
+		//brickLabel.setBounds(801, 59, 60, 16);
 		brickLabel.setForeground(Color.RED);
-		add(brickLabel);
+		comboPanel.add(brickLabel);
 
 		JLabel lumberLabel = new JLabel("Lumber:" + -resources[ResourceConstants.WOOD]);
 		lumberLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		lumberLabel.setOpaque(true);
 		lumberLabel.setBackground(Color.WHITE);
-		lumberLabel.setBounds(610, 59, 77, 16);
+		//lumberLabel.setBounds(610, 59, 77, 16);
 		lumberLabel.setForeground(Color.GREEN);
-		add(lumberLabel);
+		comboPanel.add(lumberLabel);
 
 		JLabel woolLabel = new JLabel("Wool:" + -resources[ResourceConstants.SHEEP]);
 		woolLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		woolLabel.setOpaque(true);
 		woolLabel.setBackground(Color.WHITE);
-		woolLabel.setBounds(456, 59, 60, 16);
+		//woolLabel.setBounds(456, 59, 60, 16);
 		woolLabel.setForeground(Color.LIGHT_GRAY);
-		add(woolLabel);
+		comboPanel.add(woolLabel);
 
 		JLabel grainLabel = new JLabel("Wheat:" + -resources[ResourceConstants.WHEAT]);
 		grainLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		grainLabel.setOpaque(true);
 		grainLabel.setBackground(Color.WHITE);
-		grainLabel.setBounds(270, 59, 65, 16);
+		//grainLabel.setBounds(270, 59, 65, 16);
 		grainLabel.setForeground(Color.ORANGE);
-		add(grainLabel);
+		comboPanel.add(grainLabel);
 
 		JLabel oreLabel = new JLabel("Ore:" + -resources[ResourceConstants.ORE]);
 		oreLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		oreLabel.setOpaque(true);
 		oreLabel.setBackground(Color.WHITE);
-		oreLabel.setBounds(123, 59, 45, 16);
+		//oreLabel.setBounds(123, 59, 45, 16);
 		oreLabel.setForeground(Color.DARK_GRAY);
-		add(oreLabel);
+		comboPanel.add(oreLabel);
 
+		JPanel bp = new JPanel();
+		bp.setLayout(new BoxLayout(bp, BoxLayout.LINE_AXIS));
 		JButton acceptButton = new JButton("Accept Trade");
 		acceptButton.setForeground(Constants.CATAN_RED);
 		acceptButton.setFont(Constants.DEFAULT_LABEL_FONT);
-		acceptButton.setBounds(374, 99, 125, 29);
+		//acceptButton.setBounds(374, 99, 125, 29);
 		acceptButton.addActionListener(new AcceptTradeActionListener());
-		add(acceptButton);
+		bp.add(acceptButton);
 
 		JButton rejectTrade = new JButton("Reject Trade");
 		rejectTrade.setForeground(Constants.CATAN_RED);
 		rejectTrade.setFont(Constants.DEFAULT_LABEL_FONT);
 		rejectTrade.addActionListener(new RejectTradeActionListener());
-		rejectTrade.setBounds(499, 99, 122, 29);
-		add(rejectTrade);
+		//rejectTrade.setBounds(499, 99, 122, 29);
+		bp.add(rejectTrade);
 
+		JPanel lp = new JPanel();
+		lp.setLayout(new BoxLayout(lp, BoxLayout.LINE_AXIS));
+		
 		JLabel fromLabel = new JLabel("From: " + trade.getPlayerName());
 		fromLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		fromLabel.setOpaque(true);
 		fromLabel.setForeground(Color.BLACK);
 		fromLabel.setBackground(Color.WHITE);
-		fromLabel.setBounds(28, 15, 150, 16);
-		add(fromLabel);
+		//fromLabel.setBounds(28, 15, 150, 16);
+		lp.add(fromLabel);
 
 		JLabel clarificationLabel = new JLabel("+ = RECEIVE, - = SEND");
 		clarificationLabel.setOpaque(true);
 		clarificationLabel.setForeground(Color.BLACK);
 		clarificationLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		clarificationLabel.setBackground(Color.WHITE);
-		clarificationLabel.setBounds(28, 105, 170, 16);
-		add(clarificationLabel);
+		//clarificationLabel.setBounds(28, 105, 170, 16);
+		lp.add(clarificationLabel);
+		
 
-		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
-		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
+		//setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
+		//setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
+		//setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
+		this.add(lp);
+		this.add(comboPanel);
+		this.add(bp);
 	}
 
 	/**
