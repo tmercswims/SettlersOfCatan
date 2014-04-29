@@ -91,7 +91,7 @@ public class Build extends JPanel implements Update {
 		roadCostLabel.setBounds(88, 53, 118, 16);
 		add(roadCostLabel);
 		
-		JLabel settlementCostLabel = new JLabel("Cost: 1 Brick, 1 Lumber, 1 Wood, 1 Wheat");
+		JLabel settlementCostLabel = new JLabel("Cost: 1 Brick, 1 Lumber, 1 Wool, 1 Wheat");
 		settlementCostLabel.setOpaque(false);
 		settlementCostLabel.setForeground(Color.WHITE);
 		settlementCostLabel.setFont(MY_FONT2);
