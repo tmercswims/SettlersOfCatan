@@ -241,6 +241,7 @@ public class Referee {
             pa.setIsActive(false);
         }
         player.setIsActive(true);
+        _server.sendMessage(null, String.format("It is now %s's turn.", player.getName()));
         _turnOver = false;
         _activePlayer = player;
         pushPlayers();
