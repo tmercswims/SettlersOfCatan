@@ -1,5 +1,7 @@
 package edu.brown.cs032.eheimark.catan.gui.trade;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.felt;
+
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -64,7 +66,7 @@ public class Trade extends JPanel implements Update {
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));//GridLayout(3,1));
 
 		toPlayerCB = new JComboBox<String>();
-		toPlayerCB.setOpaque(true);
+		toPlayerCB.setOpaque(false);
 		//toPlayerCB.setBackground(Color.white);
 		//toPlayerCB.setBounds(53, sendHeight, 140, 16);
 		//toPlayerCB.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -117,20 +119,20 @@ public class Trade extends JPanel implements Update {
 		JPanel comboPanel = new JPanel();
 		comboPanel.setLayout(new GridLayout(2,5));
 		comboPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
-				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.oreToken.getIconHeight()),
-				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.oreToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/5),Image.SCALE_SMOOTH))));
 		comboPanel.add(new JLabel(new ImageIcon(Misc.wheatToken.getImage().getScaledInstance(
-				(int)(Misc.wheatToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.wheatToken.getIconHeight()),
-				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+				(int)(Misc.wheatToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.wheatToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/5),Image.SCALE_SMOOTH))));
 		comboPanel.add(new JLabel(new ImageIcon(Misc.woolToken.getImage().getScaledInstance(
-				(int)(Misc.woolToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.woolToken.getIconHeight()),
-				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+				(int)(Misc.woolToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woolToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/5),Image.SCALE_SMOOTH))));
 		comboPanel.add(new JLabel(new ImageIcon(Misc.woodToken.getImage().getScaledInstance(
-				(int)(Misc.woodToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.woodToken.getIconHeight()),
-				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+				(int)(Misc.woodToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woodToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/5),Image.SCALE_SMOOTH))));
 		comboPanel.add(new JLabel(new ImageIcon(Misc.brickToken.getImage().getScaledInstance(
-				(int)(Misc.brickToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.brickToken.getIconHeight()),
-				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+				(int)(Misc.brickToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.brickToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/5),Image.SCALE_SMOOTH))));
 		
 		oreCB = new JComboBox<Integer>(tradeValues);
 		oreCB.setSelectedIndex(5);
@@ -240,6 +242,9 @@ public class Trade extends JPanel implements Update {
 		bp.setLayout(new BoxLayout(bp, BoxLayout.LINE_AXIS));
 		bp.add(proposeButton);
 		bp.add(clarificationLabel);
+		toPanel.setOpaque(false);
+		comboPanel.setOpaque(false);
+		bp.setOpaque(false);
 		
 		this.add(toPanel);
 		this.add(comboPanel);
@@ -271,10 +276,19 @@ public class Trade extends JPanel implements Update {
 	};
 
 	@Override
-	public void paintComponent(Graphics g) {
-		//g.setColor(MY_BACKGROUND);
-		//g.fillRect(0, 0, getWidth(), getHeight());
-		//g.drawImage(img, 0, 0, null);
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+        Image background = felt;
+        int iw = background.getWidth(this);
+        int ih = background.getHeight(this);
+        if (iw > 0 && ih > 0) {
+            for (int x = 0; x < getWidth(); x += iw) {
+                for (int y = 0; y < getHeight(); y += ih) {
+                    System.out.println("DREW A BG TILE");
+                    g.drawImage(background, x, y, iw, ih, this);
+                }
+            }
+        }
 	}
 
 	private boolean updated = false;

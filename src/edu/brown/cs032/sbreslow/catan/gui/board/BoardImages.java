@@ -79,6 +79,7 @@ public class BoardImages {
     
     public static class Background {
         public static final Image felt = new ImageIcon("images/backgrounds/felt.png").getImage();
+        public static final ImageIcon feltcon = new ImageIcon("images/backgrounds/felt.png");
         public static final Image wood = new ImageIcon("images/backgrounds/wood.png").getImage();
     }
     
