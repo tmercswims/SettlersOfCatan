@@ -55,10 +55,7 @@ public class ActivePlayer extends JPanel implements Update {
 		gameManagerButton.setMaximumSize(Constants.ROLL_BUTTON);
 		gameManagerButton.setMinimumSize(Constants.ROLL_BUTTON);
 		gameManagerButton.setFont(Constants.MY_FONT_ACTIVEPLAYER);
-		gameManagerButton.setBackground(Constants.CATAN_RED);
-		gameManagerButton.setForeground(Constants.CATAN_YELLOW);
-		gameManagerButton.setOpaque(true);
-		gameManagerButton.setBorderPainted(false);
+		gameManagerButton.setForeground(Constants.CATAN_RED);
 		gameManagerButton.addActionListener(new TurnListener());
 
 		mystats = new JLabel("MY STATISTICS");
