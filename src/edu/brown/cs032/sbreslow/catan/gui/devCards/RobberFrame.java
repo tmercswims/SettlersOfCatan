@@ -32,7 +32,7 @@ public class RobberFrame extends JFrame {
 		super("Robber");
 		_cc = cc;
 		_index = index;
-		//_cur = cc.getPlayer();
+		_cur = cc.getPlayer();
 		_players = plist;
 		_buttons = new ArrayList<JButton>();
 		JPanel list = new BackgroundPanel();
