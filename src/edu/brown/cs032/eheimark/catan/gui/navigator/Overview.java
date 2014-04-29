@@ -1,26 +1,35 @@
 package edu.brown.cs032.eheimark.catan.gui.navigator;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.felt;
+
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import java.awt.Color;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages;
+import edu.brown.cs032.sbreslow.catan.gui.devCards.BackgroundPanel;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
+
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 /**
  * The Class Overview is the overview tabbed panel which contains
@@ -43,16 +52,22 @@ public class Overview extends JPanel implements Update {
 	 * @param cc the cc
 	 */
 	public Overview(CatanClient cc) {
-		super(new GridLayout(1, 0));
+		super();
+		this.setLayout(new GridLayout(1, 0));
 		setBackground(MY_BACKGROUND);
 		playerstats = new ArrayList<PlayerStats>();
 		myTableModel = new MyTableModel();
 		myColorRenderer = new MyRenderer();
 		final JTable table = new JTable(myTableModel);
-		table.setPreferredScrollableViewportSize(new Dimension(600, 200));
-		table.setFillsViewportHeight(true);
 		table.setDefaultRenderer(Object.class, myColorRenderer);
+		table.getTableHeader().setFont(Constants.OVERVIEW_TAB_FONT_HEADER);
+		table.getTableHeader().setAlignmentX(SwingConstants.CENTER);
+		table.setShowGrid(false);
+		table.setOpaque(false);
+		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
 		add(scrollPane);
 		this.client = cc;
 	}
@@ -64,7 +79,8 @@ public class Overview extends JPanel implements Update {
 	}
 
 	class MyRenderer implements TableCellRenderer {
-		ArrayList<Color> rowColors;
+		private ArrayList<Color> rowColors;
+		private int activePlayerRow = 0;
 
 		public MyRenderer() {
 			rowColors = new ArrayList<Color>();
@@ -79,12 +95,24 @@ public class Overview extends JPanel implements Update {
 			JTextField editor = new JTextField();
 			if (value != null) {
 				editor.setText(value.toString());
+				editor.setHorizontalAlignment(SwingConstants.CENTER);
 			}
 			if(rowColors.size() > row) {
 				editor.setForeground(rowColors.get(row));
 			}
-			editor.setFont(Constants.MY_FONT_SMALL);
+			if(row == activePlayerRow) {
+				editor.setFont(Constants.OVERVIEW_TAB_FONT_ACTIVEPLAYER);
+			}
+			else {
+				editor.setFont(Constants.OVERVIEW_TAB_FONT);
+			}
+			editor.setBorder(null);
+			editor.setOpaque(false);
 			return editor;
+		}
+
+		public void setActivePlayerRow(int row) {
+			activePlayerRow = row;
 		}
 	}
 
@@ -139,13 +167,26 @@ public class Overview extends JPanel implements Update {
 				myColorRenderer.addColor(c);
 			else
 				myColorRenderer.addColor(Color.black);
+			if(p.isActive()) {
+				myColorRenderer.setActivePlayerRow(row);
+			}
 		}
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(MY_BACKGROUND);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		super.paintComponent(g);
+        Image background = felt;
+        int iw = background.getWidth(this);
+        int ih = background.getHeight(this);
+        if (iw > 0 && ih > 0) {
+            for (int x = 0; x < getWidth(); x += iw) {
+                for (int y = 0; y < getHeight(); y += ih) {
+                    System.out.println("DREW A BG TILE");
+                    g.drawImage(background, x, y, iw, ih, this);
+                }
+            }
+        }
 	}
 
 	@Override

@@ -40,4 +40,8 @@ public class Constants {
 	
 	public static final Dimension ROLL_BUTTON = new Dimension(117,10);
 	public static final Font MY_FONT_ACTIVEPLAYER = new Font("Georgia", Font.BOLD, 15);
+	public static final Font OVERVIEW_TAB_FONT = new Font("Georgia", Font.PLAIN, 15);
+	public static final Font OVERVIEW_TAB_FONT_ACTIVEPLAYER = new Font("Georgia", Font.BOLD, 15);
+	public static final Font OVERVIEW_TAB_FONT_HEADER = new Font("Georgia", Font.BOLD, 13);
+
 }
