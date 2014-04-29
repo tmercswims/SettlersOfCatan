@@ -38,7 +38,7 @@ public class CatanServer extends Thread{
 	private final ServerSocket _server; //the object that handles that physical connections
 	public final int _numClients; //specifies how many players must be connected in order for the game to start
 	private final ClientPool _pool; //keeps track of all the clients
-	private final Executor _e; //manages threads to deal with new connections
+	//private final Executor _e; //manages threads to deal with new connections
 	private final int TIMEOUT = 5000; //the time the server should wait while waiting for connectino before checking number of connections
 	private int id = 0; //keeps track of the unique id for the client
 	private final LinkedList<Move> _moveBuffer; //keeps track of any available moves from clients
@@ -69,7 +69,7 @@ public class CatanServer extends Thread{
 		_port = port;
 		_numClients = numClients;
 		_pool = new ClientPool(this);
-		_e = Executors.newCachedThreadPool();
+		//_e = Executors.newCachedThreadPool();
 		_server = new ServerSocket(_port);
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
 		_moveBuffer = new LinkedList<>();
@@ -94,7 +94,7 @@ public class CatanServer extends Thread{
 		_port = port;
 		_numClients = (configs.isFourPlayerGame()) ? 4 : 3;
 		_pool = new ClientPool(this);
-		_e = Executors.newCachedThreadPool();
+		//_e = Executors.newCachedThreadPool();
 		_server = new ServerSocket(_port);
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
 		_moveBuffer = new LinkedList<>();
@@ -148,7 +148,8 @@ public class CatanServer extends Thread{
 				Socket client = _server.accept();
 				
 				//set up new client manager
-				_e.execute(new ClientRunnable(client, _pool, _chatPort, _numClients));
+				//_e.execute(new ClientRunnable(client, _pool, _chatPort, _numClients));
+				new ClientManager(_pool, client, _chatPort, _numClients).start();
 				
 				sendConnected();
 			} catch(SocketTimeoutException e){
@@ -383,11 +384,18 @@ public class CatanServer extends Thread{
 		}
 	}
 	
+	/**
+	 * Sends a game over to the client and kills the server
+	 * @param player
+	 */
 	public void sendGameOver(String player){
-		try{
-			_pool.broadcast(new Packet(Packet.GAME_OVER, player, 0));
-		} catch (IllegalArgumentException | IOException e) {
-			addUpdate(e.getMessage());
+		if(_isRunning){
+			try{
+				_pool.broadcast(new Packet(Packet.GAME_OVER, player, 0));
+			} catch (IllegalArgumentException | IOException e) {
+				addUpdate(e.getMessage());
+			}
+			kill();
 		}
 	}
 	
@@ -476,36 +484,29 @@ public class CatanServer extends Thread{
 	}
 	
 	/**
-	 * Stops the game if any client/server disconnects or wins
-	 * the game.
-	 * @param message A message describing what happened
-	 */
-	public void stopGame(String message){
-		//TODO: stop the game
-		
-	}
-	
-	/**
 	 * Closes down the server and its associated resources
 	 */
 	public void kill(){
-		try {
-			_isRunning = false;
-			_pool.killAll();
-			_server.close();
-			_chatServer.kill();
-			
-			//notify anybody reading updates
-			synchronized (_update) {
-				_update.notifyAll();
+		
+		if(_isRunning){
+			try {
+				_isRunning = false;
+				_pool.killAll();
+				_server.close();
+				_chatServer.kill();
+				
+				//notify anybody reading updates
+				synchronized (_update) {
+					_update.notifyAll();
+				}
+				
+				//notify anybody reading moves
+				synchronized(_moveBuffer){
+					_moveBuffer.notifyAll();
+				}
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
 			}
-			
-			//notify anybody reading moves
-			synchronized(_moveBuffer){
-				_moveBuffer.notifyAll();
-			}
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
 		}
 	}
 

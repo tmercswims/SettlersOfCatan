@@ -169,7 +169,11 @@ public class ClientPool {
 					System.out.println("SENDING TO CLIENT " + mngr.getName() + " " + board.getNodes()[90].getVP() + " PACKET " + packet.getUID());
 				}
 				
-				mngr.send(packet);
+				try{
+					mngr.send(packet);
+				} catch(IOException e){
+					_server.addUpdate(String.format("Client %s does not exist; they probably disconnected: %s", mngr.getPlayerName(), e.getMessage()));
+				}
 			}
 		}
 	}
@@ -202,8 +206,20 @@ public class ClientPool {
 		for(ClientManager client : Collections.synchronizedCollection(_clients.values())){
 			client.kill();
 		}
+		
+		synchronized(_clients){
+			_clients.clear();
+		}
 	}
 	
+	/**
+	 * Sends a game over to all of the clients. Used when one of the
+	 * clients disconnects
+	 * @param message The message to display to the clients
+	 */
+	public void sendGameOver(String message){
+		_server.sendGameOver(message);
+	}
 	/**
 	 * Returns an array of players currently connected
 	 * @return Array of players

@@ -70,8 +70,7 @@ public class ClientManager extends Thread {
 		_pool.addUpdate("Client is trying to connect...");
 		
 		//send welcome message
-		_out.writeObject(new Packet(Packet.HANDSHAKE, new Handshake(_numPlayers, _chatPort), 0));
-		_out.flush();
+		send(new Packet(Packet.HANDSHAKE, new Handshake(_numPlayers, _chatPort), 0));
 		
 		try {
 			// expect packet with player class
@@ -121,7 +120,6 @@ public class ClientManager extends Thread {
 				} catch (SocketException e){
 					//disconnect
 					_pool.addUpdate(String.format("Client %s disconnecting", _p.getName()));
-					_running = false;
 					kill();
 				}
 				catch (ClassNotFoundException e) {
@@ -136,7 +134,6 @@ public class ClientManager extends Thread {
 				}
 			}
 		} catch (IOException e) {
-			_pool.addUpdate(e.getMessage());
 			kill();
 		} catch(IllegalArgumentException e){
 			//sendError(e.getMessage());
@@ -243,6 +240,7 @@ public class ClientManager extends Thread {
 	 * @throws IOException If anything goes wrong with sending the message
 	 */
 	private void sendError(String msg) throws IOException{
+		_out.reset();
 		_out.writeObject(new Packet(Packet.ERROR, msg, 0));
 		_out.flush();
 	}
@@ -252,19 +250,22 @@ public class ClientManager extends Thread {
 	 * @throws IOException If anything goes wrong with the IO
 	 */
 	public void kill(){
-		try{
-			_running = false;
-			System.out.println(_pool.remove(this));
-			_in.close();
-			_out.close();
-			_client.close();
-			_pool.addUpdate(String.format("Player %s disconnected", _p.getName()));
-			_pool.broadcast(new Packet(Packet.GAME_OVER, "Player "+_p.getName()+" has disconnected!"
-					+ "  Please return to the Main Menu", 0));
-		} catch(IOException e){
-			//not much to do
-			//TODO:
-			e.printStackTrace();
+		if(_running){
+			try{
+				_running = false;
+				//System.out.println(_pool.remove(this));
+				_in.close();
+				_out.close();
+				_client.close();
+				_pool.addUpdate(String.format("Player %s disconnected", _p.getName()));
+				_pool.sendGameOver("Player " + _p.getName() + " has dsconnected");
+				//_pool.broadcast(new Packet(Packet.GAME_OVER, "Player "+_p.getName()+" has disconnected!"
+						//+ "  Please return to the Main Menu", 0));
+			} catch(IOException e){
+				//not much to do
+				//TODO:
+				e.printStackTrace();
+			}
 		}
 	}
 	

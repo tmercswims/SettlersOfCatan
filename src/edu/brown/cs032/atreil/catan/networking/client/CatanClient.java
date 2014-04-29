@@ -40,9 +40,11 @@ public class CatanClient extends Thread{
 	private ObjectInputStream _in; //the stream to read in from the server
 	private ObjectOutputStream _out; //the stream to send messages to the server
 	private /*volatile*/ boolean _isStarting; //the game is actually starting and the client is no longer waiting //TODO: Needs to be volatile?
+	private boolean _isPreGame;
 	private GUI _gui; //the gui that displays the game
 	private int _chatPort; //port of the chatServer
 	private TradeFrame tradeframe;
+	private String _alertFrameText;
 
 	/*
 	 * Locks
@@ -115,6 +117,7 @@ public class CatanClient extends Thread{
 		_boardLock = new Integer(-1);
 		_playersLock = new Integer(-1);
 		_servicingLock = new Integer(-1);
+		
 		//connecting
 		connect();
 	}
@@ -151,6 +154,7 @@ public class CatanClient extends Thread{
 
 			//sending packet with the player class
 			packet = new Packet(Packet.PLAYER, _p, 0);
+			_out.reset();
 			_out.writeObject(packet);
 			_out.flush();
 		} catch (ClassNotFoundException e) {
@@ -187,6 +191,11 @@ public class CatanClient extends Thread{
 	 */
 	public void run(){
 		try {
+			
+			//preloading stage
+			//readServerMessagePrivate();
+			
+			//starting game
 			while(_isStarting){
 				Packet packet = (Packet) readPacket();
 
@@ -206,15 +215,19 @@ public class CatanClient extends Thread{
 				}
 				System.out.println("EXITING LOCK " + packet.getType());
 
-				parsePacket(packet);
+				if(_isStarting){
+					parsePacket(packet);
+				}
 			}
-		} catch (SocketException e){
+		} catch (SocketException|EOFException e){
 			//server disconnected
+			new AlertFrame("Server disconnected!", _frame);
 		} catch (IOException e) {
+			new AlertFrame(String.format("Error: %s", e.getMessage()), _frame);
 			//not much to do
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new AlertFrame(String.format("Error: %s", e.getMessage()), _frame);
 		} finally{
 			kill();
 		}
@@ -298,6 +311,9 @@ public class CatanClient extends Thread{
 			confirmPacket();
 		} else if (type == Packet.GAME_OVER) {
 			new AlertFrame((String)packet.getObject(),_frame);
+			_isStarting = false;
+			kill();
+			confirmPacket();
 		}
 		else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
@@ -319,15 +335,21 @@ public class CatanClient extends Thread{
 	private void updateLocalPlayer(){
 		int i = 0;
 
-		for(Player p : _players){
-			if(p.getName().equals(_p.getName()))
-				_p = _players[i];
-			i++;
+		synchronized(_players){
+			for(Player p : _players){
+				if(p.getName().equals(_p.getName()))
+					_p = _players[i];
+				i++;
+			}
 		}
 	}
 
 	public void sendMessage(String message) throws IOException{
-		_out.writeObject(new Packet(Packet.MESSAGE, message, 0));
+		synchronized(_out){
+			_out.reset();
+			_out.writeObject(new Packet(Packet.MESSAGE, message, 0));
+			_out.flush();
+		}
 	}
 
 	/**
@@ -342,7 +364,12 @@ public class CatanClient extends Thread{
 				_startTurn = false;
 			}
 		}
-		_out.writeObject(new Packet(Packet.MOVE, move, 0));
+		
+		synchronized(_out){
+			_out.reset();
+			_out.writeObject(new Packet(Packet.MOVE, move, 0));
+			_out.flush();
+		}
 	}
 
 	/**
@@ -355,23 +382,21 @@ public class CatanClient extends Thread{
 	private Packet readPacket() throws ClassNotFoundException, IOException{
 
 		try{
-			Object o = _in.readObject();
-
+			Object o;
+			
+			synchronized(_in){
+				o = _in.readObject();
+			}
+			
 			if(o instanceof Packet)
 				return (Packet) o;
 			else
 				throw new IOException("Invalid protocol: Received something other than a packet");
 		} catch(EOFException e){
-			//kill();
-			throw new SocketException("This shouldn't be printed...(1)");
-		}
-		catch(SocketException e){
-			//kill();
-			throw new SocketException("This shouldn't be printed...(2)");
+			throw new SocketException(String.format("Reached EOF: %s", e.getMessage()));
+		} catch(SocketException e){
+			throw new SocketException(e.getMessage());
 		} catch(IOException e){
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-			//kill();
 			throw new IOException(e.getMessage());
 		}
 	}
@@ -382,11 +407,53 @@ public class CatanClient extends Thread{
 	 * @return An update
 	 * @throws IOException If anything goes wrong with IO
 	 */
+	private void readServerMessagePrivate() throws IOException{
+		_isPreGame = true;
+		try {
+			while(_isPreGame){
+				Packet p = (Packet) readPacket();
+				int type = p.getType();
+	
+				if(type == Packet.MESSAGE) {
+					String message = (String) p.getObject();
+					System.out.println(String.format("readServerMessage: %s", message));
+					//TODO: print message in JTextArea
+				}
+				else if(type == Packet.STARTGAME){
+					_isStarting = true;
+					_isPreGame = false;
+					System.out.println("STARTTINGGGGG GAME");
+					//TODO: launch game panel
+					//return "Starting the game\n";
+				} else if(type == Packet.ERROR){
+					//TODO: print error in JTextArea
+					String error = (String) p.getObject();
+					System.out.println(String.format("readServerMessageError: %s", error));
+					
+					//return (String) p.getObject();
+				} else if(type == Packet.START){
+					//TODO: set active player
+					System.out.println("YOU ARE ACTIVE PLAYER");
+					//return "It is your turn. Make a move";
+				}
+				else
+					throw new IOException(String.format("Bad server protocol. Got code: %s", type));
+			}
+		} catch (ClassNotFoundException e) {
+			throw new IOException(e.getMessage());
+		}
+	}
+	
+	/**
+	 * @return An update
+	 * @throws IOException If anything goes wrong with IO
+	 */	
 	public String readServerMessage() throws IOException{
+	
 		try {
 			Packet p = (Packet) readPacket();
 			int type = p.getType();
-
+		
 			if(type == Packet.MESSAGE) {
 				System.out.println("GOT A MESSAGE");
 				return (String) p.getObject();
@@ -441,22 +508,13 @@ public class CatanClient extends Thread{
 	}
 
 	/**
-	 * Indicates if the client should start the turn
-	 * @return True, if the client should start, and false otherwise
-	 */
-	//TODO: check this out
-	//	public boolean getStartTurn(){
-	//		synchronized (_startTurnLock) {
-	//			return _startTurn;
-	//		}
-	//	}
-
-	/**
 	 * Returns the player's name
 	 * @return Player's name
 	 */
 	public String getPlayerName(){
-		return _p.getName();
+		synchronized(_playersLock){
+			return _p.getName();
+		}
 	}
 
 	/**
@@ -472,23 +530,38 @@ public class CatanClient extends Thread{
 	 * streams
 	 */
 	public void kill(){
-		try{
-			_in.close();
-			_out.close();
-			_socket.close();
-			new AlertFrame("Connection to server lost!  Please return to the Main Menu.", _frame);
-		} catch(IOException e){
-			//not much to do
+		
+		if(_isStarting){
+			try{
+				_isStarting = false;
+				
+				synchronized(_in){
+					_in.close();
+				}
+				
+				synchronized(_out){
+					_out.close();
+				}
+				
+				synchronized(_socket){
+					_socket.close();
+				}
+				
+				synchronized(_servicingLock){
+					_servicing = false;
+				}
+			} catch(IOException e){
+				//not much to do
+				System.err.println(String.format("Fatal exception: %s", e.getMessage()));
+			}
 		}
 	}
 
 	public int getChatPort() {
-		//TODO Implement setting the chat port
 		return _chatPort;
 	}
 
 	public GUI getGUI() {
-		// TODO Auto-generated method stub
 		return _gui;
 	}
 
