@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import java.awt.Color;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
@@ -13,13 +15,16 @@ import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
+
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 /**
@@ -49,9 +54,10 @@ public class Overview extends JPanel implements Update {
 		myTableModel = new MyTableModel();
 		myColorRenderer = new MyRenderer();
 		final JTable table = new JTable(myTableModel);
-		table.setPreferredScrollableViewportSize(new Dimension(600, 200));
-		table.setFillsViewportHeight(true);
 		table.setDefaultRenderer(Object.class, myColorRenderer);
+		table.getTableHeader().setFont(Constants.OVERVIEW_TAB_FONT_HEADER);
+		table.getTableHeader().setAlignmentX(SwingConstants.CENTER);
+		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		JScrollPane scrollPane = new JScrollPane(table);
 		add(scrollPane);
 		this.client = cc;
@@ -64,7 +70,8 @@ public class Overview extends JPanel implements Update {
 	}
 
 	class MyRenderer implements TableCellRenderer {
-		ArrayList<Color> rowColors;
+		private ArrayList<Color> rowColors;
+		private int activePlayerRow = 0;
 
 		public MyRenderer() {
 			rowColors = new ArrayList<Color>();
@@ -79,12 +86,23 @@ public class Overview extends JPanel implements Update {
 			JTextField editor = new JTextField();
 			if (value != null) {
 				editor.setText(value.toString());
+				editor.setHorizontalAlignment(SwingConstants.CENTER);
 			}
 			if(rowColors.size() > row) {
 				editor.setForeground(rowColors.get(row));
 			}
-			editor.setFont(Constants.MY_FONT_SMALL);
+			if(row == activePlayerRow) {
+				editor.setFont(Constants.OVERVIEW_TAB_FONT_ACTIVEPLAYER);
+			}
+			else {
+				editor.setFont(Constants.OVERVIEW_TAB_FONT);
+			}
+			editor.setBorder(null);
 			return editor;
+		}
+
+		public void setActivePlayerRow(int row) {
+			activePlayerRow = row;
 		}
 	}
 
@@ -139,6 +157,9 @@ public class Overview extends JPanel implements Update {
 				myColorRenderer.addColor(c);
 			else
 				myColorRenderer.addColor(Color.black);
+			if(p.isActive()) {
+				myColorRenderer.setActivePlayerRow(row);
+			}
 		}
 	}
 
