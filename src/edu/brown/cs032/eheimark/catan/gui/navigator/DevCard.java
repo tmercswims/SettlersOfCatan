@@ -1,5 +1,6 @@
 package edu.brown.cs032.eheimark.catan.gui.navigator;
 
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ import javax.swing.SwingConstants;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.felt;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.*;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.MonoFrame;
@@ -109,6 +111,22 @@ public class DevCard extends JPanel implements Update{
 		
 		//add button listeners
 		//this.update();
+	}
+	
+	@Override
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+        Image background = felt;
+        int iw = background.getWidth(this);
+        int ih = background.getHeight(this);
+        if (iw > 0 && ih > 0) {
+            for (int x = 0; x < getWidth(); x += iw) {
+                for (int y = 0; y < getHeight(); y += ih) {
+                    System.out.println("DREW A BG TILE");
+                    g.drawImage(background, x, y, iw, ih, this);
+                }
+            }
+        }
 	}
 	
 	public void ericUpdate(){

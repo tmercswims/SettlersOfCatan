@@ -12,7 +12,8 @@ import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 public class PanelTestMain {
 
 	public static void main(String[] args) {
-		DevCard dc = new DevCard(null, null);
+		//DevCard dc = new DevCard(null, null);
+		Build dc = new Build(null,null);
 		JFrame f = new JFrame();
 		f.add(dc);
 		f.setVisible(true);

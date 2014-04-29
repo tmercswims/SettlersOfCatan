@@ -17,8 +17,10 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.felt;
 import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.DEV_CARD;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
+
 import java.io.IOException;
 
 
@@ -44,8 +46,8 @@ public class Build extends JPanel implements Update {
 	 */
 	public Build(CatanClient c, DrawingPanel dp) {
 		super();
-		_client  = c;
-		_dp = dp;
+		_client  = null;//c;
+		_dp = null;//dp;
 		this.img = Constants.BUILD_IMAGE;
 
 		setLayout(null);
@@ -248,10 +250,18 @@ public class Build extends JPanel implements Update {
 	};
 
 	@Override
-	public void paintComponent(Graphics g) {
-		g.setColor(MY_BACKGROUND);
-		g.fillRect(0, 0, getWidth(), getHeight());
-		g.drawImage(img, 0, 0, null);
-		//_client.confirmPacket();
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+        Image background = felt;
+        int iw = background.getWidth(this);
+        int ih = background.getHeight(this);
+        if (iw > 0 && ih > 0) {
+            for (int x = 0; x < getWidth(); x += iw) {
+                for (int y = 0; y < getHeight(); y += ih) {
+                    System.out.println("DREW A BG TILE");
+                    g.drawImage(background, x, y, iw, ih, this);
+                }
+            }
+        }
 	}
 }
