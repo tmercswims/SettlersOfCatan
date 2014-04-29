@@ -117,20 +117,20 @@ public class Trade extends JPanel implements Update {
 		JPanel comboPanel = new JPanel();
 		comboPanel.setLayout(new GridLayout(2,5));
 		comboPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
-				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.oreToken.getIconHeight()),
-				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.oreToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/5),Image.SCALE_SMOOTH))));
 		comboPanel.add(new JLabel(new ImageIcon(Misc.wheatToken.getImage().getScaledInstance(
-				(int)(Misc.wheatToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.wheatToken.getIconHeight()),
-				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+				(int)(Misc.wheatToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.wheatToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/5),Image.SCALE_SMOOTH))));
 		comboPanel.add(new JLabel(new ImageIcon(Misc.woolToken.getImage().getScaledInstance(
-				(int)(Misc.woolToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.woolToken.getIconHeight()),
-				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+				(int)(Misc.woolToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woolToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/5),Image.SCALE_SMOOTH))));
 		comboPanel.add(new JLabel(new ImageIcon(Misc.woodToken.getImage().getScaledInstance(
-				(int)(Misc.woodToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.woodToken.getIconHeight()),
-				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+				(int)(Misc.woodToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woodToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/5),Image.SCALE_SMOOTH))));
 		comboPanel.add(new JLabel(new ImageIcon(Misc.brickToken.getImage().getScaledInstance(
-				(int)(Misc.brickToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.brickToken.getIconHeight()),
-				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+				(int)(Misc.brickToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.brickToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/5),Image.SCALE_SMOOTH))));
 		
 		oreCB = new JComboBox<Integer>(tradeValues);
 		oreCB.setSelectedIndex(5);
