@@ -258,7 +258,7 @@ public class ClientManager extends Thread {
 				_out.close();
 				_client.close();
 				_pool.addUpdate(String.format("Player %s disconnected", _p.getName()));
-				_pool.sendGameOver("Player " + _p.getName() + " has dsconnected");
+				_pool.sendGameOver("Player " + _p.getName() + " has disconnected");
 				//_pool.broadcast(new Packet(Packet.GAME_OVER, "Player "+_p.getName()+" has disconnected!"
 						//+ "  Please return to the Main Menu", 0));
 			} catch(IOException e){

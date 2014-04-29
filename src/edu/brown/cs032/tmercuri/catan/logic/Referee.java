@@ -15,6 +15,7 @@ import edu.brown.cs032.sbreslow.catan.gui.board.Edge;
 import edu.brown.cs032.sbreslow.catan.gui.board.Node;
 import edu.brown.cs032.sbreslow.catan.gui.board.Tile;
 import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.*;
+import static edu.brown.cs032.tmercuri.catan.logic.MoveMessage.MESSAGE_000;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.DevCardMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
@@ -107,7 +108,7 @@ public class Referee {
                 if (whatHappened.isError()) {
                     _server.sendMessage(move.getPlayerName(), "Not allowed - " + whatHappened.getDescription());
                     System.out.println("Not allowed - " + whatHappened.getDescription());
-                } else {
+                } else if (whatHappened != MESSAGE_000) {
                     _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
                     System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
                 }
@@ -229,6 +230,7 @@ public class Referee {
         }
         Player player = _players[p];
         player.setIsActive(true);
+        _server.sendMessage(null, String.format("It is now %s's turn.", player.getName()));
         _turnOver = false;
         _activePlayer = player;
         pushPlayers();
