@@ -699,9 +699,11 @@ public class Referee {
                     Edge e = set.get(i);
                     if (isEndEdge(e, set) || i == set.size()) {
                         System.out.println("passed if");
+                        System.out.println(String.format("edge: %d", e.getIndex()));
                         int l = findLongestRoadInSet(e, set, getEndNode(e, set), 1);
                         System.out.println(String.format("LONGEST ROAD FOR %s: %d", p.getName(), l));
                         if (p.getLongestRoad() < l) p.setLongestRoad(l);
+                        for (Edge ed : set) ed.setVisited(false);
                     }
                 }
             }
