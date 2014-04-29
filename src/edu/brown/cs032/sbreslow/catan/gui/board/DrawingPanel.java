@@ -33,7 +33,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		_client = client;
 		//setBackground(new Color(41, 105, 168));
         setOpaque(false);
-		setSize(600,610);
+		setSize(600,600);
 		setPreferredSize(getSize());
 		setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());

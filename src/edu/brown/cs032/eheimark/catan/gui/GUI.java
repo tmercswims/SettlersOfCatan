@@ -1,13 +1,16 @@
 package edu.brown.cs032.eheimark.catan.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.IOException;
+
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import edu.brown.cs032.atreil.catan.chat.client.ChatClient;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.eheimark.catan.gui.navigator.ActivePlayer;
 import edu.brown.cs032.eheimark.catan.gui.navigator.TabbedPanel;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 
@@ -22,7 +25,11 @@ public class GUI extends JPanel implements Update {
 	private final TabbedPanel tabbedMenu;
 	private final DrawingPanel gameBoard;
 	private final ChatPanel chat;
+	private final ActivePlayer activeplayer;
 	
+	private final JPanel left;
+
+
 	/**
 	 * Instantiates a new gui.
 	 *
@@ -30,9 +37,13 @@ public class GUI extends JPanel implements Update {
 	 */
 	public GUI(CatanClient cc) {
 		super(new BorderLayout());
+		left = new JPanel(new BorderLayout());
 		this.client = cc;
+		activeplayer = new ActivePlayer(client);
+		left.add(activeplayer, BorderLayout.CENTER);
 		gameBoard = new DrawingPanel(client);
-		add(gameBoard, BorderLayout.CENTER);
+		left.add(gameBoard, BorderLayout.NORTH);
+		add(left, BorderLayout.WEST);
 		tabbedMenu = new TabbedPanel(client, gameBoard);
 		add(tabbedMenu, BorderLayout.SOUTH);
 		//TODO Eric changed order explain this
@@ -82,6 +93,7 @@ public class GUI extends JPanel implements Update {
 			@Override
 			public void run() {
 				tabbedMenu.ericUpdate();
+				activeplayer.ericUpdate();
 				client.confirmPacket();
 			}
 		});

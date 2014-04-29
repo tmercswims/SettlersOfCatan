@@ -45,14 +45,13 @@ public class ChatPanel extends JPanel {
 	public ChatPanel(CatanClient cc){
 		_client = cc;
 		Dimension d = new Dimension(400,600);
-		this.setPreferredSize(d);
+		this.setPreferredSize(new Dimension(400, 650));
 		_field = new JTextField(30);
 		_field.addKeyListener(new ChatListener());
 		_area = new JTextPane();
 		Dimension size = new Dimension(380,540);
 		_area.setBackground(Color.black);
-		_area.setMaximumSize(size);
-		_area.setPreferredSize(size);
+		_area.setPreferredSize(new Dimension(380, 595));
         DefaultCaret caret = (DefaultCaret)_area.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         _area.setCaret(caret);
@@ -63,7 +62,7 @@ public class ChatPanel extends JPanel {
         this.setBorder(b);
         _area.setBorder(bl);
 		_scroll = new JScrollPane(_area);
-		_scroll.setPreferredSize(size);
+		_scroll.setPreferredSize(new Dimension(380, 595));
 		this.add(_scroll);
 		this.add(_field);
 		

@@ -29,9 +29,6 @@ public class TabbedPanel extends JPanel implements Update {
 	
 	/** The devcard. */
 	private final DevCard devcard;
-	
-	private final ActivePlayer activeplayer;
-
 
 	/**
 	 * Instantiates a new tabbed panel.
@@ -59,9 +56,6 @@ public class TabbedPanel extends JPanel implements Update {
 		devcard = new DevCard(client, dp);
 		tabbedPane.addTab("Dev Card", null, devcard, null);
 		
-		activeplayer = new ActivePlayer(client);
-		add(activeplayer, BorderLayout.SOUTH);
-		
 		setMinimumSize(Constants.TABBED_MENU_SIZE);
 		setPreferredSize(Constants.TABBED_MENU_SIZE);
 		setMaximumSize(Constants.TABBED_MENU_SIZE);
@@ -73,6 +67,5 @@ public class TabbedPanel extends JPanel implements Update {
 		trade.ericUpdate();
 		build.ericUpdate();
 		devcard.ericUpdate();
-		activeplayer.ericUpdate();
 	}
 }
