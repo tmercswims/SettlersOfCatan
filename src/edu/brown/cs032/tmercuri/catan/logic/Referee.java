@@ -693,18 +693,15 @@ public class Referee {
             System.out.println(String.format("NUMBER OF ROAD SETS FOR %s: %d", p.getName(), edgeSets.size()));
             _board.clearEdges();
             for (List<Edge> set : edgeSets) {
-                System.out.println(String.format("SET SIZE: %d", set.size()));
                 for (int i=0; i<set.size(); i++) {
-                    System.out.println(String.format("i: %d", i));
                     Edge e = set.get(i);
+                    int l = 0;
                     if (isEndEdge(e, set) || i == set.size()-1) {
-                        System.out.println("passed if");
-                        System.out.println(String.format("edge: %d", e.getIndex()));
-                        int l = findLongestRoadInSet(e, set, getEndNode(e, set), 1);
-                        System.out.println(String.format("LONGEST ROAD FOR %s: %d", p.getName(), l));
-                        if (p.getLongestRoad() < l) p.setLongestRoad(l);
+                        l = Math.max(l, findLongestRoadInSet(e, set, getEndNode(e, set), 1));
                         for (Edge ed : set) ed.setVisited(false);
                     }
+                    System.out.println(String.format("LONGEST ROAD FOR %s: %d", p.getName(), l));
+                    p.setLongestRoad(l);
                 }
             }
             _board.clearEdges();
