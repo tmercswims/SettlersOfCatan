@@ -220,16 +220,17 @@ public class Trade extends JPanel implements Update {
 				}
 			}
 			
-			if((!client.getPlayer().isActive())||(!client.getPlayer().hasRolled())){
-				proposeButton.setEnabled(false);
-			}
-			else{
-				proposeButton.setEnabled(true);
-			}
+			
 
 			toPlayerCB.repaint();
 			repaint();
 			System.out.println("DONE WITH TRADE MENU UPDATE");
+		}
+		if((!client.getPlayer().isActive())||(!client.getPlayer().hasRolled())){
+			proposeButton.setEnabled(false);
+		}
+		else{
+			proposeButton.setEnabled(true);
 		}
 		updated = true;
 	}
