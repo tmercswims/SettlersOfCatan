@@ -297,8 +297,7 @@ public class CatanClient extends Thread{
 			_gui.getChat().addMessage((String)packet.getObject());
 			confirmPacket();
 		} else if (type == Packet.GAME_OVER) {
-			new AlertFrame("ERROR: Player "+(String)packet.getObject()+" has left the game."
-					+"Please return to the main menu.",_frame);
+			new AlertFrame((String)packet.getObject(),_frame);
 		}
 		else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
@@ -363,16 +362,16 @@ public class CatanClient extends Thread{
 			else
 				throw new IOException("Invalid protocol: Received something other than a packet");
 		} catch(EOFException e){
-			kill();
+			//kill();
 			throw new SocketException("This shouldn't be printed...(1)");
 		}
 		catch(SocketException e){
-			kill();
+			//kill();
 			throw new SocketException("This shouldn't be printed...(2)");
 		} catch(IOException e){
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-			kill();
+			//kill();
 			throw new IOException(e.getMessage());
 		}
 	}
@@ -477,6 +476,7 @@ public class CatanClient extends Thread{
 			_in.close();
 			_out.close();
 			_socket.close();
+			new AlertFrame("Connection to server lost!  Please return to the Main Menu.", _frame);
 		} catch(IOException e){
 			//not much to do
 		}
