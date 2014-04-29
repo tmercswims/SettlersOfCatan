@@ -1,5 +1,6 @@
 package edu.brown.cs032.sbreslow.catan.gui.devCards;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,17 +68,21 @@ public class YoPFrame extends JFrame {
 		}
 		//panel.add(new JLabel(""));
 		for(JRadioButton b: _tbuttons){
+			b.setForeground(Color.white);
 			panel.add(b);
 		}
 		for(JRadioButton b: _bbuttons){
+			b.setForeground(Color.white);
 			panel.add(b);
 		}
 		JButton submit = new JButton("Submit");
 		submit.addActionListener(new SubmitList(this));
 		JPanel bp = new JPanel();
 		bp.add(submit);
-		JPanel mp = new JPanel();
+		JPanel mp = new BackgroundPanel();
 		mp.setLayout(new BoxLayout(mp, BoxLayout.PAGE_AXIS));
+		panel.setOpaque(false);
+		bp.setOpaque(false);
 		mp.add(panel);
 		mp.add(bp);
 		this.add(mp);

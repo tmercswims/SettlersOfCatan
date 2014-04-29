@@ -35,7 +35,7 @@ public class SevenFrame extends JFrame {
 		_cc = cc;
 		this.img = Constants.TRADE_TAB_IMAGE;
 		//setLayout(null); // absolute layout
-		final Integer[] tradeValues = new Integer[] {5, 4, 3, 2, 1, 0};
+		final Integer[] tradeValues = new Integer[] {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 		JPanel comboPanel = new JPanel();
 		comboPanel.setLayout(new GridLayout(2,5));
 		comboPanel.add(new JLabel(Misc.oreToken));
@@ -45,31 +45,31 @@ public class SevenFrame extends JFrame {
 		comboPanel.add(new JLabel(Misc.brickToken));
 		
 		oreCB = new JComboBox<Integer>(tradeValues);
-		oreCB.setSelectedIndex(5);
+		oreCB.setSelectedIndex(10);
 		oreCB.setToolTipText("Ore");
 		//oreCB.setBounds(155, 59, 67, 16);
 		comboPanel.add(oreCB);
 
 		wheatCB = new JComboBox<Integer>(tradeValues);
-		wheatCB.setSelectedIndex(5);
+		wheatCB.setSelectedIndex(10);
 		wheatCB.setToolTipText("Wheat");
 		//wheatCB.setBounds(328, 59, 67, 16);
 		comboPanel.add(wheatCB);
 
 		woolCB = new JComboBox<Integer>(tradeValues);
-		woolCB.setSelectedIndex(5);
+		woolCB.setSelectedIndex(10);
 		//woolCB.setBounds(501, 59, 67, 16);
 		woolCB.setToolTipText("Wool");
 		comboPanel.add(woolCB);
 
 		lumberCB = new JComboBox<Integer>(tradeValues);
-		lumberCB.setSelectedIndex(5);
+		lumberCB.setSelectedIndex(10);
 		//lumberCB.setBounds(674, 59, 67, 16);
 		lumberCB.setToolTipText("Lumber");
 		comboPanel.add(lumberCB);
 
 		brickCB = new JComboBox<Integer>(tradeValues);
-		brickCB.setSelectedIndex(5);
+		brickCB.setSelectedIndex(10);
 		brickCB.setToolTipText("Brick");
 		//brickCB.setBounds(847, 59, 67, 16);
 		comboPanel.add(brickCB);
@@ -125,9 +125,11 @@ public class SevenFrame extends JFrame {
 		//setBackground(Color.red);
 		//setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
 		//setMinimumSize(new Dimension(1000,200));
-		JPanel mp = new JPanel();
+		JPanel mp = new BackgroundPanel();
 		mp.setLayout(new BoxLayout(mp, BoxLayout.PAGE_AXIS));
+		comboPanel.setOpaque(false);
 		mp.add(comboPanel);
+		bp.setOpaque(false);
 		mp.add(bp);
 		this.add(mp);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

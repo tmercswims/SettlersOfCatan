@@ -1,6 +1,11 @@
 package edu.brown.cs032.sbreslow.catan.gui.devCards;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.feltcon;
+
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -59,6 +64,7 @@ public class MonoFrame extends JFrame {
 				//_bbuttons[i] = new JRadioButton("Lumber");
 				break;
 			}
+			_buttons[i].setForeground(Color.white);
 			_top.add(_buttons[i]);
 			//_bot.add(_bbuttons[i]);
 			panel.add(_images[i]);
@@ -71,14 +77,18 @@ public class MonoFrame extends JFrame {
 		//panel.add(submit);
 		JPanel bp = new JPanel();
 		bp.add(submit);
-		JPanel mp = new JPanel();
+		BackgroundPanel mp = new BackgroundPanel();
 		mp.setLayout(new BoxLayout(mp, BoxLayout.PAGE_AXIS));
+		panel.setOpaque(false);
 		mp.add(panel);
+		bp.setOpaque(false);
 		mp.add(bp);
-		this.add(mp);
+        this.add(mp);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.pack();
+		repaint();
+		//System.out.println(getSize());
 	}
 
 	private class SubmitList implements ActionListener{

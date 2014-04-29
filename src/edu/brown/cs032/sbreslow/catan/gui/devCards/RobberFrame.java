@@ -1,6 +1,7 @@
 package edu.brown.cs032.sbreslow.catan.gui.devCards;
 
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -34,13 +35,14 @@ public class RobberFrame extends JFrame {
 		//_cur = cc.getPlayer();
 		_players = plist;
 		_buttons = new ArrayList<JButton>();
-		JPanel list = new JPanel();
+		JPanel list = new BackgroundPanel();
 		Dimension size = new Dimension(365,50*(plist.size()+1));
 		list.setPreferredSize(size);
 		list.setMinimumSize(size);
 		list.setLayout(new BoxLayout(list, BoxLayout.PAGE_AXIS));
 		JLabel label = new JLabel("Please Choose a Player to Steal a Random Resource From:");
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
+		label.setForeground(Color.white);
 		list.add(label);
 		//Dimension d = label.getSize();
 		//System.out.println(d.getWidth());
