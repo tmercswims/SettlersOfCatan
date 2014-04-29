@@ -153,6 +153,7 @@ public class HostSettingsMenu extends CatanMenu {
 					@Override
 					public void run() {
 						soc.getFrame().setPage(new HostLoadingMenu(soc));
+                        soc.getFrame().stopMusic();
 					}
 				});
 			}

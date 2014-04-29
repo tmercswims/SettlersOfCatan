@@ -55,6 +55,7 @@ public class HostLoadingMenu extends CatanMenu {
 							su.interrupt();
 						}
 						soc.getFrame().setPage(new MainMenu(soc));
+                        soc.getFrame().playMusic();
 						repaint();
 					}
 				});
