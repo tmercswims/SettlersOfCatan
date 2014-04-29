@@ -1,5 +1,7 @@
 package edu.brown.cs032.eheimark.catan.gui.navigator;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.felt;
+
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -14,6 +16,7 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages;
+import edu.brown.cs032.sbreslow.catan.gui.devCards.BackgroundPanel;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 import java.util.ArrayList;
@@ -26,6 +29,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 /**
  * The Class Overview is the overview tabbed panel which contains
@@ -48,7 +52,8 @@ public class Overview extends JPanel implements Update {
 	 * @param cc the cc
 	 */
 	public Overview(CatanClient cc) {
-		super(new GridLayout(1, 0));
+		super();
+		this.setLayout(new GridLayout(1, 0));
 		setBackground(MY_BACKGROUND);
 		playerstats = new ArrayList<PlayerStats>();
 		myTableModel = new MyTableModel();
@@ -57,8 +62,12 @@ public class Overview extends JPanel implements Update {
 		table.setDefaultRenderer(Object.class, myColorRenderer);
 		table.getTableHeader().setFont(Constants.OVERVIEW_TAB_FONT_HEADER);
 		table.getTableHeader().setAlignmentX(SwingConstants.CENTER);
+		table.setShowGrid(false);
+		table.setOpaque(false);
 		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
 		add(scrollPane);
 		this.client = cc;
 	}
@@ -98,6 +107,7 @@ public class Overview extends JPanel implements Update {
 				editor.setFont(Constants.OVERVIEW_TAB_FONT);
 			}
 			editor.setBorder(null);
+			editor.setOpaque(false);
 			return editor;
 		}
 
@@ -165,8 +175,18 @@ public class Overview extends JPanel implements Update {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(MY_BACKGROUND);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		super.paintComponent(g);
+        Image background = felt;
+        int iw = background.getWidth(this);
+        int ih = background.getHeight(this);
+        if (iw > 0 && ih > 0) {
+            for (int x = 0; x < getWidth(); x += iw) {
+                for (int y = 0; y < getHeight(); y += ih) {
+                    System.out.println("DREW A BG TILE");
+                    g.drawImage(background, x, y, iw, ih, this);
+                }
+            }
+        }
 	}
 
 	@Override
