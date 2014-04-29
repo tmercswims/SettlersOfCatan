@@ -1,9 +1,13 @@
 package edu.brown.cs032.eheimark.catan.gui.trade;
 
+import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,6 +20,7 @@ import javax.swing.JButton;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
+import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
@@ -54,16 +59,18 @@ public class Trade extends JPanel implements Update {
 		this.client = cc;
 
 		this.img = Constants.TRADE_TAB_IMAGE;
-		setLayout(null); // absolute layout
+		//setLayout(null); // absolute layout
+		
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));//GridLayout(3,1));
 
 		toPlayerCB = new JComboBox<String>();
 		toPlayerCB.setOpaque(true);
-		toPlayerCB.setBackground(Color.white);
-		toPlayerCB.setBounds(53, sendHeight, 140, 16);
-		toPlayerCB.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(toPlayerCB);
+		//toPlayerCB.setBackground(Color.white);
+		//toPlayerCB.setBounds(53, sendHeight, 140, 16);
+		//toPlayerCB.setBorder(BorderFactory.createLineBorder(Color.black));
+		//add(toPlayerCB);
 
-		oreCB = new JComboBox<Integer>(tradeValues);
+		/*oreCB = new JComboBox<Integer>(tradeValues);
 		oreCB.setSelectedIndex(5);
 		oreCB.setOpaque(true);
 		oreCB.setBackground(Color.white);
@@ -101,9 +108,61 @@ public class Trade extends JPanel implements Update {
 		brickCB.setBackground(Color.white);
 		brickCB.setBounds(847, resourceHeight, 67, 16);
 		brickCB.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(brickCB);
+		add(brickCB);*/
+		
+		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
+		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
+		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
+		
+		JPanel comboPanel = new JPanel();
+		comboPanel.setLayout(new GridLayout(2,5));
+		comboPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
+				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.oreToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+		comboPanel.add(new JLabel(new ImageIcon(Misc.wheatToken.getImage().getScaledInstance(
+				(int)(Misc.wheatToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.wheatToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+		comboPanel.add(new JLabel(new ImageIcon(Misc.woolToken.getImage().getScaledInstance(
+				(int)(Misc.woolToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.woolToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+		comboPanel.add(new JLabel(new ImageIcon(Misc.woodToken.getImage().getScaledInstance(
+				(int)(Misc.woodToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.woodToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+		comboPanel.add(new JLabel(new ImageIcon(Misc.brickToken.getImage().getScaledInstance(
+				(int)(Misc.brickToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/4/Misc.brickToken.getIconHeight()),
+				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/4),Image.SCALE_SMOOTH))));
+		
+		oreCB = new JComboBox<Integer>(tradeValues);
+		oreCB.setSelectedIndex(5);
+		oreCB.setToolTipText("Ore");
+		//oreCB.setBounds(155, 59, 67, 16);
+		comboPanel.add(oreCB);
 
-		JLabel brickLabel = new JLabel("Brick:");
+		wheatCB = new JComboBox<Integer>(tradeValues);
+		wheatCB.setSelectedIndex(5);
+		wheatCB.setToolTipText("Wheat");
+		//wheatCB.setBounds(328, 59, 67, 16);
+		comboPanel.add(wheatCB);
+
+		woolCB = new JComboBox<Integer>(tradeValues);
+		woolCB.setSelectedIndex(5);
+		//woolCB.setBounds(501, 59, 67, 16);
+		woolCB.setToolTipText("Wool");
+		comboPanel.add(woolCB);
+
+		lumberCB = new JComboBox<Integer>(tradeValues);
+		lumberCB.setSelectedIndex(5);
+		//lumberCB.setBounds(674, 59, 67, 16);
+		lumberCB.setToolTipText("Lumber");
+		comboPanel.add(lumberCB);
+
+		brickCB = new JComboBox<Integer>(tradeValues);
+		brickCB.setSelectedIndex(5);
+		brickCB.setToolTipText("Brick");
+		//brickCB.setBounds(847, 59, 67, 16);
+		comboPanel.add(brickCB);
+
+		/*JLabel brickLabel = new JLabel("Brick:");
 		brickLabel.setFont( Constants.DEFAULT_LABEL_FONT);
 		brickLabel.setOpaque(true);
 		brickLabel.setBackground(Color.WHITE);
@@ -146,35 +205,48 @@ public class Trade extends JPanel implements Update {
 		oreLabel.setBounds(123, resourceHeight, 31, 16);
 		oreLabel.setForeground(Color.DARK_GRAY);
 		oreLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(oreLabel);
+		add(oreLabel);*/
 
 		proposeButton = new JButton("Send");
 		proposeButton.setFont( Constants.DEFAULT_LABEL_FONT);
-		proposeButton.setBounds(195, sendHeight, 70, 16);
+		//proposeButton.setBounds(195, sendHeight, 70, 16);
 		proposeButton.addActionListener(new ProposeTradeActionListener());
-		add(proposeButton);
+		//add(proposeButton);
 
 		JLabel toLabel = new JLabel("To:");
 		toLabel.setFont( Constants.DEFAULT_LABEL_FONT);
 		toLabel.setOpaque(true);
-		toLabel.setForeground(Color.BLACK);
-		toLabel.setBackground(Color.WHITE);
-		toLabel.setBounds(28, sendHeight, 138, 16);
-		toLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(toLabel);
+		//toLabel.setForeground(Color.BLACK);
+		//toLabel.setBackground(Color.WHITE);
+		//toLabel.setBounds(28, sendHeight, 138, 16);
+		//toLabel.setBorder(BorderFactory.createLineBorder(Color.black));
+		//add(toLabel);
+		
+		JPanel toPanel = new JPanel();
+		toPanel.setLayout(new BoxLayout(toPanel, BoxLayout.LINE_AXIS));
+		toPanel.add(toLabel);
+		toPanel.add(toPlayerCB);
 
 		JLabel clarificationLabel = new JLabel("+ = RECEIVE, - = SEND");
 		clarificationLabel.setOpaque(true);
 		clarificationLabel.setForeground(Color.BLACK);
 		clarificationLabel.setFont(new Font("Times", Font.ITALIC, 12));
-		clarificationLabel.setBackground(Color.WHITE);
-		clarificationLabel.setBounds(28, 90, 136, 16);
-		clarificationLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(clarificationLabel);
+		//clarificationLabel.setBackground(Color.WHITE);
+		//clarificationLabel.setBounds(28, 90, 136, 16);
+		//clarificationLabel.setBorder(BorderFactory.createLineBorder(Color.black));
+		//add(clarificationLabel);
+		
+		JPanel bp = new JPanel();
+		bp.setLayout(new BoxLayout(bp, BoxLayout.LINE_AXIS));
+		bp.add(proposeButton);
+		bp.add(clarificationLabel);
+		
+		this.add(toPanel);
+		this.add(comboPanel);
+		this.add(bp);
+		//bp.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
+		
 	}
 
 	/**
@@ -200,9 +272,9 @@ public class Trade extends JPanel implements Update {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(MY_BACKGROUND);
-		g.fillRect(0, 0, getWidth(), getHeight());
-		g.drawImage(img, 0, 0, null);
+		//g.setColor(MY_BACKGROUND);
+		//g.fillRect(0, 0, getWidth(), getHeight());
+		//g.drawImage(img, 0, 0, null);
 	}
 
 	private boolean updated = false;
