@@ -20,6 +20,7 @@ import edu.brown.cs032.sbreslow.catan.gui.devCards.BackgroundPanel;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -64,6 +65,7 @@ public class Overview extends JPanel implements Update {
 		table.getTableHeader().setAlignmentX(SwingConstants.CENTER);
 		table.setShowGrid(false);
 		table.setOpaque(false);
+		table.setRowHeight(20);
 		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setOpaque(false);
@@ -79,15 +81,15 @@ public class Overview extends JPanel implements Update {
 	}
 
 	class MyRenderer implements TableCellRenderer {
-		private ArrayList<Color> rowColors;
+		private HashMap<Integer, Color> rowColors;
 		private int activePlayerRow = 0;
 
 		public MyRenderer() {
-			rowColors = new ArrayList<Color>();
+			rowColors = new HashMap<Integer, Color>();
 		}
 
-		public void addColor(Color c) {
-			rowColors.add(c);
+		public void addColor(int row, Color c) {
+			rowColors.put(row, c);
 		}
 
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
@@ -162,11 +164,7 @@ public class Overview extends JPanel implements Update {
 			data[row][column++] = p.getRoadsBuilt();
 			data[row][column++] = p.getCitiesBuilt();
 			data[row][column++] = p.getSettlementsBuilt();
-			Color c = p.getColor();
-			if(!c.equals(BoardImages.Edge.white))
-				myColorRenderer.addColor(c);
-			else
-				myColorRenderer.addColor(Color.black);
+			myColorRenderer.addColor(row, p.getColor());
 			if(p.isActive()) {
 				myColorRenderer.setActivePlayerRow(row);
 			}
