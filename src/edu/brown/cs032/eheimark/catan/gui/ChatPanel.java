@@ -24,12 +24,21 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import javax.swing.JTextArea;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.BoxView;
+import javax.swing.text.ComponentView;
+import javax.swing.text.Element;
+import javax.swing.text.IconView;
+import javax.swing.text.LabelView;
+import javax.swing.text.ParagraphView;
+import javax.swing.text.StyledEditorKit;
+import javax.swing.text.View;
+import javax.swing.text.ViewFactory;
 
 public class ChatPanel extends JPanel {
 	
 	private JTextField _field;
-	private JTextArea _area;
+	private JTextPane _area;
 	public JPanel _panel;
 	private JScrollPane _scroll;
 	private CatanClient _client;
@@ -45,7 +54,7 @@ public class ChatPanel extends JPanel {
 		this.setPreferredSize(new Dimension(400, 650));
 		_field = new JTextField(30);
 		_field.addKeyListener(new ChatListener());
-		_area = new JTextArea();
+		_area = new JTextPane();
 		Dimension size = new Dimension(380,540);
 		_area.setBackground(Color.black);
 		_area.setPreferredSize(new Dimension(380, 595));
@@ -53,8 +62,7 @@ public class ChatPanel extends JPanel {
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         _area.setCaret(caret);
 		_area.setEditable(false);
-        _area.setLineWrap(true);
-        _area.setWrapStyleWord(true);
+        _area.setEditorKit(new WrapEditorKit());
         Border bl = BorderFactory.createLineBorder(Color.black);
         TitledBorder b = BorderFactory.createTitledBorder(bl,"Chat/Log");
         b.setTitleJustification(TitledBorder.CENTER);
@@ -90,6 +98,55 @@ public class ChatPanel extends JPanel {
 		
 		_field.requestFocus();
 	}
+    
+    class WrapEditorKit extends StyledEditorKit {
+        private static final long serialVersionUID = 2347939257335358031L;
+        ViewFactory defaultFactory=new WrapColumnFactory();
+        @Override
+        public ViewFactory getViewFactory() {
+            return defaultFactory;
+        }
+    }
+
+    class WrapColumnFactory implements ViewFactory {
+        @Override
+        public View create(Element elem) {
+            String kind = elem.getName();
+            if (kind != null) {
+                switch (kind) {
+                    case AbstractDocument.ContentElementName:
+                        return new WrapLabelView(elem);
+                    case AbstractDocument.ParagraphElementName:
+                        return new ParagraphView(elem);
+                    case AbstractDocument.SectionElementName:
+                        return new BoxView(elem, View.Y_AXIS);
+                    case StyleConstants.ComponentElementName:
+                        return new ComponentView(elem);
+                    case StyleConstants.IconElementName:
+                        return new IconView(elem);
+                }
+            }
+            // default to text display
+            return new LabelView(elem);
+        }
+    }
+
+    class WrapLabelView extends LabelView {
+        public WrapLabelView(Element elem) {
+            super(elem);
+        }
+        @Override
+        public float getMinimumSpan(int axis) {
+            switch (axis) {
+                case View.X_AXIS:
+                    return 0;
+                case View.Y_AXIS:
+                    return super.getMinimumSpan(axis);
+                default:
+                    throw new IllegalArgumentException("Invalid axis: " + axis);
+            }
+        }
+    }
 	
 	public void addMessage(String message){
 		System.out.println("CHATPANEL " + message);
@@ -132,8 +189,8 @@ public class ChatPanel extends JPanel {
 					}
 				}
 				_area.getDocument().insertString(_area.getCaretPosition(),sb.toString().trim()+"\n",attr);
-			} catch (BadLocationException e1) {
-				e1.printStackTrace();
+			} catch (BadLocationException ex) {
+                System.out.println(String.format("ERROR: %s", ex.getMessage()));
 			}
 		}
 	}
@@ -141,9 +198,8 @@ public class ChatPanel extends JPanel {
 	private void println(String message){
 		try {
 			_client.sendMessage(message);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException ex) {
+			System.out.println(String.format("ERROR: %s", ex.getMessage()));
 		}
 	}
 	
