@@ -30,6 +30,11 @@ public enum MoveMessage {
     MESSAGE_001(001, false, "%s completed their turn."),
     
     /**
+     * you haven't rolled yet
+     */
+    MESSAGE_998(998, true, "you have not rolled the die yet."),
+    
+    /**
      * it's not your turn
      */
     MESSAGE_999(999, true, "it is not your turn."),

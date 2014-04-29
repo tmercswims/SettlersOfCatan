@@ -277,6 +277,7 @@ public class Referee {
     
     private int buildMove(BuildMove move) {
         if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
+        if (!_activePlayer.hasRolled()) return 998;
         switch (move.getBuildType()) {
             case ROAD:
                 Edge e = _board.getEdges()[move.getBuildLocation()];
@@ -409,6 +410,7 @@ public class Referee {
     
     private int tradeMove(TradeMove move) {
         if (!move.getPlayerName().equals(_activePlayer.getName()) && !move.getPlayerName().equals(move.getProposedTo())) return 999;
+        if (!_activePlayer.hasRolled()) return 998;
         
         Player robbed = null;
         for (Player p : _players) {
@@ -550,6 +552,7 @@ public class Referee {
     
     private int yearOfPlentyMove(YearOfPlentyMove move) {
         if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
+        if (!_activePlayer.hasRolled()) return 998;
         Player played = null;
         for (Player p : _players) {
             if (p.getName().equals(move.getPlayerName()))
@@ -564,6 +567,7 @@ public class Referee {
     
     private int monopolyMove(MonopolyMove move) {
         if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
+        if (!_activePlayer.hasRolled()) return 998;
         Player played = null;
         for (Player p : _players) {
             if (p.getName().equals(move.getPlayerName()))
@@ -584,6 +588,7 @@ public class Referee {
     
     private int victoryPointMove(VictoryPointMove move) {
         if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
+        if (!_activePlayer.hasRolled()) return 998;
         Player played = null;
         for (Player p : _players) {
             if (p.getName().equals(move.getPlayerName()))
@@ -595,6 +600,7 @@ public class Referee {
     
     private int devCardMove(DevCardMove move) {
         if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
+        if (move.getIndex() != 0 && !_activePlayer.hasRolled()) return 998;
         Player played = null;
         for (Player p : _players) {
             if (p.getName().equals(move.getPlayerName()))
@@ -603,14 +609,20 @@ public class Referee {
         if (played != null) played.removeDevCard(move.getIndex());
         if (move.getIndex() == 0) {
             if (played != null) played.incLargestArmy();
-            if ((played != null) && ((_army == null && played.getArmySize() >= 3) || (played.getArmySize() > _army.getArmySize() && !_army.equals(played)))) _army = played;
+            if ((played != null) && ((_army == null && played.getArmySize() >= 3) || (played.getArmySize() > _army.getArmySize() && !_army.equals(played)))) {
+                _army.decVictoryPoints();
+                _army.decVictoryPoints();
+                played.incVictoryPoints();
+                played.incVictoryPoints();
+                _army = played;
+            }
         }
         return 600;
     }
     
     private int startTurn(FirstMove move) {
         if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
-        int roll = _dice.roll();
+        int roll = 1;//_dice.roll();
         _server.sendRoll(_activePlayer.getName(), roll);
         if (roll != 7) {
             for (Tile t : _board.getTiles()) {
@@ -638,6 +650,7 @@ public class Referee {
         		}
         	}
         }
+        _activePlayer.setRolled(true);
         return 000;
     }
 
@@ -661,8 +674,6 @@ public class Referee {
         findLongestRoad();
         for (Player p : _players) {
             int score = p.getVictoryPoints();
-            if (p.equals(_army)) score+=2;
-            if (p.equals(_road)) score+=2;
             if (score >= 10) {
                 _gameOver = true;
                 _winner = p;
@@ -676,22 +687,40 @@ public class Referee {
             for (Edge e : _board.getEdges()) {
                 List<Edge> set = new ArrayList<>();
                 findConnected(p, e, set);
-                edgeSets.add(set);
+                if (!set.isEmpty()) edgeSets.add(set);
             }
-            System.out.println(String.format("NUMBER OF ROAD SETS: %d", edgeSets.size()));
+            System.out.println(String.format("NUMBER OF ROAD SETS FOR %s: %d", p.getName(), edgeSets.size()));
             _board.clearEdges();
             for (List<Edge> set : edgeSets) {
+                System.out.println(String.format("SET SIZE: %d", set.size()));
                 for (int i=0; i<set.size(); i++) {
+                    System.out.println(String.format("i: %d", i));
                     Edge e = set.get(i);
                     if (isEndEdge(e, set) || i == set.size()) {
-                        int l = findLongestRoadInSet(e, set, getEndNode(e, set), 0);
+                        System.out.println("passed if");
+                        int l = findLongestRoadInSet(e, set, getEndNode(e, set), 1);
                         System.out.println(String.format("LONGEST ROAD FOR %s: %d", p.getName(), l));
-                        p.setLongestRoad(l);
+                        if (p.getLongestRoad() < l) p.setLongestRoad(l);
                     }
                 }
             }
             _board.clearEdges();
-            if ((_road == null && p.getLongestRoad() >= 5) || (_road != null && p.getLongestRoad() > _road.getLongestRoad() && !_road.equals(p))) _road = p;
+            if ((_road == null && p.getLongestRoad() >= 5)) {
+                p.incVictoryPoints();
+                p.incVictoryPoints();
+                _road = p;
+            } else if (_road != null && p.getLongestRoad() > _road.getLongestRoad() && !_road.equals(p)) {
+                _road.decVictoryPoints();
+                _road.decVictoryPoints();
+                p.incVictoryPoints();
+                p.incVictoryPoints();
+                _road = p;
+            }
+        }
+        if (_road != null && _road.getLongestRoad() < 5) {
+            _road.decVictoryPoints();
+            _road.decVictoryPoints();
+            _road = null;
         }
     }
     
@@ -712,13 +741,17 @@ public class Referee {
     }
     
     private int findLongestRoadInSet(Edge e, List<Edge> set, Node last, int length) {
+        e.setVisited(true);
         for (Node n : e.getNodes()) {
             if (n.getIndex() != last.getIndex()) {
+                int longest = 0;
                 for (Edge ed : n.getEdges()) {
-                    if (ed.getIndex() != e.getIndex() && set.contains(ed)) {
-                        return findLongestRoadInSet(ed, set, n, length+1);
+                    if (!ed.wasVisited() && ed.getIndex() != e.getIndex() && set.contains(ed)) {
+                        int thisOne = findLongestRoadInSet(ed, set, n, length+1);
+                        if (thisOne > longest) longest = thisOne;
                     }
                 }
+                return 1+longest;
             }
         }
         return length;
