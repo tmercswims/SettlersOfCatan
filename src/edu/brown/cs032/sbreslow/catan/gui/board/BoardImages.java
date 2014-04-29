@@ -68,6 +68,12 @@ public class BoardImages {
     
     public static class Misc {
         public static final Image arrow = new ImageIcon("images/misc/arrow.png").getImage();
+        
+        public static final Image brickToken = new ImageIcon("images/resource_tokens/brick.png").getImage();
+        public static final Image oreToken = new ImageIcon("images/resource_tokens/ore.png").getImage();
+        public static final Image sheepToken = new ImageIcon("images/resource_tokens/sheep.png").getImage();
+        public static final Image wheatToken = new ImageIcon("images/resource_tokens/wheat.png").getImage();
+        public static final Image woodToken = new ImageIcon("images/resource_tokens/wood.png").getImage();
     }
     
     public static class Background {
