@@ -2,42 +2,25 @@ package edu.brown.cs032.eheimark.catan.gui.navigator;
 
 import java.awt.Graphics;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-
 import java.awt.Color;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
-import edu.brown.cs032.eheimark.catan.gui.navigator.TableRenderDemo.MyRenderer;
-import edu.brown.cs032.eheimark.catan.gui.navigator.TableRenderDemo.MyTableModel;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
-import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
-import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
-import java.awt.Insets;
-//import java.awt.Image;
 
 /**
  * The Class Overview is the overview tabbed panel which contains
