@@ -46,8 +46,8 @@ public class Build extends JPanel implements Update {
 	 */
 	public Build(CatanClient c, DrawingPanel dp) {
 		super();
-		_client  = null;//c;
-		_dp = null;//dp;
+		_client  = c;
+		_dp = dp;
 		this.img = Constants.BUILD_IMAGE;
 
 		setLayout(null);
@@ -150,6 +150,8 @@ public class Build extends JPanel implements Update {
 	 */
 	@Override
 	public void ericUpdate(){
+		System.out.println(_client);
+		System.out.println(_client.getPlayer());
 		int[] resources = _client.getPlayer().getResources();
 		if((resources[2]<1 || resources[4]<1)||
 				(!_client.getPlayer().isActive())||
