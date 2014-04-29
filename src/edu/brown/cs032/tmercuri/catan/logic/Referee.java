@@ -278,7 +278,7 @@ public class Referee {
     
     private int buildMove(BuildMove move) {
         if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
-        if (!_activePlayer.hasRolled()) return 998;
+        if (_startUp == 0 && !_activePlayer.hasRolled()) return 998;
         switch (move.getBuildType()) {
             case ROAD:
                 Edge e = _board.getEdges()[move.getBuildLocation()];
