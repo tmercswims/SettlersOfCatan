@@ -284,7 +284,6 @@ public class Trade extends JPanel implements Update {
         if (iw > 0 && ih > 0) {
             for (int x = 0; x < getWidth(); x += iw) {
                 for (int y = 0; y < getHeight(); y += ih) {
-                    System.out.println("DREW A BG TILE");
                     g.drawImage(background, x, y, iw, ih, this);
                 }
             }
