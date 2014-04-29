@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -19,6 +20,9 @@ import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+
+import javax.swing.border.EmptyBorder;
+import javax.swing.SwingConstants;
 
 /**
  * The Class OutstandingTrade is a JPanel that contains information regarding a 
@@ -49,52 +53,54 @@ public class OutstandingTrade extends JPanel {
 		//setLayout(null);
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		JPanel comboPanel = new JPanel();
-		comboPanel.setLayout(new GridLayout(2,5));
+		comboPanel.setLayout(new GridLayout(1,5));
 		comboPanel.add(new JLabel(Misc.brickToken));
 		comboPanel.add(new JLabel(Misc.woodToken));
 		comboPanel.add(new JLabel(Misc.woolToken));
 		comboPanel.add(new JLabel(Misc.wheatToken));
 		comboPanel.add(new JLabel(Misc.oreToken));
 		
+		JPanel labelPanel = new JPanel(new GridLayout(1,5));
+
 		JLabel brickLabel = new JLabel("Brick:" + -resources[ResourceConstants.BRICK]);
+		brickLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		brickLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		brickLabel.setOpaque(true);
-		brickLabel.setBackground(Color.WHITE);
 		//brickLabel.setBounds(801, 59, 60, 16);
 		brickLabel.setForeground(Color.RED);
-		comboPanel.add(brickLabel);
+		labelPanel.add(brickLabel);
 
 		JLabel lumberLabel = new JLabel("Lumber:" + -resources[ResourceConstants.WOOD]);
+		lumberLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lumberLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		lumberLabel.setOpaque(true);
-		lumberLabel.setBackground(Color.WHITE);
 		//lumberLabel.setBounds(610, 59, 77, 16);
 		lumberLabel.setForeground(Color.GREEN);
-		comboPanel.add(lumberLabel);
+		labelPanel.add(lumberLabel);
 
 		JLabel woolLabel = new JLabel("Wool:" + -resources[ResourceConstants.SHEEP]);
+		woolLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		woolLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		woolLabel.setOpaque(true);
-		woolLabel.setBackground(Color.WHITE);
 		//woolLabel.setBounds(456, 59, 60, 16);
 		woolLabel.setForeground(Color.LIGHT_GRAY);
-		comboPanel.add(woolLabel);
+		labelPanel.add(woolLabel);
 
 		JLabel grainLabel = new JLabel("Wheat:" + -resources[ResourceConstants.WHEAT]);
+		grainLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		grainLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		grainLabel.setOpaque(true);
-		grainLabel.setBackground(Color.WHITE);
 		//grainLabel.setBounds(270, 59, 65, 16);
 		grainLabel.setForeground(Color.ORANGE);
-		comboPanel.add(grainLabel);
+		labelPanel.add(grainLabel);
 
 		JLabel oreLabel = new JLabel("Ore:" + -resources[ResourceConstants.ORE]);
+		oreLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		oreLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		oreLabel.setOpaque(true);
-		oreLabel.setBackground(Color.WHITE);
 		//oreLabel.setBounds(123, 59, 45, 16);
 		oreLabel.setForeground(Color.DARK_GRAY);
-		comboPanel.add(oreLabel);
+		labelPanel.add(oreLabel);
 
 		JPanel bp = new JPanel();
 		bp.setLayout(new BoxLayout(bp, BoxLayout.LINE_AXIS));
@@ -116,20 +122,20 @@ public class OutstandingTrade extends JPanel {
 		lp.setLayout(new BoxLayout(lp, BoxLayout.LINE_AXIS));
 		
 		JLabel fromLabel = new JLabel("From: " + trade.getPlayerName());
+		fromLabel.setBorder(new EmptyBorder(0, 10, 0, 10));
 		fromLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		fromLabel.setOpaque(true);
 		fromLabel.setForeground(Color.BLACK);
-		fromLabel.setBackground(Color.WHITE);
 		//fromLabel.setBounds(28, 15, 150, 16);
 		lp.add(fromLabel);
 
 		JLabel clarificationLabel = new JLabel("+ = RECEIVE, - = SEND");
+		clarificationLabel.setBorder(new EmptyBorder(0, 10, 0, 10));
 		clarificationLabel.setOpaque(true);
 		clarificationLabel.setForeground(Color.BLACK);
 		clarificationLabel.setFont(new Font("Times", Font.ITALIC, 12));
-		clarificationLabel.setBackground(Color.WHITE);
 		//clarificationLabel.setBounds(28, 105, 170, 16);
-		lp.add(clarificationLabel);
+//		lp.add(clarificationLabel);
 		
 
 		//setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
@@ -137,6 +143,10 @@ public class OutstandingTrade extends JPanel {
 		//setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
 		this.add(lp);
 		this.add(comboPanel);
+		labelPanel.setSize(labelPanel.getWidth(), 4);
+		this.add(labelPanel);
+		clarificationLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		this.add(clarificationLabel);
 		this.add(bp);
 	}
 
