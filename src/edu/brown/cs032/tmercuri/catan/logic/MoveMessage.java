@@ -100,7 +100,8 @@ public enum MoveMessage {
     MESSAGE_630(630, false, "%s played a Monopoly."),
     MESSAGE_640(640, false, "%s played a Victory Point."),
     MESSAGE_700(700, false, "%s bought a development card."),
-    MESSAGE_701(701, true, "there are no development cards yet.");
+    MESSAGE_701(701, true, "there are no development cards yet."),
+    MESSAGE_702(702, true, "you do not have enough resources for a development card.");
     
     private final int _code;
     private final boolean _isError;

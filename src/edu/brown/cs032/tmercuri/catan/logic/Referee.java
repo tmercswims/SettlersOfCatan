@@ -342,6 +342,8 @@ public class Referee {
             case DEV_CARD:
                 int card = _deck.getCard();
                 if (card == -1) return 701;
+                if (!_activePlayer.hasResources(BUILD_DEV_CARD)) return 702;
+                _activePlayer.removeResources(BUILD_DEV_CARD);
                 _activePlayer.addDevCard(card);
                 return 700;
             case ROAD_BUILDER:
@@ -612,13 +614,19 @@ public class Referee {
         }
         if (played != null) played.removeDevCard(move.getIndex());
         if (move.getIndex() == 0) {
-            if (played != null) played.incLargestArmy();
-            if ((played != null) && ((_army == null && played.getArmySize() >= 3) || (played.getArmySize() > _army.getArmySize() && !_army.equals(played)))) {
-                _army.decVictoryPoints();
-                _army.decVictoryPoints();
-                played.incVictoryPoints();
-                played.incVictoryPoints();
-                _army = played;
+            if (played != null) {
+                played.incLargestArmy();
+                if ((_army == null && played.getArmySize()>= 5)) {
+                    played.incVictoryPoints();
+                    played.incVictoryPoints();
+                    _army = played;
+                } else if (_army != null && played.getArmySize() > _road.getLongestRoad() && !_road.equals(played)) {
+                    _army.decVictoryPoints();
+                    _army.decVictoryPoints();
+                    played.incVictoryPoints();
+                    played.incVictoryPoints();
+                    _army = played;
+                }
             }
         }
         return 600;
