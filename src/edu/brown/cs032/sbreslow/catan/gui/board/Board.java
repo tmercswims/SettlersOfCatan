@@ -277,14 +277,6 @@ public class Board implements Serializable {
 					}
 				}
 			}
-			else{
-				for(Tile tmp: t.getBors()){
-					if(t._num == tmp._num){
-						setNum();
-						layoutNums();
-					}
-				}
-			}
 		}
 	}
 
