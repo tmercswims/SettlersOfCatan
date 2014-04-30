@@ -542,7 +542,9 @@ public class Referee {
             if (t.hasRobber()) t.setRobber(false);
         }
         newRobber.setRobber(true);
-        if (move.getToStealFrom() != null) {
+        if (move.getToStealFrom() == null) {
+            return 503;
+        } else {
             for (Node n : newRobber.getNodes()) {
                 if (n.getOwner() != null && move.getToStealFrom().equals(n.getOwner().getName())) {
                     victim = n.getOwner();
@@ -562,8 +564,6 @@ public class Referee {
             _activePlayer.addResources(resSwing);
             return 500;
         }
-        
-        return -1;
     }
     
     private int yearOfPlentyMove(YearOfPlentyMove move) {
