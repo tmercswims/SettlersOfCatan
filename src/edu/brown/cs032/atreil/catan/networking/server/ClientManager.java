@@ -194,7 +194,8 @@ public class ClientManager extends Thread {
 		String[] messageArray = message.split(" ");
 		if(messageArray.length >= 3){
 			//could be private message
-			if(messageArray[1].equals("/m") || messageArray[1].equals("/msg")){
+			String prefix = messageArray[1];
+			if(prefix.equals("/m") || prefix.equals("/msg") || prefix.equals("/p")){
 				//private message
 				String playername = messageArray[2];
 				
