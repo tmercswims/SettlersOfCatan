@@ -157,9 +157,8 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 							else{
 								new RobberFrame(plist, t.getIndex(), _client);
 							}
-							_selectable = Integer.MAX_VALUE;
+							_selectable = -1;
 						}
-						_selectable = -1;
 						break;
 					case 1:
 						buildtype = 0;
