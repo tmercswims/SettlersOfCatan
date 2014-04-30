@@ -200,17 +200,21 @@ public class ChatPanel extends JPanel {
 				StyleConstants.setFontFamily(attr, "Monaco");
 				StyleConstants.setItalic(attr, true);
 			}
-			String[] tmp = line.split(" ");
+			//String[] tmp = line.split(" ");
 			StringBuilder sb = new StringBuilder();
-			for(int i = 0; i < tmp.length; i++){
+			for(int i = 0; i < linearray.length; i++){
+				if(linearray[i].equalsIgnoreCase("server")){
+					linearray[0] = "";
+					linearray[1] = " ";
+				}
 				if(i!=1){
-					sb.append(" " + tmp[i]);
+					sb.append(" " + linearray[i]);
 				}
 				else{
 					sb = new StringBuilder(sb.toString().trim());
-					sb.append(tmp[i].charAt(tmp[i].length()-1));
+					sb.append(linearray[i].charAt(linearray[i].length()-1));
 				}
-				System.out.println(sb.toString());
+				//System.out.println(sb.toString());
 			}
 			final String f = sb.toString();
 			SwingUtilities.invokeLater(new Runnable() {
@@ -218,11 +222,14 @@ public class ChatPanel extends JPanel {
 				public void run() {
 					try {
 						_area.getDocument().insertString(_area.getCaretPosition(),f.trim()+"\n",attr);
+						StyleConstants.setFontFamily(attr, "Helvetica");
+						StyleConstants.setItalic(attr, false);
 					} catch (BadLocationException ex) {
 						System.out.println(String.format("ERROR: %s", ex.getMessage()));
 					}
 				}
-			});				
+			});
+			
 		}
 	}
 
