@@ -9,6 +9,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 import edu.brown.cs032.atreil.catan.networking.server.CatanServer;
+import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanMenuButton;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanScrollableTextArea;
@@ -55,7 +56,7 @@ public class HostLoadingMenu extends CatanMenu {
 							su.interrupt();
 						}
 						soc.getFrame().setPage(new MainMenu(soc));
-                        soc.getFrame().playMusic();
+						soc.getFrame().playMusic();
 						repaint();
 					}
 				});
@@ -76,13 +77,29 @@ public class HostLoadingMenu extends CatanMenu {
 			try {
 				cs = new CatanServer(soc.getLaunchConfiguration());
 				cs.start();
-				jta.append("Server launched successfully!\n");
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override	
+					public void run() {
+						jta.append("Server launched successfully!\n");
+					}
+				});
 				while(cs.isServerRunning()) {
-					jta.append(cs.readStatus());
+					final String status = cs.readStatus();
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override	
+						public void run() {
+							jta.append(status);
+						}
+					});
 				}
 			} catch (IllegalArgumentException | IOException e) {
-				jta.append("Error: " + e.getMessage() + "\n");
-				jta.append("Please try again!");
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override	
+					public void run() {
+						jta.append("Error: " + e.getMessage() + "\n");
+						jta.append("Please try again!");
+					}
+				});
 			}
 		}
 	}

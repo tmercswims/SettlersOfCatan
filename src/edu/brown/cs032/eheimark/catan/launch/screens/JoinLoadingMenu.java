@@ -24,7 +24,7 @@ public class JoinLoadingMenu extends CatanMenu {
 	private static final long serialVersionUID = 1L;
 	private final JButton back;
 	private final CatanScrollableTextArea jsp;
-	private final ServerUpdate su; // Thread that continually gets a status update from server
+	//	private final ServerUpdate su; // Thread that continually gets a status update from server
 	private final JTextArea jta;
 	private final SettlersOfCatan soc;
 	private CatanClient cc; // Reference to client
@@ -51,9 +51,6 @@ public class JoinLoadingMenu extends CatanMenu {
 						if(cc != null) {
 							cc.kill();
 						}
-						if(su != null) {
-							su.interrupt();
-						}
 						soc.getFrame().setPage(new MainMenu(soc));
 					}
 				});
@@ -61,40 +58,45 @@ public class JoinLoadingMenu extends CatanMenu {
 		});
 		addComponent(jsp);
 		addComponent(back);
-		su = new ServerUpdate();
-		su.start();
-	}
 
-	/**
-	 * The Class ServerUpdate continually displays status messages from the server 
-	 * (e.g. how many clients have connected to server while waiting to launch).
-	 */
-	class ServerUpdate extends Thread {
-		@Override
-		public void run() {
-			try {
-				cc = new CatanClient(soc.getLaunchConfiguration());
-				while(true) { //TODO: Switch to isRunning method
-					if(!cc.getIsStarting()) {
-									jta.append(cc.readServerMessage());
-					}
-					else {
-						jta.append("Launching the game...");
-						SwingUtilities.invokeLater(new Runnable() {
-							@Override	
-							public void run() {
-								cc.setFrame(new GUIFrame(cc));
-							}
-						});
-						soc.getFrame().exit();
-						break; //break loop //TODO: Double check
-					}
+		try {
+			cc = new CatanClient(soc.getLaunchConfiguration());
+			cc.setLoadingMenu(this);
+			cc.start();
+		}
+		catch (IllegalArgumentException | IOException e) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					jta.append(e.getMessage() + "...\n");
+					jta.append("Please try again!");
 				}
-			}
-			catch (IllegalArgumentException | IOException e) {
-				jta.append(e.getMessage() + "...\n");
-				jta.append("Please try again!");
-			}
+			});
 		}
 	}
+
+	public void updateJTextArea(final String str) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override	
+			public void run() {
+				jta.append(str);
+			}
+		});
+	}
+
+	public void launchGame() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override	
+			public void run() {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override	
+					public void run() {
+						cc.setFrame(new GUIFrame(cc));
+						soc.getFrame().exit();
+					}
+				});
+			}
+		});
+	}
 }
+
