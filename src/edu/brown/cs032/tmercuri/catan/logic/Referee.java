@@ -457,13 +457,15 @@ public class Referee {
             }
             if (recNum != 1) return 404;
             
-            int giveSum = 0;
+            int numGiveTypes = 0;
             int resIndex = -1;
             for (int i=0; i<giving.length;i++) {
-                if (giving[i] > 0) giveSum++;
-                resIndex = i;
+                if (giving[i] > 0) {
+                    numGiveTypes++;
+                    resIndex = i;
+                }
             }
-            if (giveSum != 1 || resIndex == -1) return 405;
+            if (numGiveTypes != 1 || resIndex == -1) return 405;
             
             switch (giving[resIndex]) {
                 case 4:
