@@ -56,6 +56,7 @@ public class CatanClient extends Thread{
 	private boolean _servicing; //whether or not the client is done with the given move
 	private Integer _servicingLock; //lock for _servicing
 	private JoinLoadingMenu _joinLoadingMenu; //the joinLoadingMenu to give updates to
+	private Integer _guiLock;
 
 
 	private String _ip;	//ip of the computer hosting the game
@@ -118,19 +119,20 @@ public class CatanClient extends Thread{
 		_boardLock = new Integer(-1);
 		_playersLock = new Integer(-1);
 		_servicingLock = new Integer(-1);
-		
+		_guiLock = new Integer(-1);
+
 		//connecting
 		connect();
 	}
-	
+
 	/**
 	 * Sets the joinLoadingMenu
 	 * @param joinLoadingMenu
 	 */
-	public void setLoaingMenu(JoinLoadingMenu joinLoadingMenu){
+	public void setLoadingMenu(JoinLoadingMenu joinLoadingMenu){
 		_joinLoadingMenu = joinLoadingMenu;
 	}
-	
+
 	public void setFrame(GUIFrame frame){
 		_frame = frame;
 	}
@@ -177,6 +179,10 @@ public class CatanClient extends Thread{
 	 */
 	public void setGUI(GUI gui){
 		_gui = gui;
+		
+		synchronized(_guiLock){
+			_guiLock.notifyAll();
+		}
 	}
 
 	/**
@@ -200,10 +206,10 @@ public class CatanClient extends Thread{
 	 */
 	public void run(){
 		try {
-			
+
 			//preloading stage
 			readServerMessagePrivate();
-			
+
 			//starting game
 			while(_isStarting){
 				Packet packet = (Packet) readPacket();
@@ -265,7 +271,22 @@ public class CatanClient extends Thread{
 				_board = (Board) packet.getObject();
 			}
 
-			_gui.updateBoard();
+			if(_gui != null) {
+				_gui.updateBoard();
+			}
+			else {
+				while(_gui == null){
+					synchronized(_guiLock){
+						try {
+							_guiLock.wait();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+				_gui.updateBoard();
+			}
 			//TODO: make sure _gui finishes
 		} else if(type == Packet.PLAYERARRAY){
 
@@ -274,7 +295,24 @@ public class CatanClient extends Thread{
 				updateLocalPlayer();
 			}
 
-			_gui.updatePlayers();
+			if(_gui != null) {
+				_gui.updatePlayers();
+			}
+			else {
+				while(_gui == null){
+					synchronized(_guiLock){
+						try {
+							_guiLock.wait();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+				_gui.updatePlayers();
+			}
+			
+			
 			//TODO: make sure _gui finishes
 		} else if(type == Packet.ROLL){
 			//TODO: notify of roll
@@ -373,7 +411,7 @@ public class CatanClient extends Thread{
 				_startTurn = false;
 			}
 		}
-		
+
 		synchronized(_out){
 			_out.reset();
 			_out.writeObject(new Packet(Packet.MOVE, move, 0));
@@ -392,11 +430,11 @@ public class CatanClient extends Thread{
 
 		try{
 			Object o;
-			
+
 			synchronized(_in){
 				o = _in.readObject();
 			}
-			
+
 			if(o instanceof Packet)
 				return (Packet) o;
 			else
@@ -422,7 +460,7 @@ public class CatanClient extends Thread{
 			while(_isPreGame){
 				Packet p = (Packet) readPacket();
 				int type = p.getType();
-	
+
 				if(type == Packet.MESSAGE) {
 					String message = (String) p.getObject();
 					System.out.println(String.format("readServerMessage: %s", message));
@@ -455,17 +493,17 @@ public class CatanClient extends Thread{
 			throw new IOException(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * @return An update
 	 * @throws IOException If anything goes wrong with IO
 	 */	
 	public String readServerMessage() throws IOException{
-	
+
 		try {
 			Packet p = (Packet) readPacket();
 			int type = p.getType();
-		
+
 			if(type == Packet.MESSAGE) {
 				System.out.println("GOT A MESSAGE");
 				return (String) p.getObject();
@@ -542,23 +580,23 @@ public class CatanClient extends Thread{
 	 * streams
 	 */
 	public void kill(){
-		
+
 		if(_isStarting){
 			try{
 				_isStarting = false;
-				
+
 				synchronized(_in){
 					_in.close();
 				}
-				
+
 				synchronized(_out){
 					_out.close();
 				}
-				
+
 				synchronized(_socket){
 					_socket.close();
 				}
-				
+
 				synchronized(_servicingLock){
 					_servicing = false;
 				}
