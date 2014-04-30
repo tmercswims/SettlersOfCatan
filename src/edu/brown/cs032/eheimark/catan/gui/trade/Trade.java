@@ -306,7 +306,7 @@ public class Trade extends JPanel implements Update {
 			}
 			
 			
-
+			toPlayerCB.setSelectedItem("***MERCHANT***");
 			toPlayerCB.repaint();
 			repaint();
 			System.out.println("DONE WITH TRADE MENU UPDATE");
