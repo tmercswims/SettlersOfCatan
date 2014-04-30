@@ -1,5 +1,6 @@
 package edu.brown.cs032.eheimark.catan.gui;
 
+import edu.brown.cs032.atreil.catan.chat.server.SemiTransparentPanel;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.blue;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.orange;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.red;
@@ -16,14 +17,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import java.awt.BorderLayout;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BoxView;
 import javax.swing.text.ComponentView;
@@ -36,44 +36,60 @@ import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 
 public class ChatPanel extends JPanel {
+    
+    private static final long serialVersionUID = 8319006484243162853L;
 	
-	private JTextField _field;
-	private JTextPane _area;
-	public JPanel _panel;
-	private JScrollPane _scroll;
-	private CatanClient _client;
+	private final JTextField _field;
+	private final JTextPane _area;
+	private final JScrollPane _scroll;
+	private final CatanClient _client;
 	SimpleAttributeSet _red;
 	SimpleAttributeSet _blue;
 	SimpleAttributeSet _orange;
 	SimpleAttributeSet _server;
 	SimpleAttributeSet _white;
 	
-	public ChatPanel(CatanClient cc){
+	public ChatPanel(CatanClient cc) {
+        super(new BorderLayout());
 		_client = cc;
-		Dimension d = new Dimension(400,600);
-		this.setPreferredSize(new Dimension(400, 650));
-		_field = new JTextField(30);
+        
+        JPanel pan = new SemiTransparentPanel();//JPanel();
+        
+		_field = new JTextField();
+        _field.setSize(new Dimension(380, (int)Math.round(_field.getSize().getHeight())));
 		_field.addKeyListener(new ChatListener());
+        _field.setOpaque(false);
+        _field.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.darkGray), BorderFactory.createEmptyBorder(4, 4, 4, 4)));
+        _field.setForeground(Color.white);
+        _field.setCaretColor(Color.white);
+        
 		_area = new JTextPane();
-		Dimension size = new Dimension(380,540);
-		_area.setBackground(Color.black);
-		_area.setPreferredSize(new Dimension(380, 595));
+        _area.setOpaque(false);
+		_area.setSize(new Dimension(380, 595));
+		_area.setEditable(false);
+        _area.setEditorKit(new WrapEditorKit());
         DefaultCaret caret = (DefaultCaret)_area.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         _area.setCaret(caret);
-		_area.setEditable(false);
-        _area.setEditorKit(new WrapEditorKit());
-        Border bl = BorderFactory.createLineBorder(Color.black);
-        TitledBorder b = BorderFactory.createTitledBorder(bl,"Chat/Log");
-        b.setTitleJustification(TitledBorder.CENTER);
-        this.setBorder(b);
-        _area.setBorder(bl);
+        _area.setFocusable(false);
+        
 		_scroll = new JScrollPane(_area);
+        _scroll.setOpaque(false);
+        _scroll.getViewport().setOpaque(false);
         _scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         _scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		_scroll.setPreferredSize(new Dimension(380, 595));
-		this.add(_scroll);
-		this.add(_field);
+        _scroll.setBorder(BorderFactory.createEmptyBorder());
+        _scroll.setFocusable(false);
+        
+        pan.setBackground(new Color(0f, 0f, 0f, .5f));
+		pan.add(_scroll, BorderLayout.CENTER);
+		pan.add(_field, BorderLayout.SOUTH);
+        
+        add(pan);//new AlphaContainer(pan));
+        
+        setOpaque(false);
+        setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 		
 		_red = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_red, "Helvetica");

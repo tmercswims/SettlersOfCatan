@@ -13,9 +13,12 @@ import java.awt.GridLayout;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.wood;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -149,6 +152,21 @@ public class OutstandingTrade extends JPanel {
 		this.add(clarificationLabel);
 		this.add(bp);
 	}
+    
+    @Override
+    public void paintComponent(Graphics g) {
+        Image background = wood;
+        int iw = background.getWidth(this);
+        int ih = background.getHeight(this);
+        if (iw > 0 && ih > 0) {
+            for (int x = 0; x < getWidth(); x += iw) {
+                for (int y = 0; y < getHeight(); y += ih) {
+                    g.drawImage(background, x, y, iw, ih, this);
+                }
+            }
+        }
+        super.paintComponent(g);
+    }
 
 	/**
 	 * The ActionListener for accepting a trade.
