@@ -20,6 +20,7 @@ import edu.brown.cs032.eheimark.catan.gui.GUI;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.eheimark.catan.gui.trade.TradeFrame;
 import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
+import edu.brown.cs032.eheimark.catan.launch.screens.JoinLoadingMenu;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.SevenFrame;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
@@ -44,7 +45,6 @@ public class CatanClient extends Thread{
 	private GUI _gui; //the gui that displays the game
 	private int _chatPort; //port of the chatServer
 	private TradeFrame tradeframe;
-	private String _alertFrameText;
 
 	/*
 	 * Locks
@@ -55,6 +55,7 @@ public class CatanClient extends Thread{
 	private int _roll; //the roll of the player
 	private boolean _servicing; //whether or not the client is done with the given move
 	private Integer _servicingLock; //lock for _servicing
+	private JoinLoadingMenu _joinLoadingMenu; //the joinLoadingMenu to give updates to
 
 
 	private String _ip;	//ip of the computer hosting the game
@@ -120,6 +121,14 @@ public class CatanClient extends Thread{
 		
 		//connecting
 		connect();
+	}
+	
+	/**
+	 * Sets the joinLoadingMenu
+	 * @param joinLoadingMenu
+	 */
+	public void setLoaingMenu(JoinLoadingMenu joinLoadingMenu){
+		_joinLoadingMenu = joinLoadingMenu;
 	}
 	
 	public void setFrame(GUIFrame frame){
@@ -193,7 +202,7 @@ public class CatanClient extends Thread{
 		try {
 			
 			//preloading stage
-			//readServerMessagePrivate();
+			readServerMessagePrivate();
 			
 			//starting game
 			while(_isStarting){
@@ -418,6 +427,7 @@ public class CatanClient extends Thread{
 					String message = (String) p.getObject();
 					System.out.println(String.format("readServerMessage: %s", message));
 					//TODO: print message in JTextArea
+					_joinLoadingMenu.updateJTextArea(message);
 				}
 				else if(type == Packet.STARTGAME){
 					_isStarting = true;
@@ -425,15 +435,17 @@ public class CatanClient extends Thread{
 					System.out.println("STARTTINGGGGG GAME");
 					//TODO: launch game panel
 					//return "Starting the game\n";
+					_joinLoadingMenu.launchGame();
 				} else if(type == Packet.ERROR){
 					//TODO: print error in JTextArea
 					String error = (String) p.getObject();
 					System.out.println(String.format("readServerMessageError: %s", error));
-					
+					_joinLoadingMenu.updateJTextArea(error);
 					//return (String) p.getObject();
 				} else if(type == Packet.START){
 					//TODO: set active player
 					System.out.println("YOU ARE ACTIVE PLAYER");
+					_joinLoadingMenu.updateJTextArea("You are the first player");
 					//return "It is your turn. Make a move";
 				}
 				else
