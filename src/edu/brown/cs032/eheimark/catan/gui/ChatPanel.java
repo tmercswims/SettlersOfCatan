@@ -96,22 +96,27 @@ public class ChatPanel extends JPanel {
 
 		_red = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_red, "Helvetica");
+		StyleConstants.setFontSize(_red, 14);
 		StyleConstants.setForeground(_red, red.brighter());
 
 		_blue = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_blue, "Helvetica");
+		StyleConstants.setFontSize(_blue, 14);
 		StyleConstants.setForeground(_blue, blue.brighter());
 
 		_orange = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_orange, "Helvetica");
+		StyleConstants.setFontSize(_orange, 14);
 		StyleConstants.setForeground(_orange, orange.brighter());
 
 		_white = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_white, "Helvetica");
+		StyleConstants.setFontSize(_white, 14);
 		StyleConstants.setForeground(_white, Color.white);
 
 		_server = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_server, "Helvetica");
+		StyleConstants.setFontSize(_server, 14);
 		StyleConstants.setForeground(_server, Color.LIGHT_GRAY);
 		StyleConstants.setBold(_server, true);
 
