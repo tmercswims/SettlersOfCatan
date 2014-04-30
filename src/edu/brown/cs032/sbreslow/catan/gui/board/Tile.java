@@ -155,7 +155,7 @@ public class Tile extends BoardComponent{
 					(int)_p.getBounds().getHeight()-10,Image.SCALE_FAST);
 		}
         brush.drawImage(background, (int)_p.getBounds().x, (int)_p.getBounds().y, 
-        		(int)_p.getBounds().getWidth(), (int)_p.getBounds().getHeight(), null);
+        		(int)_p.getBounds().getWidth()+2, (int)_p.getBounds().getHeight()+2, null);
 		char[] toprint = Integer.toString(_num).toCharArray();
 		// = {num.charAt(0)};
 		//System.out.println(Integer.toString(_num));

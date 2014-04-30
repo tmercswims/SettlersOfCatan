@@ -6,8 +6,10 @@
 package edu.brown.cs032.atreil.catan.chat.server;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+
 import javax.swing.JPanel;
 
 /**
@@ -25,7 +27,9 @@ public class SemiTransparentPanel extends JPanel {
     
     @Override
     public void paintComponent(Graphics g) {
-        g.setColor(getBackground());
+    	Color c = getBackground();
+    	if(c.getAlpha()<205)
+    		g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()+50));
         Rectangle r = g.getClipBounds();
         g.fillRect(r.x, r.y, r.width, r.height);
         super.paintComponent(g);

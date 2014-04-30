@@ -1,8 +1,11 @@
 package edu.brown.cs032.eheimark.catan.gui.navigator;
 
+import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -50,96 +53,112 @@ public class Build extends JPanel implements Update {
 		_dp = dp;
 		this.img = Constants.BUILD_IMAGE;
 
-		setLayout(null);
+		//setLayout(null);
+		this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		
+		
+		JPanel bp = new JPanel();
+		bp.setOpaque(false);
+		bp.setLayout(new GridLayout(1,4));
 		buildSettlementButton = new JButton("Build Settlement");
 		buildSettlementButton.addActionListener(new BuildSettlementActionListener());
 		buildSettlementButton.setForeground(Constants.CATAN_RED);
 		buildSettlementButton.setFont(MY_FONT);
-		buildSettlementButton.setBounds(288, 26, 185, 29);
+		//buildSettlementButton.setBounds(288, 26, 185, 29);
 		buildSettlementButton.setEnabled(false);
-		add(buildSettlementButton);
+		bp.add(buildSettlementButton);
 		
 		buildDevCardButton = new JButton("Build Dev. Card");
 		buildDevCardButton.addActionListener(new BuildDevCardActionListener());
 		buildDevCardButton.setForeground(Constants.CATAN_RED);
 		buildDevCardButton.setFont(MY_FONT);
-		buildDevCardButton.setBounds(763, 26, 170, 29);
+		//buildDevCardButton.setBounds(763, 26, 170, 29);
 		buildDevCardButton.setEnabled(false);
-		add(buildDevCardButton);
+		bp.add(buildDevCardButton);
 		
 		buildRoadButton = new JButton("Build Road");
 		buildRoadButton.addActionListener(new BuildRoadActionListener());
 		buildRoadButton.setForeground(Constants.CATAN_RED);
 		buildRoadButton.setFont(MY_FONT);
-		buildRoadButton.setBounds(73, 26, 148, 29);
+		//buildRoadButton.setBounds(73, 26, 148, 29);
 		buildRoadButton.setEnabled(false);
-		add(buildRoadButton);
+		bp.add(buildRoadButton);
 		
 		buildCityButton = new JButton("Build City");
 		buildCityButton.addActionListener(new BuildCityActionListener());
 		buildCityButton.setForeground(Constants.CATAN_RED);
 		buildCityButton.setFont(MY_FONT);
-		buildCityButton.setBounds(548, 26, 148, 29);
+		//buildCityButton.setBounds(548, 26, 148, 29);
 		buildCityButton.setEnabled(false);
-		add(buildCityButton);
+		bp.add(buildCityButton);
 		
+		JPanel lpt = new JPanel();
+		lpt.setOpaque(false);
+		lpt.setLayout(new BoxLayout(lpt, BoxLayout.LINE_AXIS));
 		JLabel roadCostLabel = new JLabel("Cost: 1 Brick, 1 Lumber");
 		roadCostLabel.setOpaque(false);
 		roadCostLabel.setForeground(Color.WHITE);
 		roadCostLabel.setFont(MY_FONT2);
-		roadCostLabel.setBounds(88, 53, 118, 16);
-		add(roadCostLabel);
+		roadCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		//roadCostLabel.setBounds(88, 53, 118, 16);
+		lpt.add(roadCostLabel);
 		
 		JLabel settlementCostLabel = new JLabel("Cost: 1 Brick, 1 Lumber, 1 Wool, 1 Wheat");
 		settlementCostLabel.setOpaque(false);
 		settlementCostLabel.setForeground(Color.WHITE);
 		settlementCostLabel.setFont(MY_FONT2);
-		settlementCostLabel.setBounds(278, 53, 205, 16);
-		add(settlementCostLabel);
+		settlementCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lpt.add(settlementCostLabel);
 		
 		JLabel lblCostOre_1 = new JLabel("Cost: 3 Ore, 2 Wheat");
 		lblCostOre_1.setOpaque(false);
 		lblCostOre_1.setForeground(Color.WHITE);
 		lblCostOre_1.setFont(MY_FONT2);
-		lblCostOre_1.setBounds(570, 53, 104, 16);
-		add(lblCostOre_1);
+		lblCostOre_1.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lpt.add(lblCostOre_1);
 		
 		JLabel lblCostOre = new JLabel("Cost: 1 Ore, 1 Wheat, 1 Wool");
 		lblCostOre.setOpaque(false);
 		lblCostOre.setForeground(Color.WHITE);
 		lblCostOre.setFont(MY_FONT2);
-		lblCostOre.setBounds(776, 53, 145, 16);
-		add(lblCostOre);
+		lblCostOre.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lpt.add(lblCostOre);
 		
+		
+		JPanel lpb = new JPanel();
+		lpb.setOpaque(false);
+		lpb.setLayout(new BoxLayout(lpb, BoxLayout.LINE_AXIS));
 		JLabel rdVP = new JLabel("+2 VPs If Longest Road");
 		rdVP.setOpaque(false);
-		rdVP.setForeground(Color.CYAN);
+		rdVP.setForeground(Constants.CATAN_YELLOW);
 		rdVP.setFont(new Font("Times", Font.ITALIC, 12));
-		rdVP.setBounds(90, 71, 115, 16);
-		add(rdVP);
+		rdVP.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lpb.add(rdVP);
 		
 		JLabel label = new JLabel("+1 VP Per Settlement");
 		label.setOpaque(false);
-		label.setForeground(Color.CYAN);
+		label.setForeground(Constants.CATAN_YELLOW);
 		label.setFont(new Font("Times", Font.ITALIC, 12));
-		label.setBounds(328, 71, 104, 16);
-		add(label);
+		label.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lpb.add(label);
 		
 		JLabel label_1 = new JLabel("+2 VPs Per City");
 		label_1.setOpaque(false);
-		label_1.setForeground(Color.CYAN);
+		label_1.setForeground(Constants.CATAN_YELLOW);
 		label_1.setFont(new Font("Times", Font.ITALIC, 12));
-		label_1.setBounds(583, 71, 78, 16);
-		add(label_1);
+		label_1.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lpb.add(label_1);
 		
 		JLabel label_2 = new JLabel("+2 VPs If Largest Army");
 		label_2.setOpaque(false);
-		label_2.setForeground(Color.CYAN);
+		label_2.setForeground(Constants.CATAN_YELLOW);
 		label_2.setFont(new Font("Times", Font.ITALIC, 12));
-		label_2.setBounds(791, 71, 115, 16);
-		add(label_2);
+		label_2.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lpb.add(label_2);
 		
+		this.add(bp);
+		this.add(lpt);
+		this.add(lpb);
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);

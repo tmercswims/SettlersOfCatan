@@ -333,7 +333,7 @@ public class CatanServer extends Thread{
 	public void sendRoll(String playerName, int roll){
 		try {
 			_pool.send(playerName, new Packet(Packet.ROLL, new Integer(roll), id++));
-			_pool.sendAllChat(String.format("server %s rolled a %s", playerName, roll), "Server");
+			_pool.sendAllChat(String.format("Server %s rolled a %s", playerName, roll), "Server");
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
 		}
@@ -350,9 +350,9 @@ public class CatanServer extends Thread{
 		
 		try{
 			if(playerName == null)
-				_pool.sendAllChat("server " + message, "server");
+				_pool.sendAllChat("server " + message, "Server");
 			else
-				_pool.sendChat(playerName, "server " + message, "server");
+				_pool.sendChat(playerName, "server " + message, "Server");
 		} catch(IOException e){
 			System.err.println(e.getMessage());
 		}
