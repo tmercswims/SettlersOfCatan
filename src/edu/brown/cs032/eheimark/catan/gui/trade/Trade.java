@@ -61,56 +61,11 @@ public class Trade extends JPanel implements Update {
 		this.client = cc;
 
 		this.img = Constants.TRADE_TAB_IMAGE;
-		//setLayout(null); // absolute layout
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));//GridLayout(3,1));
 
 		toPlayerCB = new JComboBox<String>();
 		toPlayerCB.setOpaque(false);
-		//toPlayerCB.setBackground(Color.white);
-		//toPlayerCB.setBounds(53, sendHeight, 140, 16);
-		//toPlayerCB.setBorder(BorderFactory.createLineBorder(Color.black));
-		//add(toPlayerCB);
-
-		/*oreCB = new JComboBox<Integer>(tradeValues);
-		oreCB.setSelectedIndex(5);
-		oreCB.setOpaque(true);
-		oreCB.setBackground(Color.white);
-		oreCB.setBounds(155, resourceHeight, 67, 16);
-		oreCB.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(oreCB);
-
-		wheatCB = new JComboBox<Integer>(tradeValues);
-		wheatCB.setSelectedIndex(5);
-		wheatCB.setOpaque(true);
-		wheatCB.setBackground(Color.white);
-		wheatCB.setBounds(328, resourceHeight, 67, 16);
-		wheatCB.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(wheatCB);
-
-		woolCB = new JComboBox<Integer>(tradeValues);
-		woolCB.setSelectedIndex(5);
-		woolCB.setOpaque(true);
-		woolCB.setBackground(Color.white);
-		woolCB.setBounds(501, resourceHeight, 67, 16);
-		woolCB.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(woolCB);
-
-		lumberCB = new JComboBox<Integer>(tradeValues);
-		lumberCB.setSelectedIndex(5);
-		lumberCB.setOpaque(true);
-		lumberCB.setBackground(Color.white);
-		lumberCB.setBounds(674, resourceHeight, 67, 16);
-		lumberCB.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(lumberCB);
-
-		brickCB = new JComboBox<Integer>(tradeValues);
-		brickCB.setSelectedIndex(5);
-		brickCB.setOpaque(true);
-		brickCB.setBackground(Color.white);
-		brickCB.setBounds(847, resourceHeight, 67, 16);
-		brickCB.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(brickCB);*/
 		
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
@@ -137,92 +92,36 @@ public class Trade extends JPanel implements Update {
 		oreCB = new JComboBox<Integer>(tradeValues);
 		oreCB.setSelectedIndex(5);
 		oreCB.setToolTipText("Ore");
-		//oreCB.setBounds(155, 59, 67, 16);
 		comboPanel.add(oreCB);
 
 		wheatCB = new JComboBox<Integer>(tradeValues);
 		wheatCB.setSelectedIndex(5);
 		wheatCB.setToolTipText("Wheat");
-		//wheatCB.setBounds(328, 59, 67, 16);
 		comboPanel.add(wheatCB);
 
 		woolCB = new JComboBox<Integer>(tradeValues);
 		woolCB.setSelectedIndex(5);
-		//woolCB.setBounds(501, 59, 67, 16);
 		woolCB.setToolTipText("Wool");
 		comboPanel.add(woolCB);
 
 		lumberCB = new JComboBox<Integer>(tradeValues);
 		lumberCB.setSelectedIndex(5);
-		//lumberCB.setBounds(674, 59, 67, 16);
 		lumberCB.setToolTipText("Lumber");
 		comboPanel.add(lumberCB);
 
 		brickCB = new JComboBox<Integer>(tradeValues);
 		brickCB.setSelectedIndex(5);
 		brickCB.setToolTipText("Brick");
-		//brickCB.setBounds(847, 59, 67, 16);
 		comboPanel.add(brickCB);
-
-		/*JLabel brickLabel = new JLabel("Brick:");
-		brickLabel.setFont( Constants.DEFAULT_LABEL_FONT);
-		brickLabel.setOpaque(true);
-		brickLabel.setBackground(Color.WHITE);
-		brickLabel.setBounds(801, resourceHeight, 44, 16);
-		brickLabel.setForeground(Color.RED);
-		brickLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(brickLabel);
-
-		JLabel lumberLabel = new JLabel("Lumber:");
-		lumberLabel.setFont( Constants.DEFAULT_LABEL_FONT);
-		lumberLabel.setOpaque(true);
-		lumberLabel.setBackground(Color.WHITE);
-		lumberLabel.setBounds(610, resourceHeight, 63, 16);
-		lumberLabel.setForeground(Color.GREEN);
-		lumberLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(lumberLabel);
-
-		JLabel woolLabel = new JLabel("Wool:");
-		woolLabel.setFont( Constants.DEFAULT_LABEL_FONT);
-		woolLabel.setOpaque(true);
-		woolLabel.setBackground(Color.WHITE);
-		woolLabel.setBounds(456, resourceHeight, 45, 16);
-		woolLabel.setForeground(Color.LIGHT_GRAY);
-		woolLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(woolLabel);
-
-		JLabel grainLabel = new JLabel("Wheat:");
-		grainLabel.setFont( Constants.DEFAULT_LABEL_FONT);
-		grainLabel.setOpaque(true);
-		grainLabel.setBackground(Color.WHITE);
-		grainLabel.setBounds(270, resourceHeight, 55, 16);
-		grainLabel.setForeground(Color.ORANGE);
-		grainLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(grainLabel);
-
-		JLabel oreLabel = new JLabel("Ore:");
-		oreLabel.setFont( Constants.DEFAULT_LABEL_FONT);
-		oreLabel.setOpaque(true);
-		oreLabel.setBackground(Color.WHITE);
-		oreLabel.setBounds(123, resourceHeight, 31, 16);
-		oreLabel.setForeground(Color.DARK_GRAY);
-		oreLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(oreLabel);*/
 
 		proposeButton = new JButton("Send");
 		proposeButton.setFont( Constants.DEFAULT_LABEL_FONT);
-		//proposeButton.setBounds(195, sendHeight, 70, 16);
 		proposeButton.addActionListener(new ProposeTradeActionListener());
-		//add(proposeButton);
 
 		JLabel toLabel = new JLabel("To:");
 		toLabel.setFont( Constants.DEFAULT_LABEL_FONT);
 		toLabel.setOpaque(false);
 		toLabel.setForeground(Color.white);
-		//toLabel.setBackground(Color.WHITE);
-		//toLabel.setBounds(28, sendHeight, 138, 16);
-		//toLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		//add(toLabel);
 		
 		JPanel toPanel = new JPanel();
 		toPanel.setLayout(new BoxLayout(toPanel, BoxLayout.LINE_AXIS));
@@ -233,10 +132,6 @@ public class Trade extends JPanel implements Update {
 		clarificationLabel.setOpaque(false);
 		clarificationLabel.setForeground(Color.white);
 		clarificationLabel.setFont(new Font("Times", Font.ITALIC, 12));
-		//clarificationLabel.setBackground(Color.WHITE);
-		//clarificationLabel.setBounds(28, 90, 136, 16);
-		//clarificationLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		//add(clarificationLabel);
 		
 		JPanel bp = new JPanel();
 		bp.setLayout(new BoxLayout(bp, BoxLayout.LINE_AXIS));
@@ -249,9 +144,6 @@ public class Trade extends JPanel implements Update {
 		this.add(toPanel);
 		this.add(comboPanel);
 		this.add(bp);
-		//bp.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		
 	}
 
 	/**
@@ -304,8 +196,6 @@ public class Trade extends JPanel implements Update {
 					toPlayerCB.insertItemAt(p.getName(), i++);
 				}
 			}
-			
-			
 			
 			toPlayerCB.repaint();
 			repaint();
