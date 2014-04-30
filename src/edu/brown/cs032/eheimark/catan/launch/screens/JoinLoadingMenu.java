@@ -76,7 +76,7 @@ public class JoinLoadingMenu extends CatanMenu {
 				cc = new CatanClient(soc.getLaunchConfiguration());
 				while(true) { //TODO: Switch to isRunning method
 					if(!cc.getIsStarting()) {
-						jta.append(cc.readServerMessage());
+									jta.append(cc.readServerMessage());
 					}
 					else {
 						jta.append("Launching the game...");
