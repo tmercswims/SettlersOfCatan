@@ -1,6 +1,7 @@
 package edu.brown.cs032.eheimark.catan.gui.navigator;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -11,19 +12,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.BevelBorder;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
+import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.*;
+
 import java.awt.Insets;
 
 public class ActivePlayer extends JPanel implements Update {
@@ -33,6 +38,7 @@ public class ActivePlayer extends JPanel implements Update {
 	private CatanClient client;
 	private final JButton gameManagerButton; // manages a turn, allowing user to either roll die or end turn
 	private boolean rollDie; // indicates whether in roll die mode or end turn mode
+	private JLabel ore, wheat, wool, wood, brick;
 
 	public ActivePlayer(CatanClient cc) {
 		super();
@@ -42,7 +48,7 @@ public class ActivePlayer extends JPanel implements Update {
 		this.setOpaque(false); // set background to opaque b/c drawing done in GUI class for background
 
 		setPreferredSize(new Dimension(600, 50));
-		
+
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{600, 0};
 		gridBagLayout.rowHeights = new int[]{25, 25, 0};
@@ -57,16 +63,79 @@ public class ActivePlayer extends JPanel implements Update {
 		gameManagerButton.setForeground(Constants.CATAN_RED);
 		gameManagerButton.addActionListener(new TurnListener());
 
+		JPanel playerResourcesPanel = new JPanel();
+		playerResourcesPanel.setOpaque(false);
+		playerResourcesPanel.setPreferredSize(Constants.PLAYER_STATS);
+		playerResourcesPanel.setLayout(new GridLayout(1,10));
+		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
+				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.oreToken.getIconHeight()),
+				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+
+		ore = new JLabel("99");
+		ore.setOpaque(true);
+		ore.setFont(Constants.DEFAULT_LABEL_FONT);
+		ore.setBackground(Color.LIGHT_GRAY);
+		ore.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		ore.setHorizontalAlignment(SwingConstants.CENTER);
+		playerResourcesPanel.add(ore);
+
+		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.wheatToken.getImage().getScaledInstance(
+				(int)(Misc.wheatToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.wheatToken.getIconHeight()),
+				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+
+		wheat = new JLabel("99");
+		wheat.setOpaque(true);
+		wheat.setFont(Constants.DEFAULT_LABEL_FONT);
+		wheat.setBackground(Color.LIGHT_GRAY);
+		wheat.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		wheat.setHorizontalAlignment(SwingConstants.CENTER);
+		playerResourcesPanel.add(wheat);
+
+		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.woolToken.getImage().getScaledInstance(
+				(int)(Misc.woolToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woolToken.getIconHeight()),
+				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+
+		wool = new JLabel("99");
+		wool.setOpaque(true);
+		wool.setFont(Constants.DEFAULT_LABEL_FONT);
+		wool.setBackground(Color.LIGHT_GRAY);
+		wool.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		wool.setHorizontalAlignment(SwingConstants.CENTER);
+		playerResourcesPanel.add(wool);
+
+		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.woodToken.getImage().getScaledInstance(
+				(int)(Misc.woodToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woodToken.getIconHeight()),
+				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+
+		wood = new JLabel("99");
+		wood.setOpaque(true);
+		wood.setFont(Constants.DEFAULT_LABEL_FONT);
+		wood.setBackground(Color.LIGHT_GRAY);
+		wood.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		wood.setHorizontalAlignment(SwingConstants.CENTER);
+		playerResourcesPanel.add(wood);
+
+		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.brickToken.getImage().getScaledInstance(
+				(int)(Misc.brickToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.brickToken.getIconHeight()),
+				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+
+		brick = new JLabel("99");
+		brick.setOpaque(true);
+		brick.setFont(Constants.DEFAULT_LABEL_FONT);
+		brick.setBackground(Color.LIGHT_GRAY);
+		brick.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		brick.setHorizontalAlignment(SwingConstants.CENTER);
+		playerResourcesPanel.add(brick);
 		mystats = new JLabel("MY STATISTICS");
 		mystats.setFont(Constants.MY_FONT_ACTIVEPLAYER);
 		mystats.setForeground(Constants.CATAN_YELLOW);
 		mystats.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_mystats = new GridBagConstraints();
-		gbc_mystats.fill = GridBagConstraints.BOTH;
 		gbc_mystats.insets = new Insets(0, 0, 5, 0);
 		gbc_mystats.gridx = 0;
 		gbc_mystats.gridy = 0;
-		add(mystats, gbc_mystats);
+		add(playerResourcesPanel, gbc_mystats);
+
 		GridBagConstraints gbc_gameManagerButton = new GridBagConstraints();
 		gbc_gameManagerButton.fill = GridBagConstraints.VERTICAL;
 		gbc_gameManagerButton.gridx = 0;
@@ -81,10 +150,17 @@ public class ActivePlayer extends JPanel implements Update {
 		for(Player p : players) {
 			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check
 				int[] resources = p.getResources();
-				String s = "Ore:" + resources[3] + " Wheat:" + resources[0] + " Wool:" + resources[1] + " Lumber:" + resources[4] + " Brick:" + resources[2];
-				mystats.setText(s);
-				mystats.setForeground(p.getColor());
-			}		
+				wheat.setText(resources[0] + "");
+				wheat.setBackground(p.getColor());
+				wool.setText(resources[1] + "");
+				wool.setBackground(p.getColor());
+				brick.setText(resources[2] + "");
+				brick.setBackground(p.getColor());
+				ore.setText(resources[3] + "");
+				ore.setBackground(p.getColor());
+				wood.setText(resources[4] + "");
+				wood.setBackground(p.getColor());
+			}
 		}
 	}
 
@@ -123,18 +199,18 @@ public class ActivePlayer extends JPanel implements Update {
 		}
 	}
 
-//	@Override
-//	public void paintComponent(Graphics g) {
-//		Image background = wood;
-//		int iw = background.getWidth(this);
-//		int ih = background.getHeight(this);
-//		if (iw > 0 && ih > 0) {
-//			for (int x = 0; x < getWidth(); x += iw) {
-//				for (int y = 0; y < getHeight(); y += ih) {
-//					System.out.println("DREW A BG TILE");
-//					g.drawImage(background, x, y, iw, ih, this);
-//				}
-//			}
-//		}
-//	}
+	//	@Override
+	//	public void paintComponent(Graphics g) {
+	//		Image background = wood;
+	//		int iw = background.getWidth(this);
+	//		int ih = background.getHeight(this);
+	//		if (iw > 0 && ih > 0) {
+	//			for (int x = 0; x < getWidth(); x += iw) {
+	//				for (int y = 0; y < getHeight(); y += ih) {
+	//					System.out.println("DREW A BG TILE");
+	//					g.drawImage(background, x, y, iw, ih, this);
+	//				}
+	//			}
+	//		}
+	//	}
 }

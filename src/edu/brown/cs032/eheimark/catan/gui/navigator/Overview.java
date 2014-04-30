@@ -22,6 +22,7 @@ import edu.brown.cs032.tmercuri.catan.logic.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.border.BevelBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
@@ -42,7 +43,6 @@ public class Overview extends JPanel implements Update {
 	// TODO Fix background images
 	private static final Color MY_BACKGROUND = Constants.CATAN_WHITE;
 	private final CatanClient client;
-	private final ArrayList<PlayerStats> playerstats;
 	private final MyRenderer myColorRenderer;
 	private final MyTableModel myTableModel;
 
@@ -56,7 +56,6 @@ public class Overview extends JPanel implements Update {
 		super();
 		this.setLayout(new GridLayout(1, 0));
 		setBackground(MY_BACKGROUND);
-		playerstats = new ArrayList<PlayerStats>();
 		myTableModel = new MyTableModel();
 		myColorRenderer = new MyRenderer();
 		final JTable table = new JTable(myTableModel);
@@ -66,8 +65,10 @@ public class Overview extends JPanel implements Update {
 		table.setShowGrid(true);
 		table.setOpaque(false);
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setRowHeight(20);
+		table.setRowHeight(23);
 		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));		
+
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
@@ -102,12 +103,22 @@ public class Overview extends JPanel implements Update {
 			}
 			if(rowColors.size() > row) {
 				editor.setBackground(rowColors.get(row));
-				editor.setForeground(Constants.CATAN_YELLOW);
+				if(row == activePlayerRow) {
+					editor.setForeground(Constants.ACTIVE_PLAYER_GREEN);
+				}
+				else {
+					editor.setForeground(Constants.CATAN_BLACK);
+				}
 			}
 			editor.setFont(Constants.OVERVIEW_TAB_FONT);
-//			editor.setBorder(null);
+			editor.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 			editor.setOpaque(true);
 			return editor;
+		}
+
+
+		public void setActivePlayerRow(int row) {
+			activePlayerRow = row;
 		}
 	}
 
@@ -158,9 +169,9 @@ public class Overview extends JPanel implements Update {
 			data[row][column++] = p.getCitiesBuilt();
 			data[row][column++] = p.getSettlementsBuilt();
 			myColorRenderer.addColor(row, p.getColor());
-//			if(p.isActive()) {
-//				myColorRenderer.setActivePlayerRow(row);
-//			}
+			if(p.isActive()) {
+				myColorRenderer.setActivePlayerRow(row);
+			}
 		}
 	}
 

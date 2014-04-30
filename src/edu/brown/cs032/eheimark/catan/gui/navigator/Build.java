@@ -114,28 +114,28 @@ public class Build extends JPanel implements Update {
 		
 		JLabel rdVP = new JLabel("+2 VPs If Longest Road");
 		rdVP.setOpaque(false);
-		rdVP.setForeground(Color.CYAN);
+		rdVP.setForeground(Constants.CATAN_YELLOW);
 		rdVP.setFont(new Font("Times", Font.ITALIC, 12));
 		rdVP.setBounds(90, 71, 115, 16);
 		add(rdVP);
 		
 		JLabel label = new JLabel("+1 VP Per Settlement");
 		label.setOpaque(false);
-		label.setForeground(Color.CYAN);
+		label.setForeground(Constants.CATAN_YELLOW);
 		label.setFont(new Font("Times", Font.ITALIC, 12));
 		label.setBounds(328, 71, 104, 16);
 		add(label);
 		
 		JLabel label_1 = new JLabel("+2 VPs Per City");
 		label_1.setOpaque(false);
-		label_1.setForeground(Color.CYAN);
+		label_1.setForeground(Constants.CATAN_YELLOW);
 		label_1.setFont(new Font("Times", Font.ITALIC, 12));
 		label_1.setBounds(583, 71, 78, 16);
 		add(label_1);
 		
 		JLabel label_2 = new JLabel("+2 VPs If Largest Army");
 		label_2.setOpaque(false);
-		label_2.setForeground(Color.CYAN);
+		label_2.setForeground(Constants.CATAN_YELLOW);
 		label_2.setFont(new Font("Times", Font.ITALIC, 12));
 		label_2.setBounds(791, 71, 115, 16);
 		add(label_2);
