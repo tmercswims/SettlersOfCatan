@@ -30,6 +30,8 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
+import java.awt.FlowLayout;
+import javax.swing.border.EmptyBorder;
 
 
 /**
@@ -45,7 +47,7 @@ public class Build extends JPanel implements Update {
 	private final CatanClient _client;
 	private final DrawingPanel _dp;
 	private final JButton buildSettlementButton, buildDevCardButton, buildRoadButton, buildCityButton;
-	
+
 	/**
 	 * Instantiates a new Build panel.
 	 *
@@ -57,186 +59,127 @@ public class Build extends JPanel implements Update {
 		_client  = c;
 		_dp = dp;
 		this.img = Constants.BUILD_IMAGE;
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 238, 238, 238, 238, 0};
-		gridBagLayout.rowHeights = new int[]{11, 43, 13, 20, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
-		//		add(buildSettlementButton);
-				
-				buildDevCardButton = new JButton("Build Dev. Card");
-				buildDevCardButton.addActionListener(new BuildDevCardActionListener());
-				buildDevCardButton.setForeground(Constants.CATAN_RED);
-				buildDevCardButton.setFont(MY_FONT);
-				//buildDevCardButton.setBounds(763, 26, 170, 29);
-				buildDevCardButton.setEnabled(false);
-				GridBagConstraints gbc_buildDevCardButton = new GridBagConstraints();
-				gbc_buildDevCardButton.fill = GridBagConstraints.BOTH;
-				gbc_buildDevCardButton.insets = new Insets(0, 0, 5, 5);
-				gbc_buildDevCardButton.gridx = 1;
-				gbc_buildDevCardButton.gridy = 1;
-				add(buildDevCardButton, gbc_buildDevCardButton);
-		
-		buildCityButton = new JButton("Build City");
-		buildCityButton.addActionListener(new BuildCityActionListener());
-		
-		
-//		JPanel bp = new JPanel();
-//		setOpaque(false);
-//		setLayout(new GridLayout(1,4));
-		buildSettlementButton = new JButton("Build Settlement");
-		buildSettlementButton.addActionListener(new BuildSettlementActionListener());
-		//		add(buildDevCardButton);
-				
-				buildRoadButton = new JButton("Build Road");
-				buildRoadButton.addActionListener(new BuildRoadActionListener());
-				buildRoadButton.setForeground(Constants.CATAN_RED);
-				buildRoadButton.setFont(MY_FONT);
-				//buildRoadButton.setBounds(73, 26, 148, 29);
-				buildRoadButton.setEnabled(false);
-				GridBagConstraints gbc_buildRoadButton = new GridBagConstraints();
-				gbc_buildRoadButton.fill = GridBagConstraints.BOTH;
-				gbc_buildRoadButton.insets = new Insets(0, 0, 5, 5);
-				gbc_buildRoadButton.gridx = 2;
-				gbc_buildRoadButton.gridy = 1;
-				add(buildRoadButton, gbc_buildRoadButton);
-		buildSettlementButton.setForeground(Constants.CATAN_RED);
-		buildSettlementButton.setFont(MY_FONT);
-		//buildSettlementButton.setBounds(288, 26, 185, 29);
-		buildSettlementButton.setEnabled(false);
-		GridBagConstraints gbc_buildSettlementButton = new GridBagConstraints();
-		gbc_buildSettlementButton.fill = GridBagConstraints.BOTH;
-		gbc_buildSettlementButton.insets = new Insets(0, 0, 5, 5);
-		gbc_buildSettlementButton.gridx = 3;
-		gbc_buildSettlementButton.gridy = 1;
-		add(buildSettlementButton, gbc_buildSettlementButton);
-		buildCityButton.setForeground(Constants.CATAN_RED);
-		buildCityButton.setFont(MY_FONT);
-		//buildCityButton.setBounds(548, 26, 148, 29);
-		buildCityButton.setEnabled(false);
-		GridBagConstraints gbc_buildCityButton = new GridBagConstraints();
-		gbc_buildCityButton.fill = GridBagConstraints.BOTH;
-		gbc_buildCityButton.insets = new Insets(0, 0, 5, 0);
-		gbc_buildCityButton.gridx = 4;
-		gbc_buildCityButton.gridy = 1;
-		add(buildCityButton, gbc_buildCityButton);
-		
-		JLabel lblCostOre = new JLabel("Cost: 1 Ore, 1 Wheat, 1 Wool");
-		lblCostOre.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCostOre.setOpaque(false);
-		lblCostOre.setForeground(Color.WHITE);
-		lblCostOre.setFont(MY_FONT2);
-		lblCostOre.setAlignmentX(Component.CENTER_ALIGNMENT);
-		GridBagConstraints gbc_lblCostOre = new GridBagConstraints();
-		gbc_lblCostOre.fill = GridBagConstraints.BOTH;
-		gbc_lblCostOre.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCostOre.gridx = 1;
-		gbc_lblCostOre.gridy = 2;
-		add(lblCostOre, gbc_lblCostOre);
-		
+		setLayout(new GridLayout(0, 4, 0, 0));
+
+		JPanel devCardPanel = new JPanel();
+		devCardPanel.setBorder(new EmptyBorder(25, 0, 25, 0));
+		devCardPanel.setOpaque(false);
+		add(devCardPanel);
+		devCardPanel.setLayout(new BorderLayout(0, 0));
+
+		buildDevCardButton = new JButton("Build Dev. Card");
+		devCardPanel.add(buildDevCardButton, BorderLayout.NORTH);
+		buildDevCardButton.addActionListener(new BuildDevCardActionListener());
+		buildDevCardButton.setForeground(Constants.CATAN_RED);
+		buildDevCardButton.setFont(MY_FONT);
+		buildDevCardButton.setEnabled(false);
+
+		JLabel oreCostLabel = new JLabel("Cost: 1 Ore, 1 Wheat, 1 Wool");
+		devCardPanel.add(oreCostLabel, BorderLayout.CENTER);
+		oreCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		oreCostLabel.setOpaque(false);
+		oreCostLabel.setForeground(Color.WHITE);
+		oreCostLabel.setFont(MY_FONT2);
+		oreCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		JLabel devCardCostLabel = new JLabel("+2 VPs If Largest Army");
+		devCardPanel.add(devCardCostLabel, BorderLayout.SOUTH);
+		devCardCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		devCardCostLabel.setOpaque(false);
+		devCardCostLabel.setForeground(Constants.CATAN_YELLOW);
+		devCardCostLabel.setFont(new Font("Times", Font.ITALIC, 12));
+		devCardCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		JPanel roadPanel = new JPanel();
+		roadPanel.setBorder(new EmptyBorder(25, 0, 25, 0));
+		roadPanel.setOpaque(false);
+		add(roadPanel);
+		roadPanel.setLayout(new BorderLayout(0, 0));
+
+		buildRoadButton = new JButton("Build Road");
+		roadPanel.add(buildRoadButton, BorderLayout.NORTH);
+		buildRoadButton.addActionListener(new BuildRoadActionListener());
+		buildRoadButton.setForeground(Constants.CATAN_RED);
+		buildRoadButton.setFont(MY_FONT);
+		buildRoadButton.setEnabled(false);
+
 		JLabel roadCostLabel = new JLabel("Cost: 1 Brick, 1 Lumber");
+		roadPanel.add(roadCostLabel, BorderLayout.CENTER);
 		roadCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		roadCostLabel.setOpaque(false);
 		roadCostLabel.setForeground(Color.WHITE);
 		roadCostLabel.setFont(MY_FONT2);
 		roadCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		GridBagConstraints gbc_roadCostLabel = new GridBagConstraints();
-		gbc_roadCostLabel.fill = GridBagConstraints.BOTH;
-		gbc_roadCostLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_roadCostLabel.gridx = 2;
-		gbc_roadCostLabel.gridy = 2;
-		add(roadCostLabel, gbc_roadCostLabel);
-		
-		JLabel settlementCostLabel = new JLabel("Cost: 1 Brick, 1 Lumber, 1 Wool, 1 Wheat");
-		settlementCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		settlementCostLabel.setOpaque(false);
-		settlementCostLabel.setForeground(Color.WHITE);
-		settlementCostLabel.setFont(MY_FONT2);
-		settlementCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		GridBagConstraints gbc_settlementCostLabel = new GridBagConstraints();
-		gbc_settlementCostLabel.fill = GridBagConstraints.BOTH;
-		gbc_settlementCostLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_settlementCostLabel.gridx = 3;
-		gbc_settlementCostLabel.gridy = 2;
-		add(settlementCostLabel, gbc_settlementCostLabel);
-		
-		JLabel lblCostOre_1 = new JLabel("Cost: 3 Ore, 2 Wheat");
-		lblCostOre_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCostOre_1.setOpaque(false);
-		lblCostOre_1.setForeground(Color.WHITE);
-		lblCostOre_1.setFont(MY_FONT2);
-		lblCostOre_1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		GridBagConstraints gbc_lblCostOre_1 = new GridBagConstraints();
-		gbc_lblCostOre_1.fill = GridBagConstraints.BOTH;
-		gbc_lblCostOre_1.insets = new Insets(0, 0, 5, 0);
-		gbc_lblCostOre_1.gridx = 4;
-		gbc_lblCostOre_1.gridy = 2;
-		add(lblCostOre_1, gbc_lblCostOre_1);
-		
-		JLabel label_2 = new JLabel("+2 VPs If Largest Army");
-		label_2.setHorizontalAlignment(SwingConstants.CENTER);
-		label_2.setOpaque(false);
-		label_2.setForeground(Constants.CATAN_YELLOW);
-		label_2.setFont(new Font("Times", Font.ITALIC, 12));
-		label_2.setAlignmentX(Component.CENTER_ALIGNMENT);
-		GridBagConstraints gbc_label_2 = new GridBagConstraints();
-		gbc_label_2.fill = GridBagConstraints.BOTH;
-		gbc_label_2.insets = new Insets(0, 0, 0, 5);
-		gbc_label_2.gridx = 1;
-		gbc_label_2.gridy = 3;
-		add(label_2, gbc_label_2);
-		
+
 		JLabel rdVP = new JLabel("+2 VPs If Longest Road");
+		roadPanel.add(rdVP, BorderLayout.SOUTH);
 		rdVP.setHorizontalAlignment(SwingConstants.CENTER);
 		rdVP.setOpaque(false);
 		rdVP.setForeground(Constants.CATAN_YELLOW);
 		rdVP.setFont(new Font("Times", Font.ITALIC, 12));
 		rdVP.setAlignmentX(Component.CENTER_ALIGNMENT);
-		GridBagConstraints gbc_rdVP = new GridBagConstraints();
-		gbc_rdVP.fill = GridBagConstraints.BOTH;
-		gbc_rdVP.insets = new Insets(0, 0, 0, 5);
-		gbc_rdVP.gridx = 2;
-		gbc_rdVP.gridy = 3;
-		add(rdVP, gbc_rdVP);
-		
+
+		JPanel settlementPanel = new JPanel();
+		settlementPanel.setBorder(new EmptyBorder(25, 0, 25, 0));
+		settlementPanel.setOpaque(false);
+		add(settlementPanel);
+		settlementPanel.setLayout(new BorderLayout(0, 0));
+
+		buildSettlementButton = new JButton("Build Settlement");
+		settlementPanel.add(buildSettlementButton, BorderLayout.NORTH);
+		buildSettlementButton.addActionListener(new BuildSettlementActionListener());
+		buildSettlementButton.setForeground(Constants.CATAN_RED);
+		buildSettlementButton.setFont(MY_FONT);
+		buildSettlementButton.setEnabled(false);
+
+		JLabel settlementCostLabel = new JLabel("Cost: 1 Brick, 1 Lumber, 1 Wool, 1 Wheat");
+		settlementPanel.add(settlementCostLabel, BorderLayout.CENTER);
+		settlementCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		settlementCostLabel.setOpaque(false);
+		settlementCostLabel.setForeground(Color.WHITE);
+		settlementCostLabel.setFont(MY_FONT2);
+		settlementCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		JLabel label = new JLabel("+1 VP Per Settlement");
+		settlementPanel.add(label, BorderLayout.SOUTH);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setOpaque(false);
 		label.setForeground(Constants.CATAN_YELLOW);
 		label.setFont(new Font("Times", Font.ITALIC, 12));
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.fill = GridBagConstraints.BOTH;
-		gbc_label.insets = new Insets(0, 0, 0, 5);
-		gbc_label.gridx = 3;
-		gbc_label.gridy = 3;
-		add(label, gbc_label);
-				
-				JLabel label_1 = new JLabel("+2 VPs Per City");
-				label_1.setHorizontalAlignment(SwingConstants.CENTER);
-				label_1.setOpaque(false);
-				label_1.setForeground(Constants.CATAN_YELLOW);
-				label_1.setFont(new Font("Times", Font.ITALIC, 12));
-				label_1.setAlignmentX(Component.CENTER_ALIGNMENT);
-				GridBagConstraints gbc_label_1 = new GridBagConstraints();
-				gbc_label_1.fill = GridBagConstraints.BOTH;
-				gbc_label_1.gridx = 4;
-				gbc_label_1.gridy = 3;
-				add(label_1, gbc_label_1);
-		GridBagConstraints gbc_lpt = new GridBagConstraints();
-		gbc_lpt.insets = new Insets(0, 0, 5, 0);
-		gbc_lpt.gridx = 1;
-		gbc_lpt.gridy = 3;
-		GridBagConstraints gbc_lpb = new GridBagConstraints();
-		gbc_lpb.gridx = 1;
-		gbc_lpb.gridy = 4;
+
+		JPanel cityPanel = new JPanel();
+		cityPanel.setBorder(new EmptyBorder(25, 0, 25, 0));
+		cityPanel.setOpaque(false);
+		add(cityPanel);
+		cityPanel.setLayout(new BorderLayout(0, 0));
+
+		buildCityButton = new JButton("Build City");
+		cityPanel.add(buildCityButton, BorderLayout.NORTH);
+		buildCityButton.addActionListener(new BuildCityActionListener());
+		buildCityButton.setForeground(Constants.CATAN_RED);
+		buildCityButton.setFont(MY_FONT);
+		buildCityButton.setEnabled(false);
+
+		JLabel lblCostOre_1 = new JLabel("Cost: 3 Ore, 2 Wheat");
+		cityPanel.add(lblCostOre_1, BorderLayout.CENTER);
+		lblCostOre_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCostOre_1.setOpaque(false);
+		lblCostOre_1.setForeground(Color.WHITE);
+		lblCostOre_1.setFont(MY_FONT2);
+		lblCostOre_1.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		JLabel label_1 = new JLabel("+2 VPs Per City");
+		cityPanel.add(label_1, BorderLayout.SOUTH);
+		label_1.setHorizontalAlignment(SwingConstants.CENTER);
+		label_1.setOpaque(false);
+		label_1.setForeground(Constants.CATAN_YELLOW);
+		label_1.setFont(new Font("Times", Font.ITALIC, 12));
+		label_1.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
 	}
-	
+
 	/**
 	 * Update.
 	 */
@@ -280,7 +223,7 @@ public class Build extends JPanel implements Update {
 
 		repaint();
 	}
-	
+
 	/**
 	 * The listener interface for receiving buildRoadAction events.
 	 * The class that is interested in processing a buildRoadAction
@@ -293,7 +236,7 @@ public class Build extends JPanel implements Update {
 	 * @see BuildRoadActionEvent
 	 */
 	class BuildRoadActionListener implements ActionListener {
-		
+
 		/* (non-Javadoc)
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
@@ -305,7 +248,7 @@ public class Build extends JPanel implements Update {
 			//drawing panel sends move
 		}
 	};
-	
+
 	/**
 	 * ActionListener that is used to help build settlements
 	 */
@@ -316,7 +259,7 @@ public class Build extends JPanel implements Update {
 			_dp.setSelect(2);
 		}
 	};
-	
+
 	/**
 	 * ActionListener that is used to build cities.
 	 */
@@ -327,7 +270,7 @@ public class Build extends JPanel implements Update {
 			_dp.setSelect(3);
 		}
 	};
-	
+
 	/**
 	 * ActionListener that is used to help build devcards
 	 */
@@ -335,26 +278,26 @@ public class Build extends JPanel implements Update {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Trying to build devcard!");
-            try {
-                _client.sendMove(new BuildMove(_client.getPlayerName(), DEV_CARD, 0));
-            } catch (IllegalArgumentException | IOException ex) {
-                System.err.println("ERROR: " + ex.getMessage());
-            }
+			try {
+				_client.sendMove(new BuildMove(_client.getPlayerName(), DEV_CARD, 0));
+			} catch (IllegalArgumentException | IOException ex) {
+				System.err.println("ERROR: " + ex.getMessage());
+			}
 		}
 	};
 
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-        Image background = felt;
-        int iw = background.getWidth(this);
-        int ih = background.getHeight(this);
-        if (iw > 0 && ih > 0) {
-            for (int x = 0; x < getWidth(); x += iw) {
-                for (int y = 0; y < getHeight(); y += ih) {
-                    g.drawImage(background, x, y, iw, ih, this);
-                }
-            }
-        }
+		Image background = felt;
+		int iw = background.getWidth(this);
+		int ih = background.getHeight(this);
+		if (iw > 0 && ih > 0) {
+			for (int x = 0; x < getWidth(); x += iw) {
+				for (int y = 0; y < getHeight(); y += ih) {
+					g.drawImage(background, x, y, iw, ih, this);
+				}
+			}
+		}
 	}
 }

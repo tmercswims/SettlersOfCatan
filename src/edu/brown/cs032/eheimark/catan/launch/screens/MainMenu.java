@@ -15,7 +15,7 @@ import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanMenuButton
  */
 public class MainMenu extends CatanMenu {
 	private static final long serialVersionUID = 1L;
-	private final JButton host, join, settings, quit;
+	private final JButton host, join, quit;
 	private final SettlersOfCatan soc;
 
 	/**
@@ -52,19 +52,6 @@ public class MainMenu extends CatanMenu {
 			}
 		});
 
-		settings = new CatanMenuButton("Settings");
-		settings.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						soc.getFrame().setPage(new SettingsMenu(soc));
-					}
-				});
-			}
-		});
-
 		quit = new CatanMenuButton("Quit");
 		quit.addActionListener(new ActionListener() {
 			@Override
@@ -75,7 +62,6 @@ public class MainMenu extends CatanMenu {
 
 		addComponent(host);
 		addComponent(join);
-		addComponent(settings);
 		addComponent(quit);
 	}
 }
