@@ -71,7 +71,7 @@ public class ActivePlayer extends JPanel implements Update {
 				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.oreToken.getIconHeight()),
 				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
-		ore = new JLabel("99");
+		ore = new JLabel();
 		ore.setOpaque(true);
 		ore.setFont(Constants.DEFAULT_LABEL_FONT);
 		ore.setBackground(Color.LIGHT_GRAY);
@@ -83,7 +83,7 @@ public class ActivePlayer extends JPanel implements Update {
 				(int)(Misc.wheatToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.wheatToken.getIconHeight()),
 				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
-		wheat = new JLabel("99");
+		wheat = new JLabel();
 		wheat.setOpaque(true);
 		wheat.setFont(Constants.DEFAULT_LABEL_FONT);
 		wheat.setBackground(Color.LIGHT_GRAY);
@@ -95,7 +95,7 @@ public class ActivePlayer extends JPanel implements Update {
 				(int)(Misc.woolToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woolToken.getIconHeight()),
 				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
-		wool = new JLabel("99");
+		wool = new JLabel();
 		wool.setOpaque(true);
 		wool.setFont(Constants.DEFAULT_LABEL_FONT);
 		wool.setBackground(Color.LIGHT_GRAY);
@@ -107,7 +107,7 @@ public class ActivePlayer extends JPanel implements Update {
 				(int)(Misc.woodToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woodToken.getIconHeight()),
 				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
-		wood = new JLabel("99");
+		wood = new JLabel();
 		wood.setOpaque(true);
 		wood.setFont(Constants.DEFAULT_LABEL_FONT);
 		wood.setBackground(Color.LIGHT_GRAY);
@@ -119,7 +119,7 @@ public class ActivePlayer extends JPanel implements Update {
 				(int)(Misc.brickToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.brickToken.getIconHeight()),
 				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
-		brick = new JLabel("99");
+		brick = new JLabel();
 		brick.setOpaque(true);
 		brick.setFont(Constants.DEFAULT_LABEL_FONT);
 		brick.setBackground(Color.LIGHT_GRAY);
@@ -151,15 +151,15 @@ public class ActivePlayer extends JPanel implements Update {
 			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check
 				int[] resources = p.getResources();
 				wheat.setText(resources[0] + "");
-				wheat.setBackground(p.getColor());
+				wheat.setBackground(p.getColor().brighter());
 				wool.setText(resources[1] + "");
-				wool.setBackground(p.getColor());
+				wool.setBackground(p.getColor().brighter());
 				brick.setText(resources[2] + "");
-				brick.setBackground(p.getColor());
+				brick.setBackground(p.getColor().brighter());
 				ore.setText(resources[3] + "");
-				ore.setBackground(p.getColor());
+				ore.setBackground(p.getColor().brighter());
 				wood.setText(resources[4] + "");
-				wood.setBackground(p.getColor());
+				wood.setBackground(p.getColor().brighter());
 			}
 		}
 	}
