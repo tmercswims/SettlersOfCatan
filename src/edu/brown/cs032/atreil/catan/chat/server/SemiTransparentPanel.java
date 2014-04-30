@@ -28,7 +28,8 @@ public class SemiTransparentPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
     	Color c = getBackground();
-        g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()+50));
+    	if(c.getAlpha()<205)
+    		g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()+50));
         Rectangle r = g.getClipBounds();
         g.fillRect(r.x, r.y, r.width, r.height);
         super.paintComponent(g);
