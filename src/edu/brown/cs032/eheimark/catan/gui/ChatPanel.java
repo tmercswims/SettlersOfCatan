@@ -204,12 +204,13 @@ public class ChatPanel extends JPanel {
 			StringBuilder sb = new StringBuilder();
 			for(int i = 0; i < tmp.length; i++){
 				if(i!=1){
-					sb.append(tmp[i]+" ");
+					sb.append(" " + tmp[i]);
 				}
 				else{
 					sb = new StringBuilder(sb.toString().trim());
 					sb.append(tmp[i].charAt(tmp[i].length()-1));
 				}
+				System.out.println(sb.toString());
 			}
 			final String f = sb.toString();
 			SwingUtilities.invokeLater(new Runnable() {
