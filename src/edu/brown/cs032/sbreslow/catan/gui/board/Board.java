@@ -269,9 +269,18 @@ public class Board implements Serializable {
 			}
 		}
 		for(Tile t: _tiles){
-			if(t._num==6 || t._num==8){
+			/*if(t._num==6 || t._num==8){
 				for(Tile tmp: t.getBors()){
 					if(tmp._num==6 || tmp._num==8){
+						setNum();
+						layoutNums();
+					}
+				}
+			}*/
+			if(t._num!=0){
+				for(Tile tmp: t.getBors()){
+					if(((tmp._num==6 || tmp._num==8)&&(t._num==6 || t._num==8))||
+							(t._num==tmp._num)){
 						setNum();
 						layoutNums();
 					}
@@ -281,6 +290,7 @@ public class Board implements Serializable {
 	}
 
 	private void setNum(){
+		_nums.clear();
 		for(int i = 0; i < 18; i++){
 			switch(i){
 			case 0:

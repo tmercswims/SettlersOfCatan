@@ -140,6 +140,7 @@ public class ActivePlayer extends JPanel implements Update {
 		gbc_gameManagerButton.fill = GridBagConstraints.VERTICAL;
 		gbc_gameManagerButton.gridx = 0;
 		gbc_gameManagerButton.gridy = 1;
+		gameManagerButton.setEnabled(false);
 		add(gameManagerButton, gbc_gameManagerButton);
 
 	}
@@ -147,6 +148,12 @@ public class ActivePlayer extends JPanel implements Update {
 	@Override
 	public void ericUpdate() {
 		Player[] players = this.client.getPlayers();
+		if(this.client.getPlayer().isActive()&&this.client.getPlayer().getRoadCount()<=13){
+			gameManagerButton.setEnabled(true);
+		}
+		else{
+			gameManagerButton.setEnabled(false);
+		}
 		for(Player p : players) {
 			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check
 				int[] resources = p.getResources();
@@ -207,7 +214,6 @@ public class ActivePlayer extends JPanel implements Update {
 	//		if (iw > 0 && ih > 0) {
 	//			for (int x = 0; x < getWidth(); x += iw) {
 	//				for (int y = 0; y < getHeight(); y += ih) {
-	//					System.out.println("DREW A BG TILE");
 	//					g.drawImage(background, x, y, iw, ih, this);
 	//				}
 	//			}
