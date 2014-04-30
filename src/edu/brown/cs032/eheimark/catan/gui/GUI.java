@@ -13,8 +13,10 @@ import edu.brown.cs032.atreil.catan.chat.client.ChatClient;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.navigator.ActivePlayer;
 import edu.brown.cs032.eheimark.catan.gui.navigator.TabbedPanel;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.wood;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.*;
+import java.awt.Image;
 
 /**
  * The Class GUI contains elements needed to run the game once it is initialized (that is,
@@ -29,7 +31,7 @@ public class GUI extends JPanel implements Update {
 	private final ChatPanel chat;
 	private final ActivePlayer activeplayer;
 	
-	private final JPanel left;
+	private JPanel left;
 
 
 	/**
@@ -57,6 +59,7 @@ public class GUI extends JPanel implements Update {
 				}
 			}
 		};
+        left.setOpaque(false);
 		this.client = cc;
 		activeplayer = new ActivePlayer(client);
 		left.add(activeplayer, BorderLayout.CENTER);
@@ -76,9 +79,25 @@ public class GUI extends JPanel implements Update {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}*/
+        setOpaque(false);
 		this.chat = new ChatPanel(cc);
 		this.add(this.chat, BorderLayout.EAST);
 	}
+    
+    @Override
+    public void paintComponent(Graphics g) {
+        Image background = wood;
+        int iw = background.getWidth(this);
+        int ih = background.getHeight(this);
+        if (iw > 0 && ih > 0) {
+            for (int x = 0; x < getWidth(); x += iw) {
+                for (int y = 0; y < getHeight(); y += ih) {
+                    g.drawImage(background, x, y, iw, ih, this);
+                }
+            }
+        }
+        super.paintComponent(g);
+    }
 	
 	/**
 	 * Gets the dp.

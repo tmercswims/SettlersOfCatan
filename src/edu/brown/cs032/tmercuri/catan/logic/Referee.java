@@ -450,7 +450,7 @@ public class Referee {
             }
         }
         
-        if (move.getProposedTo().equals("***Merchant***")) {
+        if (move.getProposedTo().equals("***MERCHANT***")) {
             int recNum = 0;
             for (int r : receiving) {
                 recNum += r;
