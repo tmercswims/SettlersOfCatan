@@ -141,7 +141,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 							for(Node n:t.getNodes()){
 								System.out.println("Node "+n.getIndex()+", isOwned: "+n.isOwned());
 								if(n.isOwned()){
-									if(!plist.contains(n.getOwner()))
+									if(!plist.contains(n.getOwner())&&n.getOwner()!=_client.getPlayer())
 										plist.add(n.getOwner());
 								}
 							}
