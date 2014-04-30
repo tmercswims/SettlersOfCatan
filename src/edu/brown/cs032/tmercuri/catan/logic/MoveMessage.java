@@ -88,6 +88,7 @@ public enum MoveMessage {
     MESSAGE_500(500, false, "%s moved the robber."),
     MESSAGE_501(501, true, "the robber is already on that hex."),
     MESSAGE_502(502, true, "that player does not have a building on that hex."),
+    MESSAGE_503(503, true, "there are no players on that hex, so you could not steal."),
     MESSAGE_510(510, false, "%s stole resources."),
     
     /**

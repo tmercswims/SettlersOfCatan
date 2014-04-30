@@ -134,7 +134,7 @@ public class ClientPool {
 		//check player exists
 		synchronized(_clients){
 			if(!_clients.containsKey(player)){
-				sendChat(sender, String.format("server No player exists with that name: %s\n", player), "server");
+				sendChat(sender, String.format("server No player exists with that name: %s\n", player), "Server");
 				return;
 			}
 			
