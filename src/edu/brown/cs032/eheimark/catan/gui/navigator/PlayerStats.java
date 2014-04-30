@@ -41,112 +41,112 @@ public class PlayerStats extends JPanel {
 
 		this.isActivePlayer = false;
 		this.img = edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.arrow;
-												GridBagLayout gridBagLayout = new GridBagLayout();
-												gridBagLayout.columnWidths = new int[]{1, 150, 125, 145, 170, 82, 117, 78, 0};
-												gridBagLayout.rowHeights = new int[]{16, 0};
-												gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-												gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-												setLayout(gridBagLayout);
-																		
-																				label = new JLabel("");
-																				GridBagConstraints gbc_label = new GridBagConstraints();
-																				gbc_label.anchor = GridBagConstraints.WEST;
-																				gbc_label.insets = new Insets(0, 0, 0, 5);
-																				gbc_label.gridx = 0;
-																				gbc_label.gridy = 0;
-																				add(label, gbc_label);
-																
-																		label_1 = new JLabel("");
-																		GridBagConstraints gbc_label_1 = new GridBagConstraints();
-																		gbc_label_1.anchor = GridBagConstraints.WEST;
-																		gbc_label_1.insets = new Insets(0, 0, 0, 5);
-																		gbc_label_1.gridx = 0;
-																		gbc_label_1.gridy = 0;
-																		add(label_1, gbc_label_1);
-														
-																label_2 = new JLabel("");
-																GridBagConstraints gbc_label_2 = new GridBagConstraints();
-																gbc_label_2.anchor = GridBagConstraints.WEST;
-																gbc_label_2.insets = new Insets(0, 0, 0, 5);
-																gbc_label_2.gridx = 0;
-																gbc_label_2.gridy = 0;
-																add(label_2, gbc_label_2);
-																		
-																				name = new JLabel("Name");
-																				name.setPreferredSize(new Dimension(150, 16));
-																				name.setHorizontalAlignment(SwingConstants.LEFT);
-																				GridBagConstraints gbc_name = new GridBagConstraints();
-																				gbc_name.anchor = GridBagConstraints.NORTHWEST;
-																				gbc_name.insets = new Insets(0, 0, 0, 5);
-																				gbc_name.gridx = 1;
-																				gbc_name.gridy = 0;
-																				add(name, gbc_name);
-																				name.setFont(Constants.MY_FONT_SMALL);
-																
-																		vps = new JLabel("Victory Points");
-																		vps.setBorder(new EmptyBorder(0, 10, 0, 20));
-																		vps.setHorizontalAlignment(SwingConstants.CENTER);
-																		GridBagConstraints gbc_vps = new GridBagConstraints();
-																		gbc_vps.anchor = GridBagConstraints.NORTHWEST;
-																		gbc_vps.insets = new Insets(0, 0, 0, 5);
-																		gbc_vps.gridx = 2;
-																		gbc_vps.gridy = 0;
-																		add(vps, gbc_vps);
-																		vps.setFont(Constants.MY_FONT_SMALL);
-														
-																resources = new JLabel("Resource Cards");
-																resources.setBorder(new EmptyBorder(0, 20, 0, 20));
-																resources.setHorizontalAlignment(SwingConstants.CENTER);
-																resources.setFont(Constants.MY_FONT_SMALL);
-																GridBagConstraints gbc_resources = new GridBagConstraints();
-																gbc_resources.anchor = GridBagConstraints.NORTHWEST;
-																gbc_resources.insets = new Insets(0, 0, 0, 5);
-																gbc_resources.gridx = 3;
-																gbc_resources.gridy = 0;
-																add(resources, gbc_resources);
-														
-																devcards = new JLabel("Development Cards");
-																devcards.setBorder(new EmptyBorder(0, 20, 0, 20));
-																devcards.setHorizontalAlignment(SwingConstants.CENTER);
-																GridBagConstraints gbc_devcards = new GridBagConstraints();
-																gbc_devcards.anchor = GridBagConstraints.NORTHWEST;
-																gbc_devcards.insets = new Insets(0, 0, 0, 5);
-																gbc_devcards.gridx = 4;
-																gbc_devcards.gridy = 0;
-																add(devcards, gbc_devcards);
-																devcards.setFont(Constants.MY_FONT_SMALL);
-												
-														roads = new JLabel("Roads");
-														roads.setBorder(new EmptyBorder(0, 20, 0, 20));
-														roads.setHorizontalAlignment(SwingConstants.CENTER);
-														GridBagConstraints gbc_roads = new GridBagConstraints();
-														gbc_roads.anchor = GridBagConstraints.NORTHWEST;
-														gbc_roads.insets = new Insets(0, 0, 0, 5);
-														gbc_roads.gridx = 5;
-														gbc_roads.gridy = 0;
-														add(roads, gbc_roads);
-														roads.setFont(Constants.MY_FONT_SMALL);
-														
-																settlements = new JLabel("Settlements");
-																settlements.setBorder(new EmptyBorder(0, 20, 0, 20));
-																settlements.setHorizontalAlignment(SwingConstants.CENTER);
-																GridBagConstraints gbc_settlements = new GridBagConstraints();
-																gbc_settlements.anchor = GridBagConstraints.NORTHWEST;
-																gbc_settlements.insets = new Insets(0, 0, 0, 5);
-																gbc_settlements.gridx = 6;
-																gbc_settlements.gridy = 0;
-																add(settlements, gbc_settlements);
-																settlements.setFont(Constants.MY_FONT_SMALL);
-												
-														cities = new JLabel("Cities");
-														cities.setBorder(new EmptyBorder(0, 20, 0, 20));
-														cities.setHorizontalAlignment(SwingConstants.CENTER);
-														cities.setFont(Constants.MY_FONT_SMALL);
-														GridBagConstraints gbc_cities = new GridBagConstraints();
-														gbc_cities.anchor = GridBagConstraints.NORTHWEST;
-														gbc_cities.gridx = 7;
-														gbc_cities.gridy = 0;
-														add(cities, gbc_cities);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{1, 150, 125, 145, 170, 82, 117, 78, 0};
+		gridBagLayout.rowHeights = new int[]{16, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		setLayout(gridBagLayout);
+
+		label = new JLabel("");
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.anchor = GridBagConstraints.WEST;
+		gbc_label.insets = new Insets(0, 0, 0, 5);
+		gbc_label.gridx = 0;
+		gbc_label.gridy = 0;
+		add(label, gbc_label);
+
+		label_1 = new JLabel("");
+		GridBagConstraints gbc_label_1 = new GridBagConstraints();
+		gbc_label_1.anchor = GridBagConstraints.WEST;
+		gbc_label_1.insets = new Insets(0, 0, 0, 5);
+		gbc_label_1.gridx = 0;
+		gbc_label_1.gridy = 0;
+		add(label_1, gbc_label_1);
+
+		label_2 = new JLabel("");
+		GridBagConstraints gbc_label_2 = new GridBagConstraints();
+		gbc_label_2.anchor = GridBagConstraints.WEST;
+		gbc_label_2.insets = new Insets(0, 0, 0, 5);
+		gbc_label_2.gridx = 0;
+		gbc_label_2.gridy = 0;
+		add(label_2, gbc_label_2);
+
+		name = new JLabel("Name");
+		name.setPreferredSize(new Dimension(150, 16));
+		name.setHorizontalAlignment(SwingConstants.LEFT);
+		GridBagConstraints gbc_name = new GridBagConstraints();
+		gbc_name.anchor = GridBagConstraints.NORTHWEST;
+		gbc_name.insets = new Insets(0, 0, 0, 5);
+		gbc_name.gridx = 1;
+		gbc_name.gridy = 0;
+		add(name, gbc_name);
+		name.setFont(Constants.MY_FONT_SMALL);
+
+		vps = new JLabel("Victory Points");
+		vps.setBorder(new EmptyBorder(0, 10, 0, 20));
+		vps.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_vps = new GridBagConstraints();
+		gbc_vps.anchor = GridBagConstraints.NORTHWEST;
+		gbc_vps.insets = new Insets(0, 0, 0, 5);
+		gbc_vps.gridx = 2;
+		gbc_vps.gridy = 0;
+		add(vps, gbc_vps);
+		vps.setFont(Constants.MY_FONT_SMALL);
+
+		resources = new JLabel("Resource Cards");
+		resources.setBorder(new EmptyBorder(0, 20, 0, 20));
+		resources.setHorizontalAlignment(SwingConstants.CENTER);
+		resources.setFont(Constants.MY_FONT_SMALL);
+		GridBagConstraints gbc_resources = new GridBagConstraints();
+		gbc_resources.anchor = GridBagConstraints.NORTHWEST;
+		gbc_resources.insets = new Insets(0, 0, 0, 5);
+		gbc_resources.gridx = 3;
+		gbc_resources.gridy = 0;
+		add(resources, gbc_resources);
+
+		devcards = new JLabel("Development Cards");
+		devcards.setBorder(new EmptyBorder(0, 20, 0, 20));
+		devcards.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_devcards = new GridBagConstraints();
+		gbc_devcards.anchor = GridBagConstraints.NORTHWEST;
+		gbc_devcards.insets = new Insets(0, 0, 0, 5);
+		gbc_devcards.gridx = 4;
+		gbc_devcards.gridy = 0;
+		add(devcards, gbc_devcards);
+		devcards.setFont(Constants.MY_FONT_SMALL);
+
+		roads = new JLabel("Roads");
+		roads.setBorder(new EmptyBorder(0, 20, 0, 20));
+		roads.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_roads = new GridBagConstraints();
+		gbc_roads.anchor = GridBagConstraints.NORTHWEST;
+		gbc_roads.insets = new Insets(0, 0, 0, 5);
+		gbc_roads.gridx = 5;
+		gbc_roads.gridy = 0;
+		add(roads, gbc_roads);
+		roads.setFont(Constants.MY_FONT_SMALL);
+
+		settlements = new JLabel("Settlements");
+		settlements.setBorder(new EmptyBorder(0, 20, 0, 20));
+		settlements.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_settlements = new GridBagConstraints();
+		gbc_settlements.anchor = GridBagConstraints.NORTHWEST;
+		gbc_settlements.insets = new Insets(0, 0, 0, 5);
+		gbc_settlements.gridx = 6;
+		gbc_settlements.gridy = 0;
+		add(settlements, gbc_settlements);
+		settlements.setFont(Constants.MY_FONT_SMALL);
+
+		cities = new JLabel("Cities");
+		cities.setBorder(new EmptyBorder(0, 20, 0, 20));
+		cities.setHorizontalAlignment(SwingConstants.CENTER);
+		cities.setFont(Constants.MY_FONT_SMALL);
+		GridBagConstraints gbc_cities = new GridBagConstraints();
+		gbc_cities.anchor = GridBagConstraints.NORTHWEST;
+		gbc_cities.gridx = 7;
+		gbc_cities.gridy = 0;
+		add(cities, gbc_cities);
 
 		setColor(Color.black); // default color
 

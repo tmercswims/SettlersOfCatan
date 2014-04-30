@@ -39,10 +39,9 @@ public class ActivePlayer extends JPanel implements Update {
 
 		this.client = cc;
 		this.rollDie = true;
+		this.setOpaque(false); // set background to opaque b/c drawing done in GUI class for background
 
 		setPreferredSize(new Dimension(600, 50));
-		setMinimumSize(new Dimension(600, 50));
-		setMaximumSize(new Dimension(600, 50));
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{600, 0};
@@ -124,18 +123,18 @@ public class ActivePlayer extends JPanel implements Update {
 		}
 	}
 
-	@Override
-	public void paintComponent(Graphics g) {
-		Image background = wood;
-		int iw = background.getWidth(this);
-		int ih = background.getHeight(this);
-		if (iw > 0 && ih > 0) {
-			for (int x = 0; x < getWidth(); x += iw) {
-				for (int y = 0; y < getHeight(); y += ih) {
-					System.out.println("DREW A BG TILE");
-					g.drawImage(background, x, y, iw, ih, this);
-				}
-			}
-		}
-	}
+//	@Override
+//	public void paintComponent(Graphics g) {
+//		Image background = wood;
+//		int iw = background.getWidth(this);
+//		int ih = background.getHeight(this);
+//		if (iw > 0 && ih > 0) {
+//			for (int x = 0; x < getWidth(); x += iw) {
+//				for (int y = 0; y < getHeight(); y += ih) {
+//					System.out.println("DREW A BG TILE");
+//					g.drawImage(background, x, y, iw, ih, this);
+//				}
+//			}
+//		}
+//	}
 }

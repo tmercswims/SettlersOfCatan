@@ -63,7 +63,7 @@ public class Overview extends JPanel implements Update {
 		table.setDefaultRenderer(Object.class, myColorRenderer);
 		table.getTableHeader().setFont(Constants.OVERVIEW_TAB_FONT_HEADER);
 		table.getTableHeader().setAlignmentX(SwingConstants.CENTER);
-		table.setShowGrid(false);
+		table.setShowGrid(true);
 		table.setOpaque(false);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setRowHeight(20);
@@ -101,21 +101,13 @@ public class Overview extends JPanel implements Update {
 				editor.setHorizontalAlignment(SwingConstants.CENTER);
 			}
 			if(rowColors.size() > row) {
-				editor.setForeground(rowColors.get(row));
+				editor.setBackground(rowColors.get(row));
+				editor.setForeground(Constants.CATAN_YELLOW);
 			}
-			if(row == activePlayerRow) {
-				editor.setFont(Constants.OVERVIEW_TAB_FONT_ACTIVEPLAYER);
-			}
-			else {
-				editor.setFont(Constants.OVERVIEW_TAB_FONT);
-			}
-			editor.setBorder(null);
-			editor.setOpaque(false);
+			editor.setFont(Constants.OVERVIEW_TAB_FONT);
+//			editor.setBorder(null);
+			editor.setOpaque(true);
 			return editor;
-		}
-
-		public void setActivePlayerRow(int row) {
-			activePlayerRow = row;
 		}
 	}
 
@@ -127,15 +119,15 @@ public class Overview extends JPanel implements Update {
 				"Development Cards",
 				"Roads",
 				"Cities",
-				"Settlements"};
+		"Settlements"};
 		private Object[][] data = {{"Name",
-				"Victory Points",
-				"Resource Cards",
-				"Development Cards",
-				"Roads",
-				"Cities",
-				"Settlements"}};
-		
+			"Victory Points",
+			"Resource Cards",
+			"Development Cards",
+			"Roads",
+			"Cities",
+		"Settlements"}};
+
 		public void initializeData(int numberPlayers) {
 			data = new Object[numberPlayers][7];
 		}
@@ -166,25 +158,25 @@ public class Overview extends JPanel implements Update {
 			data[row][column++] = p.getCitiesBuilt();
 			data[row][column++] = p.getSettlementsBuilt();
 			myColorRenderer.addColor(row, p.getColor());
-			if(p.isActive()) {
-				myColorRenderer.setActivePlayerRow(row);
-			}
+//			if(p.isActive()) {
+//				myColorRenderer.setActivePlayerRow(row);
+//			}
 		}
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-        Image background = felt;
-        int iw = background.getWidth(this);
-        int ih = background.getHeight(this);
-        if (iw > 0 && ih > 0) {
-            for (int x = 0; x < getWidth(); x += iw) {
-                for (int y = 0; y < getHeight(); y += ih) {
-                    g.drawImage(background, x, y, iw, ih, this);
-                }
-            }
-        }
+		Image background = felt;
+		int iw = background.getWidth(this);
+		int ih = background.getHeight(this);
+		if (iw > 0 && ih > 0) {
+			for (int x = 0; x < getWidth(); x += iw) {
+				for (int y = 0; y < getHeight(); y += ih) {
+					g.drawImage(background, x, y, iw, ih, this);
+				}
+			}
+		}
 	}
 
 	@Override

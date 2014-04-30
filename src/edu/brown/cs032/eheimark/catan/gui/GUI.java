@@ -3,6 +3,7 @@ package edu.brown.cs032.eheimark.catan.gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.io.IOException;
 
 import javax.swing.JPanel;
@@ -13,6 +14,7 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.navigator.ActivePlayer;
 import edu.brown.cs032.eheimark.catan.gui.navigator.TabbedPanel;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.*;
 
 /**
  * The Class GUI contains elements needed to run the game once it is initialized (that is,
@@ -37,7 +39,24 @@ public class GUI extends JPanel implements Update {
 	 */
 	public GUI(CatanClient cc) {
 		super(new BorderLayout());
-		left = new JPanel(new BorderLayout());
+		left = new JPanel(new BorderLayout()) {
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+			public void paintComponent(Graphics g) {
+				Image background = wood;
+				int iw = background.getWidth(this);
+				int ih = background.getHeight(this);
+				if (iw > 0 && ih > 0) {
+					for (int x = 0; x < getWidth(); x += iw) {
+						for (int y = 0; y < getHeight(); y += ih) {
+							System.out.println("DREW A BG TILE");
+							g.drawImage(background, x, y, iw, ih, this);
+						}
+					}
+				}
+			}
+		};
 		this.client = cc;
 		activeplayer = new ActivePlayer(client);
 		left.add(activeplayer, BorderLayout.CENTER);

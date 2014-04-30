@@ -31,12 +31,12 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	public DrawingPanel(CatanClient client){
 		super();
 		_client = client;
-		//setBackground(new Color(41, 105, 168));
 		setSize(600,600);
 		setPreferredSize(getSize());
 		setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());
 		_toDraw = new ArrayList<>();
+		this.setOpaque(false); // set background to opaque b/c drawing done in GUI class for background
 		this.setVisible(true);
 		this.addMouseListener(new ClickList(this));
 		_selectable = -1;
@@ -65,16 +65,16 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-        Image background = wood;
-        int iw = background.getWidth(this);
-        int ih = background.getHeight(this);
-        if (iw > 0 && ih > 0) {
-            for (int x = 0; x < getWidth(); x += iw) {
-                for (int y = 0; y < getHeight(); y += ih) {
-                    g.drawImage(background, x, y, iw, ih, this);
-                }
-            }
-        }
+//        Image background = wood;
+//        int iw = background.getWidth(this);
+//        int ih = background.getHeight(this);
+//        if (iw > 0 && ih > 0) {
+//            for (int x = 0; x < getWidth(); x += iw) {
+//                for (int y = 0; y < getHeight(); y += ih) {
+//                    g.drawImage(background, x, y, iw, ih, this);
+//                }
+//            }
+//        }
 		int i = 0;
 		for(BoardComponent c : _toDraw){
 			if(c!=null){
