@@ -77,7 +77,7 @@ public class ChatPanel extends JPanel {
 		_field.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.darkGray), BorderFactory.createEmptyBorder(4, 4, 4, 4)));
 		_field.setForeground(Color.white);
 		_field.setCaretColor(Color.white);
-		PromptSupport.setPrompt("Type a message or /m <player> to whisper...", _field);
+		PromptSupport.setPrompt("Type a message or /p <player> to whisper...", _field);
 
 		_scroll = new JScrollPane(_area);
 		_scroll.setOpaque(false);

@@ -17,7 +17,7 @@ public enum MoveMessage {
     /**
      * generic error
      */
-    MESSAGE_NEG1(-1, true, "something happened."),
+    MESSAGE_NEG1(-1, true, "Something happened."),
     
     /**
      * started turn
@@ -32,77 +32,78 @@ public enum MoveMessage {
     /**
      * you haven't rolled yet
      */
-    MESSAGE_998(998, true, "you have not rolled the die yet."),
+    MESSAGE_998(998, true, "You have not rolled the die yet."),
     
     /**
      * it's not your turn
      */
-    MESSAGE_999(999, true, "it is not your turn."),
+    MESSAGE_999(999, true, "It is not your turn."),
     
     /**
      * road
      */
     MESSAGE_100(100, false, "%s built a road."),
-    MESSAGE_101(101, true, "there is already a road there."),
-    MESSAGE_102(102, true, "you do not have enough resources for a road."),
-    MESSAGE_103(103, true, "you do not have any roads left to build."),
-    MESSAGE_106(106, true, "you do not have a road that reaches that edge."),
-    MESSAGE_107(107, true, "you must build the road touching your previous settlement."),
+    MESSAGE_101(101, true, "There is already a road there."),
+    MESSAGE_102(102, true, "You do not have enough resources for a road."),
+    MESSAGE_103(103, true, "You do not have any roads left to build."),
+    MESSAGE_106(106, true, "You do not have a road that reaches that edge."),
+    MESSAGE_107(107, true, "You must build the road touching your previous settlement."),
     
     /**
      * settlement
      */
     MESSAGE_200(200, false, "%s built a settlement."),
-    MESSAGE_201(201, true, "there is already a settlement there."),
-    MESSAGE_202(202, true, "you do not have enough resources for a settlement."),
-    MESSAGE_203(203, true, "you do not have any settlements left to build."),
-    MESSAGE_204(204, true, "there is a structure next to that intersection."),
-    MESSAGE_206(206, true, "you do not have a road that reaches that intersection."),
+    MESSAGE_201(201, true, "There is already a settlement there."),
+    MESSAGE_202(202, true, "You do not have enough resources for a settlement."),
+    MESSAGE_203(203, true, "You do not have any settlements left to build."),
+    MESSAGE_204(204, true, "There is a structure next to that intersection."),
+    MESSAGE_206(206, true, "You do not have a road that reaches that intersection."),
     
     /**
      * city
      */
     MESSAGE_300(300, false, "%s built a city."),
-    MESSAGE_301(301, true, "there is already a city there."),
-    MESSAGE_302(302, true, "you do not have enough resources for a city."),
-    MESSAGE_303(303, true, "you do not have any cities left to build."),
-    MESSAGE_305(305, true, "the settlement at that intersection is not yours.\n"),
+    MESSAGE_301(301, true, "There is already a city there."),
+    MESSAGE_302(302, true, "You do not have enough resources for a city."),
+    MESSAGE_303(303, true, "You do not have any cities left to build."),
+    MESSAGE_305(305, true, "Yhe settlement at that intersection is not yours.\n"),
     
     /**
      * trading
      */
-    MESSAGE_400(400, false, "%s proposed a trade."),
-    MESSAGE_401(401, true, "you do not have enough resources for that trade."),
-    MESSAGE_402(402, true, "the other player does not have enough resources for that trade."),
-    MESSAGE_403(403, true, "the other player rejected the trade."),
-    MESSAGE_404(404, true, "you must only receive one resource in order to trade with the merchant."),
-    MESSAGE_405(405, true, "you must only give up one type of resource in order to trade with the merchant."),
-    MESSAGE_406(406, true, "you do not have access to that port."),
-    MESSAGE_410(410, false, "%s completed a trade."),
+    MESSAGE_400(400, false, "%s proposed a trade to %s."),
+    MESSAGE_401(401, true, "You do not have enough resources for that trade."),
+    MESSAGE_402(402, true, "The other player does not have enough resources for that trade."),
+    MESSAGE_403(403, false, "%s rejected %s's trade proposal."),
+    MESSAGE_404(404, true, "You must only receive one resource in order to trade with the merchant."),
+    MESSAGE_405(405, true, "You must only give up one type of resource in order to trade with the merchant."),
+    MESSAGE_406(406, true, "You do not have access to that port."),
+    MESSAGE_407(407, true, "You need to give up one type of resource in order to trade with the merchant."),
+    MESSAGE_410(410, false, "%s accepted %s's trade proposal."),
     MESSAGE_411(411, false, "%s traded with the bank."),
     MESSAGE_412(412, false, "%s traded with a port."),
     
     /**
      * robber
      */
-    MESSAGE_500(500, false, "%s moved the robber."),
-    MESSAGE_501(501, true, "the robber is already on that hex."),
-    MESSAGE_502(502, true, "that player does not have a building on that hex."),
-    MESSAGE_503(503, true, "there are no players on that hex, so you could not steal."),
-    MESSAGE_510(510, false, "%s dropped resources."),
+    MESSAGE_500(500, false, "%s moved the robber and stole from %s."),
+    MESSAGE_501(501, true, "The robber is already on that hex."),
+    MESSAGE_502(502, true, "That player does not have a building on that hex."),
+    MESSAGE_503(503, true, "There are no players on that hex, so you could not steal."),
+    MESSAGE_510(510, false, "%s had resources stolen by the robber."),
     
     /**
      * dev card
      */
     MESSAGE_600(600, false, "%s played a development card."),
-    MESSAGE_601(601, true, "you cannot build a road there."),
+    MESSAGE_601(601, true, "You cannot build a road there."),
     MESSAGE_610(610, false, "%s played a Road Builder."),
     MESSAGE_620(620, false, "%s played a Year of Plenty."),
     MESSAGE_630(630, false, "%s played a Monopoly."),
     MESSAGE_640(640, false, "%s played a Victory Point."),
     MESSAGE_700(700, false, "%s bought a development card."),
-    MESSAGE_701(701, true, "there are no development cards yet."),
-    MESSAGE_702(702, true, "you do not have enough resources for a development card.");
+    MESSAGE_701(701, true, "There are no development cards yet."),
+    MESSAGE_702(702, true, "You do not have enough resources for a development card.");
     
     private final int _code;
     private final boolean _isError;
