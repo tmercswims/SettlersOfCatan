@@ -77,10 +77,10 @@ public class BoardImages {
         public static final ImageIcon wheatToken = new ImageIcon("images/resource_tokens/wheat.png");//.getImage();
         public static final ImageIcon woodToken = new ImageIcon("images/resource_tokens/wood.png");//.getImage();
         
-        public static final Image buildRoad = new ImageIcon("images/resource_tokens/build_road.png").getImage();
-        public static final Image buildSettlement = new ImageIcon("images/resource_tokens/build_settlement.png").getImage();
-        public static final Image buildCity = new ImageIcon("images/resource_tokens/build_city.png").getImage();
-        public static final Image buildDevCard = new ImageIcon("images/resource_tokens/build_dev_card.png").getImage();
+        public static final ImageIcon buildRoad = new ImageIcon("images/resource_tokens/build_road.png");
+        public static final ImageIcon buildSettlement = new ImageIcon("images/resource_tokens/build_settlement.png");
+        public static final ImageIcon buildCity = new ImageIcon("images/resource_tokens/build_city.png");
+        public static final ImageIcon buildDevCard = new ImageIcon("images/resource_tokens/build_dev_card.png");
     }
     
     public static class Background {

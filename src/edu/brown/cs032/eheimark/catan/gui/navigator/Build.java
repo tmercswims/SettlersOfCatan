@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -21,18 +22,19 @@ import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.felt;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.h;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.knight;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.w;
 import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.DEV_CARD;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
 
 import java.io.IOException;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.BorderLayout;
+
 import javax.swing.SwingConstants;
-import java.awt.FlowLayout;
 import javax.swing.border.EmptyBorder;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.*;
 
 /**
  * The Class Build is a tabbed panel that helps users to manage building
@@ -40,10 +42,8 @@ import javax.swing.border.EmptyBorder;
  */
 public class Build extends JPanel implements Update {
 	private static final long serialVersionUID = 1L;
-	private final Image img; // background image
 	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 18);
 	private static final Font MY_FONT2 = new Font("Times", Font.ITALIC, 12);
-	private static final Color MY_BACKGROUND = Constants.CATAN_RED;
 	private final CatanClient _client;
 	private final DrawingPanel _dp;
 	private final JButton buildSettlementButton, buildDevCardButton, buildRoadButton, buildCityButton;
@@ -58,11 +58,12 @@ public class Build extends JPanel implements Update {
 		super();
 		_client  = c;
 		_dp = dp;
-		this.img = Constants.BUILD_IMAGE;
 		setLayout(new GridLayout(0, 4, 0, 0));
+		final EmptyBorder TOP_BORDER = new EmptyBorder(7, 0, 5, 0);
+		final EmptyBorder BOTTOM_LABEL_BORDER = new EmptyBorder(3, 0, 0, 0);
 
 		JPanel devCardPanel = new JPanel();
-		devCardPanel.setBorder(new EmptyBorder(25, 0, 25, 0));
+		devCardPanel.setBorder(TOP_BORDER);
 		devCardPanel.setOpaque(false);
 		add(devCardPanel);
 		devCardPanel.setLayout(new BorderLayout(0, 0));
@@ -74,24 +75,25 @@ public class Build extends JPanel implements Update {
 		buildDevCardButton.setFont(MY_FONT);
 		buildDevCardButton.setEnabled(false);
 
-		JLabel oreCostLabel = new JLabel("Cost: 1 Ore, 1 Wheat, 1 Wool");
-		devCardPanel.add(oreCostLabel, BorderLayout.CENTER);
-		oreCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		oreCostLabel.setOpaque(false);
-		oreCostLabel.setForeground(Color.WHITE);
-		oreCostLabel.setFont(MY_FONT2);
-		oreCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		JLabel devCardCostLabel = new JLabel("+2 VPs If Largest Army");
-		devCardPanel.add(devCardCostLabel, BorderLayout.SOUTH);
+		JLabel devCardCostLabel = new JLabel();
+		devCardPanel.add(devCardCostLabel, BorderLayout.CENTER);
 		devCardCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		devCardCostLabel.setOpaque(false);
-		devCardCostLabel.setForeground(Constants.CATAN_YELLOW);
-		devCardCostLabel.setFont(new Font("Times", Font.ITALIC, 12));
+		devCardCostLabel.setForeground(Color.WHITE);
+		devCardCostLabel.setFont(MY_FONT2);
 		devCardCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		devCardCostLabel.setIcon(buildDevCard);
 
+		JLabel devCardVPLabel = new JLabel("+2 VPs If Largest Army");
+		devCardPanel.add(devCardVPLabel, BorderLayout.SOUTH);
+		devCardVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		devCardVPLabel.setOpaque(false);
+		devCardVPLabel.setForeground(Constants.CATAN_YELLOW);
+		devCardVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
+		devCardVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		JPanel roadPanel = new JPanel();
-		roadPanel.setBorder(new EmptyBorder(25, 0, 25, 0));
+		roadPanel.setBorder(TOP_BORDER);
 		roadPanel.setOpaque(false);
 		add(roadPanel);
 		roadPanel.setLayout(new BorderLayout(0, 0));
@@ -103,15 +105,17 @@ public class Build extends JPanel implements Update {
 		buildRoadButton.setFont(MY_FONT);
 		buildRoadButton.setEnabled(false);
 
-		JLabel roadCostLabel = new JLabel("Cost: 1 Brick, 1 Lumber");
+		JLabel roadCostLabel = new JLabel();
 		roadPanel.add(roadCostLabel, BorderLayout.CENTER);
 		roadCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		roadCostLabel.setOpaque(false);
 		roadCostLabel.setForeground(Color.WHITE);
 		roadCostLabel.setFont(MY_FONT2);
 		roadCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		roadCostLabel.setIcon(buildRoad);
 
 		JLabel rdVP = new JLabel("+2 VPs If Longest Road");
+		rdVP.setBorder(BOTTOM_LABEL_BORDER);
 		roadPanel.add(rdVP, BorderLayout.SOUTH);
 		rdVP.setHorizontalAlignment(SwingConstants.CENTER);
 		rdVP.setOpaque(false);
@@ -120,7 +124,7 @@ public class Build extends JPanel implements Update {
 		rdVP.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		JPanel settlementPanel = new JPanel();
-		settlementPanel.setBorder(new EmptyBorder(25, 0, 25, 0));
+		settlementPanel.setBorder(TOP_BORDER);
 		settlementPanel.setOpaque(false);
 		add(settlementPanel);
 		settlementPanel.setLayout(new BorderLayout(0, 0));
@@ -132,24 +136,28 @@ public class Build extends JPanel implements Update {
 		buildSettlementButton.setFont(MY_FONT);
 		buildSettlementButton.setEnabled(false);
 
-		JLabel settlementCostLabel = new JLabel("Cost: 1 Brick, 1 Lumber, 1 Wool, 1 Wheat");
+		JLabel settlementCostLabel = new JLabel();
+		settlementCostLabel.setBorder(BOTTOM_LABEL_BORDER);
 		settlementPanel.add(settlementCostLabel, BorderLayout.CENTER);
 		settlementCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		settlementCostLabel.setOpaque(false);
 		settlementCostLabel.setForeground(Color.WHITE);
 		settlementCostLabel.setFont(MY_FONT2);
 		settlementCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		settlementCostLabel.setIcon(buildSettlement);
 
-		JLabel label = new JLabel("+1 VP Per Settlement");
-		settlementPanel.add(label, BorderLayout.SOUTH);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setOpaque(false);
-		label.setForeground(Constants.CATAN_YELLOW);
-		label.setFont(new Font("Times", Font.ITALIC, 12));
-		label.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		JLabel settlementVPLabel = new JLabel("+1 VP Per Settlement");
+		settlementVPLabel.setBorder(BOTTOM_LABEL_BORDER);
+		settlementPanel.add(settlementVPLabel, BorderLayout.SOUTH);
+		settlementVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		settlementVPLabel.setOpaque(false);
+		settlementVPLabel.setForeground(Constants.CATAN_YELLOW);
+		settlementVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
+		settlementVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		JPanel cityPanel = new JPanel();
-		cityPanel.setBorder(new EmptyBorder(25, 0, 25, 0));
+		cityPanel.setBorder(TOP_BORDER);
 		cityPanel.setOpaque(false);
 		add(cityPanel);
 		cityPanel.setLayout(new BorderLayout(0, 0));
@@ -161,22 +169,23 @@ public class Build extends JPanel implements Update {
 		buildCityButton.setFont(MY_FONT);
 		buildCityButton.setEnabled(false);
 
-		JLabel lblCostOre_1 = new JLabel("Cost: 3 Ore, 2 Wheat");
-		cityPanel.add(lblCostOre_1, BorderLayout.CENTER);
-		lblCostOre_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCostOre_1.setOpaque(false);
-		lblCostOre_1.setForeground(Color.WHITE);
-		lblCostOre_1.setFont(MY_FONT2);
-		lblCostOre_1.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JLabel cityCostLabel = new JLabel();
+		cityPanel.add(cityCostLabel, BorderLayout.CENTER);
+		cityCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cityCostLabel.setOpaque(false);
+		cityCostLabel.setForeground(Color.WHITE);
+		cityCostLabel.setFont(MY_FONT2);
+		cityCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		cityCostLabel.setIcon(buildCity);
 
-		JLabel label_1 = new JLabel("+2 VPs Per City");
-		cityPanel.add(label_1, BorderLayout.SOUTH);
-		label_1.setHorizontalAlignment(SwingConstants.CENTER);
-		label_1.setOpaque(false);
-		label_1.setForeground(Constants.CATAN_YELLOW);
-		label_1.setFont(new Font("Times", Font.ITALIC, 12));
-		label_1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+		JLabel cityVPLabel = new JLabel("+2 VPs Per City");
+		cityVPLabel.setBorder(BOTTOM_LABEL_BORDER);
+		cityPanel.add(cityVPLabel, BorderLayout.SOUTH);
+		cityVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cityVPLabel.setOpaque(false);
+		cityVPLabel.setForeground(Constants.CATAN_YELLOW);
+		cityVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
+		cityVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
 	}
 
