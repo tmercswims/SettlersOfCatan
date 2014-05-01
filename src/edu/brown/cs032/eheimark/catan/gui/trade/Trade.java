@@ -9,9 +9,11 @@ import java.awt.Image;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 import java.awt.Color;
@@ -30,6 +32,8 @@ import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 /**
  * The Class Trade is the tabbed pane window that allows users to propose a trade to another
@@ -53,24 +57,24 @@ public class Trade extends JPanel implements Update {
 	 */
 	public Trade(CatanClient cc) {
 		super();
-		
+
 		this.sendHeight = 15;
 		this.resourceHeight = 50; 
-		
+
 		final Integer[] tradeValues = new Integer[] {-5, -4, -3, -2, -1, +0, 1, 2, 3, 4, 5};
 		this.client = cc;
 
 		this.img = Constants.TRADE_TAB_IMAGE;
-		
+
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));//GridLayout(3,1));
 
 		toPlayerCB = new JComboBox<String>();
 		toPlayerCB.setOpaque(false);
-		
+
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
 		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
-		
+
 		JPanel comboPanel = new JPanel();
 		comboPanel.setLayout(new GridLayout(2,5));
 		comboPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
@@ -88,7 +92,7 @@ public class Trade extends JPanel implements Update {
 		comboPanel.add(new JLabel(new ImageIcon(Misc.brickToken.getImage().getScaledInstance(
 				(int)(Misc.brickToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.brickToken.getIconHeight()),
 				(int)(Constants.TAB_PANEL_MENU_SIZE.getHeight()/5),Image.SCALE_SMOOTH))));
-		
+
 		oreCB = new JComboBox<Integer>(tradeValues);
 		oreCB.setSelectedIndex(5);
 		oreCB.setToolTipText("Ore");
@@ -122,7 +126,7 @@ public class Trade extends JPanel implements Update {
 		toLabel.setFont( Constants.DEFAULT_LABEL_FONT);
 		toLabel.setOpaque(false);
 		toLabel.setForeground(Color.white);
-		
+
 		JPanel toPanel = new JPanel();
 		toPanel.setLayout(new BoxLayout(toPanel, BoxLayout.LINE_AXIS));
 		toPanel.add(toLabel);
@@ -132,7 +136,7 @@ public class Trade extends JPanel implements Update {
 		clarificationLabel.setOpaque(false);
 		clarificationLabel.setForeground(Color.white);
 		clarificationLabel.setFont(new Font("Times", Font.ITALIC, 12));
-		
+
 		JPanel bp = new JPanel();
 		bp.setLayout(new BoxLayout(bp, BoxLayout.LINE_AXIS));
 		bp.add(proposeButton);
@@ -140,7 +144,7 @@ public class Trade extends JPanel implements Update {
 		toPanel.setOpaque(false);
 		comboPanel.setOpaque(false);
 		bp.setOpaque(false);
-		
+
 		this.add(toPanel);
 		this.add(comboPanel);
 		this.add(bp);
@@ -161,6 +165,11 @@ public class Trade extends JPanel implements Update {
 				trade[ResourceConstants.BRICK] = (Integer) brickCB.getSelectedItem();
 				String toPlayer = (String) toPlayerCB.getSelectedItem();
 				client.sendMove(new TradeMove(client.getPlayerName(), toPlayer, trade, -1));
+				oreCB.setSelectedItem(0);
+				lumberCB.setSelectedItem(0);
+				wheatCB.setSelectedItem(0);
+				brickCB.setSelectedItem(0);
+				woolCB.setSelectedItem(0);
 			} catch (IllegalArgumentException | IOException e1) {
 				e1.printStackTrace();
 			}
@@ -170,16 +179,16 @@ public class Trade extends JPanel implements Update {
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-        Image background = felt;
-        int iw = background.getWidth(this);
-        int ih = background.getHeight(this);
-        if (iw > 0 && ih > 0) {
-            for (int x = 0; x < getWidth(); x += iw) {
-                for (int y = 0; y < getHeight(); y += ih) {
-                    g.drawImage(background, x, y, iw, ih, this);
-                }
-            }
-        }
+		Image background = felt;
+		int iw = background.getWidth(this);
+		int ih = background.getHeight(this);
+		if (iw > 0 && ih > 0) {
+			for (int x = 0; x < getWidth(); x += iw) {
+				for (int y = 0; y < getHeight(); y += ih) {
+					g.drawImage(background, x, y, iw, ih, this);
+				}
+			}
+		}
 	}
 
 	private boolean updated = false;
@@ -189,24 +198,23 @@ public class Trade extends JPanel implements Update {
 			System.out.println("IN TRADE MENU UPDATE");
 			Player[] players = client.getPlayers();
 
-			int i = 0;
-			toPlayerCB.insertItemAt("***MERCHANT***", i);
+			HashMap<Integer, Color> colors = new HashMap<Integer, Color>();
+			int idx = 0;
+
+			toPlayerCB.addItem("***MERCHANT***");
+			colors.put(idx++, Color.BLACK);
+			
 			for(Player p : players) { // Adds all other players except current player to trade with
 				if(!client.getPlayerName().equals(p.getName())) {
-					toPlayerCB.insertItemAt(p.getName(), i++);
+					toPlayerCB.addItem(p.getName());
+					colors.put(idx++, p.getColor().brighter());
 				}
 			}
-			
-			toPlayerCB.repaint();
-			repaint();
-			System.out.println("DONE WITH TRADE MENU UPDATE");
+			toPlayerCB.setRenderer(new MyComboBoxRenderer(colors));
 		}
 		toPlayerCB.setSelectedItem("***MERCHANT***");
-		oreCB.setSelectedItem(0);
-		lumberCB.setSelectedItem(0);
-		wheatCB.setSelectedItem(0);
-		brickCB.setSelectedItem(0);
-		woolCB.setSelectedItem(0);
+		toPlayerCB.setForeground(Color.BLACK);
+	
 		if((!client.getPlayer().isActive())||(!client.getPlayer().hasRolled())){
 			proposeButton.setEnabled(false);
 		}
@@ -214,5 +222,32 @@ public class Trade extends JPanel implements Update {
 			proposeButton.setEnabled(true);
 		}
 		updated = true;
+	}
+
+	class MyComboBoxRenderer extends DefaultListCellRenderer {
+		private static final long serialVersionUID = 1L;
+		HashMap<Integer,Color> table;
+
+		public MyComboBoxRenderer(HashMap<Integer,Color> table) {
+			this.table = table;
+			setOpaque(true);
+		}
+
+		@SuppressWarnings("rawtypes")
+		public Component getListCellRendererComponent(JList jc,Object val,int idx,boolean isSelected,boolean cellHasFocus) {
+			setText(val.toString());
+
+			setForeground(table.get(idx));
+
+			if(isSelected) {
+				setBackground(Color.LIGHT_GRAY);
+				toPlayerCB.setForeground(table.get(idx));
+			}
+			else {
+				setBackground(Color.WHITE);
+			}
+			
+			return this;
+		}
 	}
 }
