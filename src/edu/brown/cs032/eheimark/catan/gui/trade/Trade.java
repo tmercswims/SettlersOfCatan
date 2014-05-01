@@ -92,12 +92,12 @@ public class Trade extends JPanel implements Update {
 
 		woolCB = new JComboBox<Integer>(tradeValues);
 		woolCB.setSelectedIndex(5);
-		woolCB.setToolTipText("Wool");
+		woolCB.setToolTipText("Sheep");
 		comboPanel.add(woolCB);
 
 		lumberCB = new JComboBox<Integer>(tradeValues);
 		lumberCB.setSelectedIndex(5);
-		lumberCB.setToolTipText("Lumber");
+		lumberCB.setToolTipText("Wood");
 		comboPanel.add(lumberCB);
 
 		brickCB = new JComboBox<Integer>(tradeValues);

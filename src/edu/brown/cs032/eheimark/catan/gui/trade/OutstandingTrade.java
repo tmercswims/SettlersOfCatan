@@ -73,7 +73,7 @@ public class OutstandingTrade extends JPanel {
 		brickLabel.setForeground(Color.RED);
 		labelPanel.add(brickLabel);
 
-		JLabel lumberLabel = new JLabel("Lumber:" + -resources[ResourceConstants.WOOD]);
+		JLabel lumberLabel = new JLabel("Wood:" + -resources[ResourceConstants.WOOD]);
 		lumberLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lumberLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		lumberLabel.setOpaque(true);
@@ -81,7 +81,7 @@ public class OutstandingTrade extends JPanel {
 		lumberLabel.setForeground(Color.GREEN);
 		labelPanel.add(lumberLabel);
 
-		JLabel woolLabel = new JLabel("Wool:" + -resources[ResourceConstants.SHEEP]);
+		JLabel woolLabel = new JLabel("Sheep:" + -resources[ResourceConstants.SHEEP]);
 		woolLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		woolLabel.setFont(Constants.DEFAULT_LABEL_FONT);
 		woolLabel.setOpaque(true);

@@ -33,6 +33,7 @@ public class AlertFrame extends JFrame {
 		menu.setAlignmentX(Component.CENTER_ALIGNMENT);
 		menu.addActionListener(new MenuList(this));
 		panel.add(menu);
+		this.setLocationRelativeTo(gui);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.add(panel);
 		this.setVisible(true);

@@ -42,8 +42,8 @@ public class YoPFrame extends JFrame {
 				_images[i] = new JLabel(Misc.wheatToken);
 				break;
 			case 1:
-				_tbuttons[i] = new JRadioButton("Wool");
-				_bbuttons[i] = new JRadioButton("Wool");
+				_tbuttons[i] = new JRadioButton("Sheep");
+				_bbuttons[i] = new JRadioButton("Sheep");
 				_images[i] = new JLabel(Misc.woolToken);
 				break;
 			case 2:
@@ -57,8 +57,8 @@ public class YoPFrame extends JFrame {
 				_images[i] = new JLabel(Misc.oreToken);
 				break;
 			case 4:
-				_tbuttons[i] = new JRadioButton("Lumber");
-				_bbuttons[i] = new JRadioButton("Lumber");
+				_tbuttons[i] = new JRadioButton("Wood");
+				_bbuttons[i] = new JRadioButton("Wood");
 				_images[i] = new JLabel(Misc.woodToken);
 				break;
 			}
@@ -87,6 +87,7 @@ public class YoPFrame extends JFrame {
 		mp.add(panel);
 		mp.add(bp);
 		this.add(mp);
+		this.setLocationRelativeTo(cc.getFrame());
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.pack();
