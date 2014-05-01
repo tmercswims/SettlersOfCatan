@@ -292,7 +292,7 @@ public class ChatPanel extends JPanel {
                         _unsentContents = _field.getText();
                     }
                     _position = (_position+1 > _history.size()-1) ? _position : _position+1;
-                    String textU = _history.get(_position);
+                    String textU = (_position == -1) ? _field.getText() : _history.get(_position);
                     _field.setText(textU);
                     break;
                 case KeyEvent.VK_DOWN:

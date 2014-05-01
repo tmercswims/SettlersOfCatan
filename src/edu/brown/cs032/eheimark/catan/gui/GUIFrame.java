@@ -26,6 +26,7 @@ public class GUIFrame extends JFrame {
 		add(new GUI(cc));
 		setVisible(true);
 		setResizable(true);
+        setLocationRelativeTo(null);
 		setMinimumSize(Constants.GUI_SIZE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();

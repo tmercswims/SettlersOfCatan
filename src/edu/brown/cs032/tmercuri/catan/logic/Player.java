@@ -347,6 +347,12 @@ public class Player implements Serializable {
         hash = 23 * hash + Objects.hashCode(this._name);
         return hash;
     }
+    
+    @Override
+    public String toString() {
+        return String.format("Player(%s)", _name);
+    }
+    
     /**
      * Gets this player's total resources
      * @return the sum of all resources
