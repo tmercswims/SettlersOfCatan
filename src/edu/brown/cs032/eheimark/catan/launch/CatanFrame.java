@@ -1,11 +1,6 @@
 package edu.brown.cs032.eheimark.catan.launch;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.newdawn.easyogg.OggClip;
