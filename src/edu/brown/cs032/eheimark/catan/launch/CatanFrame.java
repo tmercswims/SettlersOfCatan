@@ -2,15 +2,13 @@ package edu.brown.cs032.eheimark.catan.launch;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.InputStream;
+import java.net.URL;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import org.newdawn.easyogg.OggClip;
 
 /**
  * The Class CatanFrame is a generic JFrame for the Catan game.
@@ -18,8 +16,7 @@ import javax.swing.JPanel;
 public class CatanFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
     
-    private Clip _music;
-    private AudioInputStream _stream;
+    private OggClip _music;
 
 	/**
 	 * Instantiates a new Catan frame.
@@ -38,20 +35,12 @@ public class CatanFrame extends JFrame {
 	}
     
     private void setMusic() {
-        _stream = null;
         try {
-            _stream = AudioSystem.getAudioInputStream(new File("music/menu.wav"));
-            _music = AudioSystem.getClip();
-            _music.open(_stream);
-            _music.loop(Clip.LOOP_CONTINUOUSLY);
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            _music = new OggClip("music/menu.ogg");
+            _music.setGain(.75f);
+            _music.loop();
+        } catch (IOException ex) {
             System.err.println(String.format("ERROR: %s", ex.getMessage()));
-        } finally {
-            try {
-                if (_stream != null) _stream.close();
-            } catch (IOException ex) {
-                Logger.getLogger(CatanFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
     
@@ -66,7 +55,8 @@ public class CatanFrame extends JFrame {
      * Plays the music.
      */
     public void playMusic() {
-        _music.loop(Clip.LOOP_CONTINUOUSLY);
+        _music.setGain(.75f);
+        _music.loop();
     }
 
 	/**
@@ -87,11 +77,5 @@ public class CatanFrame extends JFrame {
 		super.setVisible(false);
 		super.dispose();
         _music.stop();
-        try {
-            _stream.close();
-        } catch (IOException ex) {
-            System.err.println(String.format("ERROR: %s", ex.getMessage()));
-        }
-        
 	}
 }
