@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="/Users/samuelbreslow/Desktop/SettlersOfCatan/lib/easyogg.jar"/>
 	<classpathentry kind="lib" path="/Users/samuelbreslow/Desktop/SettlersOfCatan/lib/jogg-0.0.7.jar"/>
 	<classpathentry kind="lib" path="/Users/samuelbreslow/Desktop/SettlersOfCatan/lib/jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="/Users/samuelbreslow/Desktop/SettlersOfCatan/lib/Music.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
