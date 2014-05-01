@@ -151,12 +151,20 @@ public class Trade extends JPanel implements Update {
 				trade[ResourceConstants.WOOD] = (Integer) lumberCB.getSelectedItem();
 				trade[ResourceConstants.BRICK] = (Integer) brickCB.getSelectedItem();
 				String toPlayer = (String) toPlayerCB.getSelectedItem();
-				client.sendMove(new TradeMove(client.getPlayerName(), toPlayer, trade, -1));
-				oreCB.setSelectedItem(0);
-				lumberCB.setSelectedItem(0);
-				wheatCB.setSelectedItem(0);
-				brickCB.setSelectedItem(0);
-				woolCB.setSelectedItem(0);
+				int count = 0;
+				for(int i: trade){
+					if(i==0){
+						count++;
+					}
+				}
+				if(count!=5){
+					client.sendMove(new TradeMove(client.getPlayerName(), toPlayer, trade, -1));
+					oreCB.setSelectedItem(0);
+					lumberCB.setSelectedItem(0);
+					wheatCB.setSelectedItem(0);
+					brickCB.setSelectedItem(0);
+					woolCB.setSelectedItem(0);
+				}
 			} catch (IllegalArgumentException | IOException e1) {
 				e1.printStackTrace();
 			}

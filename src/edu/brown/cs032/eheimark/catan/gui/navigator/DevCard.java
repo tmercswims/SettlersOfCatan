@@ -1,5 +1,6 @@
 package edu.brown.cs032.eheimark.catan.gui.navigator;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -102,6 +103,7 @@ public class DevCard extends JPanel implements Update{
 				_buttons[i].addActionListener(new VPList());
 				break;
 			}
+			_buttons[i].setForeground(Color.LIGHT_GRAY);
 			_buttons[i].setHorizontalTextPosition(SwingConstants.CENTER);
 			_buttons[i].setVerticalTextPosition(SwingConstants.TOP);
 			_buttons[i].setEnabled(false);
