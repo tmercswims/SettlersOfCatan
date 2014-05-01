@@ -118,6 +118,7 @@ public class SevenFrame extends JFrame {
 		proposeButton.setFont( Constants.DEFAULT_LABEL_FONT);
 		//proposeButton.setBounds(374, 99, 125, 29);
 		proposeButton.addActionListener(new ProposeTradeActionListener(this));
+		proposeButton.setFocusable(false);
 		JPanel bp = new JPanel();
 		bp.add(proposeButton);
 		
