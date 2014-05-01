@@ -104,7 +104,7 @@ public class Overview extends JPanel implements Update {
 			if(rowColors.size() > row) {
 				editor.setBackground(rowColors.get(row));
 				if(row == activePlayerRow) {
-					editor.setForeground(Constants.ACTIVE_PLAYER_GREEN);
+					editor.setForeground(Constants.ACTIVE_PLAYER_OVERVIEW_COLOR);
 				}
 				else {
 					editor.setForeground(Constants.CATAN_BLACK);

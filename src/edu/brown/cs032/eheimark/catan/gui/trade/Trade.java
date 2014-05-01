@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
@@ -20,6 +19,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JButton;
+import javax.swing.border.BevelBorder;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
@@ -33,7 +33,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Hashtable;
 
 /**
  * The Class Trade is the tabbed pane window that allows users to propose a trade to another
@@ -41,13 +40,9 @@ import java.util.Hashtable;
  */
 public class Trade extends JPanel implements Update {
 	private static final long serialVersionUID = 1L;
-	private final Image img; // background image
-	private static final Color MY_BACKGROUND = Constants.CATAN_RED;
 	private final JComboBox<Integer> oreCB, wheatCB, woolCB, lumberCB, brickCB;
 	private JComboBox<String> toPlayerCB;
 	private final CatanClient client;
-	private final int resourceHeight;
-	private final int sendHeight;
 	private JButton proposeButton;
 
 	/**
@@ -58,22 +53,14 @@ public class Trade extends JPanel implements Update {
 	public Trade(CatanClient cc) {
 		super();
 
-		this.sendHeight = 15;
-		this.resourceHeight = 50; 
-
 		final Integer[] tradeValues = new Integer[] {-5, -4, -3, -2, -1, +0, 1, 2, 3, 4, 5};
 		this.client = cc;
-
-		this.img = Constants.TRADE_TAB_IMAGE;
 
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));//GridLayout(3,1));
 
 		toPlayerCB = new JComboBox<String>();
-		toPlayerCB.setOpaque(false);
-
+		
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
 
 		JPanel comboPanel = new JPanel();
 		comboPanel.setLayout(new GridLayout(2,5));
@@ -202,7 +189,7 @@ public class Trade extends JPanel implements Update {
 			int idx = 0;
 
 			toPlayerCB.addItem("***MERCHANT***");
-			colors.put(idx++, Color.BLACK);
+			colors.put(idx++, Color.WHITE);
 			
 			for(Player p : players) { // Adds all other players except current player to trade with
 				if(!client.getPlayerName().equals(p.getName())) {
@@ -213,8 +200,8 @@ public class Trade extends JPanel implements Update {
 			toPlayerCB.setRenderer(new MyComboBoxRenderer(colors));
 		}
 		toPlayerCB.setSelectedItem("***MERCHANT***");
-		toPlayerCB.setForeground(Color.BLACK);
-	
+		toPlayerCB.setBackground(Color.white);
+
 		if((!client.getPlayer().isActive())||(!client.getPlayer().hasRolled())){
 			proposeButton.setEnabled(false);
 		}
@@ -237,16 +224,14 @@ public class Trade extends JPanel implements Update {
 		public Component getListCellRendererComponent(JList jc,Object val,int idx,boolean isSelected,boolean cellHasFocus) {
 			setText(val.toString());
 
-			setForeground(table.get(idx));
-
 			if(isSelected) {
 				setBackground(Color.LIGHT_GRAY);
-				toPlayerCB.setForeground(table.get(idx));
+				toPlayerCB.setBackground(table.get(idx));
 			}
 			else {
-				setBackground(Color.WHITE);
+				setBackground(table.get(idx));
 			}
-			
+			setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 			return this;
 		}
 	}
