@@ -77,6 +77,7 @@ public class YoPFrame extends JFrame {
 		}
 		JButton submit = new JButton("Submit");
 		submit.addActionListener(new SubmitList(this));
+		submit.setFocusable(false);
 		JPanel bp = new JPanel();
 		bp.add(submit);
 		JPanel mp = new BackgroundPanel();

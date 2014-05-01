@@ -112,12 +112,14 @@ public class OutstandingTrade extends JPanel {
 		acceptButton.setFont(Constants.DEFAULT_LABEL_FONT);
 		//acceptButton.setBounds(374, 99, 125, 29);
 		acceptButton.addActionListener(new AcceptTradeActionListener());
+		acceptButton.setFocusable(false);
 		bp.add(acceptButton);
 
 		JButton rejectTrade = new JButton("Reject Trade");
 		rejectTrade.setForeground(Constants.CATAN_RED);
 		rejectTrade.setFont(Constants.DEFAULT_LABEL_FONT);
 		rejectTrade.addActionListener(new RejectTradeActionListener());
+		rejectTrade.setFocusable(false);
 		//rejectTrade.setBounds(499, 99, 122, 29);
 		bp.add(rejectTrade);
 

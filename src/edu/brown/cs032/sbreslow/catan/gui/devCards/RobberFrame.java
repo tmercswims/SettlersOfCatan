@@ -52,6 +52,7 @@ public class RobberFrame extends JFrame {
 				JButton tmp = new JButton(p.getName());
 				//tmp.setBackground(p.getColor());
 				tmp.setForeground(p.getColor());
+				tmp.setFocusable(false);
 				//tmp.addActionListener(new RobList(p.getName(), this));
 				_buttons.add(tmp);
 				//if(tmp.getWidth()>largest.getWidth()){

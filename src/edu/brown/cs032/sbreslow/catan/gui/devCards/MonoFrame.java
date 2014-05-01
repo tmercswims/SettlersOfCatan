@@ -74,6 +74,7 @@ public class MonoFrame extends JFrame {
 		}
 		JButton submit = new JButton("Submit");
 		submit.addActionListener(new SubmitList(this));
+		submit.setFocusable(false);
 		//panel.add(submit);
 		JPanel bp = new JPanel();
 		bp.add(submit);
