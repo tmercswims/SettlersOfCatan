@@ -71,6 +71,8 @@ public class BoardImages {
     public static class Misc {
         public static final Image arrow = new ImageIcon("images/misc/arrow.png").getImage();
         
+        public static final Image ports = new ImageIcon("images/ports/ports.png").getImage();
+        
         public static final ImageIcon brickToken = new ImageIcon("images/resource_tokens/brick.png");//.getImage();
         public static final ImageIcon oreToken = new ImageIcon("images/resource_tokens/ore.png");//.getImage();
         public static final ImageIcon woolToken = new ImageIcon("images/resource_tokens/sheep.png");//.getImage();

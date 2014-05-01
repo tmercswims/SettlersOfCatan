@@ -2,7 +2,7 @@ package edu.brown.cs032.sbreslow.catan.gui.board;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Update;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.*;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.ports;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -49,8 +49,8 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
     @Deprecated
     public DrawingPanel(){
 		super();
-		setBackground(new Color(41, 105, 168));
-		setSize(600,610);
+		setBackground(Color.WHITE);
+		setSize(600,600);
 		setPreferredSize(getSize());
 		setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());
@@ -65,16 +65,6 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-//        Image background = wood;
-//        int iw = background.getWidth(this);
-//        int ih = background.getHeight(this);
-//        if (iw > 0 && ih > 0) {
-//            for (int x = 0; x < getWidth(); x += iw) {
-//                for (int y = 0; y < getHeight(); y += ih) {
-//                    g.drawImage(background, x, y, iw, ih, this);
-//                }
-//            }
-//        }
 		int i = 0;
 		for(BoardComponent c : _toDraw){
 			if(c!=null){
@@ -113,6 +103,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			i++;
 		}
 		
+        g.drawImage(ports, getX(), getY(), this);
 		//_client.confirmPacket();
 	}
 	

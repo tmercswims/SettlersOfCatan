@@ -25,8 +25,8 @@ public class TradeFrame extends JFrame{
 		super(frameName);
 		setMinimumSize(Constants.TABBED_MENU_SIZE);
 		add(new OutstandingTrade(client, trade, this));
-		setLocationRelativeTo(client.getFrame());
 		pack();
+		setLocationRelativeTo(client.getFrame());
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
