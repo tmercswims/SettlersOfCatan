@@ -38,6 +38,8 @@ import javax.swing.text.StyledEditorKit;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 
+import org.jdesktop.xswingx.PromptSupport;
+
 public class ChatPanel extends JPanel {
 
 	private static final long serialVersionUID = 8319006484243162853L;
@@ -58,14 +60,6 @@ public class ChatPanel extends JPanel {
 
 		JPanel pan = new SemiTransparentPanel();//JPanel();
 
-		_field = new JTextField();
-		_field.setSize(new Dimension(380, (int)Math.round(_field.getSize().getHeight())));
-		_field.addKeyListener(new ChatListener());
-		_field.setOpaque(false);
-		_field.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.darkGray), BorderFactory.createEmptyBorder(4, 4, 4, 4)));
-		_field.setForeground(Color.white);
-		_field.setCaretColor(Color.white);
-
 		_area = new JTextPane();
 		_area.setOpaque(false);
 		_area.setSize(new Dimension(380, 595));
@@ -74,7 +68,16 @@ public class ChatPanel extends JPanel {
 		DefaultCaret caret = (DefaultCaret)_area.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		_area.setCaret(caret);
-		_area.setFocusable(false);
+		_area.setFocusable(true);
+		
+		_field = new JTextField();
+		_field.setSize(new Dimension(380, (int)Math.round(_field.getSize().getHeight())));
+		_field.addKeyListener(new ChatListener());
+		_field.setOpaque(false);
+		_field.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.darkGray), BorderFactory.createEmptyBorder(4, 4, 4, 4)));
+		_field.setForeground(Color.white);
+		_field.setCaretColor(Color.white);
+		PromptSupport.setPrompt("Type a message or /m <player> to whisper...", _field);
 
 		_scroll = new JScrollPane(_area);
 		_scroll.setOpaque(false);
@@ -221,7 +224,7 @@ public class ChatPanel extends JPanel {
 				@Override	
 				public void run() {
 					try {
-						_area.getDocument().insertString(_area.getCaretPosition(),f.trim()+"\n",attr);
+						_area.getDocument().insertString(_area.getDocument().getLength(),f.trim()+"\n",attr);
 						StyleConstants.setFontFamily(attr, "Helvetica");
 						StyleConstants.setItalic(attr, false);
 					} catch (BadLocationException ex) {
