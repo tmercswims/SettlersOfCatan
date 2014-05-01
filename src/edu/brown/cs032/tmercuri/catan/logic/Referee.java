@@ -736,18 +736,18 @@ public class Referee {
             }
             System.out.println(String.format("NUMBER OF ROAD SETS FOR %s: %d", p.getName(), edgeSets.size()));
             _board.clearEdges();
+            int l = 0;
             for (List<Edge> set : edgeSets) {
                 for (int i=0; i<set.size(); i++) {
                     Edge e = set.get(i);
-                    int l = 0;
                     if (isEndEdge(e, set) || i == set.size()-1) {
                         l = Math.max(l, findLongestRoadInSet(e, set, getEndNode(e, set), 1));
                         for (Edge ed : set) ed.setVisited(false);
                     }
-                    System.out.println(String.format("LONGEST ROAD FOR %s: %d", p.getName(), l));
-                    p.setLongestRoad(l);
                 }
             }
+            System.out.println(String.format("LONGEST ROAD FOR %s: %d", p.getName(), l));
+            p.setLongestRoad(l);
             _board.clearEdges();
             if ((_road == null && p.getLongestRoad() >= 5)) {
                 _server.sendMessage(null, String.format("%s has taken longest road.", p.getName()));
