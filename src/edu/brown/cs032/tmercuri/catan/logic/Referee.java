@@ -15,7 +15,7 @@ import edu.brown.cs032.sbreslow.catan.gui.board.Edge;
 import edu.brown.cs032.sbreslow.catan.gui.board.Node;
 import edu.brown.cs032.sbreslow.catan.gui.board.Tile;
 import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.*;
-import static edu.brown.cs032.tmercuri.catan.logic.MoveMessage.MESSAGE_000;
+import static edu.brown.cs032.tmercuri.catan.logic.MoveMessage.*;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.DevCardMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
@@ -90,34 +90,50 @@ public class Referee {
         
         pushPlayers();
         pushBoard();
+        _server.sendMessage(null, "Welcome to The Settlers of Catan.");
         
         // roll the dice for each player and order the players based on the rolls
         rollForOrder();
+        _server.sendMessage(null, "The dice have been rolled for each player and the order has been determined.\nYou will now place your initial settlements.");
+        _server.sendMessage(null, "You may use this window to chat with the other players.\nTo send a private message to one player, type:\n/p <player name> <message>");
         
         _startUp = 1;
         firstMoves();
         _startUp = 0;
         
+        System.out.println("Entering main game loop.");
         for (int z=0; !_gameOver; z++) {
-            System.out.println("Entering main game loop.");
             int currentPlayer = z % _players.length;
             setActivePlayer(currentPlayer);
             while (!_turnOver) {
                 Move move = _server.readMove();
                 MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                 if (whatHappened.isError()) {
-                    _server.sendMessage(move.getPlayerName(), "Not allowed - " + whatHappened.getDescription());
-                    System.out.println("Not allowed - " + whatHappened.getDescription());
+                    _server.sendMessage(move.getPlayerName(), whatHappened.getDescription());
+                    System.out.println(whatHappened.getDescription());
                 } else if (whatHappened != MESSAGE_000) {
-                    _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
-                    System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
+                    if (move instanceof TradeMove && (whatHappened == MESSAGE_403 || whatHappened == MESSAGE_410)) {
+                        _server.sendMessage(null, String.format(whatHappened.getDescription(), ((TradeMove)move).getProposedTo(), _activePlayer.getName()));
+                        System.out.println(String.format(whatHappened.getDescription(), ((TradeMove)move).getProposedTo(), _activePlayer.getName()));
+                    } else if (move instanceof TradeMove && whatHappened == MESSAGE_400) {
+                        _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName(), ((TradeMove)move).getProposedTo()));
+                        System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName(), ((TradeMove)move).getProposedTo()));
+                    } else if (move instanceof TradeMove && whatHappened == MESSAGE_510) {
+                        _server.sendMessage(null, String.format(whatHappened.getDescription(), ((TradeMove)move).getPlayerName()));
+                        System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName(), ((TradeMove)move).getProposedTo()));
+                    } else if (move instanceof RobberMove && whatHappened == MESSAGE_500) {
+                        _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName(), ((RobberMove)move).getToStealFrom()));
+                        System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName(), ((RobberMove)move).getToStealFrom()));
+                    } else {
+                        _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
+                        System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
+                    }
                 }
                 pushPlayers();
                 pushBoard();
             }
             findWinner();
         }
-        //_server.sendMessage(null, String.format("%s has won the game!", _winner));
         _server.sendGameOver("Player "+_winner.getName()+" has won!"
         		+ "  Please return to the Main Menu.");
     }
@@ -439,8 +455,8 @@ public class Referee {
             return 510;
         }
         
-        int[] giving = new int[]{0,0,0,0,0};
-        int[] receiving = new int[]{0,0,0,0,0};
+        int[] giving = {0,0,0,0,0};
+        int[] receiving = {0,0,0,0,0};
         for (int i=0; i<move.getResources().length;i++) {
             int res = move.getResources()[i];
             if (res < 0) {
@@ -465,7 +481,9 @@ public class Referee {
                     resIndex = i;
                 }
             }
-            if (numGiveTypes != 1 || resIndex == -1) return 405;
+            
+            if (numGiveTypes < 1) return 407;
+            if (numGiveTypes > 1 || resIndex == -1) return 405;
             
             switch (giving[resIndex]) {
                 case 4:
@@ -662,17 +680,18 @@ public class Referee {
                     }
                 }
             }
-        }
-        else{
-        	for(Player p: _players){
-        		if(p.getResourceCount()>7){
+        } else {
+        	for (Player p: _players) {
+        		if (p.getResourceCount()>7) {
         			try {
+                        _server.sendMessage(p.getName(), "The robber has attacked! Please drop half your resources.");
 						_server.sendSeven(p.getName());
 					} catch (IllegalArgumentException | IOException ex) {
                         System.err.println("ERROR: " + ex.getMessage());
 					}
         		}
         	}
+            _server.sendMessage(_activePlayer.getName(), "Please move the robber to a new terrain hex.");
         }
         _activePlayer.setRolled(true);
         return 000;

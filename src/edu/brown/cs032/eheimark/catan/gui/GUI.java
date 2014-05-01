@@ -41,23 +41,7 @@ public class GUI extends JPanel implements Update {
 	 */
 	public GUI(CatanClient cc) {
 		super(new BorderLayout());
-		left = new JPanel(new BorderLayout()) {
-			private static final long serialVersionUID = 1L;
-			
-			@Override
-			public void paintComponent(Graphics g) {
-				Image background = wood;
-				int iw = background.getWidth(this);
-				int ih = background.getHeight(this);
-				if (iw > 0 && ih > 0) {
-					for (int x = 0; x < getWidth(); x += iw) {
-						for (int y = 0; y < getHeight(); y += ih) {
-							g.drawImage(background, x, y, iw, ih, this);
-						}
-					}
-				}
-			}
-		};
+		left = new JPanel(new BorderLayout());
         left.setOpaque(false);
 		this.client = cc;
 		activeplayer = new ActivePlayer(client);
