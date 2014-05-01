@@ -647,10 +647,12 @@ public class Referee {
             if (played != null) {
                 played.incLargestArmy();
                 if ((_army == null && played.getArmySize()>= 5)) {
+                    _server.sendMessage(null, String.format("%s has taken largest army.", played.getName()));
                     played.incVictoryPoints();
                     played.incVictoryPoints();
                     _army = played;
-                } else if (_army != null && played.getArmySize() > _road.getLongestRoad() && !_road.equals(played)) {
+                } else if (_army != null && played.getArmySize() > _army.getArmySize() && !_army.equals(played)) {
+                    _server.sendMessage(null, String.format("%s has taken largest army from %s.", played.getName(), _army.getName()));
                     _army.decVictoryPoints();
                     _army.decVictoryPoints();
                     played.incVictoryPoints();
@@ -748,10 +750,12 @@ public class Referee {
             }
             _board.clearEdges();
             if ((_road == null && p.getLongestRoad() >= 5)) {
+                _server.sendMessage(null, String.format("%s has taken longest road.", p.getName()));
                 p.incVictoryPoints();
                 p.incVictoryPoints();
                 _road = p;
             } else if (_road != null && p.getLongestRoad() > _road.getLongestRoad() && !_road.equals(p)) {
+                _server.sendMessage(null, String.format("%s has taken longest road from %s.", p.getName(), _road.getName()));
                 _road.decVictoryPoints();
                 _road.decVictoryPoints();
                 p.incVictoryPoints();
@@ -760,6 +764,7 @@ public class Referee {
             }
         }
         if (_road != null && _road.getLongestRoad() < 5) {
+            _server.sendMessage(null, String.format("%s has lost longest road.", _road.getName()));
             _road.decVictoryPoints();
             _road.decVictoryPoints();
             _road = null;
