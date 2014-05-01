@@ -70,11 +70,17 @@ public class BoardImages {
     
     public static class Misc {
         public static final Image arrow = new ImageIcon("images/misc/arrow.png").getImage();
+        
         public static final ImageIcon brickToken = new ImageIcon("images/resource_tokens/brick.png");//.getImage();
         public static final ImageIcon oreToken = new ImageIcon("images/resource_tokens/ore.png");//.getImage();
         public static final ImageIcon woolToken = new ImageIcon("images/resource_tokens/sheep.png");//.getImage();
         public static final ImageIcon wheatToken = new ImageIcon("images/resource_tokens/wheat.png");//.getImage();
         public static final ImageIcon woodToken = new ImageIcon("images/resource_tokens/wood.png");//.getImage();
+        
+        public static final Image buildRoad = new ImageIcon("images/resource_tokens/build_road.png").getImage();
+        public static final Image buildSettlement = new ImageIcon("images/resource_tokens/build_settlement.png").getImage();
+        public static final Image buildCity = new ImageIcon("images/resource_tokens/build_city.png").getImage();
+        public static final Image buildDevCard = new ImageIcon("images/resource_tokens/build_dev_card.png").getImage();
     }
     
     public static class Background {
