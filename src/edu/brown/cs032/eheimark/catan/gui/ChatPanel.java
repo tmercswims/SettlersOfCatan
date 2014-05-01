@@ -27,6 +27,7 @@ import javax.swing.text.StyleConstants;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 
 import java.awt.BorderLayout;
+import java.util.LinkedList;
 
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BoxView;
@@ -54,6 +55,10 @@ public class ChatPanel extends JPanel {
 	SimpleAttributeSet _orange;
 	SimpleAttributeSet _server;
 	SimpleAttributeSet _white;
+    
+    private final LinkedList<String> _history;
+    private String _unsentContents;
+    private int _position;
 
 	public ChatPanel(CatanClient cc) {
 		super(new BorderLayout());
@@ -125,6 +130,10 @@ public class ChatPanel extends JPanel {
 		StyleConstants.setForeground(_server, Color.LIGHT_GRAY);
 		StyleConstants.setBold(_server, true);
 
+        _history = new LinkedList<>();
+        _unsentContents = "";
+        _position = -1;
+        
 		_field.requestFocus();
 	}
 
@@ -255,8 +264,8 @@ public class ChatPanel extends JPanel {
 			if(e.getKeyChar() == '\n') {
 				String message = _field.getText();
 				_field.setText("");
-				//_history.addFirst(message);
-				//_unsentContents = "";
+				_history.addFirst(message);
+				_unsentContents = "";
 				if(_client.getPlayer().getColor().equals(red)){
 					println("red "+message);
 				}
@@ -277,15 +286,25 @@ public class ChatPanel extends JPanel {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-
+			switch (e.getKeyCode()) {
+                case KeyEvent.VK_UP:
+                    if (_position == -1) {
+                        _unsentContents = _field.getText();
+                    }
+                    _position = (_position+1 > _history.size()-1) ? _position : _position+1;
+                    String textU = _history.get(_position);
+                    _field.setText(textU);
+                    break;
+                case KeyEvent.VK_DOWN:
+                    _position = (_position-1 < 0) ? -1 : _position-1;
+                    String textD = (_position == -1) ? _unsentContents : _history.get(_position);
+                    _field.setText(textD);
+                    break;
+            }
 		}
 
 		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-
-		}
+		public void keyReleased(KeyEvent e) {}
 	}
 
 }
