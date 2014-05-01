@@ -8,6 +8,7 @@ import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.white;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
@@ -69,6 +70,7 @@ public class ChatPanel extends JPanel {
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		_area.setCaret(caret);
 		_area.setFocusable(true);
+		_area.setMargin(new Insets(10,10,10,10));
 		
 		_field = new JTextField();
 		_field.setSize(new Dimension(380, (int)Math.round(_field.getSize().getHeight())));
