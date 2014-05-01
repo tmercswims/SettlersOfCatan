@@ -87,6 +87,7 @@ public class YoPFrame extends JFrame {
 		mp.add(panel);
 		mp.add(bp);
 		this.add(mp);
+		this.setLocationRelativeTo(cc.getFrame());
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.pack();

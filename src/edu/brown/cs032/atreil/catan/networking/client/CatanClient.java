@@ -68,6 +68,8 @@ public class CatanClient extends Thread{
 	private GUIFrame _frame;
 
 
+	
+
 	/**
 	 * Constructs a new Client from an existing player class. After construction, the client will attempt to 
 	 * connect to the server on the given port and hostname. If the connection fails, an exception is thrown
@@ -613,6 +615,10 @@ public class CatanClient extends Thread{
 
 	public GUI getGUI() {
 		return _gui;
+	}
+	
+	public GUIFrame getFrame() {
+		return _frame;
 	}
 
 	/**

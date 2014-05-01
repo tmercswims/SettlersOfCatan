@@ -134,7 +134,7 @@ public class SevenFrame extends JFrame {
 		mp.add(bp);
 		this.add(mp);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		//setLocationRelativeTo(_cc.getGUI());
+		setLocationRelativeTo(_cc.getFrame());
 		setVisible(true);
 		pack();
 	}
