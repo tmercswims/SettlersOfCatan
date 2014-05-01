@@ -211,7 +211,7 @@ public class Tile extends BoardComponent{
 	                number = twelve;
 	                break;
 	            }
-	            brush.drawImage(number, (int)r.getCenterX()-(number.getWidth(this)/2), (int)r.getCenterY()-(number.getHeight(this)/2), null);
+	            if (number != null) brush.drawImage(number, (int)r.getCenterX()-(number.getWidth(this)/2), (int)r.getCenterY()-(number.getHeight(this)/2), null);
 			}
             else {
 				brush.setColor(Color.black);
