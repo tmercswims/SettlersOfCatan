@@ -59,13 +59,13 @@ public class SevenFrame extends JFrame {
 		woolCB = new JComboBox<Integer>(tradeValues);
 		woolCB.setSelectedIndex(10);
 		//woolCB.setBounds(501, 59, 67, 16);
-		woolCB.setToolTipText("Wool");
+		woolCB.setToolTipText("Sheep");
 		comboPanel.add(woolCB);
 
 		lumberCB = new JComboBox<Integer>(tradeValues);
 		lumberCB.setSelectedIndex(10);
 		//lumberCB.setBounds(674, 59, 67, 16);
-		lumberCB.setToolTipText("Lumber");
+		lumberCB.setToolTipText("Wood");
 		comboPanel.add(lumberCB);
 
 		brickCB = new JComboBox<Integer>(tradeValues);

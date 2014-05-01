@@ -44,7 +44,7 @@ public class MonoFrame extends JFrame {
 				//_bbuttons[i] = new JRadioButton("Wheat");
 				break;
 			case 1:
-				_buttons[i] = new JRadioButton("Wool");
+				_buttons[i] = new JRadioButton("Sheep");
 				_images[i] = new JLabel(Misc.woolToken);
 				//_bbuttons[i] = new JRadioButton("Wool");
 				break;
@@ -59,7 +59,7 @@ public class MonoFrame extends JFrame {
 				//_bbuttons[i] = new JRadioButton("Ore");
 				break;
 			case 4:
-				_buttons[i] = new JRadioButton("Lumber");
+				_buttons[i] = new JRadioButton("Wood");
 				_images[i] = new JLabel(Misc.woodToken);
 				//_bbuttons[i] = new JRadioButton("Lumber");
 				break;
