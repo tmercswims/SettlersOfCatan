@@ -25,8 +25,8 @@ public class CatanFrame extends JFrame {
         setMusic();
 		setVisible(true);
 		setResizable(false);
-        setLocationRelativeTo(null);
 		pack();
+        setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
     
