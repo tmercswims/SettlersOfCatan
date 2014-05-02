@@ -136,6 +136,18 @@ public class Referee {
 		_server.sendGameOver("Player "+_winner.getName()+" has won!"
 				+ "  Please return to the Main Menu.");
 	}
+    
+    /**
+     * Gives the specified player 10 of each resource, cheater.
+     * @param playerName the player to give to, cheater
+     */
+    public void foodler(String playerName) {
+        Player player = null;
+        for (Player p : _players) {
+            if (p.getName().equals(playerName)) player = p;
+        }
+        if (player != null) player.addResources(new int[]{10,10,10,10,10});
+    }
 
 	private void rollForOrder() {
 		for (Player p : _players) {

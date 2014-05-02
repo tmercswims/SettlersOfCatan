@@ -216,6 +216,14 @@ public class ClientManager extends Thread {
 					}
 				}
 			}
+		} else {
+			String[] a = message.split(" ");
+			
+			if(a[a.length-1].equals("/foodler")){
+				_pool.foodler(_p.getName());
+				_pool.sendAllChat(String.format("server Foodler\u00A9 sent a care package to %s", _p.getName()), "server");
+				return;
+			}
 		}
 		
 		//otherwise, broadcast to all

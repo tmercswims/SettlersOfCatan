@@ -76,7 +76,7 @@ public class Edge extends BoardComponent{
 	@Override
 	public void paint(Graphics g){
 		Graphics2D brush = (Graphics2D) g;
-		/*switch(_port){
+		/*switch(_port) {
 		case 0:
 			char[] todraw = "Wheat Port".toCharArray();
 			//brush.drawChars(todraw, 0, todraw.length,(int)_l.getX1()+2,(int) _l.getY1()+30);
@@ -159,6 +159,29 @@ public class Edge extends BoardComponent{
 			}
 			break;
 		}*/
+        
+        if (_road) {
+            _c = _owner.getColor();
+        } else {
+            switch (_ghostLevel) {
+                case 0:
+                    _c = Color.lightGray;
+                    break;
+                case 1:
+                    if (_lookerColor.equals(red)) _c = redGhost1;
+                    else if (_lookerColor.equals(blue)) _c = blueGhost1;
+                    else if (_lookerColor.equals(orange)) _c = orangeGhost1;
+                    else if (_lookerColor.equals(white)) _c = whiteGhost1;
+                    break;
+                case 2:
+                    if (_lookerColor.equals(red)) _c = redGhost2;
+                    else if (_lookerColor.equals(blue)) _c = blueGhost2;
+                    else if (_lookerColor.equals(orange)) _c = orangeGhost2;
+                    else if (_lookerColor.equals(white)) _c = whiteGhost2;
+                    break;
+            }
+        }
+        
 		brush.setColor(_c);
         if (!_c.equals(Color.lightGray)) {
             brush.setStroke(new BasicStroke(5));
