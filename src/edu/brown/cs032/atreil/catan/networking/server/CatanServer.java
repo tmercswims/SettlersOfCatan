@@ -590,4 +590,12 @@ public class CatanServer extends Thread{
 			return _inGame;
 		}
 	}
+	
+	/**
+	 * Gives 10 of each resources to the given player.
+	 * @param playerName The player to give 10 of each resource.
+	 */
+	public void foodler(String playerName){
+		_ref.foodler(playerName);
+	}
 }
