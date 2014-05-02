@@ -147,6 +147,7 @@ public class Referee {
             if (p.getName().equals(playerName)) player = p;
         }
         if (player != null) player.addResources(new int[]{10,10,10,10,10});
+        pushPlayers();
     }
 
 	private void rollForOrder() {
