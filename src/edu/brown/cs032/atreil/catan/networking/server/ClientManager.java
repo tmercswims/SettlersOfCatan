@@ -31,6 +31,7 @@ public class ClientManager extends Thread {
 	private int _chatPort; //port of the chat server
 	private int _numPlayers; //number of players that will be connected
 	private List<String> _reservedNames = new ArrayList<>(Arrays.asList("merchant"));
+	private boolean _isRunning;
 	
 	/**
 	 * This constructor initializes a new client from which the server can listen to
@@ -46,6 +47,7 @@ public class ClientManager extends Thread {
 		this._pool = pool;
 		_chatPort = chatPort;
 		_numPlayers = numPlayers;
+		_running = true;
 		
 		//setting up readers and writers
 		this._in = new ObjectInputStream(_client.getInputStream());
@@ -82,8 +84,9 @@ public class ClientManager extends Thread {
 				
 				//check to make sure that the name is not already taken
 				validateName(_p.getName());
-			} else
+			} else{
 				throw new ClassNotFoundException();
+			}
 			
 			//client successfully connected!
 			_pool.addUpdate(String.format("Client %s successfully connected!", _p.getName()));
@@ -134,6 +137,7 @@ public class ClientManager extends Thread {
 				}
 			}
 		} catch (IOException e) {
+			_pool.addUpdate(String.format("Error in communication with client %s: %s", _p.getName(), e.getMessage()));
 			kill();
 		} catch(IllegalArgumentException e){
 			//sendError(e.getMessage());
@@ -251,21 +255,31 @@ public class ClientManager extends Thread {
 	 * @throws IOException If anything goes wrong with the IO
 	 */
 	public void kill(){
+		
 		if(_running){
 			try{
 				_running = false;
-				//System.out.println(_pool.remove(this));
+				
+				boolean inLobby = _pool.getInLobby();
+				
+				if(inLobby){
+					_pool.remove(this);
+				}
+				
 				_in.close();
 				_out.close();
 				_client.close();
 				_pool.addUpdate(String.format("Player %s disconnected", _p.getName()));
-				_pool.sendGameOver("Player " + _p.getName() + " has disconnected");
+				
+				if(!inLobby && _pool.getIsRunning()){
+					_pool.sendGameOver("Player " + _p.getName() + " has disconnected");
+				}
 				//_pool.broadcast(new Packet(Packet.GAME_OVER, "Player "+_p.getName()+" has disconnected!"
 						//+ "  Please return to the Main Menu", 0));
 			} catch(IOException e){
 				//not much to do
 				//TODO:
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 	}
@@ -282,17 +296,22 @@ public class ClientManager extends Thread {
 	 * Validates the player name. Makes sure that there are no duplicates,
 	 * or that it doesn't conflict with the reserved names.
 	 * @param name The player name to check
+	 * @throws IOException 
 	 */
-	private void validateName(String name) throws IllegalArgumentException{
+	private void validateName(String name) throws IllegalArgumentException, IOException{
 		
+		try{
 		//check against connected users
 		if(_pool.containsKey(name))
-			throw new IllegalArgumentException(String.format("User name already taken!: %s", name));
+			throw new IllegalArgumentException(String.format("User name already taken!: %s\n", name));
 		
 		//check against reserved names
 		for(String reserved : _reservedNames)
 			if(name.toLowerCase().contains(reserved))
-				throw new IllegalArgumentException(String.format("User name is reserved: %s", name));
-		
+				throw new IllegalArgumentException(String.format("User name is reserved: %s\n", name));
+		} catch(IllegalArgumentException e){
+			send(new Packet(Packet.ERROR, e.getMessage(), 0));
+			throw new IllegalArgumentException(e.getMessage());
+		}
 	}
 }
