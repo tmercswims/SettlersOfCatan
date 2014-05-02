@@ -2,8 +2,10 @@ package edu.brown.cs032.atreil.catan.networking.server;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -174,7 +176,7 @@ public class ClientPool {
 				try{
 					mngr.send(packet);
 				} catch(IOException e){
-					_server.addUpdate(String.format("Client %s does not exist; they probably disconnected: %s", mngr.getPlayerName(), e.getMessage()));
+					addUpdate(String.format("Client %s does not exist; they probably disconnected: %s", mngr.getPlayerName(), e.getMessage()));
 				}
 			}
 		}
@@ -205,10 +207,12 @@ public class ClientPool {
 	 * Kills all of the clients by freeing up their resources
 	 */
 	public void killAll(){
+		
 		for(ClientManager client : Collections.synchronizedCollection(_clients.values())){
 			client.kill();
 		}
 		
+
 		synchronized(_clients){
 			_clients.clear();
 		}
@@ -249,7 +253,36 @@ public class ClientPool {
 	 * Adds an update message to the server
 	 * @param message The update
 	 */
-	public void addUpdate(String message){
-		_server.addUpdate(message);
+	public synchronized void addUpdate(String message){
+		synchronized(_server){
+			_server.addUpdate(message);
+		}
+	}
+	
+	/**
+	 * Returns if the server is running. This method
+	 * is thread safe
+	 * @return true, if the server is running and false otherwise
+	 */
+	public synchronized boolean getIsRunning(){
+		return _server.getIsRunning();
+	}
+	
+	/**
+	 * Returns if the server is in the lobby. This method
+	 * is thread safe
+	 * @return true, if the server is in the lobby and false otherwise
+	 */
+	public synchronized boolean getInLobby(){
+		return _server.getInLobby();
+	}
+	
+	/**
+	 * Returns if the server is in the game. This method
+	 * is thread safe
+	 * @return true, if the server is in the game and false otherwise
+	 */
+	public synchronized boolean getInGame(){
+		return _server.getInGame();
 	}
 }

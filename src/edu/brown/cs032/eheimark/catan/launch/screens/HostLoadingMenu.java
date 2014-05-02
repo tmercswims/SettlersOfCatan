@@ -103,4 +103,10 @@ public class HostLoadingMenu extends CatanMenu {
 			}
 		}
 	}
+	
+	@Override
+	public void requestFocus() {
+		super.requestFocus();
+		back.requestFocus();
+	}
 }

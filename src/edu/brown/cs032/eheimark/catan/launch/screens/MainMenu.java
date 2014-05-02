@@ -38,7 +38,7 @@ public class MainMenu extends CatanMenu {
 				});
 			}
 		});
-
+		
 		join = new CatanMenuButton("Join");
 		join.addActionListener(new ActionListener() {
 			@Override
@@ -63,5 +63,11 @@ public class MainMenu extends CatanMenu {
 		addComponent(host);
 		addComponent(join);
 		addComponent(quit);
+	}
+
+	@Override
+	public void requestFocus() {
+		super.requestFocus();
+		host.requestFocus();
 	}
 }
