@@ -133,8 +133,7 @@ public class Referee {
 			}
 			findWinner();
 		}
-		_server.sendGameOver("Player "+_winner.getName()+" has won!"
-				+ "  Please return to the Main Menu.");
+		_server.sendGameOver(_winner.getName()+" has won!\nPlease return to the Main Menu.");
 	}
     
     /**
