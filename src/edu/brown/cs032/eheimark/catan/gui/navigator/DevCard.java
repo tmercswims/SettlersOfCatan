@@ -245,5 +245,18 @@ public class DevCard extends JPanel implements Update{
 		}
 		
 	}
-
+	
+	@Override 
+	public void requestFocus() {
+		if(_buttons[0].isEnabled())
+			_buttons[0].requestFocus();
+		else if(_buttons[1].isEnabled())
+			_buttons[1].requestFocus();
+		else if(_buttons[2].isEnabled())
+			_buttons[2].requestFocus();
+		else if(_buttons[3].isEnabled())
+			_buttons[3].requestFocus();
+		else if(_buttons[4].isEnabled())
+			_buttons[4].requestFocus();
+	}
 }
