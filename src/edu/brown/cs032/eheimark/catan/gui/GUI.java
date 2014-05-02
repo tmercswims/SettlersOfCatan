@@ -1,6 +1,7 @@
 package edu.brown.cs032.eheimark.catan.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -33,9 +34,7 @@ public class GUI extends JPanel implements Update {
 	private final DrawingPanel gameBoard;
 	private final ChatPanel chat;
 	private final ActivePlayer activeplayer;
-	
 	private JPanel left;
-
 
 	/**
 	 * Instantiates a new gui.
@@ -124,6 +123,10 @@ public class GUI extends JPanel implements Update {
 	}
 
 	public ChatPanel getChat() {
-		return this.chat;
+		return chat;
+	}
+
+	public Component getActivePlayer() {
+		return activeplayer;
 	}
 }

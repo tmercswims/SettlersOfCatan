@@ -138,7 +138,30 @@ public class GUIFrame extends JFrame {
     					}
     				});
             	}
-            	
+            	else if(e.getKeyCode() == KeyEvent.VK_R) {
+            		SwingUtilities.invokeLater(new Runnable() {
+    					@Override
+    					public void run() {
+    	            		_gui.getActivePlayer().requestFocus();
+    					}
+    				});
+            	}
+            	else if(e.getKeyCode() == KeyEvent.VK_UP) {
+            		SwingUtilities.invokeLater(new Runnable() {
+    					@Override
+    					public void run() {
+    	            		_gui.getChat().pressedKeyUp();
+    					}
+    				});
+            	}
+            	else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+            		SwingUtilities.invokeLater(new Runnable() {
+    					@Override
+    					public void run() {
+    	            		_gui.getChat().pressedKeyDown();
+    					}
+    				});
+            	}
             }
             return false;
         }

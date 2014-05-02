@@ -61,14 +61,14 @@ public class ChatPanel extends JPanel {
 		super();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		_client = cc;
-		
+
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		Dimension d = new Dimension(400, 15);
 		Dimension d2 = new Dimension(400, preferredSize.height / 2 - 15);
 		Dimension d3 = new Dimension(400, preferredSize.height / 2);
-		
-				
+
+
 		JPanel chatBoxPanel = new SemiTransparentPanel(), serverPanel = new SemiTransparentPanel();
 		_chatBoxField = new JTextField();
 		_chatBoxField.setMaximumSize(d);
@@ -80,8 +80,8 @@ public class ChatPanel extends JPanel {
 		_chatBoxField.setCaretColor(Color.white);
 		PromptSupport.setPrompt("Type message, /p <player> to whisper, or use arrows for chat history...", _chatBoxField);
 
-		 _serverLog = new MyChatScrollPane(d2);
-		 _chatLog = new MyChatScrollPane(d3);
+		_serverLog = new MyChatScrollPane(d2);
+		_chatLog = new MyChatScrollPane(d3);
 
 		chatBoxPanel.setBackground(new Color(0f, 0f, 0f, .5f));
 		chatBoxPanel.setLayout(new BoxLayout(chatBoxPanel, BoxLayout.PAGE_AXIS));
@@ -91,7 +91,7 @@ public class ChatPanel extends JPanel {
 		chatBoxPanel.add(_chatBoxField, BorderLayout.SOUTH);
 		chatBoxPanel.setPreferredSize(d);
 		serverPanel.add(_serverLog.getScrollPane());
-		
+
 		add(serverPanel);
 		add(chatBoxPanel);
 
@@ -127,8 +127,6 @@ public class ChatPanel extends JPanel {
 		_history = new LinkedList<>();
 		_unsentContents = "";
 		_position = -1;
-
-		_chatBoxField.requestFocus();
 	}
 
 	class WrapEditorKit extends StyledEditorKit {
@@ -222,7 +220,7 @@ public class ChatPanel extends JPanel {
 					sb.append(linearray[i].charAt(linearray[i].length()-1));
 				}
 			}
-			
+
 			if(attr.equals(_server)) {
 				_serverLog.insertString(sb.toString(), attr);
 			}
@@ -239,11 +237,27 @@ public class ChatPanel extends JPanel {
 			System.out.println(String.format("ERROR: %s", ex.getMessage()));
 		}
 	}
-	
+
 	@Override 
 	public void requestFocus() {
-		super.requestFocus();
 		_chatBoxField.requestFocus();
+	}
+
+	public void pressedKeyUp() {
+		requestFocus();
+		if (_position == -1) {
+			_unsentContents = _chatBoxField.getText();
+		}
+		_position = (_position+1 > _history.size()-1) ? _position : _position+1;
+		String textU = (_position == -1) ? _chatBoxField.getText() : _history.get(_position);
+		_chatBoxField.setText(textU);
+	}
+
+	public void pressedKeyDown() {
+		requestFocus();
+		_position = (_position-1 < 0) ? -1 : _position-1;
+		String textD = (_position == -1) ? _unsentContents : _history.get(_position);
+		_chatBoxField.setText(textD);
 	}
 
 	private class ChatListener implements KeyListener {
@@ -275,23 +289,7 @@ public class ChatPanel extends JPanel {
 		}
 
 		@Override
-		public void keyPressed(KeyEvent e) {
-			switch (e.getKeyCode()) {
-			case KeyEvent.VK_UP:
-				if (_position == -1) {
-					_unsentContents = _chatBoxField.getText();
-				}
-				_position = (_position+1 > _history.size()-1) ? _position : _position+1;
-				String textU = (_position == -1) ? _chatBoxField.getText() : _history.get(_position);
-				_chatBoxField.setText(textU);
-				break;
-			case KeyEvent.VK_DOWN:
-				_position = (_position-1 < 0) ? -1 : _position-1;
-				String textD = (_position == -1) ? _unsentContents : _history.get(_position);
-				_chatBoxField.setText(textD);
-				break;
-			}
-		}
+		public void keyPressed(KeyEvent e) {}
 
 		@Override
 		public void keyReleased(KeyEvent e) {}

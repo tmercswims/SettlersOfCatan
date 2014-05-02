@@ -88,13 +88,14 @@ public class Referee {
 			i++;
 		}
 
-		pushPlayers();
-		pushBoard();
-		_server.sendMessage(null, "Welcome to The Settlers of Catan!\n\nUse the window below to chat with other players.\n\nThe die have been rolled and the order determined.\n\nYou will now place your initial settlements.");
-
 		// roll the dice for each player and order the players based on the rolls
 		rollForOrder();
+		
+		pushPlayers();
+		pushBoard();
 
+		_server.sendMessage(null, "Welcome to The Settlers of Catan!\n\nUse the window below to chat with other players.\n\nThe die have been rolled and the order determined.\n\nYou will now place your initial settlements.");
+		
 		_startUp = 1;
 		firstMoves();
 		_startUp = 0;

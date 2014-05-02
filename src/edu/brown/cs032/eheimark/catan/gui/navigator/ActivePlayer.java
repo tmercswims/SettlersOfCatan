@@ -18,11 +18,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.border.BevelBorder;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
+import edu.brown.cs032.eheimark.catan.launch.screens.JoinSettingsMenu;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
@@ -39,6 +41,8 @@ public class ActivePlayer extends JPanel implements Update {
 	private final JButton gameManagerButton; // manages a turn, allowing user to either roll die or end turn
 	private boolean rollDie; // indicates whether in roll die mode or end turn mode
 	private JLabel ore, wheat, wool, wood, brick;
+	private boolean blinkState;
+	private Timer makeItBlink;
 
 	public ActivePlayer(CatanClient cc) {
 		super();
@@ -143,16 +147,63 @@ public class ActivePlayer extends JPanel implements Update {
 		gameManagerButton.setEnabled(false);
 		add(gameManagerButton, gbc_gameManagerButton);
 
+		makeItBlink = new Timer(1000, // 1000 milliseconds
+				new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				blinkState = !blinkState;
+				if (blinkState) {
+					setBlinkTextColor();
+				}
+				else {
+					setNormalTextColor();
+				}
+			}
+
+			private void setNormalTextColor() {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						gameManagerButton.setForeground(Constants.CATAN_RED);
+					}
+				});
+			}
+
+			private void setBlinkTextColor() {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						gameManagerButton.setForeground(Constants.CATAN_WHITE);
+					}
+				});
+			}
+		});
+		blinkState = false;
 	}
 
 	@Override
 	public void ericUpdate() {
 		Player[] players = this.client.getPlayers();
-		if(this.client.getPlayer().isActive()&&this.client.getPlayer().getRoadCount()<=13){
-			gameManagerButton.setEnabled(true);
+
+		//TODO Why is the latter check here?
+		if(this.client.getPlayer().isActive() && this.client.getPlayer().getRoadCount()<=13){
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					gameManagerButton.setEnabled(true);
+					gameManagerButton.requestFocus();
+					makeItBlink.start();
+				}
+			});
 		}
 		else{
-			gameManagerButton.setEnabled(false);
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					gameManagerButton.setEnabled(false);
+					makeItBlink.stop();
+					gameManagerButton.setForeground(Constants.CATAN_RED);
+				}
+			});
 		}
 		for(Player p : players) {
 			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check
@@ -205,18 +256,9 @@ public class ActivePlayer extends JPanel implements Update {
 			}
 		}
 	}
-
-	//	@Override
-	//	public void paintComponent(Graphics g) {
-	//		Image background = wood;
-	//		int iw = background.getWidth(this);
-	//		int ih = background.getHeight(this);
-	//		if (iw > 0 && ih > 0) {
-	//			for (int x = 0; x < getWidth(); x += iw) {
-	//				for (int y = 0; y < getHeight(); y += ih) {
-	//					g.drawImage(background, x, y, iw, ih, this);
-	//				}
-	//			}
-	//		}
-	//	}
+	
+	@Override 
+	public void requestFocus() {
+		gameManagerButton.requestFocus();
+	}
 }
