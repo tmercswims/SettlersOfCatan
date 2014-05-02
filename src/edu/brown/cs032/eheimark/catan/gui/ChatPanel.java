@@ -216,6 +216,7 @@ public class ChatPanel extends JPanel {
 			}
 			
 			StringBuilder sb = new StringBuilder();
+			/*
 			for(int i = 0; i < linearray.length; i++){
 				if(linearray[i].equalsIgnoreCase("server")){
 					linearray[0] = "";
@@ -229,12 +230,28 @@ public class ChatPanel extends JPanel {
 					sb.append(linearray[i].charAt(linearray[i].length()-1));
 				}
 			}
+			*/
+						
+			if(attr.equals(_blue)){
+				message = message.replaceAll("\\(blue\\)", "");
+			} else if(attr.equals(_red)){
+				
+			} else if(attr.equals(_orange)){
+				message = message.replaceAll("\\(orange\\)", "");
+			} else if(attr.equals(_white)){
+				message = message.replaceAll("\\(white\\)", "");
+			} else if(attr.equals(_server)){
+				message = message.replaceAll("\\(server\\):", "");
+				message = message.replaceAll("\\(Server\\):", "");
+				message = message.replaceAll("server", "");
+				message = message.replaceAll("Server", "");
+			}
 
 			if(attr.equals(_server)) {
-				_serverLog.insertString(sb.toString(), attr);
+				_serverLog.insertString(message, attr);
 			}
 			else {
-				_chatLog.insertString(sb.toString(), attr);
+				_chatLog.insertString(message, attr);
 			}
 		}
 	}
