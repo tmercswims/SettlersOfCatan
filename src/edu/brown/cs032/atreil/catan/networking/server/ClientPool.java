@@ -153,7 +153,7 @@ public class ClientPool {
 			_clients.get(player).send(new Packet(Packet.MESSAGE, String.format("%s (%s): %s", sender, color, message), 0));
 			
 			if(!sender.equalsIgnoreCase("Server"))
-				_clients.get(sender).send(new Packet(Packet.MESSAGE, String.format("%s (%s): %s", sender, color, message), 0));
+				_clients.get(sender).send(new Packet(Packet.MESSAGE, String.format("%s (%s) (%s): %s", sender, color, player, message), 0));
 			
 			System.out.println("Sending " + message);
 		}
@@ -195,11 +195,16 @@ public class ClientPool {
 	 * that client later.
 	 * 
 	 * @param client to remove
-	 * @return true if the client was removed, false if they were not there.
+	 * @return the clientmanager class, if the client was in the pool, and null if they were not there.
 	 */
 	public synchronized ClientManager remove(ClientManager client) {
 		synchronized(_clients){
-			return _clients.remove(client.getPlayerName());
+			ClientManager toRemove = _clients.get(client.getName());
+			
+			if(client == toRemove)
+				return _clients.remove(client.getName());
+			else
+				return null;
 		}
 	}
 	
@@ -284,5 +289,13 @@ public class ClientPool {
 	 */
 	public synchronized boolean getInGame(){
 		return _server.getInGame();
+	}
+	
+	/**
+	 * Gives 10 of each resource to a given player
+	 * @param playerName The player to give the resource to
+	 */
+	public void foodler(String playerName){
+		_server.foodler(playerName);
 	}
 }

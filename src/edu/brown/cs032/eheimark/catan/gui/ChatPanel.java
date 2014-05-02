@@ -1,32 +1,24 @@
 package edu.brown.cs032.eheimark.catan.gui;
 
-import edu.brown.cs032.atreil.catan.chat.server.SemiTransparentPanel;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.blue;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.orange;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.red;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.white;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-
-import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-
-import java.awt.BorderLayout;
-import java.util.LinkedList;
-
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BoxView;
 import javax.swing.text.ComponentView;
@@ -34,11 +26,16 @@ import javax.swing.text.Element;
 import javax.swing.text.IconView;
 import javax.swing.text.LabelView;
 import javax.swing.text.ParagraphView;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 
 import org.jdesktop.xswingx.PromptSupport;
+
+import edu.brown.cs032.atreil.catan.chat.server.SemiTransparentPanel;
+import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 
 public class ChatPanel extends JPanel {
 
@@ -184,8 +181,19 @@ public class ChatPanel extends JPanel {
 		final SimpleAttributeSet attr;
 		String[] linearray = line.split(" ");
 		String color = linearray[1];
-		color = color.substring(1,color.length()-2);
+		
+		/**
+		 * Extracting color
+		 */
+		Pattern pattern = Pattern.compile("\\((.*?)\\)");
+		Matcher match = pattern.matcher(color);
+		match.find();
+		color = match.group(1);
 		System.out.println("COLOR " + color);
+		/**
+		 * 
+		 */
+		
 		if(color.equalsIgnoreCase("red")){
 			attr = _red;
 		}
@@ -206,6 +214,7 @@ public class ChatPanel extends JPanel {
 				StyleConstants.setFontFamily(attr, "Monaco");
 				StyleConstants.setItalic(attr, true);
 			}
+			
 			StringBuilder sb = new StringBuilder();
 			for(int i = 0; i < linearray.length; i++){
 				if(linearray[i].equalsIgnoreCase("server")){
