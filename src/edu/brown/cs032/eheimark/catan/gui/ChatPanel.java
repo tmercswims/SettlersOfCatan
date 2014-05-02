@@ -269,6 +269,11 @@ public class ChatPanel extends JPanel {
 		_chatBoxField.requestFocus();
 	}
 
+	@Override 
+	public boolean hasFocus() {
+		return _chatBoxField.hasFocus();
+	}
+
 	public void pressedKeyUp() {
 		requestFocus();
 		if (_position == -1) {
