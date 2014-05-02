@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.RobberFrame;
 import edu.brown.cs032.tmercuri.catan.logic.move.*;
 import edu.brown.cs032.tmercuri.catan.logic.*;
+import java.awt.event.MouseMotionListener;
 
 public class DrawingPanel extends JPanel implements Update {// implements MouseListener{
     
@@ -36,9 +37,10 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());
 		_toDraw = new ArrayList<>();
-		this.setOpaque(false); // set background to opaque b/c drawing done in GUI class for background
+		this.setOpaque(false); // set background to transparent b/c drawing done in GUI class for background
 		this.setVisible(true);
 		this.addMouseListener(new ClickList(this));
+        this.addMouseMotionListener(new MoveList(this));
 		_selectable = -1;
 		_road = false;
 		_city = false;
@@ -66,6 +68,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		int i = 0;
+        // tiles
 		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==0)
@@ -77,6 +80,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			i++;
 		}
 		i = 0;
+        // edges
 		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==1)
@@ -91,6 +95,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			i++;
 		}
 		i = 0;
+        // nodes
 		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==2)
@@ -107,7 +112,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		//_client.confirmPacket();
 	}
 	
-	private class ClickList implements MouseListener{
+	private class ClickList implements MouseListener {
 		
 		private final DrawingPanel _dp;
 		
@@ -136,7 +141,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 										plist.add(n.getOwner());
 								}
 							}
-							if(plist.size()==0){
+							if(plist.isEmpty()){
 								RobberMove rm = new RobberMove(_client.getPlayer().getName(), t.getIndex(), null);
 								try {
 									_client.sendMove(rm);
@@ -224,6 +229,59 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			
 		}
 	}
+    
+    private class MoveList implements MouseMotionListener {
+        
+        private final DrawingPanel _dp;
+        
+        private MoveList(DrawingPanel dp) {
+            _dp = dp;
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {}
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            boolean foundSomething = false;
+            for (BoardComponent c: _toDraw) {
+				if (c.getShape().contains(e.getPoint()) && (c.getType()==_selectable || (c.getType()==2 && _selectable==3) || (c.getType()==1 && _selectable==4))) {
+					switch(_selectable){
+					case 0: //tile
+                        foundSomething = true;
+                        for (BoardComponent bc : _toDraw) {
+                            bc.setGhostLevel(0);
+                            bc.setLookerColor(null);
+                        }
+                        
+						Tile t = (Tile) c;
+						if (!t.hasRobber()) {
+							
+						}
+						break;
+					case 1: //road
+					case 2: //settlement
+                    case 3: //city
+					case 4: //road builder
+                        foundSomething = true;
+                        for (BoardComponent bc : _toDraw) {
+                            bc.setGhostLevel(0);
+                            bc.setLookerColor(null);
+                        }
+						c.setGhostLevel(2);
+                        c.setLookerColor(_client.getPlayer().getColor());
+						break;
+					}
+                } else if (!foundSomething) {
+                    for (BoardComponent bc : _toDraw) {
+                        bc.setGhostLevel(0);
+                        bc.setLookerColor(null);
+                    }
+                }
+            }
+            _dp.repaint();
+        }
+    }
 	
 	
 	/***

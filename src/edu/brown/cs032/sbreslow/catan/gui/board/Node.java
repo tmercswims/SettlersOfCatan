@@ -124,16 +124,51 @@ public class Node extends BoardComponent{
         Image building = null;
         switch (_vp) {
         case 0:
+            switch (_ghostLevel) {
+                case 0:
+                    break;
+                case 1:
+                    if (_lookerColor.equals(red)) building = settlementRedGhost1;
+                    else if (_lookerColor.equals(blue)) building = settlementBlueGhost1;
+                    else if (_lookerColor.equals(orange)) building = settlementOrangeGhost1;
+                    else if (_lookerColor.equals(white)) building = settlementWhiteGhost1;
+                    break;
+                case 2:
+                    if (_lookerColor.equals(red)) building = settlementRedGhost2;
+                    else if (_lookerColor.equals(blue)) building = settlementBlueGhost2;
+                    else if (_lookerColor.equals(orange)) building = settlementOrangeGhost2;
+                    else if (_lookerColor.equals(white)) building = settlementWhiteGhost2;
+                    break;
+            }
             break;
         case 1:
-            if (_owner.getColor().equals(red)) {
-                building = settlementRed;
-            } else if (_owner.getColor().equals(blue)) {
-                building = settlementBlue;
-            } else if (_owner.getColor().equals(orange)) {
-                building = settlementOrange;
-            } else if (_owner.getColor().equals(white)) {
-                building = settlementWhite;
+            if (!_owner.getColor().equals(_lookerColor)) {
+                if (_owner.getColor().equals(red)) {
+                    building = settlementRed;
+                } else if (_owner.getColor().equals(blue)) {
+                    building = settlementBlue;
+                } else if (_owner.getColor().equals(orange)) {
+                    building = settlementOrange;
+                } else if (_owner.getColor().equals(white)) {
+                    building = settlementWhite;
+                }
+            } else {
+                switch (_ghostLevel) {
+                case 0:
+                    break;
+                case 1:
+                    if (_lookerColor.equals(red)) building = cityRedGhost1;
+                    else if (_lookerColor.equals(blue)) building = cityBlueGhost1;
+                    else if (_lookerColor.equals(orange)) building = cityOrangeGhost1;
+                    else if (_lookerColor.equals(white)) building = cityWhiteGhost1;
+                    break;
+                case 2:
+                    if (_lookerColor.equals(red)) building = cityRedGhost2;
+                    else if (_lookerColor.equals(blue)) building = cityBlueGhost2;
+                    else if (_lookerColor.equals(orange)) building = cityOrangeGhost2;
+                    else if (_lookerColor.equals(white)) building = cityWhiteGhost2;
+                    break;
+            }
             }
             break;
         case 2:
