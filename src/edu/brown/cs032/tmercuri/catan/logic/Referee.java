@@ -138,6 +138,14 @@ public class Referee {
         		+ "  Please return to the Main Menu.");
     }
     
+    public void giveResources(String playerName) {
+        Player player = null;
+        for (Player p : _players) {
+            if (p.getName().equals(playerName)) player = p;
+        }
+        if (player != null) player.addResources(new int[]{10,10,10,10,10});
+    }
+    
     private void rollForOrder() {
         for (Player p : _players) {
             p.setInitRoll(_dice.roll());
@@ -160,13 +168,13 @@ public class Referee {
                 _server.sendMessage(p.getName(), "Click where you would like to build your first settlement.");
                 Move move = _server.readMove();
                 if (!(move instanceof BuildMove)) {
-                    _server.sendMessage(move.getPlayerName(), "Not allowed - you need to build a settlement.");
-                    System.out.println("Not allowed - you need to build a settlement.");
+                    _server.sendMessage(move.getPlayerName(), "You need to build a settlement.");
+                    System.out.println("You need to build a settlement.");
                 } else {
                     MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                     if (whatHappened.isError()) {
-                        _server.sendMessage(move.getPlayerName(), "Not allowed - " + whatHappened.getDescription());
-                        System.out.println("Not allowed - " + whatHappened.getDescription());
+                        _server.sendMessage(move.getPlayerName(), whatHappened.getDescription());
+                        System.out.println(whatHappened.getDescription());
                     } else {
                         _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
                         System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
@@ -182,13 +190,13 @@ public class Referee {
                 _server.sendMessage(p.getName(), "Click where you would like to build your first road.");
                 Move move = _server.readMove();
                 if (!(move instanceof BuildMove)) {
-                    _server.sendMessage(move.getPlayerName(), "Not allowed - you need to build a road.");
-                    System.out.println("Not allowed - you need to build a road.");
+                    _server.sendMessage(move.getPlayerName(), "You need to build a road.");
+                    System.out.println("You need to build a road.");
                 } else {
                     MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
                     if (whatHappened.isError()) {
-                        _server.sendMessage(move.getPlayerName(), "Not allowed - " + whatHappened.getDescription());
-                        System.out.println("Not allowed - " + whatHappened.getDescription());
+                        _server.sendMessage(move.getPlayerName(), whatHappened.getDescription());
+                        System.out.println(whatHappened.getDescription());
                     } else {
                         _server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
                         System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
