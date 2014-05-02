@@ -1,6 +1,8 @@
 package edu.brown.cs032.eheimark.catan.launch.screens.jcomponents;
 
+import javax.swing.Action;
 import javax.swing.JButton;
+
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 /**
@@ -18,6 +20,15 @@ public class CatanMenuButton extends JButton {
 	 */
 	public CatanMenuButton(String name) {
 		super(name);
+		setPreferredSize(Constants.DEFAULT_BUTTON_SIZE);
+		setMinimumSize(Constants.DEFAULT_BUTTON_SIZE);
+		setMaximumSize(Constants.DEFAULT_BUTTON_SIZE);
+		setFont(Constants.DEFAULT_BUTTON_FONT);
+		setForeground(Constants.CATAN_RED);
+	}
+	
+	public CatanMenuButton(Action e) {
+		super(e);
 		setPreferredSize(Constants.DEFAULT_BUTTON_SIZE);
 		setMinimumSize(Constants.DEFAULT_BUTTON_SIZE);
 		setMaximumSize(Constants.DEFAULT_BUTTON_SIZE);

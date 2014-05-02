@@ -16,7 +16,10 @@ import edu.brown.cs032.eheimark.catan.gui.navigator.TabbedPanel;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.wood;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.*;
+
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  * The Class GUI contains elements needed to run the game once it is initialized (that is,
@@ -50,11 +53,12 @@ public class GUI extends JPanel implements Update {
 		left.add(gameBoard, BorderLayout.NORTH);
 		add(left, BorderLayout.WEST);
 		tabbedMenu = new TabbedPanel(client, gameBoard);
+		
 		add(tabbedMenu, BorderLayout.SOUTH);
 		//TODO Eric changed order explain this
 		this.client.setGUI(this);
         setOpaque(false);
-		this.chat = new ChatPanel(cc);
+		this.chat = new ChatPanel(cc, left.getSize());
 		this.add(this.chat, BorderLayout.EAST);
 	}
     
@@ -80,6 +84,14 @@ public class GUI extends JPanel implements Update {
 	 */
 	public DrawingPanel getDP(){
 		return gameBoard;
+	}
+	
+	public TabbedPanel getTabbedMenu() {
+		return tabbedMenu;
+	}
+	
+	public ChatPanel getChatPanel() {
+		return chat;
 	}
 	
 	@Override

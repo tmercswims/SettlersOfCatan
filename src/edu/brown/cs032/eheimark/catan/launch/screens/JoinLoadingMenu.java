@@ -3,9 +3,11 @@ package edu.brown.cs032.eheimark.catan.launch.screens;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
@@ -97,6 +99,12 @@ public class JoinLoadingMenu extends CatanMenu {
 				});
 			}
 		});
+	}
+	
+	@Override
+	public void requestFocus() {
+		super.requestFocus();
+		back.requestFocus();
 	}
 }
 

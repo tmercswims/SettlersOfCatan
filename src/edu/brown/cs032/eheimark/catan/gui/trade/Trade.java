@@ -243,4 +243,10 @@ public class Trade extends JPanel implements Update {
 			return this;
 		}
 	}
+	
+	@Override 
+	public void requestFocus() {
+		super.requestFocus();
+		toPlayerCB.requestFocus();
+	}
 }

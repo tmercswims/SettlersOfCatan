@@ -219,4 +219,10 @@ public class JoinSettingsMenu extends CatanMenu {
 		addComponent(submit);
 		addComponent(back);
 	}
+	
+	@Override
+	public void requestFocus() {
+		super.requestFocus();
+		hostnameTF.requestFocus();
+	}
 }

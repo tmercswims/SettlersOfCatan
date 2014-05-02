@@ -309,4 +309,16 @@ public class Build extends JPanel implements Update {
 			}
 		}
 	}
+	
+	@Override 
+	public void requestFocus() {
+		if(buildDevCardButton.isEnabled())
+			buildDevCardButton.requestFocus();
+		else if(buildRoadButton.isEnabled())
+			buildRoadButton.requestFocus();
+		else if(buildSettlementButton.isEnabled())
+			buildSettlementButton.requestFocus();
+		else if(buildCityButton.isEnabled())
+			buildCityButton.requestFocus();
+	}
 }

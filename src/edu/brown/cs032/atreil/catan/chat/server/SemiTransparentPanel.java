@@ -10,7 +10,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -21,7 +23,8 @@ public class SemiTransparentPanel extends JPanel {
     private static final long serialVersionUID = 8687711032200940057L;
     
     public SemiTransparentPanel() {
-        super(new BorderLayout());
+        super();
+        this.setLayout(new BorderLayout());
         setOpaque(false);
     }
     
