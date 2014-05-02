@@ -1,22 +1,12 @@
 package edu.brown.cs032.eheimark.catan.gui;
 
-import javax.swing.AbstractAction;
-import javax.swing.InputMap;
 import javax.swing.JFrame;
-import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
-import javax.swing.text.DefaultEditorKit;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.eheimark.catan.launch.screens.JoinLoadingMenu;
-
-import java.awt.Desktop.Action;
-import java.awt.Event;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 
 import org.newdawn.easyogg.OggClip;
@@ -58,19 +48,38 @@ public class GUIFrame extends JFrame {
 			System.err.println(String.format("ERROR: %s", ex.getMessage()));
 		}
 	}
-
-	/**
-	 * Stops the music.
-	 */
-	public void stopMusic() {
-		_music.stop();
-	}
+    
+    /**
+     * Toggles the music state.
+     */
+    public void toggleMusic() {
+        if (_music.stopped()) {
+            _music.loop();
+        } else {
+            _music.stop();
+        }
+    }
+    
+    /**
+     * Tells whether the music is playing.
+     * @return true if music is playing, false if not
+     */
+    public boolean isMusicPlaying() {
+        return !_music.stopped();
+    }
 
 	/**
 	 * Plays the music.
 	 */
 	public void playMusic() {
 		_music.loop();
+	}
+
+	/**
+	 * Stops the music.
+	 */
+	public void stopMusic() {
+		_music.stop();
 	}
 
 	public void exit(){

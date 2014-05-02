@@ -105,20 +105,23 @@ public class BoardImages {
     }
     
     public static class Misc {
-        public static final Image arrow = new ImageIcon("images/misc/arrow.png").getImage();
+        public static final ImageIcon arrow = new ImageIcon("images/misc/arrow.png");
         
         public static final Image ports = new ImageIcon("images/ports/ports.png").getImage();
         
-        public static final ImageIcon brickToken = new ImageIcon("images/resource_tokens/brick.png");//.getImage();
-        public static final ImageIcon oreToken = new ImageIcon("images/resource_tokens/ore.png");//.getImage();
-        public static final ImageIcon woolToken = new ImageIcon("images/resource_tokens/sheep.png");//.getImage();
-        public static final ImageIcon wheatToken = new ImageIcon("images/resource_tokens/wheat.png");//.getImage();
-        public static final ImageIcon woodToken = new ImageIcon("images/resource_tokens/wood.png");//.getImage();
+        public static final ImageIcon brickToken = new ImageIcon("images/resource_tokens/brick.png");
+        public static final ImageIcon oreToken = new ImageIcon("images/resource_tokens/ore.png");
+        public static final ImageIcon woolToken = new ImageIcon("images/resource_tokens/sheep.png");
+        public static final ImageIcon wheatToken = new ImageIcon("images/resource_tokens/wheat.png");
+        public static final ImageIcon woodToken = new ImageIcon("images/resource_tokens/wood.png");
         
         public static final ImageIcon buildRoad = new ImageIcon("images/resource_tokens/build_road.png");
         public static final ImageIcon buildSettlement = new ImageIcon("images/resource_tokens/build_settlement.png");
         public static final ImageIcon buildCity = new ImageIcon("images/resource_tokens/build_city.png");
         public static final ImageIcon buildDevCard = new ImageIcon("images/resource_tokens/build_dev_card.png");
+        
+        public static final ImageIcon musicOn = new ImageIcon("images/misc/music_on.png");
+        public static final ImageIcon musicOff = new ImageIcon("images/misc/music_off.png");
     }
     
     public static class Background {
