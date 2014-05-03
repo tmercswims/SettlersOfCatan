@@ -45,80 +45,7 @@ public class Board implements Serializable {
 		}
 		setNum();
 
-		int x = 0;
-		int y = 2*_y;
-		for(int i = 0; i <= 95; i++){
-			if((i<=8)||(i>41 && i<=48)||(i>71 && i<=76)||(i>88 && i<=92)){
-				if(i%2==0){
-					x += _x;
-				}
-				else{
-					x -= _x;
-				}
-				y += _y;
-			}
-			else if((i>8 && i<=15)||(i>48 && i<=53)||(i>76 && i<=79)){
-				if(i%2!=0){
-					x +=2*_x;
-				}//over
-				else{
-					x += _x;
-					y += _y;
-				}//down and over
-			}
-			else if((i>15 && i<=22)||(i>53 && i<=58)||(i>79 && i<=82)){
-				if(i%2==0){
-					y -= _y;
-					x += _x;
-				}//up and over
-				else{
-					x += 2*_x;
-				}//over
-			}
-			else if((i>22 && i <=29)||(i>58 && i<=63)||(i>82 && i<=85)){
-				if(i%2!=0){
-					x -= _x;
-				}//in and up
-				else{
-					x += _x;
-				}//out and up
-				y -= _y;
-			}
-			else if((i>29 && i<=36)||(i>63 && i<=68)||(i>85 && i<=88)){
-				if(i%2==0){
-					x -= 2*_x;
-				}
-				else{
-					x -= _x;
-					y -= _y;
-				}
-			}
-			else if((i>36 && i<=41)||(i>68 && i<=71)){
-				if(i%2!=0){
-					x -= _x;
-					y += _y;
-				}
-				else{
-					x -= 2*_x;
-				}
-			}
-
-			else if(i==93){
-				x += 2*_x;
-			}
-			else if(i==94){
-				x += _x;
-				y -= _y;
-			}
-			else if(i==95){
-				x -= _x;
-				y -= _y;
-			}
-			else{
-				System.err.println("WTF");
-			}
-			_nodes[i] = new Node(x,y);
-		}
+		layoutNodes();
 		int i = 0;
 		try(RandomAccessFile raf = new RandomAccessFile("boardData/tiletonode.tsv","r")) {
 			raf.readLine();
@@ -251,8 +178,91 @@ public class Board implements Serializable {
 			e.printStackTrace();
 		}
 	}
+	
+	public void resize(int x, int y){
+		_x = x;
+		_y = y;
+		layoutNodes();
+	}
     
-    public void clearEdges() {
+    private void layoutNodes() {
+    	int x = 0;
+		int y = 2*_y;
+		for(int i = 0; i <= 95; i++){
+			if((i<=8)||(i>41 && i<=48)||(i>71 && i<=76)||(i>88 && i<=92)){
+				if(i%2==0){
+					x += _x;
+				}
+				else{
+					x -= _x;
+				}
+				y += _y;
+			}
+			else if((i>8 && i<=15)||(i>48 && i<=53)||(i>76 && i<=79)){
+				if(i%2!=0){
+					x +=2*_x;
+				}//over
+				else{
+					x += _x;
+					y += _y;
+				}//down and over
+			}
+			else if((i>15 && i<=22)||(i>53 && i<=58)||(i>79 && i<=82)){
+				if(i%2==0){
+					y -= _y;
+					x += _x;
+				}//up and over
+				else{
+					x += 2*_x;
+				}//over
+			}
+			else if((i>22 && i <=29)||(i>58 && i<=63)||(i>82 && i<=85)){
+				if(i%2!=0){
+					x -= _x;
+				}//in and up
+				else{
+					x += _x;
+				}//out and up
+				y -= _y;
+			}
+			else if((i>29 && i<=36)||(i>63 && i<=68)||(i>85 && i<=88)){
+				if(i%2==0){
+					x -= 2*_x;
+				}
+				else{
+					x -= _x;
+					y -= _y;
+				}
+			}
+			else if((i>36 && i<=41)||(i>68 && i<=71)){
+				if(i%2!=0){
+					x -= _x;
+					y += _y;
+				}
+				else{
+					x -= 2*_x;
+				}
+			}
+
+			else if(i==93){
+				x += 2*_x;
+			}
+			else if(i==94){
+				x += _x;
+				y -= _y;
+			}
+			else if(i==95){
+				x -= _x;
+				y -= _y;
+			}
+			else{
+				System.err.println("WTF");
+			}
+			_nodes[i] = new Node(x,y);
+		}
+	}
+
+	public void clearEdges() {
         for (Edge e : _edges) {
             e.setVisited(false);
         }

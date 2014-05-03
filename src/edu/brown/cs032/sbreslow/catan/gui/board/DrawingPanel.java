@@ -75,6 +75,8 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
         		});
             }
         });
+        _musicButton.setBounds(0,0,50,50);
+        setLayout(null);
         add(_musicButton);
 		_selectable = -1;
 		_road = false;
@@ -97,6 +99,10 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		Board b = new Board(true);
 		_toDraw.addAll(b.getBoard());
         _client = null;
+        _musicButton = new JButton();
+        setLayout(null);
+        _musicButton.setBounds(0,0,25,25);
+        add(_musicButton);
 	}
 	
 	@Override
