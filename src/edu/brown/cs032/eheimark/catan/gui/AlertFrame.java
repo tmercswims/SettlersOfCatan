@@ -46,7 +46,7 @@ public class AlertFrame extends JDialog implements ActionListener {
 		_myPanel.add(_mainMenuButton, _gbc);
 		_myPanel.setBackground(Constants.CATAN_RED);
 		
-		setUndecorated(true);
+		//setUndecorated(true);
 		setOpacity(0.75f);
 		pack();
 		setLocationRelativeTo(gui);
