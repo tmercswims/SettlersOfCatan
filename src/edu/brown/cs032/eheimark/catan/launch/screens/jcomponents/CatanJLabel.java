@@ -1,6 +1,10 @@
 package edu.brown.cs032.eheimark.catan.launch.screens.jcomponents;
 
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 /**

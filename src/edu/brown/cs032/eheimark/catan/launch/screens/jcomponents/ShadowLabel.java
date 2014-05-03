@@ -1,37 +1,36 @@
 package edu.brown.cs032.eheimark.catan.launch.screens.jcomponents;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-import javax.swing.JRadioButton;
+import javax.swing.JLabel;
 
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 
-/**
- * The Class CatanJRadioButton is used to maintain settings for JRadioButtons on the launch menu.
- */
-public class CatanJRadioButton extends JRadioButton {
-	private static final long serialVersionUID = 1L;
+public class ShadowLabel extends JLabel {
+
+	private String text;
+
 	private Font f;
-	private final String text;
-	/**
-	 * Instantiates a new catan j radio button.
-	 *
-	 * @param name the name
-	 */
-	public CatanJRadioButton(String name) {
+
+	public ShadowLabel() {
 		super();
-		text = name;
+	}
+
+	public ShadowLabel(String text) {
+		super();
+		setText(text);
 		setPreferredSize(Constants.DEFAULT_BUTTON_SIZE);
 		setMinimumSize(Constants.DEFAULT_BUTTON_SIZE);
 		setMaximumSize(Constants.DEFAULT_BUTTON_SIZE);
-		setFont(Constants.DEFAULT_BUTTON_FONT);
-		setForeground(Constants.CATAN_BLUE);
 		f = Constants.DEFAULT_BUTTON_FONT;
+		setHorizontalAlignment(JLabel.CENTER);
+		setForeground(Constants.CATAN_BLUE);
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -46,10 +45,20 @@ public class CatanJRadioButton extends JRadioButton {
 		 */
 		g2D.setFont(f);
 		g2D.setColor(Constants.CATAN_BLUE);
-		g2D.drawString(text, 27, 29);
+		g2D.drawString(this.text, 11, 33);
 		g2D.setColor(Constants.CATAN_WHITE);
-		g2D.drawString(text, 26, 28);
+		g2D.drawString(this.text, 10, 32);
 		g2D.dispose();
 	}
-	
+
+	public void setText(String text) {
+		this.text = text;
+		repaint();
+	}
+
+	/**
+	 * Default UID
+	 */
+	private static final long serialVersionUID = 1L;
+
 }

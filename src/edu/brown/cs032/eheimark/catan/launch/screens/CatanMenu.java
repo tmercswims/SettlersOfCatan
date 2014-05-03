@@ -1,12 +1,20 @@
 package edu.brown.cs032.eheimark.catan.launch.screens;
 
+import java.awt.AlphaComposite;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 /**
@@ -27,12 +35,10 @@ public class CatanMenu extends JPanel {
 		this.img = Constants.CATAN_LAUNCH_MENU_BACKGROUND;
 		buttonsPanel.setOpaque(false);	
 		buttonsPanel.setLayout(new GridBagLayout());
-		buttonsPanel.setBorder(BorderFactory.createEmptyBorder(250, 0, 0, 0));
+		setButtonsBorder(BorderFactory.createEmptyBorder(200, 0, 0, 0));
 		add(buttonsPanel);
-		gbc = new GridBagConstraints();
 		setPreferredSize(Constants.DEFAULT_MENU_SIZE);
-		setMinimumSize(Constants.DEFAULT_MENU_SIZE);
-		setMaximumSize(Constants.DEFAULT_MENU_SIZE);
+		gbc = new GridBagConstraints();
 	}
 
 	/**
@@ -43,6 +49,12 @@ public class CatanMenu extends JPanel {
 	public void addComponent(Component comp) {
 		gbc.gridy++;
 		buttonsPanel.add(comp, gbc);
+		
+		
+	}
+	
+	public void setButtonsBorder(Border b) {
+		buttonsPanel.setBorder(b);
 	}
 
 	/**
