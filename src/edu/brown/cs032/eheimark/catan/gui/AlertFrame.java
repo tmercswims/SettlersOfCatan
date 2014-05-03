@@ -36,6 +36,7 @@ public class AlertFrame extends JDialog implements ActionListener {
 		_mainMenuButton.setFont(Constants.ALERT_MENU_FONT);
 		_mainMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		_mainMenuButton.addActionListener(this);
+		_mainMenuButton.requestFocus();
 		
 		_myPanel.setLayout(new GridBagLayout());
 		_gbc = new GridBagConstraints();
