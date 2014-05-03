@@ -131,10 +131,10 @@ public class Referee {
 				pushPlayers();
 				pushBoard();
 			}
+            _activePlayer.mergeDevCards();
 			findWinner();
 		}
-		_server.sendGameOver("Player "+_winner.getName()+" has won!"
-				+ "  Please return to the Main Menu.");
+		_server.sendGameOver(_winner.getName()+" has won!\nPlease return to the Main Menu.");
 	}
     
     /**
@@ -147,6 +147,7 @@ public class Referee {
             if (p.getName().equals(playerName)) player = p;
         }
         if (player != null) player.addResources(new int[]{10,10,10,10,10});
+        pushPlayers();
     }
 
 	private void rollForOrder() {
