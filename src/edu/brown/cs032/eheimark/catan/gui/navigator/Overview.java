@@ -18,6 +18,7 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages;
+import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.BackgroundPanel;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 
@@ -184,7 +185,7 @@ public class Overview extends JPanel implements Update {
 			data[row][column++] = p.getRoadsBuilt();
 			data[row][column++] = p.getCitiesBuilt();
 			data[row][column++] = p.getSettlementsBuilt();
-			if(p.getColor().getGreen()==111){ // workaround because there is no color.equals()
+			if(p.getColor().equals(Edge.orange)){ // workaround because there is no color.equals()
 				myColorRenderer.addColor(row, p.getColor());
 			}
 			else{
