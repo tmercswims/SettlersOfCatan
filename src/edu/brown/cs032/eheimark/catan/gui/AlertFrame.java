@@ -1,67 +1,67 @@
 package edu.brown.cs032.eheimark.catan.gui;
 
-import java.awt.Color;
 import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
-import edu.brown.cs032.sbreslow.catan.gui.devCards.BackgroundPanel;
 
-public class AlertFrame extends JFrame {
-	
-	private GUIFrame _gui;
-	
+public class AlertFrame extends JDialog implements ActionListener {
+	private static final long serialVersionUID = 1L;
+	private final JPanel _myPanel;
+	private final GUIFrame _gui;
+	private final JButton _mainMenuButton;
+	private final JLabel _myMessageLabel;
+	private GridBagConstraints _gbc; // constraints
+
 	public AlertFrame(String message, GUIFrame gui){
-		super("ALERT!!!");
+		super(gui, true);
 		_gui = gui;
-		JPanel panel = new BackgroundPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-		JLabel label = new JLabel(message);
-		label.setAlignmentX(Component.CENTER_ALIGNMENT);
-		label.setForeground(Constants.CATAN_RED);
-		label.setFont(Constants.ALERT_MENU_FONT);
-		panel.add(label);
-		JButton menu = new JButton("Return to Main Menu");
-		menu.setAlignmentX(Component.CENTER_ALIGNMENT);
-		menu.addActionListener(new MenuList(this));
-		panel.add(menu);
-		this.setLocationRelativeTo(gui);
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		this.add(panel);
-		this.setVisible(true);
-		this.pack();
+		_myPanel = new JPanel();
+		getContentPane().add(_myPanel);
+		
+		_myMessageLabel = new JLabel(message);
+		_myMessageLabel.setFont(Constants.ALERT_MENU_FONT);
+		_myMessageLabel.setForeground(Constants.CATAN_YELLOW);
+
+		_mainMenuButton = new JButton("Return to Main Menu");
+		_mainMenuButton.setFont(Constants.ALERT_MENU_FONT);
+		_mainMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		_mainMenuButton.addActionListener(this);
+		
+		_myPanel.setLayout(new GridBagLayout());
+		_gbc = new GridBagConstraints();
+	    _gbc.gridx = _gbc.gridy = 0;
+		_myPanel.add(_myMessageLabel, _gbc);
+		_gbc.gridy++;
+		_myPanel.add(_mainMenuButton, _gbc);
+		_myPanel.setBackground(Constants.CATAN_RED);
+		
+		setUndecorated(true);
+		setOpacity(0.75f);
+		pack();
+		setLocationRelativeTo(gui);
+		setVisible(true);
 	}
 	
-	private class MenuList implements ActionListener {
-		
-		private JFrame _frame;
-		
-		public MenuList(JFrame frame){
-			_frame  = frame;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					_gui.exit();
-					new SettlersOfCatan();
-				}
-			});
-			_frame.setVisible(false);
-			_frame.dispose();
-		}
-		
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_gui.exit();
+				new SettlersOfCatan();
+				setVisible(false);
+				dispose();
+			}
+		});
 	}
-
 }
