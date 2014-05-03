@@ -33,7 +33,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		_client = client;
 		setSize(600,600);
 		setPreferredSize(getSize());
-		setMaximumSize(getPreferredSize());
+		//setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());
 		_toDraw = new ArrayList<>();
 		this.setOpaque(false); // set background to opaque b/c drawing done in GUI class for background
@@ -103,7 +103,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			i++;
 		}
 		
-        g.drawImage(ports, getX(), getY(), this);
+        g.drawImage(ports, getX(), getY(), getWidth(), getHeight(), this);
 		//_client.confirmPacket();
 	}
 	
