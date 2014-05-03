@@ -27,7 +27,8 @@ public class AlertFrame extends JFrame {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		JLabel label = new JLabel(message);
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
-		label.setForeground(Color.white);
+		label.setForeground(Constants.CATAN_RED);
+		label.setFont(Constants.ALERT_MENU_FONT);
 		panel.add(label);
 		JButton menu = new JButton("Return to Main Menu");
 		menu.setAlignmentX(Component.CENTER_ALIGNMENT);
