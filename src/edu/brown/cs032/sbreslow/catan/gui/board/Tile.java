@@ -236,4 +236,19 @@ public class Tile extends BoardComponent{
 		// SHOULD NEVER BE USED
 	}
 
+	public void setPoly(List<Node> list) {
+		_nodes = list;
+		int[] xPoints = new int[6];
+		int[] yPoints = new int[6];
+		int i = 0;
+		if(_nodes!=null){
+			for(Node n: _nodes){
+				xPoints[i] = n.getX()+Node._diam/2;
+				yPoints[i] = n.getY()+Node._diam/2;
+				i++;
+			}
+			_p = new Polygon(xPoints, yPoints, 6);
+		}
+	}
+
 }

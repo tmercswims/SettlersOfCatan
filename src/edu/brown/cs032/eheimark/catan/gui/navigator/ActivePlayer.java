@@ -51,7 +51,7 @@ public class ActivePlayer extends JPanel implements Update {
 		this.rollDie = true;
 		this.setOpaque(false); // set background to opaque b/c drawing done in GUI class for background
 
-		setPreferredSize(new Dimension(600, 50));
+		//setPreferredSize(new Dimension(600, 50));
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{600, 0};
@@ -61,15 +61,15 @@ public class ActivePlayer extends JPanel implements Update {
 		setLayout(gridBagLayout);
 		gameManagerButton = new JButton("Roll Die");
 		gameManagerButton.setPreferredSize(Constants.ROLL_BUTTON);
-		gameManagerButton.setMaximumSize(Constants.ROLL_BUTTON);
-		gameManagerButton.setMinimumSize(Constants.ROLL_BUTTON);
+		//gameManagerButton.setMaximumSize(Constants.ROLL_BUTTON);
+		//gameManagerButton.setMinimumSize(Constants.ROLL_BUTTON);
 		gameManagerButton.setFont(Constants.MY_FONT_ACTIVEPLAYER);
 		gameManagerButton.setForeground(Constants.CATAN_RED);
 		gameManagerButton.addActionListener(new TurnListener());
 
 		JPanel playerResourcesPanel = new JPanel();
 		playerResourcesPanel.setOpaque(false);
-		playerResourcesPanel.setPreferredSize(Constants.PLAYER_STATS);
+		//playerResourcesPanel.setPreferredSize(Constants.PLAYER_STATS);
 		playerResourcesPanel.setLayout(new GridLayout(1,10));
 		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
 				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.oreToken.getIconHeight()),

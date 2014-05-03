@@ -58,6 +58,7 @@ public class ChatPanel extends JPanel {
 		super();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		_client = cc;
+		this.setMaximumSize(preferredSize);
 
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

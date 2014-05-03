@@ -50,7 +50,7 @@ public class GUI extends JPanel implements Update {
 		left.add(activeplayer, BorderLayout.CENTER);
 		gameBoard = new DrawingPanel(client);
 		left.add(gameBoard, BorderLayout.NORTH);
-		add(left, BorderLayout.WEST);
+		add(left, BorderLayout.CENTER);
 		tabbedMenu = new TabbedPanel(client, gameBoard);
 		
 		add(tabbedMenu, BorderLayout.SOUTH);

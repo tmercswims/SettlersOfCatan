@@ -18,7 +18,7 @@ public class Edge extends BoardComponent{
 	private Node[] _nodes = new Node[2];
 	private boolean _road;
 	private Player _owner;
-	private final Line2D _l;
+	private Line2D _l;
 	private Color _c;
 	private int _port;
 	private final int _index;
@@ -209,6 +209,12 @@ public class Edge extends BoardComponent{
 	@Override
 	public void grow() {
 		_c = _owner.getColor();
+	}
+
+	public void setNodes(Node[] tmp) {
+		_nodes = tmp;
+		_l = new Line2D.Double(_nodes[0].getX()+Node._diam/2, _nodes[0].getY()+Node._diam/2, 
+				_nodes[1].getX()+Node._diam/2, _nodes[1].getY()+Node._diam/2);
 	}
 
 }

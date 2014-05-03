@@ -1,5 +1,7 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -45,7 +47,81 @@ public class Board implements Serializable {
 		}
 		setNum();
 
-		layoutNodes();
+		int x = 0;
+		int y = 2*_y;
+		for(int i = 0; i <= 95; i++){
+			if((i<=8)||(i>41 && i<=48)||(i>71 && i<=76)||(i>88 && i<=92)){
+				if(i%2==0){
+					x += _x;
+				}
+				else{
+					x -= _x;
+				}
+				y += _y;
+			}
+			else if((i>8 && i<=15)||(i>48 && i<=53)||(i>76 && i<=79)){
+				if(i%2!=0){
+					x +=2*_x;
+				}//over
+				else{
+					x += _x;
+					y += _y;
+				}//down and over
+			}
+			else if((i>15 && i<=22)||(i>53 && i<=58)||(i>79 && i<=82)){
+				if(i%2==0){
+					y -= _y;
+					x += _x;
+				}//up and over
+				else{
+					x += 2*_x;
+				}//over
+			}
+			else if((i>22 && i <=29)||(i>58 && i<=63)||(i>82 && i<=85)){
+				if(i%2!=0){
+					x -= _x;
+				}//in and up
+				else{
+					x += _x;
+				}//out and up
+				y -= _y;
+			}
+			else if((i>29 && i<=36)||(i>63 && i<=68)||(i>85 && i<=88)){
+				if(i%2==0){
+					x -= 2*_x;
+				}
+				else{
+					x -= _x;
+					y -= _y;
+				}
+			}
+			else if((i>36 && i<=41)||(i>68 && i<=71)){
+				if(i%2!=0){
+					x -= _x;
+					y += _y;
+				}
+				else{
+					x -= 2*_x;
+				}
+			}
+
+			else if(i==93){
+				x += 2*_x;
+			}
+			else if(i==94){
+				x += _x;
+				y -= _y;
+			}
+			else if(i==95){
+				x -= _x;
+				y -= _y;
+			}
+			else{
+				System.err.println("WTF");
+			}
+			_nodes[i] = new Node(x,y);
+		}
+		
 		int i = 0;
 		try(RandomAccessFile raf = new RandomAccessFile("boardData/tiletonode.tsv","r")) {
 			raf.readLine();
@@ -180,14 +256,16 @@ public class Board implements Serializable {
 	}
 	
 	public void resize(int x, int y){
-		_x = x;
-		_y = y;
-		layoutNodes();
+		_x = x/23;
+		_y = y/14;
+		System.out.println(_x+", "+_y);
+		layoutChanges();
 	}
     
-    private void layoutNodes() {
+    private void layoutChanges() {
     	int x = 0;
 		int y = 2*_y;
+		System.out.println("OLD: "+_nodes[0].getLocation());
 		for(int i = 0; i <= 95; i++){
 			if((i<=8)||(i>41 && i<=48)||(i>71 && i<=76)||(i>88 && i<=92)){
 				if(i%2==0){
@@ -258,7 +336,44 @@ public class Board implements Serializable {
 			else{
 				System.err.println("WTF");
 			}
-			_nodes[i] = new Node(x,y);
+			_nodes[i].setLoc(x,y);
+		}
+		System.out.println("NEW: "+_nodes[0].getLocation());
+		try(RandomAccessFile raf = new RandomAccessFile("boardData/tiletonode.tsv","r")) {
+			raf.readLine();
+			for(int i = 0; i <= 36; i++){
+				String[] line = raf.readLine().split("\t");
+				String[] nodes = line[1].split(",");
+				int[] ndices = new int[nodes.length];
+				for(int j = 0; j< nodes.length; j++){
+					ndices[j] = Integer.parseInt(nodes[j]);
+				}
+				List<Node> list = new ArrayList<>(nodes.length);
+				for(int j: ndices){
+					list.add(_nodes[j]);
+				}
+				_tiles[i].setPoly(list);
+			}
+		} catch (Exception e) {
+			System.err.println("ERROR: "+e.getMessage());
+			//System.err.println(i);
+			e.printStackTrace();
+		}
+		try(RandomAccessFile raf = new RandomAccessFile("boardData/edgetonode.tsv","r")) {
+			raf.readLine();
+			for(int i = 0; i <= 131; i++){
+				String[] line = raf.readLine().split("\t");
+				String[] nodes = line[1].split(",");
+				int[] ndices = new int[nodes.length];
+				for(int j = 0; j< nodes.length; j++){
+					ndices[j] = Integer.parseInt(nodes[j]);
+				}
+				Node[] tmp = {_nodes[ndices[0]],_nodes[ndices[1]]};
+				_edges[i].setNodes(tmp);// = new Edge(tmp,i);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
