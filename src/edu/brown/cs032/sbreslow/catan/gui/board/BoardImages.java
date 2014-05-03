@@ -115,6 +115,12 @@ public class BoardImages {
         public static final ImageIcon wheatToken = new ImageIcon("images/resource_tokens/wheat.png");
         public static final ImageIcon woodToken = new ImageIcon("images/resource_tokens/wood.png");
         
+        public static final ImageIcon brickTokenGray = new ImageIcon("images/resource_tokens/brick_gray.png");
+        public static final ImageIcon oreTokenGray = new ImageIcon("images/resource_tokens/ore_gray.png");
+        public static final ImageIcon woolTokenGray = new ImageIcon("images/resource_tokens/sheep_gray.png");
+        public static final ImageIcon wheatTokenGray = new ImageIcon("images/resource_tokens/wheat_gray.png");
+        public static final ImageIcon woodTokenGray = new ImageIcon("images/resource_tokens/wood_gray.png");
+        
         public static final ImageIcon buildRoad = new ImageIcon("images/resource_tokens/build_road.png");
         public static final ImageIcon buildSettlement = new ImageIcon("images/resource_tokens/build_settlement.png");
         public static final ImageIcon buildCity = new ImageIcon("images/resource_tokens/build_city.png");
