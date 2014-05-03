@@ -108,13 +108,19 @@ public class GUIFrame extends JFrame {
         _music.stop();
 	}
 
-	public boolean isMusicPlaying() {
-		// TODO Auto-generated method stub
-		return false;
+	public void toggleMusic() {
+		if (_music.stopped()) {
+			_music.loop();
+		} else {
+			_music.stop();
+		}
 	}
 
-	public void toggleMusic() {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Tells whether the music is playing.
+	 * @return true if music is playing, false if not
+	 */
+	public boolean isMusicPlaying() {
+		return !_music.stopped();
 	}
 }
