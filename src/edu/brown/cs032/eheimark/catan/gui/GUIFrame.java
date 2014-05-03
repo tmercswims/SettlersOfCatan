@@ -36,8 +36,8 @@ public class GUIFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		setLocationRelativeTo(null);
-        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        manager.addKeyEventDispatcher(new MyDispatcher());
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(new MyDispatcher());
 	}
 
 	private void setMusic() {
@@ -48,25 +48,25 @@ public class GUIFrame extends JFrame {
 			System.err.println(String.format("ERROR: %s", ex.getMessage()));
 		}
 	}
-    
-    /**
-     * Toggles the music state.
-     */
-    public void toggleMusic() {
-        if (_music.stopped()) {
-            _music.loop();
-        } else {
-            _music.stop();
-        }
-    }
-    
-    /**
-     * Tells whether the music is playing.
-     * @return true if music is playing, false if not
-     */
-    public boolean isMusicPlaying() {
-        return !_music.stopped();
-    }
+
+	/**
+	 * Toggles the music state.
+	 */
+	public void toggleMusic() {
+		if (_music.stopped()) {
+			_music.loop();
+		} else {
+			_music.stop();
+		}
+	}
+
+	/**
+	 * Tells whether the music is playing.
+	 * @return true if music is playing, false if not
+	 */
+	public boolean isMusicPlaying() {
+		return !_music.stopped();
+	}
 
 	/**
 	 * Plays the music.
@@ -88,91 +88,95 @@ public class GUIFrame extends JFrame {
 		_music.stop();
 	}
 	private class MyDispatcher implements KeyEventDispatcher {
-        @Override
-        public boolean dispatchKeyEvent(KeyEvent e) {
-            if (e.getID() == KeyEvent.KEY_PRESSED) {
-            	if(e.getKeyCode() == KeyEvent.VK_O) {
-            		SwingUtilities.invokeLater(new Runnable() {
-    					@Override
-    					public void run() {
-    	            		_gui.getTabbedMenu().setOverviewPage();
-    					}
-    				});
-            	}
-            	else if(e.getKeyCode() == KeyEvent.VK_B) {
-            		SwingUtilities.invokeLater(new Runnable() {
-    					@Override
-    					public void run() {
-    	            		_gui.getTabbedMenu().setBuildPage();
-    					}
-    				});
-            	}
-            	else if(e.getKeyCode() == KeyEvent.VK_T) {
-            		SwingUtilities.invokeLater(new Runnable() {
-    					@Override
-    					public void run() {
-    	            		_gui.getTabbedMenu().setTradePage();
-    					}
-    				});
-            	}
-            	else if(e.getKeyCode() == KeyEvent.VK_D) {
-            		SwingUtilities.invokeLater(new Runnable() {
-    					@Override
-    					public void run() {
-    	            		_gui.getTabbedMenu().setDevCardPage();
-    					}
-    				});
-            	}
-            	else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-            		SwingUtilities.invokeLater(new Runnable() {
-    					@Override
-    					public void run() {
-    	            		_gui.getTabbedMenu().incrementPageLeft();
-    					}
-    				});
-            	}
-            	else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            		SwingUtilities.invokeLater(new Runnable() {
-    					@Override
-    					public void run() {
-    	            		_gui.getTabbedMenu().incrementPageRight();
-    					}
-    				});
-            	}
-            	else if(e.getKeyCode() == KeyEvent.VK_C) {
-            		SwingUtilities.invokeLater(new Runnable() {
-    					@Override
-    					public void run() {
-    	            		_gui.getChat().requestFocus();
-    					}
-    				});
-            	}
-            	else if(e.getKeyCode() == KeyEvent.VK_R) {
-            		SwingUtilities.invokeLater(new Runnable() {
-    					@Override
-    					public void run() {
-    	            		_gui.getActivePlayer().requestFocus();
-    					}
-    				});
-            	}
-            	else if(e.getKeyCode() == KeyEvent.VK_UP) {
-            		SwingUtilities.invokeLater(new Runnable() {
-    					@Override
-    					public void run() {
-    	            		_gui.getChat().pressedKeyUp();
-    					}
-    				});
-            	}
-            	else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-            		SwingUtilities.invokeLater(new Runnable() {
-    					@Override
-    					public void run() {
-    	            		_gui.getChat().pressedKeyDown();
-    					}
-    				});
-            	}
-            }
-            return false;
-        }
-    }
+		@Override
+		public boolean dispatchKeyEvent(KeyEvent e) {
+			if (e.getID() == KeyEvent.KEY_PRESSED && e.isControlDown()) {
+				if(e.getKeyCode() == KeyEvent.VK_O) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getTabbedMenu().setOverviewPage();
+						}
+					});
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_B) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getTabbedMenu().setBuildPage();
+						}
+					});
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_T) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getTabbedMenu().setTradePage();
+						}
+					});
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_D) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getTabbedMenu().setDevCardPage();
+						}
+					});
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_TAB) {
+					if(e.isShiftDown()) {
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								_gui.getTabbedMenu().incrementPageLeft();
+							}
+						});
+					} 
+					else {
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								_gui.getTabbedMenu().incrementPageRight();
+							}
+						});
+					}
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_C) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getChat().requestFocus();
+						}
+					});
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_R) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getActivePlayer().requestFocus();
+						}
+					});
+				}
+			}
+			else if(e.getID() == KeyEvent.KEY_PRESSED && _gui.getChat().hasFocus()) {
+				if(e.getKeyCode() == KeyEvent.VK_UP) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getChat().pressedKeyUp();
+						}
+					});
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getChat().pressedKeyDown();
+						}
+					});
+				}
+			}
+			return false;
+		}
+	}
 }
