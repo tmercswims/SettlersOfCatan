@@ -21,7 +21,7 @@ public class Constants {
 	public static final Color CATAN_BLUE = Color.BLUE;
 	public static final Color CATAN_BLACK = Color.BLACK;
 	public static final Color CATAN_WHITE = Color.WHITE;
-	public static final Color CATAN_ORANGE = Color.ORANGE.darker();
+	public static final Color CATAN_ORANGE = Color.ORANGE;
 
 	public static final Dimension DEFAULT_BUTTON_SIZE  = new Dimension(200, 50);
 	public static final Dimension DEFAULT_MENU_SIZE  = new Dimension(700, 700);
