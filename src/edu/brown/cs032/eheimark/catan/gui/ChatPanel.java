@@ -236,7 +236,7 @@ public class ChatPanel extends JPanel {
 			if(attr.equals(_blue)){
 				message = message.replaceAll("\\(blue\\)", "");
 			} else if(attr.equals(_red)){
-				
+				message = message.replaceAll("\\(red\\)", "");
 			} else if(attr.equals(_orange)){
 				message = message.replaceAll("\\(orange\\)", "");
 			} else if(attr.equals(_white)){
