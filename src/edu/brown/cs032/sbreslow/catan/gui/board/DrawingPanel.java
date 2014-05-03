@@ -38,6 +38,8 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	private boolean _settlement;
 	private int _rbcount;
     private JButton _musicButton;
+    private BoardComponent _lastHovered;
+    private int _lastHoveredPreviousGhostLevel;
 	
 	public DrawingPanel(CatanClient client){
 		super();
@@ -281,36 +283,22 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
             boolean foundSomething = false;
             for (BoardComponent c: _toDraw) {
 				if (c.getShape().contains(e.getPoint()) && (c.getType()==_selectable || (c.getType()==2 && _selectable==3) || (c.getType()==1 && _selectable==4))) {
-					switch(_selectable){
-					case 0: //tile
-                        foundSomething = true;
-                        for (BoardComponent bc : _toDraw) {
-                            bc.setGhostLevel(0);
-                            bc.setLookerColor(null);
-                        }
-                        
-						Tile t = (Tile) c;
-						if (!t.hasRobber()) {
-							t.setGhostLevel(2);
-						}
-						break;
-					case 1: //road
-					case 2: //settlement
-                    case 3: //city
-					case 4: //road builder
-                        foundSomething = true;
-                        for (BoardComponent bc : _toDraw) {
-                            bc.setGhostLevel(0);
-                            bc.setLookerColor(null);
-                        }
-						c.setGhostLevel(2);
-                        c.setLookerColor(_client.getPlayer().getColor());
-						break;
-					}
-                } else if (!foundSomething) {
-                    for (BoardComponent bc : _toDraw) {
-                        bc.setGhostLevel(0);
-                        bc.setLookerColor(null);
+                    foundSomething = true;
+                    if (_lastHovered == null) {
+                        _lastHoveredPreviousGhostLevel = c.getGhostLevel();
+                        _lastHovered = c;
+                    } else if (c.getIndex() != _lastHovered.getIndex()) {
+                        _lastHovered.setGhostLevel(_lastHoveredPreviousGhostLevel);
+                        _lastHovered.setLookerColor(null);
+                        _lastHoveredPreviousGhostLevel = c.getGhostLevel();
+                        _lastHovered = c;
+                    }
+                    c.setGhostLevel(2);
+                    c.setLookerColor(_client.getPlayer().getColor());
+                } else {
+                    if (!foundSomething && _lastHovered != null) {
+                        _lastHovered.setGhostLevel(_lastHoveredPreviousGhostLevel);
+                        _lastHovered.setLookerColor(null);
                     }
                 }
             }
@@ -330,6 +318,23 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	 */
 	public void setSelect(int s){
 		_selectable = s;
+        switch (_selectable) {
+            case -1:
+                for (BoardComponent c : _toDraw) {
+                    c.setGhostLevel(0);
+                    c.setLookerColor(null);
+                }
+                break;
+            case 0: //robber
+                System.out.println("the robber is being played now");
+                for (BoardComponent c : _toDraw) {
+                    if (c.getType() == 0) {
+                        c.setGhostLevel(1);
+                    }
+                }
+                break;
+                
+        }
 	}
 
 	@Override
