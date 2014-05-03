@@ -30,7 +30,7 @@ public class AlertFrame extends JDialog implements ActionListener {
 		
 		_myMessageLabel = new JLabel(message);
 		_myMessageLabel.setFont(Constants.ALERT_MENU_FONT);
-		_myMessageLabel.setForeground(Constants.CATAN_YELLOW);
+		_myMessageLabel.setForeground(Constants.CATAN_ORANGE);
 
 		_mainMenuButton = new JButton("Return to Main Menu");
 		_mainMenuButton.setFont(Constants.ALERT_MENU_FONT);

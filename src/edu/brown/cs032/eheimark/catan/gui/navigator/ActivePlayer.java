@@ -132,7 +132,7 @@ public class ActivePlayer extends JPanel implements Update {
 		playerResourcesPanel.add(brick);
 		mystats = new JLabel("MY STATISTICS");
 		mystats.setFont(Constants.MY_FONT_ACTIVEPLAYER);
-		mystats.setForeground(Constants.CATAN_YELLOW);
+		mystats.setForeground(Constants.CATAN_ORANGE);
 		mystats.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_mystats = new GridBagConstraints();
 		gbc_mystats.insets = new Insets(0, 0, 5, 0);

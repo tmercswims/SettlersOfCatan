@@ -89,7 +89,7 @@ public class Build extends JPanel implements Update {
 		devCardPanel.add(devCardVPLabel, BorderLayout.SOUTH);
 		devCardVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		devCardVPLabel.setOpaque(false);
-		devCardVPLabel.setForeground(Constants.CATAN_YELLOW);
+		devCardVPLabel.setForeground(Constants.CATAN_ORANGE);
 		devCardVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		devCardVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
@@ -121,7 +121,7 @@ public class Build extends JPanel implements Update {
 		roadPanel.add(rdVP, BorderLayout.SOUTH);
 		rdVP.setHorizontalAlignment(SwingConstants.CENTER);
 		rdVP.setOpaque(false);
-		rdVP.setForeground(Constants.CATAN_YELLOW);
+		rdVP.setForeground(Constants.CATAN_ORANGE);
 		rdVP.setFont(new Font("Times", Font.ITALIC, 12));
 		rdVP.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -155,7 +155,7 @@ public class Build extends JPanel implements Update {
 		settlementPanel.add(settlementVPLabel, BorderLayout.SOUTH);
 		settlementVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		settlementVPLabel.setOpaque(false);
-		settlementVPLabel.setForeground(Constants.CATAN_YELLOW);
+		settlementVPLabel.setForeground(Constants.CATAN_ORANGE);
 		settlementVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		settlementVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -187,7 +187,7 @@ public class Build extends JPanel implements Update {
 		cityPanel.add(cityVPLabel, BorderLayout.SOUTH);
 		cityVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		cityVPLabel.setOpaque(false);
-		cityVPLabel.setForeground(Constants.CATAN_YELLOW);
+		cityVPLabel.setForeground(Constants.CATAN_ORANGE);
 		cityVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		cityVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
