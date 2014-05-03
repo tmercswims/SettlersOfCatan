@@ -1,9 +1,11 @@
 package edu.brown.cs032.eheimark.catan.gui.navigator;
 
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.felt;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.arrow;
 
 import java.awt.Graphics;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -62,8 +64,9 @@ public class Overview extends JPanel implements Update {
 		table.setDefaultRenderer(Object.class, myColorRenderer);
 		table.getTableHeader().setFont(Constants.OVERVIEW_TAB_FONT_HEADER);
 		table.getTableHeader().setAlignmentX(SwingConstants.CENTER);
-		table.setShowGrid(true);
+		table.setShowGrid(false);
 		table.setOpaque(false);
+		table.getColumnModel().getColumn(0).setMaxWidth(28);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setRowHeight(23);
 		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
@@ -96,6 +99,7 @@ public class Overview extends JPanel implements Update {
 
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 				boolean hasFocus, int row, int column) {
+			if(column > 0) {
 			JTextField editor = new JTextField();
 			if (value != null) {
 				editor.setText(value.toString());
@@ -103,17 +107,26 @@ public class Overview extends JPanel implements Update {
 			}
 			if(rowColors.size() > row) {
 				editor.setBackground(rowColors.get(row));
-				if(row == activePlayerRow) {
-					editor.setForeground(Constants.ACTIVE_PLAYER_OVERVIEW_COLOR);
-				}
-				else {
-					editor.setForeground(Constants.CATAN_BLACK);
-				}
+//				if(row == activePlayerRow) {
+//					editor.setForeground(Constants.ACTIVE_PLAYER_OVERVIEW_COLOR);
+//				}
+//				else {
+//					editor.setForeground(Constants.CATAN_BLACK);
+//				}
 			}
 			editor.setFont(Constants.OVERVIEW_TAB_FONT);
 			editor.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 			editor.setOpaque(true);
 			return editor;
+			}
+			else {
+				if(row == activePlayerRow) {
+					return new JLabel(arrow);
+				}
+				else {
+					return new JLabel();
+				}
+			}
 		}
 
 
@@ -124,14 +137,16 @@ public class Overview extends JPanel implements Update {
 
 	class MyTableModel extends AbstractTableModel {
 		private static final long serialVersionUID = 1L;
-		private String[] columnNames = {"Name",
+		private String[] columnNames = {"",
+				"Name",
 				"Victory Points",
 				"Resource Cards",
 				"Development Cards",
 				"Roads",
 				"Cities",
 		"Settlements"};
-		private Object[][] data = {{"Name",
+		private Object[][] data = {{"",
+			"Name",
 			"Victory Points",
 			"Resource Cards",
 			"Development Cards",
@@ -140,7 +155,7 @@ public class Overview extends JPanel implements Update {
 		"Settlements"}};
 
 		public void initializeData(int numberPlayers) {
-			data = new Object[numberPlayers][7];
+			data = new Object[numberPlayers][8];
 		}
 
 		public int getColumnCount() {
@@ -160,7 +175,7 @@ public class Overview extends JPanel implements Update {
 		}
 
 		public void updatePlayer(Player p, int row) {
-			int column = 0;
+			int column = 1;
 			data[row][column++] = p.getName();
 			data[row][column++] = p.getVictoryPoints();
 			data[row][column++] = p.getTotalResources();

@@ -163,55 +163,50 @@ public class Tile extends BoardComponent{
 		Rectangle r = _p.getBounds();
         if(_resource!=6){
 			if(!_robber){
-				//brush.fillOval((int)r.getCenterX()-15, (int)r.getCenterY()-15, 30, 30);
-				if(_num==6 || _num==8){
-					brush.setColor(Color.red);
-				}
-				else{
-					brush.setColor(Color.black);
-				}
-				brush.addRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
-				brush.setStroke(new BasicStroke(5));
-				if(toprint.length>1){
-					//brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-8, (int)r.getCenterY()+5);		
-				}
-				else{
-					//brush.drawChars(toprint, 0, toprint.length, (int)r.getCenterX()-4, (int)r.getCenterY()+5);
-				}
-				Image number = null;
-	            switch (_num) {
-	            case 2:
-	                number = two;
-	                break;
-	            case 3:
-	                number = three;
-	                break;
-	            case 4:
-	                number = four;
-	                break;
-	            case 5:
-	                number = five;
-	                break;
-	            case 6:
-	                number = six;
-	                break;
-	            case 8:
-	                number = eight;
-	                break;
-	            case 9:
-	                number = nine;
-	                break;
-	            case 10:
-	                number = ten;
-	                break;
-	            case 11:
-	                number = eleven;
-	                break;
-	            case 12:
-	                number = twelve;
-	                break;
-	            }
-	            brush.drawImage(number, (int)r.getCenterX()-(number.getWidth(this)/2), (int)r.getCenterY()-(number.getHeight(this)/2), null);
+                Image number = null;
+                switch (_ghostLevel) {
+                    case 0:
+                        switch (_num) {
+                            case 2:
+                                number = two;
+                                break;
+                            case 3:
+                                number = three;
+                                break;
+                            case 4:
+                                number = four;
+                                break;
+                            case 5:
+                                number = five;
+                                break;
+                            case 6:
+                                number = six;
+                                break;
+                            case 8:
+                                number = eight;
+                                break;
+                            case 9:
+                                number = nine;
+                                break;
+                            case 10:
+                                number = ten;
+                                break;
+                            case 11:
+                                number = eleven;
+                                break;
+                            case 12:
+                                number = twelve;
+                                break;
+                        }
+                        break;
+                    case 1:
+                        number = robberGhost1;
+                        break;
+                    case 2:
+                        number = robberGhost2;
+                        break;
+                }
+                if (number != null) brush.drawImage(number, (int)r.getCenterX()-(number.getWidth(this)/2), (int)r.getCenterY()-(number.getHeight(this)/2), null);
 			}
             else {
 				brush.setColor(Color.black);

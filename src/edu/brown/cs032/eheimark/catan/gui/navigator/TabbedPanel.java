@@ -2,6 +2,8 @@ package edu.brown.cs032.eheimark.catan.gui.navigator;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
@@ -26,6 +28,7 @@ public class TabbedPanel extends JPanel implements Update {
 	private final Overview overview;
 	private final Trade trade;
 	private final Build build;
+	private final JTabbedPane tabbedPane;
 	
 	/** The devcard. */
 	private final DevCard devcard;
@@ -40,7 +43,7 @@ public class TabbedPanel extends JPanel implements Update {
 		super();
 		setLayout(new BorderLayout());
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setOpaque(true);
 		add(tabbedPane, BorderLayout.CENTER);
 		
@@ -60,12 +63,42 @@ public class TabbedPanel extends JPanel implements Update {
 		setPreferredSize(Constants.TABBED_MENU_SIZE);
 		setMaximumSize(Constants.TABBED_MENU_SIZE);
 	}
-
+	
+	public void setOverviewPage() {
+		tabbedPane.setSelectedComponent(overview);
+		overview.requestFocus();
+	}
+	
+	public void setBuildPage() {
+		tabbedPane.setSelectedComponent(build);
+		build.requestFocus();
+	}
+	
+	public void setTradePage() {
+		tabbedPane.setSelectedComponent(trade);
+		trade.requestFocus();
+	}
+	
+	public void setDevCardPage() {
+		tabbedPane.setSelectedComponent(devcard);
+		devcard.requestFocus();
+	}
+	
 	@Override
 	public void ericUpdate() {
 		overview.ericUpdate();
 		trade.ericUpdate();
 		build.ericUpdate();
 		devcard.ericUpdate();
+	}
+
+	public void incrementPageLeft() {
+		tabbedPane.setSelectedIndex(((tabbedPane.getSelectedIndex() - 1) + tabbedPane.getTabCount()) % tabbedPane.getTabCount());
+		tabbedPane.getSelectedComponent().requestFocus();
+	}
+
+	public void incrementPageRight() {
+		tabbedPane.setSelectedIndex((tabbedPane.getSelectedIndex() + 1) % tabbedPane.getTabCount());
+		tabbedPane.getSelectedComponent().requestFocus();
 	}
 }

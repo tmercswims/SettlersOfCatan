@@ -62,6 +62,7 @@ public class CatanFrame extends JFrame {
 	 */
 	public void setPage(JPanel page) {
 		setContentPane(page);
+		page.requestFocus();
 		pack();
 		repaint();
 	}

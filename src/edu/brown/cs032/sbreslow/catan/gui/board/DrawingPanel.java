@@ -2,19 +2,29 @@ package edu.brown.cs032.sbreslow.catan.gui.board;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Update;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.musicOff;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.musicOn;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.ports;
+import edu.brown.cs032.sbreslow.catan.gui.devCards.RobberFrame;
+import edu.brown.cs032.tmercuri.catan.logic.Player;
+import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
+import edu.brown.cs032.tmercuri.catan.logic.move.RobberMove;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-import edu.brown.cs032.sbreslow.catan.gui.devCards.RobberFrame;
-import edu.brown.cs032.tmercuri.catan.logic.move.*;
-import edu.brown.cs032.tmercuri.catan.logic.*;
+
 
 public class DrawingPanel extends JPanel implements Update {// implements MouseListener{
     
@@ -27,6 +37,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	private boolean _city;
 	private boolean _settlement;
 	private int _rbcount;
+    private JButton _musicButton;
 	
 	public DrawingPanel(CatanClient client){
 		super();
@@ -36,9 +47,35 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		//setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());
 		_toDraw = new ArrayList<>();
-		this.setOpaque(false); // set background to opaque b/c drawing done in GUI class for background
+		this.setOpaque(false); // set background to transparent b/c drawing done in GUI class for background
 		this.setVisible(true);
 		this.addMouseListener(new ClickList(this));
+        this.addMouseMotionListener(new MoveList(this));
+        _musicButton = new JButton() {
+            private static final long serialVersionUID = 8345488729823071304L;
+            
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (_client.getFrame().isMusicPlaying()) {
+                    setIcon(musicOn);
+                } else {
+                    setIcon(musicOff);
+                }
+            }
+        };
+        _musicButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	SwingUtilities.invokeLater(new Runnable() {
+        			@Override
+        			public void run() {
+                        _client.getFrame().toggleMusic();
+        			}
+        		});
+            }
+        });
+        add(_musicButton);
 		_selectable = -1;
 		_road = false;
 		_city = false;
@@ -66,6 +103,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		int i = 0;
+        // tiles
 		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==0)
@@ -77,6 +115,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			i++;
 		}
 		i = 0;
+        // edges
 		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==1)
@@ -91,6 +130,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			i++;
 		}
 		i = 0;
+        // nodes
 		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==2)
@@ -107,7 +147,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		//_client.confirmPacket();
 	}
 	
-	private class ClickList implements MouseListener{
+	private class ClickList implements MouseListener {
 		
 		private final DrawingPanel _dp;
 		
@@ -128,7 +168,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 					case 0:
 						Tile t = (Tile) c;
 						if(!t.hasRobber()){
-							ArrayList<Player> plist = new ArrayList<Player>(0);
+							ArrayList<Player> plist = new ArrayList<>(0);
 							for(Node n:t.getNodes()){
 								System.out.println("Node "+n.getIndex()+", isOwned: "+n.isOwned());
 								if(n.isOwned()){
@@ -136,7 +176,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 										plist.add(n.getOwner());
 								}
 							}
-							if(plist.size()==0){
+							if(plist.isEmpty()){
 								RobberMove rm = new RobberMove(_client.getPlayer().getName(), t.getIndex(), null);
 								try {
 									_client.sendMove(rm);
@@ -224,6 +264,59 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			
 		}
 	}
+    
+    private class MoveList implements MouseMotionListener {
+        
+        private final DrawingPanel _dp;
+        
+        private MoveList(DrawingPanel dp) {
+            _dp = dp;
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {}
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            boolean foundSomething = false;
+            for (BoardComponent c: _toDraw) {
+				if (c.getShape().contains(e.getPoint()) && (c.getType()==_selectable || (c.getType()==2 && _selectable==3) || (c.getType()==1 && _selectable==4))) {
+					switch(_selectable){
+					case 0: //tile
+                        foundSomething = true;
+                        for (BoardComponent bc : _toDraw) {
+                            bc.setGhostLevel(0);
+                            bc.setLookerColor(null);
+                        }
+                        
+						Tile t = (Tile) c;
+						if (!t.hasRobber()) {
+							t.setGhostLevel(2);
+						}
+						break;
+					case 1: //road
+					case 2: //settlement
+                    case 3: //city
+					case 4: //road builder
+                        foundSomething = true;
+                        for (BoardComponent bc : _toDraw) {
+                            bc.setGhostLevel(0);
+                            bc.setLookerColor(null);
+                        }
+						c.setGhostLevel(2);
+                        c.setLookerColor(_client.getPlayer().getColor());
+						break;
+					}
+                } else if (!foundSomething) {
+                    for (BoardComponent bc : _toDraw) {
+                        bc.setGhostLevel(0);
+                        bc.setLookerColor(null);
+                    }
+                }
+            }
+            _dp.repaint();
+        }
+    }
 	
 	
 	/***

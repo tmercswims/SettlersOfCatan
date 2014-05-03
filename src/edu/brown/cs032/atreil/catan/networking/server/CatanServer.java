@@ -33,7 +33,7 @@ public class CatanServer extends Thread{
 
 	public final int _port; //the port that the clients will connect to
 	private int _chatPort; //the port of the chat server
-	private ChatServer _chatServer; //the chat server
+	//private ChatServer _chatServer; //the chat server
 	//public final String _hostname; //the host of the computer that is hosting the game
 	private final ServerSocket _server; //the object that handles that physical connections
 	public final int _numClients; //specifies how many players must be connected in order for the game to start
@@ -44,7 +44,12 @@ public class CatanServer extends Thread{
 	private final LinkedList<Move> _moveBuffer; //keeps track of any available moves from clients
 	private Referee _ref;
 	private StringBuilder _update; //keeps track of updates of the server 
-	public boolean _isRunning; //keeps track if the server is running
+	private boolean _isRunning; //keeps track if the server is running
+	private final Integer _isRunningLock;
+	private boolean _inLobby; //keeps track if we are in the lobby waiting for connections
+	private final Integer _inLobbyLock;
+	private boolean _inGame; //keeps track if we are currently playing a game
+	private final Integer _inGameLock;
 	
 	/**
 	 * This constructor initializes a server from a port and hostname. The instantiated object will NOT listen
@@ -74,6 +79,11 @@ public class CatanServer extends Thread{
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
 		_moveBuffer = new LinkedList<>();
 		_chatPort = -1;
+		
+		//locks
+		_isRunningLock = new Integer(-1);
+		_inGameLock = new Integer(-1);
+		_inLobbyLock = new Integer(-1);
 	}
 	
 	/**
@@ -98,37 +108,53 @@ public class CatanServer extends Thread{
 		_server = new ServerSocket(_port);
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
 		_moveBuffer = new LinkedList<>();
-		_update = new StringBuilder();
-		_chatServer = startChatServer(_port);
-		_chatServer.start();
+		_update = new StringBuilder("");
+		_isRunning = false;
+		_inLobby = false;
+		_inGame = false;
+		//_chatServer = startChatServer(_port);
+		//_chatServer.start();
+		
+		//locks
+		_isRunningLock = new Integer(-1);
+		_inGameLock = new Integer(-1);
+		_inLobbyLock = new Integer(-1);
+		
+		_isRunning = true;
+		_inLobby = true;
+		_inGame = false;
 	}
 	
 	/**
-	 * Starts up a chat server. Begins looking at port+1
-	 * @param port the port to start looking from.
-	 * @return The ChatServer
-	 * @throws IOException If a port could not be found for the chat server
+	 * Starts the server by accepting connections, and then actually launching the game
+	 * once all players have connected
 	 */
-	private ChatServer startChatServer(int port) throws IOException{
-		boolean found = false;
-		ChatServer chat = null;
+	public void run(){
 		
-		while(!found){
+		//accept connections
+		accept();
+		
+		setInGame(true);
+		if(getIsRunning()){
+			//start the game
 			try {
-				chat = new ChatServer(++port, _numClients);
+				_pool.broadcast(new Packet(Packet.STARTGAME, null, id++));
+				_pool.addUpdate("Starting the game\n");
+
+				//no more clients may connect
+				_server.close();
 				
-				//found empty port
-				_chatPort = port;
-				found = true;
+				_ref = new Referee(_pool.getPlayers(), this);
+				_inGame = true;
+				_ref.runGame();
+			} catch (IllegalArgumentException e) {
+				addUpdate(e.getMessage());
+			} catch (SocketException e){
+				addUpdate(e.getMessage());
 			} catch (IOException e) {
-				//port is already taken, try again
+				addUpdate(e.getMessage());
 			}
 		}
-		
-		if(chat == null)
-			throw new IOException("Could not find port for chat server.");
-		
-		return chat;
 	}
 	
 	/**
@@ -143,7 +169,7 @@ public class CatanServer extends Thread{
 		addUpdate(String.format("This is your ip address: %s\nThis is your port: %s\nGive them to your friends" +
 				" so that they can connect to you!", getLocalIP(), getLocalPort()));
 		
-		while((_pool.getNumConnected() < _numClients) && _isRunning){
+		while((_pool.getNumConnected() < _numClients) && getIsRunning()){
 			try {
 				Socket client = _server.accept();
 				
@@ -165,38 +191,37 @@ public class CatanServer extends Thread{
 				addUpdate(String.format("Error: %s", e.getMessage()));
 			}
 		}
+		
+		setInLobby(false);
 	}
 	
 	/**
-	 * Starts the server by accepting connections, and then actually launching the game
-	 * once all players have connected
+	 * Starts up a chat server. Begins looking at port+1
+	 * @param port the port to start looking from.
+	 * @return The ChatServer
+	 * @throws IOException If a port could not be found for the chat server
 	 */
-	public void run(){
-		_isRunning = true;
-				
-		//accept connections
-		accept();
-		
-		if(_isRunning){
-			//start the game
-			try {
-				_pool.broadcast(new Packet(Packet.STARTGAME, null, id++));
-				_pool.addUpdate("Starting the game\n");
-				_chatServer.setPlayers(_pool.getPlayerList());
-				//client will no longer listen to clients so shutdown its server
-				_server.close();
-				
-				_ref = new Referee(_pool.getPlayers(), this);
-				_ref.runGame();
-			} catch (IllegalArgumentException e) {
-				addUpdate(e.getMessage());
-			} catch (SocketException e){
-				//game is over
-			} catch (IOException e) {
-				addUpdate(e.getMessage());
-			}
-		}
-	}
+//	private ChatServer startChatServer(int port) throws IOException{
+//		boolean found = false;
+//		ChatServer chat = null;
+//		
+//		while(!found){
+//			try {
+//				chat = new ChatServer(++port, _numClients);
+//				
+//				//found empty port
+//				_chatPort = port;
+//				found = true;
+//			} catch (IOException e) {
+//				//port is already taken, try again
+//			}
+//		}
+//		
+//		if(chat == null)
+//			throw new IOException("Could not find port for chat server.");
+//		
+//		return chat;
+//	}
 	
 	/**
 	 * Sends the name of all of the connected players.
@@ -247,39 +272,7 @@ public class CatanServer extends Thread{
 	public List<String> getPlayerNames(){
 		return _pool.getPlayerNames();
 	}
-	
-	/**
-	 * This inner class handles new connections by extracting the player name and creating a new ClientHandler class
-	 * @author atreil
-	 */
-	private class ClientRunnable implements Runnable{
-
-		private final Socket _client; //the socket used to listen to the client
-		private final ClientPool _pool; //contains all of the clients connected to the server
-		private final int _chatPort; //the port of the chat server
-		private final int _numPlayers; //number of players
 		
-		public ClientRunnable(Socket client, ClientPool pool, int chatPort, int numPlayers){
-			this._client = client;
-			this._pool = pool;
-			this._chatPort = chatPort;
-			this._numPlayers = numPlayers;
-		}
-		
-		@Override
-		public void run() {
-			try {
-				//set up new manager
-				new ClientManager(_pool, _client, _chatPort, _numPlayers).start();
-			} catch (IOException e) {
-				addUpdate(String.format("Error: %s", e.getMessage()));
-				
-			}
-		}
-		
-	}
-	
-	
 	public void startSettlement(String playerName) throws IllegalArgumentException{
 		try {
 			_pool.send(playerName, new Packet(Packet.SETTLEMENT, null, id++));
@@ -389,7 +382,7 @@ public class CatanServer extends Thread{
 	 * @param player
 	 */
 	public void sendGameOver(String player){
-		if(_isRunning){
+		if(getIsRunning()){
 			try{
 				_pool.broadcast(new Packet(Packet.GAME_OVER, player, 0));
 			} catch (IllegalArgumentException | IOException e) {
@@ -406,13 +399,13 @@ public class CatanServer extends Thread{
 	 */
 	public Move readMove() throws SocketException{
 		synchronized(_moveBuffer){
-			while(_moveBuffer.isEmpty() && _isRunning){
+			while(_moveBuffer.isEmpty() && getIsRunning()){
 				try {
 					_moveBuffer.wait();
 				} catch (InterruptedException e) {}
 			}
-			
-			if(_isRunning)
+						
+			if(getIsRunning())
 				return _moveBuffer.poll();
 			else
 				throw new SocketException("Game is over");
@@ -437,18 +430,21 @@ public class CatanServer extends Thread{
 	 * @return The status of the update
 	 */
 	public String readStatus(){
+		String update = "Error: Nothing to read...";
+		
 		synchronized(_update){
-			while(_update.length() == 0 && _isRunning){
+			while(_update.length() == 0 && getIsRunning()){
 				try {
 					_update.wait();
 				} catch (InterruptedException e) {
 					//can't do anything at this point
-					addUpdate(e.getMessage());
+					addUpdate(String.format("Error: %s", e.getMessage()));
 				}
 			}
 			
-			String update = _update.toString();
+			update = _update.toString();
 			_update.setLength(0);
+			
 			return update;
 		}
 	}
@@ -458,7 +454,9 @@ public class CatanServer extends Thread{
 	 * @param message The update
 	 */
 	public void addUpdate(String message){
-		if(_isRunning){
+		boolean running = getIsRunning();
+		
+		if(running){
 			synchronized(_update){
 				_update.append(String.format("%s\n", message));
 				_update.notifyAll();
@@ -466,7 +464,7 @@ public class CatanServer extends Thread{
 		}
 	}
 	
-	/**@deprecated use {@link isServerRunning}
+	/**@deprecated use {@link getIsRunning}
 	 * Returns whether or not the game is still going on
 	 * @return True, if the game is still going on and false otherwise
 	 */
@@ -476,11 +474,13 @@ public class CatanServer extends Thread{
 	}
 	
 	/**
+	 * @deprecated use {@link getIsRunning}
 	 * Returns the state of the server.
 	 * @return true, if it is running, and false otherwise
 	 */
+	@Deprecated
 	public boolean isServerRunning(){
-		return _isRunning;
+		return getIsRunning();
 	}
 	
 	/**
@@ -488,8 +488,12 @@ public class CatanServer extends Thread{
 	 */
 	public void kill(){
 		
-		if(_isRunning){
-			_isRunning = false;
+		boolean running = getIsRunning();
+		
+		if(running){
+			setIsRunning(false);
+			setInLobby(false);
+			setInGame(false);
 			_pool.killAll();
 			
 			try{
@@ -498,7 +502,7 @@ public class CatanServer extends Thread{
 				//already closed
 			}
 			
-			_chatServer.kill();
+			//_chatServer.kill();
 			
 			//notify anybody reading updates
 			synchronized (_update) {
@@ -519,5 +523,79 @@ public class CatanServer extends Thread{
 
 	public void sendRB(String name) throws IllegalArgumentException, IOException{
 		_pool.send(name, new Packet(Packet.BAD_RB, null, 0));
+	}
+	
+	/**
+	 * Sets if the server is running. This method
+	 * is thread safe
+	 * @param running true, if the server is running and false otherwise
+	 */
+	private void setIsRunning(boolean running){
+		synchronized(_isRunningLock){
+			_isRunning = running;
+		}
+	}
+	
+	/**
+	 * Sets if the server is in the lobby. This method
+	 * is thread safe
+	 * @param inLobby true, if the server is in the lobby and false otherwise
+	 */
+	private void setInLobby(boolean inLobby){
+		synchronized(_inLobbyLock){
+			_inLobby = inLobby;
+		}
+	}
+	
+	/**
+	 * Sets if the server is in the game. This method
+	 * is thread safe
+	 * @param inGame true, if the server is in the game and false otherwise
+	 */
+	private void setInGame(boolean inGame){
+		synchronized(_inGameLock){
+			_inGame = inGame;
+		}
+	}
+	
+	/**
+	 * Returns if the server is running. This method
+	 * is thread safe
+	 * @return true, if the server is running and false otherwise
+	 */
+	public boolean getIsRunning(){
+		synchronized(_isRunningLock){
+			return _isRunning;
+		}
+	}
+	
+	/**
+	 * Returns if the server is in the lobby. This method
+	 * is thread safe
+	 * @return true, if the server is in the lobby and false otherwise
+	 */
+	public boolean getInLobby(){
+		synchronized(_inLobbyLock){
+			return _inLobby;
+		}
+	}
+	
+	/**
+	 * Returns if the server is in the game. This method
+	 * is thread safe
+	 * @return true, if the server is in the game and false otherwise
+	 */
+	public boolean getInGame(){
+		synchronized(_inGameLock){
+			return _inGame;
+		}
+	}
+	
+	/**
+	 * Gives 10 of each resources to the given player.
+	 * @param playerName The player to give 10 of each resource.
+	 */
+	public void foodler(String playerName){
+		_ref.foodler(playerName);
 	}
 }

@@ -130,25 +130,27 @@ public class DevCard extends JPanel implements Update{
         }
 	}
 	
+    @Override
 	public void ericUpdate(){
 		_cards = _cc.getPlayer().getDevCards();
+        int[] newCards = _cc.getPlayer().getNewDevCards();
 		if(_cc.getPlayer().isActive()){
 			for(int i = 0; i < 5; i++){
 				switch(i){
 				case 0:
-					_buttons[i].setText("Knight Card(s): "+_cards[i]);
+					_buttons[i].setText(String.format("Knight Card(s): %d", (_cards[i]+newCards[i])));
 					break;
 				case 1:
-					_buttons[i].setText("Road Building Card(s): "+_cards[i]);
+					_buttons[i].setText(String.format("Road Building Card(s): %d", (_cards[i]+newCards[i])));
 					break;
 				case 2:
-					_buttons[i].setText("Year of Plenty Card(s): "+_cards[i]);
+					_buttons[i].setText(String.format("Year of Plenty Card(s): %d", (_cards[i]+newCards[i])));
 					break;
 				case 3:
-					_buttons[i].setText("Monopoly Card(s): "+_cards[i]);
+					_buttons[i].setText(String.format("Monopoly Card(s): %d", (_cards[i]+newCards[i])));
 					break;
 				case 4:
-					_buttons[i].setText("Victory Point Card(s): "+_cards[i]);
+					_buttons[i].setText(String.format("Victory Point Card(s): %d", (_cards[i]+newCards[i])));
 					break;
 				}
 				if((_cards[i]==0)||(!_cc.getPlayer().isActive())||
@@ -245,5 +247,18 @@ public class DevCard extends JPanel implements Update{
 		}
 		
 	}
-
+	
+	@Override 
+	public void requestFocus() {
+		if(_buttons[0].isEnabled())
+			_buttons[0].requestFocus();
+		else if(_buttons[1].isEnabled())
+			_buttons[1].requestFocus();
+		else if(_buttons[2].isEnabled())
+			_buttons[2].requestFocus();
+		else if(_buttons[3].isEnabled())
+			_buttons[3].requestFocus();
+		else if(_buttons[4].isEnabled())
+			_buttons[4].requestFocus();
+	}
 }

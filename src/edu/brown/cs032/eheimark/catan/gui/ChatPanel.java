@@ -1,34 +1,24 @@
 package edu.brown.cs032.eheimark.catan.gui;
 
-import edu.brown.cs032.atreil.catan.chat.server.SemiTransparentPanel;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.blue;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.orange;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.red;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.white;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.SwingUtilities;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultCaret;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-
-import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-
-import java.awt.BorderLayout;
-import java.util.LinkedList;
-
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BoxView;
 import javax.swing.text.ComponentView;
@@ -36,70 +26,71 @@ import javax.swing.text.Element;
 import javax.swing.text.IconView;
 import javax.swing.text.LabelView;
 import javax.swing.text.ParagraphView;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 
 import org.jdesktop.xswingx.PromptSupport;
 
+import edu.brown.cs032.atreil.catan.chat.server.SemiTransparentPanel;
+import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+
 public class ChatPanel extends JPanel {
 
 	private static final long serialVersionUID = 8319006484243162853L;
 
-	private final JTextField _field;
-	private final JTextPane _area;
-	private final JScrollPane _scroll;
+	private final JTextField _chatBoxField;
 	private final CatanClient _client;
 	SimpleAttributeSet _red;
 	SimpleAttributeSet _blue;
 	SimpleAttributeSet _orange;
 	SimpleAttributeSet _server;
 	SimpleAttributeSet _white;
-    
-    private final LinkedList<String> _history;
-    private String _unsentContents;
-    private int _position;
 
-	public ChatPanel(CatanClient cc) {
-		super(new BorderLayout());
+	private final LinkedList<String> _history;
+	private String _unsentContents;
+	private int _position;
+	private final MyChatScrollPane _chatLog, _serverLog;
+
+	public ChatPanel(CatanClient cc, Dimension preferredSize) {
+		super();
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		_client = cc;
 
-		JPanel pan = new SemiTransparentPanel();//JPanel();
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		_area = new JTextPane();
-		_area.setOpaque(false);
-		_area.setSize(new Dimension(380, 595));
-		_area.setEditable(false);
-		_area.setEditorKit(new WrapEditorKit());
-		DefaultCaret caret = (DefaultCaret)_area.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		_area.setCaret(caret);
-		_area.setFocusable(true);
-		_area.setMargin(new Insets(10,10,10,10));
-		
-		_field = new JTextField();
-		_field.setSize(new Dimension(380, (int)Math.round(_field.getSize().getHeight())));
-		_field.addKeyListener(new ChatListener());
-		_field.setOpaque(false);
-		_field.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.darkGray), BorderFactory.createEmptyBorder(4, 4, 4, 4)));
-		_field.setForeground(Color.white);
-		_field.setCaretColor(Color.white);
-		PromptSupport.setPrompt("Type message, /p <player> to whisper, or use arrows for chat history...", _field);
+		Dimension d = new Dimension(400, 15);
+		Dimension d2 = new Dimension(400, preferredSize.height / 2 - 15);
+		Dimension d3 = new Dimension(400, preferredSize.height / 2);
 
-		_scroll = new JScrollPane(_area);
-		_scroll.setOpaque(false);
-		_scroll.getViewport().setOpaque(false);
-		_scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		_scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		_scroll.setPreferredSize(new Dimension(380, 595));
-		_scroll.setBorder(BorderFactory.createEmptyBorder());
-		_scroll.setFocusable(false);
 
-		pan.setBackground(new Color(0f, 0f, 0f, .5f));
-		pan.add(_scroll, BorderLayout.CENTER);
-		pan.add(_field, BorderLayout.SOUTH);
+		JPanel chatBoxPanel = new SemiTransparentPanel(), serverPanel = new SemiTransparentPanel();
+		_chatBoxField = new JTextField();
+		_chatBoxField.setMaximumSize(d);
+		_chatBoxField.setMinimumSize(d);
+		_chatBoxField.addKeyListener(new ChatListener());
+		_chatBoxField.setOpaque(false);
+		_chatBoxField.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.darkGray), BorderFactory.createEmptyBorder(4, 4, 4, 4)));
+		_chatBoxField.setForeground(Color.white);
+		_chatBoxField.setCaretColor(Color.white);
+		PromptSupport.setPrompt("Type message, /p <player> to whisper, or use arrows for chat history...", _chatBoxField);
 
-		add(pan);//new AlphaContainer(pan));
+		_serverLog = new MyChatScrollPane(d2);
+		_chatLog = new MyChatScrollPane(d3);
+
+		chatBoxPanel.setBackground(new Color(0f, 0f, 0f, .5f));
+		chatBoxPanel.setLayout(new BoxLayout(chatBoxPanel, BoxLayout.PAGE_AXIS));
+		serverPanel.setBackground(new Color(1f, 1f, 1f, .5f));
+		serverPanel.setLayout(new BoxLayout(serverPanel, BoxLayout.PAGE_AXIS));
+		chatBoxPanel.add(_chatLog.getScrollPane(), BorderLayout.CENTER);
+		chatBoxPanel.add(_chatBoxField, BorderLayout.SOUTH);
+		chatBoxPanel.setPreferredSize(d);
+		serverPanel.add(_serverLog.getScrollPane());
+
+		add(serverPanel);
+		add(chatBoxPanel);
 
 		setOpaque(false);
 		setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -127,14 +118,12 @@ public class ChatPanel extends JPanel {
 		_server = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_server, "Helvetica");
 		StyleConstants.setFontSize(_server, 14);
-		StyleConstants.setForeground(_server, Color.LIGHT_GRAY);
+		StyleConstants.setForeground(_server, Color.black);
 		StyleConstants.setBold(_server, true);
 
-        _history = new LinkedList<>();
-        _unsentContents = "";
-        _position = -1;
-        
-		_field.requestFocus();
+		_history = new LinkedList<>();
+		_unsentContents = "";
+		_position = -1;
 	}
 
 	class WrapEditorKit extends StyledEditorKit {
@@ -192,8 +181,19 @@ public class ChatPanel extends JPanel {
 		final SimpleAttributeSet attr;
 		String[] linearray = line.split(" ");
 		String color = linearray[1];
-		color = color.substring(1,color.length()-2);
+		
+		/**
+		 * Extracting color
+		 */
+		Pattern pattern = Pattern.compile("\\((.*?)\\)");
+		Matcher match = pattern.matcher(color);
+		match.find();
+		color = match.group(1);
 		System.out.println("COLOR " + color);
+		/**
+		 * 
+		 */
+		
 		if(color.equalsIgnoreCase("red")){
 			attr = _red;
 		}
@@ -214,8 +214,9 @@ public class ChatPanel extends JPanel {
 				StyleConstants.setFontFamily(attr, "Monaco");
 				StyleConstants.setItalic(attr, true);
 			}
-			//String[] tmp = line.split(" ");
+			
 			StringBuilder sb = new StringBuilder();
+			/*
 			for(int i = 0; i < linearray.length; i++){
 				if(linearray[i].equalsIgnoreCase("server")){
 					linearray[0] = "";
@@ -228,22 +229,30 @@ public class ChatPanel extends JPanel {
 					sb = new StringBuilder(sb.toString().trim());
 					sb.append(linearray[i].charAt(linearray[i].length()-1));
 				}
-				//System.out.println(sb.toString());
 			}
-			final String f = sb.toString();
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override	
-				public void run() {
-					try {
-						_area.getDocument().insertString(_area.getDocument().getLength(),f.trim()+"\n",attr);
-						StyleConstants.setFontFamily(attr, "Helvetica");
-						StyleConstants.setItalic(attr, false);
-					} catch (BadLocationException ex) {
-						System.out.println(String.format("ERROR: %s", ex.getMessage()));
-					}
-				}
-			});
-			
+			*/
+						
+			if(attr.equals(_blue)){
+				message = message.replaceAll("\\(blue\\)", "");
+			} else if(attr.equals(_red)){
+				
+			} else if(attr.equals(_orange)){
+				message = message.replaceAll("\\(orange\\)", "");
+			} else if(attr.equals(_white)){
+				message = message.replaceAll("\\(white\\)", "");
+			} else if(attr.equals(_server)){
+				message = message.replaceAll("\\(server\\):", "");
+				message = message.replaceAll("\\(Server\\):", "");
+				message = message.replaceAll("server", "");
+				message = message.replaceAll("Server", "");
+			}
+
+			if(attr.equals(_server)) {
+				_serverLog.insertString(message, attr);
+			}
+			else {
+				_chatLog.insertString(message, attr);
+			}
 		}
 	}
 
@@ -255,6 +264,32 @@ public class ChatPanel extends JPanel {
 		}
 	}
 
+	@Override 
+	public void requestFocus() {
+		_chatBoxField.requestFocus();
+	}
+
+	@Override 
+	public boolean hasFocus() {
+		return _chatBoxField.hasFocus();
+	}
+
+	public void pressedKeyUp() {
+		requestFocus();
+		if (_position == -1) {
+			_unsentContents = _chatBoxField.getText();
+		}
+		_position = (_position+1 > _history.size()-1) ? _position : _position+1;
+		String textU = (_position == -1) ? _chatBoxField.getText() : _history.get(_position);
+		_chatBoxField.setText(textU);
+	}
+
+	public void pressedKeyDown() {
+		requestFocus();
+		_position = (_position-1 < 0) ? -1 : _position-1;
+		String textD = (_position == -1) ? _unsentContents : _history.get(_position);
+		_chatBoxField.setText(textD);
+	}
 
 	private class ChatListener implements KeyListener {
 		//red blue orange white
@@ -262,8 +297,8 @@ public class ChatPanel extends JPanel {
 		public void keyTyped(KeyEvent e) {
 			//System.out.println("getKeyChar "+e.getKeyChar());
 			if(e.getKeyChar() == '\n') {
-				String message = _field.getText();
-				_field.setText("");
+				String message = _chatBoxField.getText();
+				_chatBoxField.setText("");
 				_history.addFirst(message);
 				_unsentContents = "";
 				if(_client.getPlayer().getColor().equals(red)){
@@ -285,23 +320,7 @@ public class ChatPanel extends JPanel {
 		}
 
 		@Override
-		public void keyPressed(KeyEvent e) {
-			switch (e.getKeyCode()) {
-                case KeyEvent.VK_UP:
-                    if (_position == -1) {
-                        _unsentContents = _field.getText();
-                    }
-                    _position = (_position+1 > _history.size()-1) ? _position : _position+1;
-                    String textU = (_position == -1) ? _field.getText() : _history.get(_position);
-                    _field.setText(textU);
-                    break;
-                case KeyEvent.VK_DOWN:
-                    _position = (_position-1 < 0) ? -1 : _position-1;
-                    String textD = (_position == -1) ? _unsentContents : _history.get(_position);
-                    _field.setText(textD);
-                    break;
-            }
-		}
+		public void keyPressed(KeyEvent e) {}
 
 		@Override
 		public void keyReleased(KeyEvent e) {}

@@ -8,7 +8,6 @@ package edu.brown.cs032.sbreslow.catan.gui.board;
 import java.awt.Color;
 import java.awt.Image;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
@@ -17,15 +16,38 @@ import javax.swing.ImageIcon;
  */
 public class BoardImages {
     public static class Node {
+        public static final Image settlementRedGhost1 = new ImageIcon("images/pieces/settlement_red_ghost_1.png").getImage();
+        public static final Image settlementRedGhost2 = new ImageIcon("images/pieces/settlement_red_ghost_2.png").getImage();
         public static final Image settlementRed = new ImageIcon("images/pieces/settlement_red.png").getImage();
+        
+        public static final Image settlementBlueGhost1 = new ImageIcon("images/pieces/settlement_blue_ghost_1.png").getImage();
+        public static final Image settlementBlueGhost2 = new ImageIcon("images/pieces/settlement_blue_ghost_2.png").getImage();
         public static final Image settlementBlue = new ImageIcon("images/pieces/settlement_blue.png").getImage();
+        
+        public static final Image settlementOrangeGhost1 = new ImageIcon("images/pieces/settlement_orange_ghost_1.png").getImage();
+        public static final Image settlementOrangeGhost2 = new ImageIcon("images/pieces/settlement_orange_ghost_2.png").getImage();
         public static final Image settlementOrange = new ImageIcon("images/pieces/settlement_orange.png").getImage();
+        
+        public static final Image settlementWhiteGhost1 = new ImageIcon("images/pieces/settlement_white_ghost_1.png").getImage();
+        public static final Image settlementWhiteGhost2 = new ImageIcon("images/pieces/settlement_white_ghost_2.png").getImage();
         public static final Image settlementWhite = new ImageIcon("images/pieces/settlement_white.png").getImage();
         
+        public static final Image cityRedGhost1 = new ImageIcon("images/pieces/city_red_ghost_1.png").getImage();
+        public static final Image cityRedGhost2 = new ImageIcon("images/pieces/city_red_ghost_2.png").getImage();
         public static final Image cityRed = new ImageIcon("images/pieces/city_red.png").getImage();
+        
+        public static final Image cityBlueGhost1 = new ImageIcon("images/pieces/city_blue_ghost_1.png").getImage();
+        public static final Image cityBlueGhost2 = new ImageIcon("images/pieces/city_blue_ghost_2.png").getImage();
         public static final Image cityBlue = new ImageIcon("images/pieces/city_blue.png").getImage();
+        
+        public static final Image cityOrangeGhost1 = new ImageIcon("images/pieces/city_orange_ghost_1.png").getImage();
+        public static final Image cityOrangeGhost2 = new ImageIcon("images/pieces/city_orange_ghost_2.png").getImage();
         public static final Image cityOrange = new ImageIcon("images/pieces/city_orange.png").getImage();
+        
+        public static final Image cityWhiteGhost1 = new ImageIcon("images/pieces/city_white_ghost_1.png").getImage();
+        public static final Image cityWhiteGhost2 = new ImageIcon("images/pieces/city_white_ghost_2.png").getImage();
         public static final Image cityWhite = new ImageIcon("images/pieces/city_white.png").getImage();
+        
     }
     
     public static class Edge {
@@ -39,10 +61,22 @@ public class BoardImages {
         public static final Image wheatPort = new ImageIcon("images/ports/wheat.png").getImage();
         public static final Image woodPort = new ImageIcon("images/ports/wood.png").getImage();
         
+        public static final Color redGhost1 = new Color(253, 153, 153);
+        public static final Color redGhost2 = new Color(252, 77, 77);
         public static final Color red = new Color(252, 1, 1);
+        
+        public static final Color blueGhost1 = new Color(153, 188, 211);
+        public static final Color blueGhost2 = new Color(76, 138, 179);
         public static final Color blue = new Color(0, 88, 147);
-        public static final Color orange = new Color(183, 122, 1);
+        
+        public static final Color orangeGhost1 = new Color(253, 197, 153);
+        public static final Color orangeGhost2 = new Color(252, 154, 76);
+        public static final Color orange = new Color(251, 111, 0);
+        
+        public static final Color whiteGhost1 = new Color(201, 203, 203);
+        public static final Color whiteGhost2 = new Color(226, 228, 228);
         public static final Color white = new Color(252, 254, 254);
+        
     }
     
     public static class Tile {
@@ -65,24 +99,35 @@ public class BoardImages {
         public static final Image eleven = new ImageIcon("images/numbers/11.png").getImage();
         public static final Image twelve = new ImageIcon("images/numbers/12.png").getImage();
         
+        public static final Image robberGhost1 = new ImageIcon("images/pieces/robber_ghost_1.png").getImage();
+        public static final Image robberGhost2 = new ImageIcon("images/pieces/robber_ghost_2.png").getImage();
         public static final Image robber = new ImageIcon("images/pieces/robber.png").getImage();
     }
     
     public static class Misc {
-        public static final Image arrow = new ImageIcon("images/misc/arrow.png").getImage();
+        public static final ImageIcon arrow = new ImageIcon("images/misc/arrow.png");
         
         public static final Image ports = new ImageIcon("images/ports/ports.png").getImage();
         
-        public static final ImageIcon brickToken = new ImageIcon("images/resource_tokens/brick.png");//.getImage();
-        public static final ImageIcon oreToken = new ImageIcon("images/resource_tokens/ore.png");//.getImage();
-        public static final ImageIcon woolToken = new ImageIcon("images/resource_tokens/sheep.png");//.getImage();
-        public static final ImageIcon wheatToken = new ImageIcon("images/resource_tokens/wheat.png");//.getImage();
-        public static final ImageIcon woodToken = new ImageIcon("images/resource_tokens/wood.png");//.getImage();
+        public static final ImageIcon brickToken = new ImageIcon("images/resource_tokens/brick.png");
+        public static final ImageIcon oreToken = new ImageIcon("images/resource_tokens/ore.png");
+        public static final ImageIcon woolToken = new ImageIcon("images/resource_tokens/sheep.png");
+        public static final ImageIcon wheatToken = new ImageIcon("images/resource_tokens/wheat.png");
+        public static final ImageIcon woodToken = new ImageIcon("images/resource_tokens/wood.png");
+        
+        public static final ImageIcon brickTokenGray = new ImageIcon("images/resource_tokens/brick_gray.png");
+        public static final ImageIcon oreTokenGray = new ImageIcon("images/resource_tokens/ore_gray.png");
+        public static final ImageIcon woolTokenGray = new ImageIcon("images/resource_tokens/sheep_gray.png");
+        public static final ImageIcon wheatTokenGray = new ImageIcon("images/resource_tokens/wheat_gray.png");
+        public static final ImageIcon woodTokenGray = new ImageIcon("images/resource_tokens/wood_gray.png");
         
         public static final ImageIcon buildRoad = new ImageIcon("images/resource_tokens/build_road.png");
         public static final ImageIcon buildSettlement = new ImageIcon("images/resource_tokens/build_settlement.png");
         public static final ImageIcon buildCity = new ImageIcon("images/resource_tokens/build_city.png");
         public static final ImageIcon buildDevCard = new ImageIcon("images/resource_tokens/build_dev_card.png");
+        
+        public static final ImageIcon musicOn = new ImageIcon("images/misc/music_on.png");
+        public static final ImageIcon musicOff = new ImageIcon("images/misc/music_off.png");
     }
     
     public static class Background {

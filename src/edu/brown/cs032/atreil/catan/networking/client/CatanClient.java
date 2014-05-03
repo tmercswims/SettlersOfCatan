@@ -66,6 +66,13 @@ public class CatanClient extends Thread{
 	private Integer _playersLock;
 	private Player[] _players; //a cached version of the most recent version of players
 	private GUIFrame _frame;
+	
+	private boolean _isRunning; //keeps track if the server is running
+	private final Integer _isRunningLock;
+	private boolean _inLobby; //keeps track if we are in the lobby waiting for connections
+	private final Integer _inLobbyLock;
+	private boolean _inGame; //keeps track if we are currently playing a game
+	private final Integer _inGameLock;
 
 
 	
@@ -88,6 +95,15 @@ public class CatanClient extends Thread{
 		_out = new ObjectOutputStream(_socket.getOutputStream());
 		_out.flush();
 		_in = new ObjectInputStream(_socket.getInputStream());
+		
+		//locks
+				_isRunningLock = new Integer(-1);
+				_inGameLock = new Integer(-1);
+				_inLobbyLock = new Integer(-1);
+				
+				_isRunning = true;
+				_inLobby = true;
+				_inGame = false;
 	}
 
 	/**
@@ -124,6 +140,15 @@ public class CatanClient extends Thread{
 		_guiLock = new Integer(-1);
 
 		//connecting
+		//locks
+		_isRunningLock = new Integer(-1);
+		_inGameLock = new Integer(-1);
+		_inLobbyLock = new Integer(-1);
+		
+		_isRunning = true;
+		_inLobby = true;
+		_inGame = false;
+		
 		connect();
 	}
 
@@ -139,6 +164,53 @@ public class CatanClient extends Thread{
 		_frame = frame;
 	}
 
+	/**
+	 * Starts listening to the server once the game has started
+	 */
+	public void run(){
+		try {
+
+			//preloading stage
+			readServerMessagePrivate();
+
+			//starting game
+			while(getInGame()){
+				Packet packet = (Packet) readPacket();
+
+				System.out.println("ENTERING LOCK " + packet.getType());
+				//check to make sure that client is not servicing
+				synchronized(_servicingLock){
+					while(_servicing){
+						try {
+							_servicingLock.wait();
+						} catch (InterruptedException e) {
+							//TODO: not much to do
+							System.out.println("Interrupted in Client");
+							_servicing = false;
+						}
+					}
+					_servicing = true;
+				}
+				System.out.println("EXITING LOCK " + packet.getType());
+
+				if(getInGame()){
+					parsePacket(packet);
+				}
+			}
+		} catch (SocketException|EOFException e){
+			//server disconnected
+			new AlertFrame("Server disconnected!", _frame);
+		} catch (IOException e) {
+			new AlertFrame(String.format("Error: %s", e.getMessage()), _frame);
+			//not much to do
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			new AlertFrame(String.format("Error: %s", e.getMessage()), _frame);
+		} finally{
+			kill();
+		}
+	}
+	
 	/**
 	 * Connects to the server
 	 * @throws IOException If anything goes wrong with the Server
@@ -172,6 +244,8 @@ public class CatanClient extends Thread{
 			_out.flush();
 		} catch (ClassNotFoundException e) {
 			throw new IOException(e.getMessage());
+		} catch(SocketException e){
+			_joinLoadingMenu.updateJTextArea("Failed to connect to server");
 		}
 	}
 
@@ -201,53 +275,6 @@ public class CatanClient extends Thread{
 	 */
 	public Player getPlayer(){
 		return _p;
-	}
-
-	/**
-	 * Starts listening to the server once the game has started
-	 */
-	public void run(){
-		try {
-
-			//preloading stage
-			readServerMessagePrivate();
-
-			//starting game
-			while(_isStarting){
-				Packet packet = (Packet) readPacket();
-
-				System.out.println("ENTERING LOCK " + packet.getType());
-				//check to make sure that client is not servicing
-				synchronized(_servicingLock){
-					while(_servicing){
-						try {
-							_servicingLock.wait();
-						} catch (InterruptedException e) {
-							//TODO: not much to do
-							System.out.println("Interrupted in Client");
-							_servicing = false;
-						}
-					}
-					_servicing = true;
-				}
-				System.out.println("EXITING LOCK " + packet.getType());
-
-				if(_isStarting){
-					parsePacket(packet);
-				}
-			}
-		} catch (SocketException|EOFException e){
-			//server disconnected
-			new AlertFrame("Server disconnected!", _frame);
-		} catch (IOException e) {
-			new AlertFrame(String.format("Error: %s", e.getMessage()), _frame);
-			//not much to do
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			new AlertFrame(String.format("Error: %s", e.getMessage()), _frame);
-		} finally{
-			kill();
-		}
 	}
 
 	/**
@@ -457,9 +484,9 @@ public class CatanClient extends Thread{
 	 * @throws IOException If anything goes wrong with IO
 	 */
 	private void readServerMessagePrivate() throws IOException{
-		_isPreGame = true;
+		
 		try {
-			while(_isPreGame){
+			while(getInLobby()){
 				Packet p = (Packet) readPacket();
 				int type = p.getType();
 
@@ -470,8 +497,8 @@ public class CatanClient extends Thread{
 					_joinLoadingMenu.updateJTextArea(message);
 				}
 				else if(type == Packet.STARTGAME){
-					_isStarting = true;
-					_isPreGame = false;
+					setInGame(true);
+					setInLobby(false);
 					System.out.println("STARTTINGGGGG GAME");
 					//TODO: launch game panel
 					//return "Starting the game\n";
@@ -493,13 +520,18 @@ public class CatanClient extends Thread{
 			}
 		} catch (ClassNotFoundException e) {
 			throw new IOException(e.getMessage());
+		} catch (SocketException e){
+			//TODO:
+			kill();
 		}
 	}
 
 	/**
+	 * @deprecated client automatically reads updates
 	 * @return An update
 	 * @throws IOException If anything goes wrong with IO
 	 */	
+	@Deprecated
 	public String readServerMessage() throws IOException{
 
 		try {
@@ -569,49 +601,18 @@ public class CatanClient extends Thread{
 		}
 	}
 
-	/**
+	/**@deprecated use one of {@link getInLobby}, {@link getInGame}, or {@link getIsRunning}<p>
 	 * Indicates whether or not the game is about to start
 	 * @return true, if the game has started, and false otherwise
 	 */
+	@Deprecated
 	public boolean getIsStarting(){
 		return _isStarting;
 	}
 
-	/**
-	 * Kills the client by shutting down the socket and associated
-	 * streams
-	 */
-	public void kill(){
-
-		if(_isStarting){
-			try{
-				_isStarting = false;
-
-				synchronized(_in){
-					_in.close();
-				}
-
-				synchronized(_out){
-					_out.close();
-				}
-
-				synchronized(_socket){
-					_socket.close();
-				}
-
-				synchronized(_servicingLock){
-					_servicing = false;
-				}
-			} catch(IOException e){
-				//not much to do
-				System.err.println(String.format("Fatal exception: %s", e.getMessage()));
-			}
-		}
-	}
-
-	public int getChatPort() {
-		return _chatPort;
-	}
+//	public int getChatPort() {
+//		return _chatPort;
+//	}
 
 	public GUI getGUI() {
 		return _gui;
@@ -630,6 +631,111 @@ public class CatanClient extends Thread{
 		synchronized(_servicingLock){
 			_servicing = false;
 			_servicingLock.notifyAll();
+		}
+	}
+	
+	/**
+	 * Sets if the server is running. This method
+	 * is thread safe
+	 * @param running true, if the server is running and false otherwise
+	 */
+	private void setIsRunning(boolean running){
+		synchronized(_isRunningLock){
+			_isRunning = running;
+		}
+	}
+	
+	/**
+	 * Sets if the server is in the lobby. This method
+	 * is thread safe
+	 * @param inLobby true, if the server is in the lobby and false otherwise
+	 */
+	private void setInLobby(boolean inLobby){
+		synchronized(_inLobbyLock){
+			_inLobby = inLobby;
+		}
+	}
+	
+	/**
+	 * Sets if the server is in the game. This method
+	 * is thread safe
+	 * @param inGame true, if the server is in the game and false otherwise
+	 */
+	private void setInGame(boolean inGame){
+		synchronized(_inGameLock){
+			_inGame = inGame;
+		}
+	}
+	
+	/**
+	 * Returns if the server is running. This method
+	 * is thread safe
+	 * @return true, if the server is running and false otherwise
+	 */
+	public boolean getIsRunning(){
+		synchronized(_isRunningLock){
+			return _isRunning;
+		}
+	}
+	
+	/**
+	 * Returns if the server is in the lobby. This method
+	 * is thread safe
+	 * @return true, if the server is in the lobby and false otherwise
+	 */
+	public boolean getInLobby(){
+		synchronized(_inLobbyLock){
+			return _inLobby;
+		}
+	}
+	
+	/**
+	 * Returns if the server is in the game. This method
+	 * is thread safe
+	 * @return true, if the server is in the game and false otherwise
+	 */
+	public boolean getInGame(){
+		synchronized(_inGameLock){
+			return _inGame;
+		}
+	}
+	
+	/**
+	 * Kills the client by shutting down the socket and associated
+	 * streams
+	 */
+	public void kill(){
+		
+		if(getIsRunning()){
+			try{
+				
+				if(getInLobby()){
+					_joinLoadingMenu.updateJTextArea("Server disconnected");
+				}
+				
+				setIsRunning(false);
+				setInGame(false);
+				setInLobby(false);
+
+				//synchronized(_in){
+					_in.close();
+				//}
+
+				//synchronized(_out){
+					_out.close();
+				//}
+
+				//synchronized(_socket){
+					_socket.close();
+				//}
+
+				synchronized(_servicingLock){
+					_servicing = false;
+				}
+			} catch(IOException e){
+				//not much to do
+				System.err.println(String.format("Fatal exception: %s", e.getMessage()));
+			}
 		}
 	}
 }
