@@ -1,11 +1,15 @@
 package edu.brown.cs032.eheimark.catan.gui;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.io.IOException;
@@ -20,7 +24,8 @@ public class GUIFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
     
     private OggClip _music;
-
+    private GUI _gui;
+    
 	/**
 	 * Instantiates a new GUI frame.
 	 *
@@ -29,7 +34,8 @@ public class GUIFrame extends JFrame {
 	public GUIFrame(CatanClient cc) {
 		super("Settlers of Catan : " + cc.getPlayerName());
         setMusic();
-		add(new GUI(cc));
+        _gui = new GUI(cc);
+		add(_gui);
 		setVisible(true);
 		setResizable(true);
 		//setMinimumSize(Constants.GUI_SIZE);
@@ -37,6 +43,8 @@ public class GUIFrame extends JFrame {
 		pack();
         setLocationRelativeTo(null);
         addComponentListener(new SizeList(cc, this));
+        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(new MyDispatcher());
 	}
 	
 	private class SizeList implements ComponentListener{
@@ -122,5 +130,98 @@ public class GUIFrame extends JFrame {
 	 */
 	public boolean isMusicPlaying() {
 		return !_music.stopped();
+	}
+	
+	private class MyDispatcher implements KeyEventDispatcher {
+		@Override
+		public boolean dispatchKeyEvent(KeyEvent e) {
+			if (e.getID() == KeyEvent.KEY_PRESSED && e.isControlDown()) {
+				if(e.getKeyCode() == KeyEvent.VK_O) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getTabbedMenu().setOverviewPage();
+						}
+					});
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_B) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getTabbedMenu().setBuildPage();
+						}
+					});
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_T) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getTabbedMenu().setTradePage();
+						}
+					});
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_D) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getTabbedMenu().setDevCardPage();
+						}
+					});
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_TAB) {
+					if(e.isShiftDown()) {
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								_gui.getTabbedMenu().incrementPageLeft();
+							}
+						});
+					} 
+					else {
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								_gui.getTabbedMenu().incrementPageRight();
+							}
+						});
+					}
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_C) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getChat().requestFocus();
+						}
+					});
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_R) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getActivePlayer().requestFocus();
+						}
+					});
+				}
+			}
+			else if(e.getID() == KeyEvent.KEY_PRESSED && _gui.getChat().hasFocus()) {
+				if(e.getKeyCode() == KeyEvent.VK_UP) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getChat().pressedKeyUp();
+						}
+					});
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							_gui.getChat().pressedKeyDown();
+						}
+					});
+				}
+			}
+			return false;
+		}
 	}
 }
