@@ -25,6 +25,7 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
 import edu.brown.cs032.eheimark.catan.launch.screens.JoinSettingsMenu;
+import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
@@ -207,17 +208,21 @@ public class ActivePlayer extends JPanel implements Update {
 		}
 		for(Player p : players) {
 			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check
+				Color c = p.getColor();
+				if(!c.equals(Edge.orange)){
+					c = c.brighter();
+				}
 				int[] resources = p.getResources();
 				wheat.setText(resources[0] + "");
-				wheat.setBackground(p.getColor().brighter());
+				wheat.setBackground(c);
 				wool.setText(resources[1] + "");
-				wool.setBackground(p.getColor().brighter());
+				wool.setBackground(c);
 				brick.setText(resources[2] + "");
-				brick.setBackground(p.getColor().brighter());
+				brick.setBackground(c);
 				ore.setText(resources[3] + "");
-				ore.setBackground(p.getColor().brighter());
+				ore.setBackground(c);
 				wood.setText(resources[4] + "");
-				wood.setBackground(p.getColor().brighter());
+				wood.setBackground(c);
 			}
 		}
 	}
