@@ -15,7 +15,8 @@ public class Constants {
 	public static final Font DEFAULT_LABEL_FONT  = new Font("Georgia", Font.PLAIN, 14);
 	public static final Font DEFAULT_BUTTON_FONT  = new Font("Georgia", Font.BOLD, 20);
 	public static final Font MY_FONT_SMALL = new Font("Georgia", Font.BOLD, 13);
-	
+	public static final Font ALERT_MENU_FONT = new Font("Georgia", Font.BOLD, 40);
+
 	public static final Color CATAN_RED = new Color(225,25,10);
 	public static final Color CATAN_BLUE = Color.BLUE;
 	public static final Color CATAN_BLACK = Color.BLACK;

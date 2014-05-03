@@ -9,6 +9,7 @@ import edu.brown.cs032.sbreslow.catan.gui.devCards.RobberFrame;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.RobberMove;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -18,8 +19,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 
 
@@ -64,7 +67,12 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
         _musicButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                _client.getFrame().toggleMusic();
+            	SwingUtilities.invokeLater(new Runnable() {
+        			@Override
+        			public void run() {
+                        _client.getFrame().toggleMusic();
+        			}
+        		});
             }
         });
         add(_musicButton);
