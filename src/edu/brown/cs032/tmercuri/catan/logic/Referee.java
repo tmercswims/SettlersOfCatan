@@ -131,6 +131,7 @@ public class Referee {
 				pushPlayers();
 				pushBoard();
 			}
+            _activePlayer.mergeDevCards();
 			findWinner();
 		}
 		_server.sendGameOver(_winner.getName()+" has won!\nPlease return to the Main Menu.");

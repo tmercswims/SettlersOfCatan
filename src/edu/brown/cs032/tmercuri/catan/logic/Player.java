@@ -17,7 +17,7 @@ public class Player implements Serializable {
     
     private static final long serialVersionUID = 1571495798749582725L;
     
-    private final int[] _resources, _devCards;
+    private final int[] _resources, _devCards, _newDevCards;
     private int _roadsRemaining, _settlementsRemaining, _citiesRemaining, _victoryPoints, _armySize, _longestRoad;
 
     private final String _name;
@@ -39,6 +39,7 @@ public class Player implements Serializable {
         _isActive = false;
         _color = Color.BLACK;
         _devCards = new int[]{0,0,0,0,0};
+        _newDevCards = new int[]{0,0,0,0,0};
     }
     
     /**
@@ -141,11 +142,29 @@ public class Player implements Serializable {
     }
     
     /**
-     * Adds one card to the given index.
+     * Gets the new development card that this player has.
+     * @return new development cards this player has
+     */
+    public int[] getNewDevCards() {
+        return _newDevCards;
+    }
+    
+    /**
+     * Adds one card to the given index. Adds to the new dev cards, so that they will not be played on the turn they are bought.
      * @param index the type of card to add
      */
     public void addDevCard(int index) {
-        _devCards[index]++;
+        _newDevCards[index]++;
+    }
+    
+    /**
+     * Merges the new dev cards into the player's dev cards, to make them available to play.
+     */
+    public void mergeDevCards() {
+        for (int i=0; i<_devCards.length;i++) {
+            _devCards[i] += _newDevCards[i];
+            _newDevCards[i] = 0;
+        }
     }
     
     /**
