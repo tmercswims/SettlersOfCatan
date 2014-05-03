@@ -25,6 +25,7 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
 import edu.brown.cs032.eheimark.catan.launch.screens.JoinSettingsMenu;
+import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
@@ -51,7 +52,7 @@ public class ActivePlayer extends JPanel implements Update {
 		this.rollDie = true;
 		this.setOpaque(false); // set background to opaque b/c drawing done in GUI class for background
 
-		setPreferredSize(new Dimension(600, 50));
+		//setPreferredSize(new Dimension(600, 50));
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{600, 0};
@@ -61,15 +62,15 @@ public class ActivePlayer extends JPanel implements Update {
 		setLayout(gridBagLayout);
 		gameManagerButton = new JButton("Roll Die");
 		gameManagerButton.setPreferredSize(Constants.ROLL_BUTTON);
-		gameManagerButton.setMaximumSize(Constants.ROLL_BUTTON);
-		gameManagerButton.setMinimumSize(Constants.ROLL_BUTTON);
+		//gameManagerButton.setMaximumSize(Constants.ROLL_BUTTON);
+		//gameManagerButton.setMinimumSize(Constants.ROLL_BUTTON);
 		gameManagerButton.setFont(Constants.MY_FONT_ACTIVEPLAYER);
 		gameManagerButton.setForeground(Constants.CATAN_RED);
 		gameManagerButton.addActionListener(new TurnListener());
 
 		JPanel playerResourcesPanel = new JPanel();
 		playerResourcesPanel.setOpaque(false);
-		playerResourcesPanel.setPreferredSize(Constants.PLAYER_STATS);
+		//playerResourcesPanel.setPreferredSize(Constants.PLAYER_STATS);
 		playerResourcesPanel.setLayout(new GridLayout(1,10));
 		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
 				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.oreToken.getIconHeight()),
@@ -132,7 +133,7 @@ public class ActivePlayer extends JPanel implements Update {
 		playerResourcesPanel.add(brick);
 		mystats = new JLabel("MY STATISTICS");
 		mystats.setFont(Constants.MY_FONT_ACTIVEPLAYER);
-		mystats.setForeground(Constants.CATAN_YELLOW);
+		mystats.setForeground(Constants.CATAN_ORANGE);
 		mystats.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_mystats = new GridBagConstraints();
 		gbc_mystats.insets = new Insets(0, 0, 5, 0);
@@ -207,17 +208,21 @@ public class ActivePlayer extends JPanel implements Update {
 		}
 		for(Player p : players) {
 			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check
+				Color c = p.getColor();
+				if(!c.equals(Edge.orange)){
+					c = c.brighter();
+				}
 				int[] resources = p.getResources();
 				wheat.setText(resources[0] + "");
-				wheat.setBackground(p.getColor().brighter());
+				wheat.setBackground(c);
 				wool.setText(resources[1] + "");
-				wool.setBackground(p.getColor().brighter());
+				wool.setBackground(c);
 				brick.setText(resources[2] + "");
-				brick.setBackground(p.getColor().brighter());
+				brick.setBackground(c);
 				ore.setText(resources[3] + "");
-				ore.setBackground(p.getColor().brighter());
+				ore.setBackground(c);
 				wood.setText(resources[4] + "");
-				wood.setBackground(p.getColor().brighter());
+				wood.setBackground(c);
 			}
 		}
 	}

@@ -45,6 +45,11 @@ public class Node extends BoardComponent{
 		_port = 6;
 	}
 	
+	public void setLoc(int x, int y){
+		this.setLocation(new Point(x,y));
+		_o = new Ellipse2D.Double(this.getX(), this.getY(), _diam, _diam);
+	}
+	
 	public int getPort(){
 		return _port;
 	}

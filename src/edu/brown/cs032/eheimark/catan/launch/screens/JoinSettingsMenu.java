@@ -3,6 +3,7 @@ package edu.brown.cs032.eheimark.catan.launch.screens;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -14,6 +15,7 @@ import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanJLabel;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanMenuButton;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanTextField;
+import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.ShadowLabel;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -35,12 +37,14 @@ public class JoinSettingsMenu extends CatanMenu {
 	 */
 	public JoinSettingsMenu(SettlersOfCatan socIn) {
 		super();
+		setButtonsBorder(BorderFactory.createEmptyBorder(160, 0, 0, 0));
+
 		this.soc = socIn;
-		joinLbl = new CatanJLabel("Select Join Port:");
+		joinLbl = new ShadowLabel("Select Join Port:");
 		portTF = new CatanTextField(soc.getLaunchConfiguration().getJoinPort());
-		usernameLbl = new CatanJLabel("Select Username:");
+		usernameLbl = new ShadowLabel("Select Username:");
 		usernameTF = new CatanTextField(soc.getLaunchConfiguration().getName());
-		hostnameLbl = new CatanJLabel("Select Hostname:");
+		hostnameLbl = new ShadowLabel("Select Hostname:");
 		hostnameTF = new CatanTextField(soc.getLaunchConfiguration().getHostName());
 		submit = new CatanMenuButton("Submit");
 		back = new CatanMenuButton("Back");

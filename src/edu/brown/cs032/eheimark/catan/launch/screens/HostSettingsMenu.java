@@ -13,7 +13,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
-import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanJLabel;
+import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.ShadowLabel;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanJRadioButton;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanMenuButton;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanTextField;
@@ -40,7 +40,7 @@ public class HostSettingsMenu extends CatanMenu {
 	public HostSettingsMenu(SettlersOfCatan socIn) {
 		super();
 		this.soc = socIn;
-		hostLabel = new CatanJLabel("Select Host Port:");
+		hostLabel = new ShadowLabel("Select Host Port:");
 		port = new CatanTextField(soc.getLaunchConfiguration().getHostPort());
 		submit = new CatanMenuButton("Submit");
 		back = new CatanMenuButton("Back");

@@ -21,10 +21,10 @@ public class Constants {
 	public static final Color CATAN_BLUE = Color.BLUE;
 	public static final Color CATAN_BLACK = Color.BLACK;
 	public static final Color CATAN_WHITE = Color.WHITE;
-	public static final Color CATAN_YELLOW = Color.YELLOW;
+	public static final Color CATAN_ORANGE = Color.ORANGE;
 
-	public static final Dimension DEFAULT_BUTTON_SIZE  = new Dimension(200, 50);
-	public static final Dimension DEFAULT_MENU_SIZE  = new Dimension(700, 700);
+	public static final Dimension DEFAULT_BUTTON_SIZE  = new Dimension(200, 45);
+	public static final Dimension DEFAULT_MENU_SIZE  = new Dimension(560, 560);
 	public static final Dimension TEXTAREA_SIZE = new Dimension(400, 200);
 	public static final Dimension POINTS_MENU_SIZE  = new Dimension(675, 125);
 	public static final Dimension MENU_SIZE  = new Dimension(1000, 200);
@@ -35,7 +35,7 @@ public class Constants {
 	public static final String DEFAULT_HOSTNAME = "localhost";
 	public static final String DEFAULT_PORT = "1700";
 	
-	public static final Image CATAN_LAUNCH_MENU_BACKGROUND =  new ImageIcon("images/CatanScaled700x700.png").getImage();
+	public static final Image CATAN_LAUNCH_MENU_BACKGROUND =  new ImageIcon("images/CatanScaled560x560.png").getImage();
 	public static final Image BUILD_IMAGE = new ImageIcon("images/CatanLogo1000x140Mask50.png").getImage();
 	public static final Image TRADE_TAB_IMAGE = new ImageIcon("images/Cards1000x140.png").getImage();
 	

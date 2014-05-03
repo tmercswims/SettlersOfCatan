@@ -4,9 +4,14 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.io.IOException;
 
 import org.newdawn.easyogg.OggClip;
@@ -17,9 +22,10 @@ import org.newdawn.easyogg.OggClip;
  */
 public class GUIFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-
-	private OggClip _music;
-	private GUI _gui;
+    
+    private OggClip _music;
+    private GUI _gui;
+    
 	/**
 	 * Instantiates a new GUI frame.
 	 *
@@ -27,31 +33,89 @@ public class GUIFrame extends JFrame {
 	 */
 	public GUIFrame(CatanClient cc) {
 		super("Settlers of Catan : " + cc.getPlayerName());
-		setMusic();
-		_gui = new GUI(cc);
+        setMusic();
+        _gui = new GUI(cc);
 		add(_gui);
 		setVisible(true);
 		setResizable(true);
-		setMinimumSize(Constants.GUI_SIZE);
+		//setMinimumSize(Constants.GUI_SIZE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
-		setLocationRelativeTo(null);
-		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        setLocationRelativeTo(null);
+        addComponentListener(new SizeList(cc, this));
+        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new MyDispatcher());
 	}
+	
+	private class SizeList implements ComponentListener{
 
-	private void setMusic() {
-		try {
-			_music = new OggClip("music/ingame.ogg");
-			_music.loop();
-		} catch (IOException ex) {
-			System.err.println(String.format("ERROR: %s", ex.getMessage()));
+		private CatanClient _cc;
+		private JFrame _frame;
+		
+		public SizeList(CatanClient cc, JFrame frame) {
+			_cc = cc;
+			_frame = frame;
 		}
+
+		@Override
+		public void componentResized(ComponentEvent e) {
+			_cc.getGUI().getDP().setSize(_frame.getWidth()*600/1000, _frame.getHeight()*600/850);
+			_cc.getBoard().resize(_cc.getGUI().getDP().getWidth(), _cc.getGUI().getDP().getHeight());
+			_cc.getGUI().getDP().ericUpdate();
+			System.out.println(_cc.getGUI().getDP().getWidth());
+		}
+
+		@Override
+		public void componentMoved(ComponentEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void componentShown(ComponentEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void componentHidden(ComponentEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		
+		
+	}
+    
+    private void setMusic() {
+        try {
+            _music = new OggClip("music/ingame.ogg");
+            _music.loop();
+        } catch (IOException ex) {
+            System.err.println(String.format("ERROR: %s", ex.getMessage()));
+        }
+    }
+    
+    /**
+     * Stops the music.
+     */
+    public void stopMusic() {
+        _music.stop();
+    }
+    
+    /**
+     * Plays the music.
+     */
+    public void playMusic() {
+        _music.loop();
+    }
+	
+	public void exit(){
+		super.setVisible(false);
+		super.dispose();
+        _music.stop();
 	}
 
-	/**
-	 * Toggles the music state.
-	 */
 	public void toggleMusic() {
 		if (_music.stopped()) {
 			_music.loop();
@@ -67,26 +131,7 @@ public class GUIFrame extends JFrame {
 	public boolean isMusicPlaying() {
 		return !_music.stopped();
 	}
-
-	/**
-	 * Plays the music.
-	 */
-	public void playMusic() {
-		_music.loop();
-	}
-
-	/**
-	 * Stops the music.
-	 */
-	public void stopMusic() {
-		_music.stop();
-	}
-
-	public void exit(){
-		super.setVisible(false);
-		super.dispose();
-		_music.stop();
-	}
+	
 	private class MyDispatcher implements KeyEventDispatcher {
 		@Override
 		public boolean dispatchKeyEvent(KeyEvent e) {

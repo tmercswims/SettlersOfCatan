@@ -91,6 +91,7 @@ public class YoPFrame extends JFrame {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.pack();
+		this.setUndecorated(true);
 	}
 	
 	private class SubmitList implements ActionListener{

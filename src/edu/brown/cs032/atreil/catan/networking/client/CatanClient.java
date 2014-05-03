@@ -301,6 +301,8 @@ public class CatanClient extends Thread{
 			}
 
 			if(_gui != null) {
+				_gui.getDP().setSize(_frame.getWidth()*600/1000, _frame.getHeight()*600/850);
+				_board.resize(_gui.getDP().getWidth(), _gui.getDP().getHeight());
 				_gui.updateBoard();
 			}
 			else {
@@ -314,6 +316,8 @@ public class CatanClient extends Thread{
 						}
 					}
 				}
+				_gui.getDP().setSize(_frame.getWidth()*600/1000, _frame.getHeight()*600/850);
+				_board.resize(_gui.getDP().getWidth(), _gui.getDP().getHeight());
 				_gui.updateBoard();
 			}
 			//TODO: make sure _gui finishes

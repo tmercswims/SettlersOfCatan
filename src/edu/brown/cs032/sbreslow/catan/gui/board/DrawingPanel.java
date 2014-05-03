@@ -46,7 +46,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		_client = client;
 		setSize(600,600);
 		setPreferredSize(getSize());
-		setMaximumSize(getPreferredSize());
+		//setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());
 		_toDraw = new ArrayList<>();
 		this.setOpaque(false); // set background to transparent b/c drawing done in GUI class for background
@@ -77,6 +77,8 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
         		});
             }
         });
+        _musicButton.setBounds(0,0,50,50);
+        setLayout(null);
         add(_musicButton);
 		_selectable = -1;
 		_road = false;
@@ -99,6 +101,10 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		Board b = new Board(true);
 		_toDraw.addAll(b.getBoard());
         _client = null;
+        _musicButton = new JButton();
+        setLayout(null);
+        _musicButton.setBounds(0,0,25,25);
+        add(_musicButton);
 	}
 	
 	@Override
@@ -145,7 +151,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			i++;
 		}
 		
-        g.drawImage(ports, getX(), getY(), this);
+        g.drawImage(ports, getX(), getY(), getWidth(), getHeight(), this);
 		//_client.confirmPacket();
 	}
 	

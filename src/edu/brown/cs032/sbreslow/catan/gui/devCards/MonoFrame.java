@@ -85,6 +85,7 @@ public class MonoFrame extends JFrame {
 		bp.setOpaque(false);
 		mp.add(bp);
         this.add(mp);
+        this.setUndecorated(true);
         this.setLocationRelativeTo(cc.getFrame());
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

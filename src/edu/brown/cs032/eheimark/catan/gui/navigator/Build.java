@@ -75,7 +75,7 @@ public class Build extends JPanel implements Update {
 		buildDevCardButton.setFont(MY_FONT);
 		buildDevCardButton.setEnabled(false);
 
-		JLabel devCardCostLabel = new JLabel();
+		JLabel devCardCostLabel = new JLabel("Cost:");
 		devCardPanel.add(devCardCostLabel, BorderLayout.CENTER);
 		devCardCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		devCardCostLabel.setOpaque(false);
@@ -83,12 +83,13 @@ public class Build extends JPanel implements Update {
 		devCardCostLabel.setFont(MY_FONT2);
 		devCardCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		devCardCostLabel.setIcon(buildDevCard);
+		devCardCostLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 
 		JLabel devCardVPLabel = new JLabel("+2 VPs If Largest Army");
 		devCardPanel.add(devCardVPLabel, BorderLayout.SOUTH);
 		devCardVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		devCardVPLabel.setOpaque(false);
-		devCardVPLabel.setForeground(Constants.CATAN_YELLOW);
+		devCardVPLabel.setForeground(Constants.CATAN_ORANGE);
 		devCardVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		devCardVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
@@ -105,7 +106,7 @@ public class Build extends JPanel implements Update {
 		buildRoadButton.setFont(MY_FONT);
 		buildRoadButton.setEnabled(false);
 
-		JLabel roadCostLabel = new JLabel();
+		JLabel roadCostLabel = new JLabel("Cost:");
 		roadPanel.add(roadCostLabel, BorderLayout.CENTER);
 		roadCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		roadCostLabel.setOpaque(false);
@@ -113,13 +114,14 @@ public class Build extends JPanel implements Update {
 		roadCostLabel.setFont(MY_FONT2);
 		roadCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		roadCostLabel.setIcon(buildRoad);
+		roadCostLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 
 		JLabel rdVP = new JLabel("+2 VPs If Longest Road");
 		rdVP.setBorder(BOTTOM_LABEL_BORDER);
 		roadPanel.add(rdVP, BorderLayout.SOUTH);
 		rdVP.setHorizontalAlignment(SwingConstants.CENTER);
 		rdVP.setOpaque(false);
-		rdVP.setForeground(Constants.CATAN_YELLOW);
+		rdVP.setForeground(Constants.CATAN_ORANGE);
 		rdVP.setFont(new Font("Times", Font.ITALIC, 12));
 		rdVP.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -136,7 +138,7 @@ public class Build extends JPanel implements Update {
 		buildSettlementButton.setFont(MY_FONT);
 		buildSettlementButton.setEnabled(false);
 
-		JLabel settlementCostLabel = new JLabel();
+		JLabel settlementCostLabel = new JLabel("Cost:");
 		settlementCostLabel.setBorder(BOTTOM_LABEL_BORDER);
 		settlementPanel.add(settlementCostLabel, BorderLayout.CENTER);
 		settlementCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -145,6 +147,7 @@ public class Build extends JPanel implements Update {
 		settlementCostLabel.setFont(MY_FONT2);
 		settlementCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		settlementCostLabel.setIcon(buildSettlement);
+		settlementCostLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 
 
 		JLabel settlementVPLabel = new JLabel("+1 VP Per Settlement");
@@ -152,7 +155,7 @@ public class Build extends JPanel implements Update {
 		settlementPanel.add(settlementVPLabel, BorderLayout.SOUTH);
 		settlementVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		settlementVPLabel.setOpaque(false);
-		settlementVPLabel.setForeground(Constants.CATAN_YELLOW);
+		settlementVPLabel.setForeground(Constants.CATAN_ORANGE);
 		settlementVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		settlementVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -169,7 +172,7 @@ public class Build extends JPanel implements Update {
 		buildCityButton.setFont(MY_FONT);
 		buildCityButton.setEnabled(false);
 
-		JLabel cityCostLabel = new JLabel();
+		JLabel cityCostLabel = new JLabel("Cost:");
 		cityPanel.add(cityCostLabel, BorderLayout.CENTER);
 		cityCostLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		cityCostLabel.setOpaque(false);
@@ -177,13 +180,14 @@ public class Build extends JPanel implements Update {
 		cityCostLabel.setFont(MY_FONT2);
 		cityCostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		cityCostLabel.setIcon(buildCity);
+		cityCostLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 
 		JLabel cityVPLabel = new JLabel("+2 VPs Per City");
 		cityVPLabel.setBorder(BOTTOM_LABEL_BORDER);
 		cityPanel.add(cityVPLabel, BorderLayout.SOUTH);
 		cityVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		cityVPLabel.setOpaque(false);
-		cityVPLabel.setForeground(Constants.CATAN_YELLOW);
+		cityVPLabel.setForeground(Constants.CATAN_ORANGE);
 		cityVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		cityVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);

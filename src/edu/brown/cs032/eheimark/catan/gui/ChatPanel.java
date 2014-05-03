@@ -58,6 +58,7 @@ public class ChatPanel extends JPanel {
 		super();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		_client = cc;
+		this.setMaximumSize(preferredSize);
 
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -235,7 +236,7 @@ public class ChatPanel extends JPanel {
 			if(attr.equals(_blue)){
 				message = message.replaceAll("\\(blue\\)", "");
 			} else if(attr.equals(_red)){
-				
+				message = message.replaceAll("\\(red\\)", "");
 			} else if(attr.equals(_orange)){
 				message = message.replaceAll("\\(orange\\)", "");
 			} else if(attr.equals(_white)){

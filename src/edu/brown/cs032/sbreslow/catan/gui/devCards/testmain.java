@@ -9,7 +9,7 @@ import edu.brown.cs032.tmercuri.catan.logic.*;
 public class testmain {
 
 	public static void main(String[] args) {
-		new SevenFrame(null);
+		//new SevenFrame(null);
 		//new RobberFrame((List<Player>)new ArrayList<Player>(),0, null);
 		//new YoPFrame(null);
 		Player p1 = new Player("Sam");
@@ -20,7 +20,7 @@ public class testmain {
 		test.add(p1);
 		test.add(p2);
 		//new RobberFrame(test, 3, null);
-		//new MonoFrame(null);
+		new MonoFrame(null);
 	}
 
 }

@@ -18,10 +18,12 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages;
+import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.BackgroundPanel;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.swing.border.BevelBorder;
@@ -183,7 +185,12 @@ public class Overview extends JPanel implements Update {
 			data[row][column++] = p.getRoadsBuilt();
 			data[row][column++] = p.getCitiesBuilt();
 			data[row][column++] = p.getSettlementsBuilt();
-			myColorRenderer.addColor(row, p.getColor().brighter());
+			if(p.getColor().equals(Edge.orange)){
+				myColorRenderer.addColor(row, p.getColor());
+			}
+			else{
+				myColorRenderer.addColor(row, p.getColor().brighter());
+			}
 			if(p.isActive()) {
 				myColorRenderer.setActivePlayerRow(row);
 			}
