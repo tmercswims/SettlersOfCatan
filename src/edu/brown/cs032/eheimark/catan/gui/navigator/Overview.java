@@ -185,7 +185,7 @@ public class Overview extends JPanel implements Update {
 			data[row][column++] = p.getRoadsBuilt();
 			data[row][column++] = p.getCitiesBuilt();
 			data[row][column++] = p.getSettlementsBuilt();
-			if(p.getColor().equals(Edge.orange)){ // workaround because there is no color.equals()
+			if(p.getColor().equals(Edge.orange)){
 				myColorRenderer.addColor(row, p.getColor());
 			}
 			else{
