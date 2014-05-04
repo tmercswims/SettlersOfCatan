@@ -202,6 +202,7 @@ public class Build extends JPanel implements Update {
 		System.out.println(_client.getPlayer());
 		int[] resources = _client.getPlayer().getResources();
 		if((resources[2]<1 || resources[4]<1)||
+				(_client.getPlayer().getRoadCount()==0)||
 				(!_client.getPlayer().isActive())||
 				(!_client.getPlayer().hasRolled())){
 			buildRoadButton.setEnabled(false);
@@ -218,6 +219,7 @@ public class Build extends JPanel implements Update {
 			buildDevCardButton.setEnabled(true);
 		}
 		if((resources[3]<3 || resources[0]<2)||
+				(_client.getPlayer().getCityCount()==0)||
 				(!_client.getPlayer().isActive())||
 				(!_client.getPlayer().hasRolled())){
 			buildCityButton.setEnabled(false);
@@ -226,6 +228,7 @@ public class Build extends JPanel implements Update {
 			buildCityButton.setEnabled(true);
 		}
 		if((resources[0]<1 || resources[1]<1 || resources[2]<1 || resources[4]<1)||
+				(_client.getPlayer().getSettlementCount()==0)||
 				(!_client.getPlayer().isActive())||
 				(!_client.getPlayer().hasRolled())){
 			buildSettlementButton.setEnabled(false);
