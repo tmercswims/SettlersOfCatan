@@ -88,27 +88,25 @@ class ResourceArray extends JPanel implements Update {
 		_oreLabel = new JLabel(Misc.oreTokenGray);
 		_oreLabel.setTransferHandler(new TransferHandler("icon"));
 		_oreLabel.setOpaque(false);
-		tokenPanel.add(_oreLabel);
 		
 		_wheatLabel = new JLabel(Misc.wheatTokenGray);
 		_wheatLabel.setTransferHandler(new TransferHandler("icon"));
 		_wheatLabel.setOpaque(false);
-		tokenPanel.add(_wheatLabel);
 		
 		_woodLabel = new JLabel(Misc.woodTokenGray);
 		_woodLabel.setTransferHandler(new TransferHandler("icon"));
 		_woodLabel.setOpaque(false);
-		tokenPanel.add(_woodLabel);
 		
 		_sheepLabel = new JLabel(Misc.woolTokenGray);
 		_sheepLabel.setTransferHandler(new TransferHandler("icon"));
 		_sheepLabel.setOpaque(false);
-		tokenPanel.add(_sheepLabel);
 		
 		_brickLabel = new JLabel(Misc.brickTokenGray);
 		_brickLabel.setTransferHandler(new TransferHandler("icon"));
 		_brickLabel.setOpaque(false);
-		tokenPanel.add(_brickLabel);
+
+		for(int i = 0; i < 5; i++)
+			tokenPanel.add(getTokenLabel(i));
 		
 		add(tokenPanel);
 		
@@ -137,11 +135,15 @@ class ResourceArray extends JPanel implements Update {
 		_brickCount.setHorizontalAlignment(JLabel.CENTER);
 		_brickCount.setOpaque(false);
 		
-		labelPanel.add(_oreCount);
-		labelPanel.add(_wheatCount);
-		labelPanel.add(_woodCount);
-		labelPanel.add(_sheepCount);
-		labelPanel.add(_brickCount);
+		for(int i = 0; i < 5; i++)
+			labelPanel.add(getCountLabel(i));
+		
+		
+//		labelPanel.add(_oreCount);
+//		labelPanel.add(_wheatCount);
+//		labelPanel.add(_woodCount);
+//		labelPanel.add(_sheepCount);
+//		labelPanel.add(_brickCount);
 		
 		add(labelPanel);
 		

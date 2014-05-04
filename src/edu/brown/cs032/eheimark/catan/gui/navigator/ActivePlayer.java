@@ -64,9 +64,10 @@ public class ActivePlayer extends JPanel implements Update {
 		JPanel playerResourcesPanel = new JPanel();
 		playerResourcesPanel.setOpaque(false);
 		playerResourcesPanel.setLayout(new GridLayout(1,10));
-		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
-				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.oreToken.getIconHeight()),
-				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+		
+//		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
+//				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.oreToken.getIconHeight()),
+//				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
 		ore = new JLabel();
 		ore.setOpaque(true);
@@ -74,11 +75,11 @@ public class ActivePlayer extends JPanel implements Update {
 		ore.setBackground(Color.LIGHT_GRAY);
 		ore.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		ore.setHorizontalAlignment(SwingConstants.CENTER);
-		playerResourcesPanel.add(ore);
+//		playerResourcesPanel.add(ore);
 
-		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.wheatToken.getImage().getScaledInstance(
-				(int)(Misc.wheatToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.wheatToken.getIconHeight()),
-				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+//		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.wheatToken.getImage().getScaledInstance(
+//				(int)(Misc.wheatToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.wheatToken.getIconHeight()),
+//				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
 		wheat = new JLabel();
 		wheat.setOpaque(true);
@@ -86,11 +87,11 @@ public class ActivePlayer extends JPanel implements Update {
 		wheat.setBackground(Color.LIGHT_GRAY);
 		wheat.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		wheat.setHorizontalAlignment(SwingConstants.CENTER);
-		playerResourcesPanel.add(wheat);
+//		playerResourcesPanel.add(wheat);
 
-		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.woolToken.getImage().getScaledInstance(
-				(int)(Misc.woolToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woolToken.getIconHeight()),
-				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+//		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.woolToken.getImage().getScaledInstance(
+//				(int)(Misc.woolToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woolToken.getIconHeight()),
+//				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
 		wool = new JLabel();
 		wool.setOpaque(true);
@@ -98,11 +99,11 @@ public class ActivePlayer extends JPanel implements Update {
 		wool.setBackground(Color.LIGHT_GRAY);
 		wool.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		wool.setHorizontalAlignment(SwingConstants.CENTER);
-		playerResourcesPanel.add(wool);
+//		playerResourcesPanel.add(wool);
 
-		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.woodToken.getImage().getScaledInstance(
-				(int)(Misc.woodToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woodToken.getIconHeight()),
-				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+//		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.woodToken.getImage().getScaledInstance(
+//				(int)(Misc.woodToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woodToken.getIconHeight()),
+//				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
 		wood = new JLabel();
 		wood.setOpaque(true);
@@ -110,11 +111,11 @@ public class ActivePlayer extends JPanel implements Update {
 		wood.setBackground(Color.LIGHT_GRAY);
 		wood.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		wood.setHorizontalAlignment(SwingConstants.CENTER);
-		playerResourcesPanel.add(wood);
+//		playerResourcesPanel.add(wood);
 
-		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.brickToken.getImage().getScaledInstance(
-				(int)(Misc.brickToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.brickToken.getIconHeight()),
-				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+//		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.brickToken.getImage().getScaledInstance(
+//				(int)(Misc.brickToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.brickToken.getIconHeight()),
+//				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
 		brick = new JLabel();
 		brick.setOpaque(true);
@@ -122,7 +123,36 @@ public class ActivePlayer extends JPanel implements Update {
 		brick.setBackground(Color.LIGHT_GRAY);
 		brick.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		brick.setHorizontalAlignment(SwingConstants.CENTER);
+//		playerResourcesPanel.add(brick);
+		
+		//adding counts
+		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.woolToken.getImage().getScaledInstance(
+				(int)(Misc.woolToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woolToken.getIconHeight()),
+				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+		playerResourcesPanel.add(wool);
+		
+		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
+				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.oreToken.getIconHeight()),
+				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+		playerResourcesPanel.add(ore);
+		
+		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.woodToken.getImage().getScaledInstance(
+				(int)(Misc.woodToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woodToken.getIconHeight()),
+				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+		playerResourcesPanel.add(wood);
+		
+		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.wheatToken.getImage().getScaledInstance(
+				(int)(Misc.wheatToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.wheatToken.getIconHeight()),
+				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+		playerResourcesPanel.add(wheat);
+		
+		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.brickToken.getImage().getScaledInstance(
+				(int)(Misc.brickToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.brickToken.getIconHeight()),
+				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 		playerResourcesPanel.add(brick);
+		
+		
+		
 		mystats = new JLabel("MY STATISTICS");
 		mystats.setFont(Constants.MY_FONT_ACTIVEPLAYER);
 		mystats.setForeground(Constants.CATAN_ORANGE);
