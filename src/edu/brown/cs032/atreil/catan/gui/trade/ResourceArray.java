@@ -179,7 +179,27 @@ class ResourceArray extends JPanel implements Update {
 		else if(type == ResourceConstants.WOOD)
 			return _woodLabel;
 		else
-			throw new IllegalArgumentException(String.format("Invalid type"))
+			throw new IllegalArgumentException(String.format("Invalid type %s", type));
+	}
+	
+	/**
+	 * Given a type, returns the associated count label
+	 * @param type Type to find
+	 * @return the count label
+	 */
+	private JLabel getCountLabel(int type){
+		if(type == ResourceConstants.BRICK)
+			return _brickCount;
+		else if(type == ResourceConstants.ORE)
+			return _oreCount;
+		else if(type == ResourceConstants.SHEEP)
+			return _sheepCount;
+		else if(type == ResourceConstants.WHEAT)
+			return _wheatCount;
+		else if(type == ResourceConstants.WOOD)
+			return _woodCount;
+		else
+			throw new IllegalArgumentException(String.format("Invalid type %s", type));
 	}
 	
 	/**
