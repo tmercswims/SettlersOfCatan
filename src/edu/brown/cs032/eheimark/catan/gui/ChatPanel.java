@@ -34,7 +34,6 @@ import javax.swing.text.ViewFactory;
 
 import org.jdesktop.xswingx.PromptSupport;
 
-import edu.brown.cs032.atreil.catan.chat.server.SemiTransparentPanel;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 
 public class ChatPanel extends JPanel {

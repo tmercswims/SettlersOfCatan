@@ -51,7 +51,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		setSize(600,600);
 		setPreferredSize(getSize());
 		//setMaximumSize(getPreferredSize());
-		setMinimumSize(getSize());
+		//setMinimumSize(getSize());
 		_toDraw = new ArrayList<>();
 		this.setOpaque(false); // set background to transparent b/c drawing done in GUI class for background
 		this.setVisible(true);

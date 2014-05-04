@@ -65,7 +65,7 @@ public class GUIFrame extends JFrame  implements ComponentListener{
 
 				@Override
 				public void run() {
-					_cc.getGUI().getDP().setResize(_frame.getWidth()*600/1000, _frame.getHeight()*600/850);
+					_cc.getGUI().getDP().setResize(_frame.getWidth()*600/1000, _frame.getHeight()*600/825);
 					_cc.getBoard().resize(_cc.getGUI().getDP().getWidth(), _cc.getGUI().getDP().getHeight());
 					_cc.getGUI().getDP().ericUpdate();
 					//System.out.println(_cc.getGUI().getDP().getWidth());
@@ -236,8 +236,8 @@ public class GUIFrame extends JFrame  implements ComponentListener{
 
 	@Override
 	public void componentResized(ComponentEvent arg0) {
-		int W = 1041;
-		int H = 815;
+		int W = 1000;
+		int H = 825;
 		Rectangle b = arg0.getComponent().getBounds();
 		arg0.getComponent().setBounds(b.x, b.y, b.width, b.width*H/W);
 	}
