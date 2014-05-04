@@ -1,6 +1,7 @@
 package edu.brown.cs032.sbreslow.catan.gui.devCards;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
@@ -37,31 +39,35 @@ public class YoPFrame extends JFrame {
 		for(int i = 0; i < 5; i++){
 			switch(i){
 			case 0:
-				_tbuttons[i] = new JRadioButton("Wheat");
-				_bbuttons[i] = new JRadioButton("Wheat");
+				_tbuttons[i] = new JRadioButton();
+				_bbuttons[i] = new JRadioButton();
 				_images[i] = new JLabel(Misc.wheatToken);
 				break;
 			case 1:
-				_tbuttons[i] = new JRadioButton("Sheep");
-				_bbuttons[i] = new JRadioButton("Sheep");
+				_tbuttons[i] = new JRadioButton();
+				_bbuttons[i] = new JRadioButton();
 				_images[i] = new JLabel(Misc.woolToken);
 				break;
 			case 2:
-				_tbuttons[i] = new JRadioButton("Brick");
-				_bbuttons[i] = new JRadioButton("Brick");
+				_tbuttons[i] = new JRadioButton();
+				_bbuttons[i] = new JRadioButton();
 				_images[i] = new JLabel(Misc.brickToken);
 				break;
 			case 3:
-				_tbuttons[i] = new JRadioButton("Ore");
-				_bbuttons[i] = new JRadioButton("Ore");
+				_tbuttons[i] = new JRadioButton();
+				_bbuttons[i] = new JRadioButton();
 				_images[i] = new JLabel(Misc.oreToken);
 				break;
 			case 4:
-				_tbuttons[i] = new JRadioButton("Wood");
-				_bbuttons[i] = new JRadioButton("Wood");
+				_tbuttons[i] = new JRadioButton();
+				_bbuttons[i] = new JRadioButton();
 				_images[i] = new JLabel(Misc.woodToken);
 				break;
 			}
+			_tbuttons[i].setHorizontalAlignment(SwingConstants.CENTER);
+			_bbuttons[i].setHorizontalAlignment(SwingConstants.CENTER);
+			_tbuttons[i].setOpaque(false);
+			_bbuttons[i].setOpaque(false);
 			_top.add(_tbuttons[i]);
 			_bot.add(_bbuttons[i]);
 			panel.add(_images[i]);
@@ -87,11 +93,11 @@ public class YoPFrame extends JFrame {
 		mp.add(panel);
 		mp.add(bp);
 		this.add(mp);
-		this.setLocationRelativeTo(cc.getFrame());
+		//this.setLocationRelativeTo(cc.getFrame());
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.pack();
-		this.setUndecorated(true);
+		//this.setUndecorated(true);
 	}
 	
 	private class SubmitList implements ActionListener{

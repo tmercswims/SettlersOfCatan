@@ -3,7 +3,7 @@
  * CS032, Spring 2014
  */
 
-package edu.brown.cs032.atreil.catan.chat.server;
+package edu.brown.cs032.eheimark.catan.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

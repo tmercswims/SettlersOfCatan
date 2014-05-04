@@ -14,7 +14,7 @@ import edu.brown.cs032.eheimark.catan.gui.Constants;
 /**
  * The Class CatanFrame is a generic JFrame for the Catan game.
  */
-public class CatanFrame extends JFrame {
+public class LaunchFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private OggClip _music;
@@ -25,7 +25,7 @@ public class CatanFrame extends JFrame {
 	 * @param p the initial pane
 	 * @param name the name of the frame
 	 */
-	public CatanFrame(JPanel p, String name) {
+	public LaunchFrame(JPanel p, String name) {
 		super(name);
 		setPage(p);
 		setMusic();

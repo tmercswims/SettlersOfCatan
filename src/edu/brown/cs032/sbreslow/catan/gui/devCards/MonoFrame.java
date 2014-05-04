@@ -2,7 +2,10 @@ package edu.brown.cs032.sbreslow.catan.gui.devCards;
 
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.feltcon;
 
+import java.awt.Button;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -10,13 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.tmercuri.catan.logic.move.MonopolyMove;
@@ -84,9 +81,11 @@ public class MonoFrame extends JFrame {
 		mp.add(panel);
 		bp.setOpaque(false);
 		mp.add(bp);
-        this.add(mp);
-        this.setUndecorated(true);
-        this.setLocationRelativeTo(cc.getFrame());
+		this.add(mp);
+		//this.setUndecorated(true);
+		//this.setDefaultLookAndFeelDecorated(true);
+		//removeMinMaxClose(this);
+		//this.setLocationRelativeTo(cc.getFrame());
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.pack();

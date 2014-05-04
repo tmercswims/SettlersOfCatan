@@ -2,15 +2,18 @@ package edu.brown.cs032.sbreslow.catan.gui.board;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Update;
+import edu.brown.cs032.eheimark.catan.gui.tutorial.Tutorial;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.musicOff;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.musicOn;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.ports;
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.question;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.RobberFrame;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.RobberMove;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +23,8 @@ import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -33,13 +38,12 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	private final ArrayList<BoardComponent> _toDraw;
 	private final CatanClient _client;
 	private int  _selectable;
-	private boolean _road;
-	private boolean _city;
-	private boolean _settlement;
     private boolean _startUp;
     private int _firstSettlement;
 	private int _rbcount;
-    private JButton _musicButton;
+
+    private int _x, _y;
+    private JButton _musicButton, _questionButton;
     private BoardComponent _lastHovered;
     private int _lastHoveredPreviousGhostLevel;
     private Color _lastHoveredPreviousLookerColor;
@@ -50,45 +54,84 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		setSize(600,600);
 		setPreferredSize(getSize());
 		//setMaximumSize(getPreferredSize());
-		setMinimumSize(getPreferredSize());
+		//setMinimumSize(getSize());
 		_toDraw = new ArrayList<>();
 		this.setOpaque(false); // set background to transparent b/c drawing done in GUI class for background
 		this.setVisible(true);
 		this.addMouseListener(new ClickList(this));
         this.addMouseMotionListener(new MoveList(this));
-        _musicButton = new JButton() {
-            private static final long serialVersionUID = 8345488729823071304L;
-            
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                if (_client.getFrame().isMusicPlaying()) {
-                    setIcon(musicOn);
-                } else {
-                    setIcon(musicOff);
-                }
-            }
-        };
-        _musicButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	SwingUtilities.invokeLater(new Runnable() {
-        			@Override
-        			public void run() {
-                        _client.getFrame().toggleMusic();
-        			}
-        		});
-            }
-        });
-        _musicButton.setBounds(0,0,50,50);
-        setLayout(null);
-        add(_musicButton);
-		_selectable = -1;
-		_road = false;
-		_city = false;
-		_settlement = false;
+
+        JPanel innerPanel = new JPanel();
+		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
+        _questionButton = new JButton() {
+			private static final long serialVersionUID = 229623158965666152L;
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				setIcon(question);
+			}
+		};
+		_questionButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						new Tutorial();
+					}
+				});
+			}
+		});
+		_musicButton = new JButton() {
+			private static final long serialVersionUID = 8345488729823071304L;
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				if (_client.getFrame().isMusicPlaying()) {
+					setIcon(musicOn);
+				} else {
+					setIcon(musicOff);
+				}
+			}
+		};
+		_musicButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						_client.getFrame().toggleMusic();
+					}
+				});
+			}
+		});
+		
+		_musicButton.setOpaque(false);
+		_musicButton.setContentAreaFilled(false);
+		_musicButton.setBorderPainted(false);
+		_questionButton.setOpaque(false);
+		_questionButton.setContentAreaFilled(false);
+		_questionButton.setBorderPainted(false);
+		
+		_musicButton.setMinimumSize(new Dimension(50,50));
+		_musicButton.setMaximumSize(new Dimension(50,50));
+		_questionButton.setMinimumSize(new Dimension(50,50));
+		_questionButton.setMaximumSize(new Dimension(50,50));
+
+		innerPanel.add(_musicButton);
+		innerPanel.add(_questionButton);
+		innerPanel.add(Box.createHorizontalGlue());
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		this.add(innerPanel);
+		this.add(Box.createVerticalGlue());
+		innerPanel.setVisible(true);
+		innerPanel.setOpaque(false);
 		_rbcount = 0;
         _startUp = true;
+		_x = 600;
+		_y = 600;
 	}
     
     @Deprecated
@@ -155,7 +198,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			i++;
 		}
 		
-        g.drawImage(ports, getX(), getY(), getWidth(), getHeight(), this);
+        g.drawImage(ports, getX(), getY(), _x, _y, this);
 		//_client.confirmPacket();
 	}
     
@@ -327,6 +370,12 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
             }
             _dp.repaint();
         }
+    }
+    
+    public void setResize(int x, int y){
+    	this.setSize(x,y);
+    	_x = x;
+    	_y = y;
     }
 	
 	

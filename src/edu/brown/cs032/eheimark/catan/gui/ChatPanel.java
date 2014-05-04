@@ -34,7 +34,6 @@ import javax.swing.text.ViewFactory;
 
 import org.jdesktop.xswingx.PromptSupport;
 
-import edu.brown.cs032.atreil.catan.chat.server.SemiTransparentPanel;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 
 public class ChatPanel extends JPanel {
@@ -125,55 +124,6 @@ public class ChatPanel extends JPanel {
 		_history = new LinkedList<>();
 		_unsentContents = "";
 		_position = -1;
-	}
-
-	class WrapEditorKit extends StyledEditorKit {
-		private static final long serialVersionUID = 2347939257335358031L;
-		ViewFactory defaultFactory=new WrapColumnFactory();
-		@Override
-		public ViewFactory getViewFactory() {
-			return defaultFactory;
-		}
-	}
-
-	class WrapColumnFactory implements ViewFactory {
-		@Override
-		public View create(Element elem) {
-			String kind = elem.getName();
-			if (kind != null) {
-				switch (kind) {
-				case AbstractDocument.ContentElementName:
-					return new WrapLabelView(elem);
-				case AbstractDocument.ParagraphElementName:
-					return new ParagraphView(elem);
-				case AbstractDocument.SectionElementName:
-					return new BoxView(elem, View.Y_AXIS);
-				case StyleConstants.ComponentElementName:
-					return new ComponentView(elem);
-				case StyleConstants.IconElementName:
-					return new IconView(elem);
-				}
-			}
-			// default to text display
-			return new LabelView(elem);
-		}
-	}
-
-	class WrapLabelView extends LabelView {
-		public WrapLabelView(Element elem) {
-			super(elem);
-		}
-		@Override
-		public float getMinimumSpan(int axis) {
-			switch (axis) {
-			case View.X_AXIS:
-				return 0;
-			case View.Y_AXIS:
-				return super.getMinimumSpan(axis);
-			default:
-				throw new IllegalArgumentException("Invalid axis: " + axis);
-			}
-		}
 	}
 
 	public void addMessage(String message){

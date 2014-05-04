@@ -24,7 +24,7 @@ import javax.swing.text.ViewFactory;
 public class MyChatScrollPane {
 	private static final long serialVersionUID = 1L;
 	
-	private JTextPane _textField;
+	private JTextPane _myTextPane;
 	private JScrollPane _scroll;
 
 	SimpleAttributeSet _red;
@@ -35,19 +35,19 @@ public class MyChatScrollPane {
 
 	public MyChatScrollPane(Dimension d) {
 		super();
-		_textField = new JTextPane();
-		_textField.setOpaque(false);
-		_textField.setSize(d);
-		_textField.setEditable(false);
-		_textField.setEditorKit(new WrapEditorKit());
-		DefaultCaret caret = (DefaultCaret) _textField.getCaret();
+		_myTextPane = new JTextPane();
+		_myTextPane.setOpaque(false);
+		_myTextPane.setSize(d);
+		_myTextPane.setEditable(false);
+		_myTextPane.setEditorKit(new WrapEditorKit());
+		DefaultCaret caret = (DefaultCaret) _myTextPane.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		_textField.setCaret(caret);
-		_textField.setFocusable(true);
-		_textField.setPreferredSize(d);
-		_textField.setMargin(new Insets(10,10,10,10));
+		_myTextPane.setCaret(caret);
+		_myTextPane.setFocusable(true);
+		_myTextPane.setPreferredSize(d);
+		_myTextPane.setMargin(new Insets(10,10,10,10));
 		
-		_scroll = new JScrollPane(_textField);
+		_scroll = new JScrollPane(_myTextPane);
 		_scroll.setOpaque(false);
 		_scroll.getViewport().setOpaque(false);
 		_scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -115,10 +115,10 @@ public class MyChatScrollPane {
 			@Override	
 			public void run() {
 				try {
-					_textField.getDocument().insertString(_textField.getDocument().getLength(),f.trim()+"\n",attr);
+					_myTextPane.getDocument().insertString(_myTextPane.getDocument().getLength(),f.trim()+"\n",attr);
 					StyleConstants.setFontFamily(attr, "Helvetica");
 					StyleConstants.setItalic(attr, false);
-					_textField.setCaretPosition(_textField.getDocument().getLength());
+					_myTextPane.setCaretPosition(_myTextPane.getDocument().getLength());
 				} catch (BadLocationException ex) {
 					System.out.println(String.format("ERROR: %s", ex.getMessage()));
 				}

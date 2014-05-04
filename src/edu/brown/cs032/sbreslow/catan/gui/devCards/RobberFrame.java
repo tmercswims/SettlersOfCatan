@@ -79,6 +79,7 @@ public class RobberFrame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
+		//this.setUndecorated(true);
 		//Dimension d = label.getSize();
 		//System.out.println(d.getWidth());
 	}
