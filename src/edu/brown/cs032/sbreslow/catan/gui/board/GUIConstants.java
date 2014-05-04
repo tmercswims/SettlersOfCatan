@@ -148,8 +148,8 @@ public class GUIConstants {
 		public static final ImageIcon city = new ImageIcon("images/pieces/city_red.png");
 		public static final ImageIcon road = new ImageIcon("images/pieces/road_red.png");
 		public static final ImageIcon monopoly = new ImageIcon("images/dev_cards/monopoly.png");
-		public static final ImageIcon back = new ImageIcon("images/back.png");
-		public static final ImageIcon forward = new ImageIcon("images/forward.png");
+		public static final ImageIcon back = new ImageIcon("images/misc/back.png");
+		public static final ImageIcon forward = new ImageIcon("images/misc/forward.png");
 		
 		// stuff above is for the tutorial
 
