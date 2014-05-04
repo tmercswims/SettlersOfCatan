@@ -11,13 +11,15 @@ public abstract class BoardComponent extends JComponent {
 
 	private int _type;
 	private int  _index;
-    int _ghostLevel = 0;
+    int _ghostLevel;
     Color _lookerColor;
 	
 	public BoardComponent() {
 		super();
 		_type = 0;
 		_index = -1;
+        _ghostLevel = 0;
+        _lookerColor = null;
 	}
     
     public void setLookerColor(Color c) {
@@ -26,6 +28,10 @@ public abstract class BoardComponent extends JComponent {
     
     public void setGhostLevel(int ghostLevel) {
         _ghostLevel = ghostLevel;
+    }
+    
+    public int getGhostLevel() {
+        return _ghostLevel;
     }
 	
 	public abstract Shape getShape();
