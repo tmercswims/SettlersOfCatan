@@ -7,14 +7,13 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.text.DefaultCaret;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanMenuButton;
-import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanScrollableTextArea;
-
-import javax.swing.text.DefaultCaret;
+import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanScrollPane;
 
 /**
  * The Class JoinLoadingMenu displays status while trying to join an outside server.
@@ -23,22 +22,22 @@ import javax.swing.text.DefaultCaret;
  * the board game appears instead.
  */
 public class JoinLoadingMenu extends CatanMenu {
-	private static final long serialVersionUID = 1L;
-	private final JButton back;
-	private final CatanScrollableTextArea jsp;
-	//	private final ServerUpdate su; // Thread that continually gets a status update from server
-	private final JTextArea jta;
-	private final SettlersOfCatan soc;
+	private static final long serialVersionUID = 5799077217722813351L;
+	private final JButton back; // Button to go back
+	private final CatanScrollPane jsp; // Scrollable text pane 
+	private final JTextArea jta; // JTextArea contained with CatanScrollableTextPane
+	private final SettlersOfCatan soc; // Reference to launch instance
 	private CatanClient cc; // Reference to client
 
 	/**
 	 * Instantiates a new join loading menu.
-	 * @param soc reference to Settlers Of Catan class instance (which contains launch configurations etc)
+	 *
+	 * @param socIn the soc in
 	 */
 	public JoinLoadingMenu(SettlersOfCatan socIn) {
 		super();
 		soc = socIn;
-		jsp = new CatanScrollableTextArea(); 
+		jsp = new CatanScrollPane(); 
 		jta = jsp.getTextArea();
 		DefaultCaret caret = (DefaultCaret)jta.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -77,6 +76,11 @@ public class JoinLoadingMenu extends CatanMenu {
 		}
 	}
 
+	/**
+	 * Update j text area.
+	 *
+	 * @param str the str
+	 */
 	public void updateJTextArea(final String str) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override	
@@ -86,6 +90,9 @@ public class JoinLoadingMenu extends CatanMenu {
 		});
 	}
 
+	/**
+	 * Launch game.
+	 */
 	public void launchGame() {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override	
@@ -101,6 +108,9 @@ public class JoinLoadingMenu extends CatanMenu {
 		});
 	}
 	
+	/**
+	 * Sets the focus for easy keyboard shortcuts.
+	 */
 	@Override
 	public void requestFocus() {
 		super.requestFocus();

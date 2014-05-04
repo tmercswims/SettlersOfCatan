@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
-import edu.brown.cs032.eheimark.catan.gui.trade.OutstandingTrade;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.BackgroundPanel;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 

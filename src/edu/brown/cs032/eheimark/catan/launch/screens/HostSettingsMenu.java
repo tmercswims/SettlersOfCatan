@@ -167,6 +167,9 @@ public class HostSettingsMenu extends CatanMenu {
 		addComponent(back);
 	}
 	
+	/**
+	 * Sets the focus for easy keyboard shortcuts.
+	 */
 	@Override
 	public void requestFocus() {
 		super.requestFocus();

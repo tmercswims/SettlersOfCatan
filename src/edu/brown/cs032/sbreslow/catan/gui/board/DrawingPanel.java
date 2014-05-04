@@ -1,7 +1,7 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.eheimark.catan.gui.Update;
+import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
 import edu.brown.cs032.eheimark.catan.gui.tutorial.Tutorial;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.musicOff;
 import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.musicOn;
@@ -31,7 +31,7 @@ import javax.swing.SwingUtilities;
 
 
 
-public class DrawingPanel extends JPanel implements Update {// implements MouseListener{
+public class DrawingPanel extends JPanel implements ServerUpdate {// implements MouseListener{
     
     private static final long serialVersionUID = 333238774355322463L;
 	
@@ -495,7 +495,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	}
 
 	@Override
-	public void ericUpdate() {
+	public void serverUpdate() {
 		_toDraw.clear();
 		System.out.println("TRYING TO GET BOARD IN DRAWING PANEL!");
 		_toDraw.addAll(_client.getBoard().getBoard()); //TODO Fix this

@@ -1,17 +1,11 @@
 package edu.brown.cs032.eheimark.catan.launch.screens;
 
-import java.awt.AlphaComposite;
 import java.awt.Component;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -23,19 +17,17 @@ import edu.brown.cs032.eheimark.catan.gui.Constants;
  */
 public class CatanMenu extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private final Image img; // background image
 	private GridBagConstraints gbc; // constraints
 	private	final JPanel buttonsPanel = new JPanel(); // Panel that contains buttons you can add on each launch menu page
-	
+
 	/**
 	 * Instantiates a new catan menu.
 	 */
 	public CatanMenu() {
 		super();
-		this.img = Constants.CATAN_LAUNCH_MENU_BACKGROUND;
 		buttonsPanel.setOpaque(false);	
 		buttonsPanel.setLayout(new GridBagLayout());
-		setButtonsBorder(BorderFactory.createEmptyBorder(200, 0, 0, 0));
+		setButtonsPanelBorder(BorderFactory.createEmptyBorder(200, 0, 0, 0)); // Positions buttons midway down screen
 		add(buttonsPanel);
 		setPreferredSize(Constants.DEFAULT_MENU_SIZE);
 		gbc = new GridBagConstraints();
@@ -49,18 +41,22 @@ public class CatanMenu extends JPanel {
 	public void addComponent(Component comp) {
 		gbc.gridy++;
 		buttonsPanel.add(comp, gbc);
-		
-		
 	}
-	
-	public void setButtonsBorder(Border b) {
+
+	/**
+	 * Set top border for the buttonsPanel. Used when there are so many
+	 * buttons that you cannot use the default CatanMenu border of 200.
+	 * 
+	 * @param Border
+	 */
+	public void setButtonsPanelBorder(Border b) {
 		buttonsPanel.setBorder(b);
 	}
 
 	/**
-	 * Paints.
+	 * Paints background image.
 	 */
 	public void paintComponent(Graphics g) {
-		g.drawImage(img, 0, 0, null);
+		g.drawImage(Constants.CATAN_LAUNCH_MENU_BACKGROUND, 0, 0, null);
 	}
 }

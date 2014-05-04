@@ -9,9 +9,7 @@ import edu.brown.cs032.eheimark.catan.gui.Constants;
  * The Class CatanMenuButton is used to maintain settings for buttons on the launch menu.
  */
 public class CatanMenuButton extends JButton {
-
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2553782016402532610L;
 
 	/**
 	 * Instantiates a new catan menu button.

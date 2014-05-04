@@ -2,21 +2,21 @@ package edu.brown.cs032.eheimark.catan.launch;
 
 import javax.swing.SwingUtilities;
 
-import edu.brown.cs032.eheimark.catan.launch.screens.*;
+import edu.brown.cs032.eheimark.catan.launch.screens.MainMenu;
 
 /**
- * The Class SettlersOfCatan launches the game by bringing up a Settlers Main Menu from which users can create a server
- * or join an existing server as a client.
+ * The Class SettlersOfCatan launches the game by bringing up a Settlers Menu from which users can create a server
+ * or join an existing server as a client. Once three or four players have joined up, the game is launched.
  */
 public class SettlersOfCatan {
 	private LaunchFrame frame; // Reference to CatanFrame
-	private final LaunchConfiguration lc; // Reference to launch configuration
+	private final LaunchConfiguration launchConfig; // Reference to launch configuration
 
 	/**
-	 * Instantiates a new settlers of catan game.
+	 * Instantiates a new settlers of catan launch menu.
 	 */
 	public SettlersOfCatan() {
-		this.lc = new LaunchConfiguration();
+		launchConfig = new LaunchConfiguration();
 		setFrame(new LaunchFrame(new MainMenu(this), "Settlers of Catan"));
 	}
 
@@ -45,9 +45,15 @@ public class SettlersOfCatan {
 	 * @return the launch configuration
 	 */
 	public LaunchConfiguration getLaunchConfiguration() {
-		return lc;
+		return launchConfig;
 	}
 
+	/**
+	 * Launches the Settlers of Catan game by calling the launch menu. The launch
+	 * menu is then used to set game settings and launch the board etc.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override

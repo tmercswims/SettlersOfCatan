@@ -2,26 +2,27 @@ package edu.brown.cs032.eheimark.catan.launch.screens.jcomponents;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 /**
- * The Class CatanScrollableTextArea is used to main scrollable text areas on the launch menu
+ * The Class CatanScrollPane is used to main scrollable text areas on the launch menu
  */
-public class CatanScrollableTextArea extends JScrollPane {
-	private static final long serialVersionUID = 1L;
-	private JTextArea textarea;
+public class CatanScrollPane extends JScrollPane {
+	private static final long serialVersionUID = -2301306725421906640L;
+	private JTextArea textArea;
 
 	/**
 	 * Instantiates a new catan scrollable text area.
 	 */
-	public CatanScrollableTextArea() {
+	public CatanScrollPane() {
 		super();
-		textarea = new JTextArea();
-		textarea.setEditable(false);
-		textarea.setLineWrap(true);
-		textarea.setWrapStyleWord(true);
-		textarea.setForeground(Constants.CATAN_BLUE);
-		setViewportView(textarea);
+		textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setForeground(Constants.CATAN_BLUE);
+		setViewportView(textArea);
 		setPreferredSize(Constants.TEXTAREA_SIZE);
 		setMinimumSize(Constants.TEXTAREA_SIZE);
 		setMaximumSize(Constants.TEXTAREA_SIZE);
@@ -35,6 +36,6 @@ public class CatanScrollableTextArea extends JScrollPane {
 	 * @return the text area
 	 */
 	public JTextArea getTextArea() {
-		return textarea;
+		return textArea;
 	}
 }

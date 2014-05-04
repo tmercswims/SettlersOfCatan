@@ -1,12 +1,7 @@
-package edu.brown.cs032.eheimark.catan.gui.navigator;
+package edu.brown.cs032.eheimark.catan.gui.misc;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -25,33 +20,37 @@ import javax.swing.border.BevelBorder;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
-import edu.brown.cs032.eheimark.catan.gui.Update;
-import edu.brown.cs032.eheimark.catan.launch.screens.JoinSettingsMenu;
+import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.FirstMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.*;
 
-import java.awt.Insets;
-
-public class ActivePlayer extends JPanel implements Update {
-
-	private static final long serialVersionUID = 1L;
+/**
+ * The Class PlayerStatsAndRollButton is a JPanel that contains the
+ * client player's active stats and the roll button to make or end a turn.
+ */
+public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
+	private static final long serialVersionUID = -9089787737608391491L;
 	private JLabel mystats;
 	private CatanClient client;
 	private final JButton gameManagerButton; // manages a turn, allowing user to either roll die or end turn
-	private boolean rollDie; // indicates whether in roll die mode or end turn mode
-	private JLabel ore, wheat, wool, wood, brick;
-	private boolean blinkState;
-	private Timer makeItBlink;
+	private boolean rollDieModeOrEndTurnMode; // indicates whether in roll die mode or end turn mode
+	private boolean blinkState; // indicates whether or not button should be blinking (button blinks when active)
+	private Timer makeItBlink; // Timer used to make button blink
+	private JLabel ore, wheat, wool, wood, brick; // Resource labels
 
-	public ActivePlayer(CatanClient cc) {
+	/**
+	 * Instantiates a new active player.
+	 *
+	 * @param cc the cc
+	 */
+	public PlayerStatsAndRollButton(CatanClient cc) {
 		super();
 
 		this.client = cc;
-		this.rollDie = true;
+		this.rollDieModeOrEndTurnMode = true;
 		this.setOpaque(false); // set background to opaque b/c drawing done in GUI class for background
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -64,10 +63,6 @@ public class ActivePlayer extends JPanel implements Update {
 		JPanel playerResourcesPanel = new JPanel();
 		playerResourcesPanel.setOpaque(false);
 		playerResourcesPanel.setLayout(new GridLayout(1,10));
-		
-//		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
-//				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.oreToken.getIconHeight()),
-//				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
 		ore = new JLabel();
 		ore.setOpaque(true);
@@ -75,11 +70,6 @@ public class ActivePlayer extends JPanel implements Update {
 		ore.setBackground(Color.LIGHT_GRAY);
 		ore.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		ore.setHorizontalAlignment(SwingConstants.CENTER);
-//		playerResourcesPanel.add(ore);
-
-//		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.wheatToken.getImage().getScaledInstance(
-//				(int)(Misc.wheatToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.wheatToken.getIconHeight()),
-//				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
 		wheat = new JLabel();
 		wheat.setOpaque(true);
@@ -87,11 +77,6 @@ public class ActivePlayer extends JPanel implements Update {
 		wheat.setBackground(Color.LIGHT_GRAY);
 		wheat.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		wheat.setHorizontalAlignment(SwingConstants.CENTER);
-//		playerResourcesPanel.add(wheat);
-
-//		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.woolToken.getImage().getScaledInstance(
-//				(int)(Misc.woolToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woolToken.getIconHeight()),
-//				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
 		wool = new JLabel();
 		wool.setOpaque(true);
@@ -99,11 +84,6 @@ public class ActivePlayer extends JPanel implements Update {
 		wool.setBackground(Color.LIGHT_GRAY);
 		wool.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		wool.setHorizontalAlignment(SwingConstants.CENTER);
-//		playerResourcesPanel.add(wool);
-
-//		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.woodToken.getImage().getScaledInstance(
-//				(int)(Misc.woodToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woodToken.getIconHeight()),
-//				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
 		wood = new JLabel();
 		wood.setOpaque(true);
@@ -111,11 +91,6 @@ public class ActivePlayer extends JPanel implements Update {
 		wood.setBackground(Color.LIGHT_GRAY);
 		wood.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		wood.setHorizontalAlignment(SwingConstants.CENTER);
-//		playerResourcesPanel.add(wood);
-
-//		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.brickToken.getImage().getScaledInstance(
-//				(int)(Misc.brickToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.brickToken.getIconHeight()),
-//				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 
 		brick = new JLabel();
 		brick.setOpaque(true);
@@ -123,36 +98,33 @@ public class ActivePlayer extends JPanel implements Update {
 		brick.setBackground(Color.LIGHT_GRAY);
 		brick.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		brick.setHorizontalAlignment(SwingConstants.CENTER);
-//		playerResourcesPanel.add(brick);
-		
+
 		//adding counts
 		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.woolToken.getImage().getScaledInstance(
 				(int)(Misc.woolToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woolToken.getIconHeight()),
 				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 		playerResourcesPanel.add(wool);
-		
+
 		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
 				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.oreToken.getIconHeight()),
 				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 		playerResourcesPanel.add(ore);
-		
+
 		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.woodToken.getImage().getScaledInstance(
 				(int)(Misc.woodToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woodToken.getIconHeight()),
 				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 		playerResourcesPanel.add(wood);
-		
+
 		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.wheatToken.getImage().getScaledInstance(
 				(int)(Misc.wheatToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.wheatToken.getIconHeight()),
 				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 		playerResourcesPanel.add(wheat);
-		
+
 		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.brickToken.getImage().getScaledInstance(
 				(int)(Misc.brickToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.brickToken.getIconHeight()),
 				(int)(Constants.PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 		playerResourcesPanel.add(brick);
-		
-		
-		
+
 		mystats = new JLabel("MY STATISTICS");
 		mystats.setFont(Constants.MY_FONT_ACTIVEPLAYER);
 		mystats.setForeground(Constants.CATAN_ORANGE);
@@ -196,11 +168,13 @@ public class ActivePlayer extends JPanel implements Update {
 		blinkState = false;
 	}
 
+	/**
+	 * Updates GUI with latest info from server.
+	 */
 	@Override
-	public void ericUpdate() {
+	public void serverUpdate() {
 		Player[] players = this.client.getPlayers();
 
-		//TODO Why is the latter check here?
 		if(this.client.getPlayer().isActive() && this.client.getPlayer().getRoadCount()<=13){
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
@@ -245,25 +219,26 @@ public class ActivePlayer extends JPanel implements Update {
 
 	/**
 	 * ActionListener that allows user to roll die or end turn.
+	 *
+	 * @see TurnEvent
 	 */
 	class TurnListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Trying to roll die...");
 			if(client.getPlayer().isActive()) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
 						try {
-							if(rollDie) {
+							if(rollDieModeOrEndTurnMode) {
 								client.sendMove(new FirstMove(client.getPlayerName()));
 								gameManagerButton.setText("End turn");
-								rollDie = false;
+								rollDieModeOrEndTurnMode = false;
 							}
 							else {
 								client.sendMove(new LastMove(client.getPlayerName()));
 								gameManagerButton.setText("Roll die");
-								rollDie = true;
+								rollDieModeOrEndTurnMode = true;
 							}
 						} catch (IllegalArgumentException | IOException e) {
 							e.printStackTrace();
@@ -271,12 +246,12 @@ public class ActivePlayer extends JPanel implements Update {
 					}
 				});
 			}
-			else {
-				System.out.println("Not active player! CANNOT ROLL!");
-			}
 		}
 	}
-	
+
+	/**
+	 * Requests focus.
+	 */
 	@Override 
 	public void requestFocus() {
 		gameManagerButton.requestFocus();

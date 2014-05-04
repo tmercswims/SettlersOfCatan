@@ -2,8 +2,6 @@ package edu.brown.cs032.atreil.catan.gui.trade;
 
 import javax.swing.JFrame;
 
-import edu.brown.cs032.eheimark.catan.gui.trade.Trade;
-
 public class TradeFloorTest {
 
 	/**

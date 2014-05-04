@@ -1,7 +1,5 @@
 package edu.brown.cs032.eheimark.catan.launch;
 
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -9,15 +7,12 @@ import javax.swing.JPanel;
 
 import org.newdawn.easyogg.OggClip;
 
-import edu.brown.cs032.eheimark.catan.gui.Constants;
-
 /**
- * The Class CatanFrame is a generic JFrame for the Catan game.
+ * The Class CatanFrame is the JFrame that contains the launch menus.
  */
 public class LaunchFrame extends JFrame {
-	private static final long serialVersionUID = 1L;
-
-	private OggClip _music;
+	private static final long serialVersionUID = 3217630893235110100L;
+	private OggClip _music; // Launch music
 
 	/**
 	 * Instantiates a new Catan frame.
@@ -36,6 +31,9 @@ public class LaunchFrame extends JFrame {
 		setVisible(true);
 	}
 
+	/**
+	 * Sets the music.
+	 */
 	private void setMusic() {
 		try {
 			_music = new OggClip("music/menu.ogg");

@@ -7,9 +7,7 @@ import edu.brown.cs032.eheimark.catan.gui.Constants;
  * The Class CatanToggleButton is used to maintain settings for JToggleButtons on the launch menu.
  */
 public class CatanToggleButton extends JToggleButton {
-
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7948783062925761229L;
 
 	/**
 	 * Instantiates a new catan toggle button.

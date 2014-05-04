@@ -37,7 +37,7 @@ public class Tutorial extends JFrame{
 	private static final long serialVersionUID = -4734812642841199492L;
 
 	private JPanel _myTutorialPanel; // The main JPanel on the screen
-	private final ArrayList<TutorialPage> _pages; // Arraylist of all the pages
+	private final ArrayList<TutorialPage> _pages; // Array list of all the pages
 	private final JButton forwardButton, backButton; // Back /forward buttons
 	private int _idx; // Index to current page
 

@@ -1,13 +1,14 @@
 package edu.brown.cs032.eheimark.catan.launch.screens.jcomponents;
 
 import javax.swing.JTextField;
+
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 /**
  * The Class CatanTextField is used to maintain settings for JTextFields on the launch menu.
  */
 public class CatanTextField extends JTextField {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 516567057079417136L;
 
 	/**
 	 * Instantiates a new catan text field.

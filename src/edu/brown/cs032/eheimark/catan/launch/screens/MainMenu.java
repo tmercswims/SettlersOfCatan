@@ -14,17 +14,17 @@ import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanMenuButton
  * user to navigate to other pages.
  */
 public class MainMenu extends CatanMenu {
-	private static final long serialVersionUID = 1L;
-	private final JButton host, join, quit;
-	private final SettlersOfCatan soc;
+	private static final long serialVersionUID = 6630368977600473866L;
+	private final JButton host, join, quit; // buttons on main menu screen
+	private final SettlersOfCatan soc; // reference to SOC instance
 
 	/**
 	 * Instantiates a new main menu.
-	 * @param soc reference to Settlers Of Catan class instance (which contains launch configurations etc)
+	 * @param soc reference to Settlers Of Catan class instance, which is the launch menu
 	 */
 	public MainMenu(SettlersOfCatan socIn) {
 		super();
-		this.soc = socIn;
+		soc = socIn;
 
 		host = new CatanMenuButton("Host");
 		host.addActionListener(new ActionListener() {
@@ -65,6 +65,9 @@ public class MainMenu extends CatanMenu {
 		addComponent(quit);
 	}
 
+	/**
+	 * Sets the focus for easy keyboard shortcuts.
+	 */
 	@Override
 	public void requestFocus() {
 		super.requestFocus();

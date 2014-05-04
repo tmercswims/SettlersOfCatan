@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.eheimark.catan.gui.Update;
+import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
@@ -36,7 +36,7 @@ import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
  * @author Alex Treil
  *
  */
-public class Trade extends JPanel implements Update {
+public class Trade extends JPanel implements ServerUpdate {
 
 	/**
 	 * 
@@ -441,7 +441,7 @@ public class Trade extends JPanel implements Update {
 	
 	private boolean updated = false;
 	@Override
-	public void ericUpdate() {
+	public void serverUpdate() {
 
 		System.err.println("Trade ericupdate");
 		if(!updated) {

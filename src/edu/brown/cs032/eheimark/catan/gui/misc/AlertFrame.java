@@ -1,4 +1,4 @@
-package edu.brown.cs032.eheimark.catan.gui;
+package edu.brown.cs032.eheimark.catan.gui.misc;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -12,8 +12,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import edu.brown.cs032.eheimark.catan.gui.Constants;
+import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
 
+/**
+ * The Class AlertFrame is used for alerts indicating sudden disconnection or
+ * that the server has dropped
+ */
 public class AlertFrame extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final JPanel _myPanel;
@@ -22,12 +28,18 @@ public class AlertFrame extends JDialog implements ActionListener {
 	private final JLabel _myMessageLabel;
 	private GridBagConstraints _gbc; // constraints
 
+	/**
+	 * Instantiates a new alert frame.
+	 *
+	 * @param message the message
+	 * @param gui the gui
+	 */
 	public AlertFrame(String message, GUIFrame gui){
 		super(gui, true);
 		_gui = gui;
 		_myPanel = new JPanel();
 		getContentPane().add(_myPanel);
-		
+
 		_myMessageLabel = new JLabel(message);
 		_myMessageLabel.setFont(Constants.ALERT_MENU_FONT);
 		_myMessageLabel.setForeground(Constants.CATAN_ORANGE);
@@ -37,22 +49,26 @@ public class AlertFrame extends JDialog implements ActionListener {
 		_mainMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		_mainMenuButton.addActionListener(this);
 		_mainMenuButton.requestFocus();
-		
+
 		_myPanel.setLayout(new GridBagLayout());
 		_gbc = new GridBagConstraints();
-	    _gbc.gridx = _gbc.gridy = 0;
+		_gbc.gridx = _gbc.gridy = 0;
 		_myPanel.add(_myMessageLabel, _gbc);
 		_gbc.gridy++;
 		_myPanel.add(_mainMenuButton, _gbc);
 		_myPanel.setBackground(Constants.CATAN_RED);
-		
-		//setUndecorated(true);
-		//setOpacity(0.75f);
+
+		// For now, alert pane set to decorated so user can move around box but this could change by uncommenting
+		// setUndecorated(true);
+		// setOpacity(0.75f);
 		pack();
 		setLocationRelativeTo(gui);
 		setVisible(true);
 	}
-	
+
+	/**
+	 * Alert menu action listener pops up new main menu.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		SwingUtilities.invokeLater(new Runnable() {

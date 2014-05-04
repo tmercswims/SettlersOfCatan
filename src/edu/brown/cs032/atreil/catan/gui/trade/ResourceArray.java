@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
-import edu.brown.cs032.eheimark.catan.gui.Update;
+import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
 import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 
@@ -23,7 +23,7 @@ import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
  * @author Alex Treil
  *
  */
-class ResourceArray extends JPanel implements Update {
+class ResourceArray extends JPanel implements ServerUpdate {
 	
 	/**
 	 * 
@@ -420,7 +420,7 @@ class ResourceArray extends JPanel implements Update {
 	}
 	
 	@Override
-	public void ericUpdate() {
+	public void serverUpdate() {
 		// TODO Auto-generated method stub
 		
 	}
