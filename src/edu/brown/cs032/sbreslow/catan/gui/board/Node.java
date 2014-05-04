@@ -133,10 +133,10 @@ public class Node extends BoardComponent{
                 case 0:
                     break;
                 case 1:
-                    if (_lookerColor.equals(red)) building = settlementRedGhost1;
-                    else if (_lookerColor.equals(blue)) building = settlementBlueGhost1;
-                    else if (_lookerColor.equals(orange)) building = settlementOrangeGhost1;
-                    else if (_lookerColor.equals(white)) building = settlementWhiteGhost1;
+                    if (_lookerColor.equals(red)) building = settlementRedGhost;
+                    else if (_lookerColor.equals(blue)) building = settlementBlueGhost;
+                    else if (_lookerColor.equals(orange)) building = settlementOrangeGhost;
+                    else if (_lookerColor.equals(white)) building = settlementWhiteGhost;
                     break;
                 case 2:
                     if (_lookerColor.equals(red)) building = settlementRed;
@@ -162,10 +162,10 @@ public class Node extends BoardComponent{
                 case 0:
                     break;
                 case 1:
-                    if (_lookerColor.equals(red)) building = cityRedGhost1;
-                    else if (_lookerColor.equals(blue)) building = cityBlueGhost1;
-                    else if (_lookerColor.equals(orange)) building = cityOrangeGhost1;
-                    else if (_lookerColor.equals(white)) building = cityWhiteGhost1;
+                    if (_lookerColor.equals(red)) building = cityRedGhost;
+                    else if (_lookerColor.equals(blue)) building = cityBlueGhost;
+                    else if (_lookerColor.equals(orange)) building = cityOrangeGhost;
+                    else if (_lookerColor.equals(white)) building = cityWhiteGhost;
                     break;
                 case 2:
                     if (_lookerColor.equals(red)) building = cityRed;

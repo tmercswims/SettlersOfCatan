@@ -55,36 +55,28 @@ public class GUIConstants {
 	
 	
     public static class Node {
-        public static final Image settlementRedGhost1 = new ImageIcon("images/pieces/settlement_red_ghost_1.png").getImage();
-        public static final Image settlementRedGhost2 = new ImageIcon("images/pieces/settlement_red_ghost_2.png").getImage();
+        public static final Image settlementRedGhost = new ImageIcon("images/pieces/settlement_red_ghost_1.png").getImage();
         public static final Image settlementRed = new ImageIcon("images/pieces/settlement_red.png").getImage();
         
-        public static final Image settlementBlueGhost1 = new ImageIcon("images/pieces/settlement_blue_ghost_1.png").getImage();
-        public static final Image settlementBlueGhost2 = new ImageIcon("images/pieces/settlement_blue_ghost_2.png").getImage();
+        public static final Image settlementBlueGhost = new ImageIcon("images/pieces/settlement_blue_ghost_1.png").getImage();
         public static final Image settlementBlue = new ImageIcon("images/pieces/settlement_blue.png").getImage();
         
-        public static final Image settlementOrangeGhost1 = new ImageIcon("images/pieces/settlement_orange_ghost_1.png").getImage();
-        public static final Image settlementOrangeGhost2 = new ImageIcon("images/pieces/settlement_orange_ghost_2.png").getImage();
+        public static final Image settlementOrangeGhost = new ImageIcon("images/pieces/settlement_orange_ghost_1.png").getImage();
         public static final Image settlementOrange = new ImageIcon("images/pieces/settlement_orange.png").getImage();
         
-        public static final Image settlementWhiteGhost1 = new ImageIcon("images/pieces/settlement_white_ghost_1.png").getImage();
-        public static final Image settlementWhiteGhost2 = new ImageIcon("images/pieces/settlement_white_ghost_2.png").getImage();
+        public static final Image settlementWhiteGhost = new ImageIcon("images/pieces/settlement_white_ghost_1.png").getImage();
         public static final Image settlementWhite = new ImageIcon("images/pieces/settlement_white.png").getImage();
         
-        public static final Image cityRedGhost1 = new ImageIcon("images/pieces/city_red_ghost_1.png").getImage();
-        public static final Image cityRedGhost2 = new ImageIcon("images/pieces/city_red_ghost_2.png").getImage();
+        public static final Image cityRedGhost = new ImageIcon("images/pieces/city_red_ghost_1.png").getImage();
         public static final Image cityRed = new ImageIcon("images/pieces/city_red.png").getImage();
         
-        public static final Image cityBlueGhost1 = new ImageIcon("images/pieces/city_blue_ghost_1.png").getImage();
-        public static final Image cityBlueGhost2 = new ImageIcon("images/pieces/city_blue_ghost_2.png").getImage();
+        public static final Image cityBlueGhost = new ImageIcon("images/pieces/city_blue_ghost_1.png").getImage();
         public static final Image cityBlue = new ImageIcon("images/pieces/city_blue.png").getImage();
         
-        public static final Image cityOrangeGhost1 = new ImageIcon("images/pieces/city_orange_ghost_1.png").getImage();
-        public static final Image cityOrangeGhost2 = new ImageIcon("images/pieces/city_orange_ghost_2.png").getImage();
+        public static final Image cityOrangeGhost = new ImageIcon("images/pieces/city_orange_ghost_1.png").getImage();
         public static final Image cityOrange = new ImageIcon("images/pieces/city_orange.png").getImage();
         
-        public static final Image cityWhiteGhost1 = new ImageIcon("images/pieces/city_white_ghost_1.png").getImage();
-        public static final Image cityWhiteGhost2 = new ImageIcon("images/pieces/city_white_ghost_2.png").getImage();
+        public static final Image cityWhiteGhost = new ImageIcon("images/pieces/city_white_ghost_1.png").getImage();
         public static final Image cityWhite = new ImageIcon("images/pieces/city_white.png").getImage();
     }
     
@@ -99,21 +91,18 @@ public class GUIConstants {
         public static final Image wheatPort = new ImageIcon("images/ports/wheat.png").getImage();
         public static final Image woodPort = new ImageIcon("images/ports/wood.png").getImage();
         
-        public static final Color redGhost1 = new Color(252, 51, 51);
-        public static final Color redGhost2 = new Color(252, 26, 26);
+        public static final Color redGhost = new Color(252, 77, 77);
         public static final Color red = new Color(252, 1, 1);
         
-        public static final Color blueGhost1 = new Color(50, 121, 168);
-        public static final Color blueGhost2 = new Color(25, 104, 157);
+        public static final Color blueGhost = new Color(76, 138, 179);
         public static final Color blue = new Color(0, 88, 147);
         
-        public static final Color orangeGhost1 = new Color(251, 139, 50);
-        public static final Color orangeGhost2 = new Color(251, 125, 25);
+        public static final Color orangeGhost = new Color(252, 154, 76);
         public static final Color orange = new Color(251, 111, 0);
         
-        public static final Color whiteGhost1 = new Color(201, 203, 203);
-        public static final Color whiteGhost2 = new Color(226, 228, 228);
+        public static final Color whiteGhost = new Color(201, 203, 203);
         public static final Color white = new Color(252, 254, 254);
+        
         
     }
 
@@ -139,8 +128,7 @@ public class GUIConstants {
 		public static final Image eleven = new ImageIcon("images/numbers/11.png").getImage();
 		public static final Image twelve = new ImageIcon("images/numbers/12.png").getImage();
 
-		public static final Image robberGhost1 = new ImageIcon("images/pieces/robber_ghost_1.png").getImage();
-		public static final Image robberGhost2 = new ImageIcon("images/pieces/robber_ghost_2.png").getImage();
+		public static final Image robberGhost = new ImageIcon("images/pieces/robber_ghost_1.png").getImage();
 		public static final Image robber = new ImageIcon("images/pieces/robber.png").getImage();
 	}
 

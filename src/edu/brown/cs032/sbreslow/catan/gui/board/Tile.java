@@ -200,7 +200,7 @@ public class Tile extends BoardComponent{
                         }
                         break;
                     case 1:
-                        number = robberGhost1;
+                        number = robberGhost;
                         break;
                     case 2:
                         number = robber;
