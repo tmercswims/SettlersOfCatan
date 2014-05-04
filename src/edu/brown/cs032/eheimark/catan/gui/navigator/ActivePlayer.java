@@ -2,6 +2,7 @@ package edu.brown.cs032.eheimark.catan.gui.navigator;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -12,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -52,25 +54,15 @@ public class ActivePlayer extends JPanel implements Update {
 		this.rollDie = true;
 		this.setOpaque(false); // set background to opaque b/c drawing done in GUI class for background
 
-		//setPreferredSize(new Dimension(600, 50));
-
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{600, 0};
-		gridBagLayout.rowHeights = new int[]{25, 25, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		gameManagerButton = new JButton("Roll Die");
-		gameManagerButton.setPreferredSize(Constants.ROLL_BUTTON);
-		//gameManagerButton.setMaximumSize(Constants.ROLL_BUTTON);
-		//gameManagerButton.setMinimumSize(Constants.ROLL_BUTTON);
+		gameManagerButton.setMinimumSize(Constants.ROLL_BUTTON);
 		gameManagerButton.setFont(Constants.MY_FONT_ACTIVEPLAYER);
 		gameManagerButton.setForeground(Constants.CATAN_RED);
 		gameManagerButton.addActionListener(new TurnListener());
 
 		JPanel playerResourcesPanel = new JPanel();
 		playerResourcesPanel.setOpaque(false);
-		//playerResourcesPanel.setPreferredSize(Constants.PLAYER_STATS);
 		playerResourcesPanel.setLayout(new GridLayout(1,10));
 		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
 				(int)(Misc.oreToken.getIconWidth()*Constants.TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.oreToken.getIconHeight()),
@@ -135,18 +127,11 @@ public class ActivePlayer extends JPanel implements Update {
 		mystats.setFont(Constants.MY_FONT_ACTIVEPLAYER);
 		mystats.setForeground(Constants.CATAN_ORANGE);
 		mystats.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_mystats = new GridBagConstraints();
-		gbc_mystats.insets = new Insets(0, 0, 5, 0);
-		gbc_mystats.gridx = 0;
-		gbc_mystats.gridy = 0;
-		add(playerResourcesPanel, gbc_mystats);
+		add(playerResourcesPanel);
 
-		GridBagConstraints gbc_gameManagerButton = new GridBagConstraints();
-		gbc_gameManagerButton.fill = GridBagConstraints.VERTICAL;
-		gbc_gameManagerButton.gridx = 0;
-		gbc_gameManagerButton.gridy = 1;
 		gameManagerButton.setEnabled(false);
-		add(gameManagerButton, gbc_gameManagerButton);
+		gameManagerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		add(gameManagerButton);
 
 		makeItBlink = new Timer(1000, // 1000 milliseconds
 				new ActionListener() {

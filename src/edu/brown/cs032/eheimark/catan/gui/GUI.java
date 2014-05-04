@@ -1,26 +1,19 @@
 package edu.brown.cs032.eheimark.catan.gui;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.wood;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.io.IOException;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import edu.brown.cs032.atreil.catan.chat.client.ChatClient;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.navigator.ActivePlayer;
 import edu.brown.cs032.eheimark.catan.gui.navigator.TabbedPanel;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.wood;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.*;
-
-import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 /**
  * The Class GUI contains elements needed to run the game once it is initialized (that is,
@@ -47,7 +40,7 @@ public class GUI extends JPanel implements Update {
         left.setOpaque(false);
 		this.client = cc;
 		activeplayer = new ActivePlayer(client);
-		left.add(activeplayer, BorderLayout.CENTER);
+		left.add(activeplayer, BorderLayout.SOUTH);
 		gameBoard = new DrawingPanel(client);
 		left.add(gameBoard, BorderLayout.NORTH);
 		add(left, BorderLayout.CENTER);

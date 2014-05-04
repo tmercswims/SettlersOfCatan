@@ -46,5 +46,7 @@ public class Constants {
 	public static final Font OVERVIEW_TAB_FONT_ACTIVEPLAYER = new Font("Georgia", Font.BOLD, 20);
 	public static final Font OVERVIEW_TAB_FONT_HEADER = new Font("Georgia", Font.BOLD, 13);
 	public static final Color ACTIVE_PLAYER_OVERVIEW_COLOR = new Color(0,153,0);
+	public static final Dimension TUTORIAL_SIZE =  new Dimension(200, 75);
+	public static final Dimension TUTORIAL_FRAME_SIZE = new Dimension(250, 75);;
 
 }
