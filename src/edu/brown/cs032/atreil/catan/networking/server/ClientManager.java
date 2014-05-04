@@ -175,7 +175,7 @@ public class ClientManager extends Thread {
 		int type = packet.getType();
 		
 		if(type == Packet.MOVE){
-			_pool.addUpdate(String.format("Player %s tried to make a move", getPlayerName()));
+			_pool.addUpdate(String.format("%s tried to make a move", getPlayerName()));
 			_pool.addMove((Move) packet.getObject());
 		} else if(type == Packet.MESSAGE){
 			//TODO: sending chat messages
@@ -277,10 +277,10 @@ public class ClientManager extends Thread {
 				_in.close();
 				_out.close();
 				_client.close();
-				_pool.addUpdate(String.format("Player %s disconnected", _p.getName()));
+				_pool.addUpdate(String.format("%s disconnected", _p.getName()));
 				
 				if(!inLobby && _pool.getIsRunning()){
-					_pool.sendGameOver("Player " + _p.getName() + " has disconnected");
+					_pool.sendGameOver(_p.getName() + " has disconnected");
 				}
 				//_pool.broadcast(new Packet(Packet.GAME_OVER, "Player "+_p.getName()+" has disconnected!"
 						//+ "  Please return to the Main Menu", 0));

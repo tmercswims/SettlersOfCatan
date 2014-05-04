@@ -9,7 +9,7 @@ import edu.brown.cs032.eheimark.catan.launch.screens.MainMenu;
  * or join an existing server as a client.
  */
 public class SettlersOfCatan {
-	private CatanFrame frame; // Reference to CatanFrame
+	private LaunchFrame frame; // Reference to CatanFrame
 	private final LaunchConfiguration lc; // Reference to launch configuration
 
 	/**
@@ -17,7 +17,7 @@ public class SettlersOfCatan {
 	 */
 	public SettlersOfCatan() {
 		this.lc = new LaunchConfiguration();
-		setFrame(new CatanFrame(new MainMenu(this), "Settlers of Catan"));
+		setFrame(new LaunchFrame(new MainMenu(this), "Settlers of Catan"));
 	}
 
 	/**
@@ -25,7 +25,7 @@ public class SettlersOfCatan {
 	 *
 	 * @return the frame
 	 */
-	public CatanFrame getFrame() {
+	public LaunchFrame getFrame() {
 		return frame;
 	}
 
@@ -34,7 +34,7 @@ public class SettlersOfCatan {
 	 *
 	 * @param frame the new frame
 	 */
-	public void setFrame(CatanFrame frame) {
+	public void setFrame(LaunchFrame frame) {
 		this.frame = frame;
 		frame.pack();
 	}
