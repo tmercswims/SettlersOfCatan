@@ -66,6 +66,8 @@ public class YoPFrame extends JFrame {
 			}
 			_tbuttons[i].setHorizontalAlignment(SwingConstants.CENTER);
 			_bbuttons[i].setHorizontalAlignment(SwingConstants.CENTER);
+			_tbuttons[i].setOpaque(false);
+			_bbuttons[i].setOpaque(false);
 			_top.add(_tbuttons[i]);
 			_bot.add(_bbuttons[i]);
 			panel.add(_images[i]);
