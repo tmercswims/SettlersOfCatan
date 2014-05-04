@@ -1,12 +1,9 @@
 package edu.brown.cs032.eheimark.catan.gui.navigator;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import edu.brown.cs032.atreil.catan.gui.trade.Trade;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
@@ -87,6 +84,7 @@ public class TabbedPanel extends JPanel implements Update {
 	
 	@Override
 	public void ericUpdate() {
+		System.err.println("TabbedPanel eric update");
 		overview.ericUpdate();
 		trade.ericUpdate();
 		build.ericUpdate();

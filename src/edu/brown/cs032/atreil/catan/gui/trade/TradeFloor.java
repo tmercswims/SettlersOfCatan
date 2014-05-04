@@ -147,6 +147,15 @@ class TradeFloor extends JPanel implements Update{
 		_resourceArray.resetCountAll();
 	}
 	
+	/**
+	 * Returns the original count of the desired resource
+	 * @param type The resource to find the count
+	 * @return the original amount
+	 */
+	public int getOriginalCount(int type){
+		return _resourceArray.getOriginalCount(type);
+	}
+	
 	@Override
 	public void ericUpdate() {
 		// TODO Auto-generated method stub

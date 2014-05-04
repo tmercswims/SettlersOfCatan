@@ -91,11 +91,6 @@ public class Trade extends JPanel implements Update {
 		_get.setUpdateColorEnabled(true);
 		
 		//setting listeners
-//		for(int i = 0; i < 5; i++){
-//			TradeFloorMouseAdapter adapter = new TradeFloorMouseAdapter(i, this);
-//			center.addMouseListener(adapter);
-//			center.addMouseMotionListener(adapter);
-//		}
 		TradeMouseAdapter l = new TradeMouseAdapter(this, _center);
 		addMouseListener(l);
 		addMouseMotionListener(l);
@@ -189,7 +184,7 @@ public class Trade extends JPanel implements Update {
 		
 		@Override
 		public void mousePressed(MouseEvent e){
-			if(!_client.getPlayer().isActive())
+			if(_client != null && !_client.getPlayer().isActive())
 				return;
 			
 			_dragging = true;
@@ -201,10 +196,10 @@ public class Trade extends JPanel implements Update {
 		
 		@Override
 		public void mouseDragged(MouseEvent e){
-			if(!_client.getPlayer().isActive())
+			if(_client != null && !_client.getPlayer().isActive())
 				return;
 			
-			if(_dragging && _center.getCount(_type) > 0){
+			if(_dragging){
 				_canDrop = true;
 				_canDraw = true;
 				_x = e.getXOnScreen() - _trade.getLocationOnScreen().x - _token.getWidth(_trade)/2;
@@ -216,7 +211,7 @@ public class Trade extends JPanel implements Update {
 		
 		@Override
 		public void mouseReleased(MouseEvent e){
-			if(!_client.getPlayer().isActive())
+			if(_client != null && !_client.getPlayer().isActive())
 				return;
 			
 			if(_dragging && _canDrop){
@@ -226,12 +221,18 @@ public class Trade extends JPanel implements Update {
 				int x = e.getLocationOnScreen().x;
 				
 				if(x <= _c.getLocationOnScreen().x){
-					if(_get.getCount(_type) > 0){
-						_get.resetCount(_type);
-						_center.resetCount(_type);
+					if(_center.getOriginalCount(_type) != 0){
+						
+						if(_get.getCount(_type) > 0){
+							_get.resetCount(_type);
+							_center.resetCount(_type);
+						}
+						
+						if(_center.getCount(_type) > 0){
+							_give.incrementCount(_type);
+							_center.decrementCount(_type);
+						}
 					}
-					_give.incrementCount(_type);
-					_center.decrementCount(_type);
 				}
 				else if(x >= _c.getLocationOnScreen().x + _c.getWidth()){
 					if(_give.getCount(_type) > 0){
@@ -248,7 +249,7 @@ public class Trade extends JPanel implements Update {
 		
 		@Override
 		public void mouseClicked(MouseEvent e){
-			if(!_client.getPlayer().isActive())
+			if(_client != null && !_client.getPlayer().isActive())
 				return;
 			
 			//System.err.println(!_dragging);
@@ -417,9 +418,9 @@ public class Trade extends JPanel implements Update {
 	private boolean updated = false;
 	@Override
 	public void ericUpdate() {
-		// TODO Auto-generated method stub
+
+		System.err.println("Trade ericupdate");
 		if(!updated) {
-			//System.out.println("IN TRADE MENU UPDATE");
 			Player[] players = _client.getPlayers();
 
 			HashMap<Integer, Color> colors = new HashMap<Integer, Color>();
@@ -438,6 +439,8 @@ public class Trade extends JPanel implements Update {
 			}
 			_toPlayerCB.setRenderer(new MyComboBoxRenderer(colors));
 		}
+		
+		_center.setResourceCount(_client.getPlayer().getResources());
 		_toPlayerCB.setSelectedItem("***MERCHANT***");
 		_toPlayerCB.setBackground(Color.white);
 

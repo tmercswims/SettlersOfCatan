@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -77,37 +78,45 @@ class ResourceArray extends JPanel implements Update {
 	 * Initializes the look of the gui
 	 */
 	private void initializeGUI(){
-		this.setLayout(new GridLayout(2, 5));
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		//setting up tokens/labels
+		JPanel tokenPanel = new JPanel();
+		tokenPanel.setLayout(new GridLayout(1, 5));
+		tokenPanel.setOpaque(false);
+		
 		_oreLabel = new JLabel(Misc.oreTokenGray);
 		_oreLabel.setTransferHandler(new TransferHandler("icon"));
 		_oreLabel.setOpaque(false);
-		add(_oreLabel);
+		tokenPanel.add(_oreLabel);
 		
 		_wheatLabel = new JLabel(Misc.wheatTokenGray);
 		_wheatLabel.setTransferHandler(new TransferHandler("icon"));
 		_wheatLabel.setOpaque(false);
-		add(_wheatLabel);
+		tokenPanel.add(_wheatLabel);
 		
 		_woodLabel = new JLabel(Misc.woodTokenGray);
 		_woodLabel.setTransferHandler(new TransferHandler("icon"));
 		_woodLabel.setOpaque(false);
-		add(_woodLabel);
+		tokenPanel.add(_woodLabel);
 		
 		_sheepLabel = new JLabel(Misc.woolTokenGray);
 		_sheepLabel.setTransferHandler(new TransferHandler("icon"));
 		_sheepLabel.setOpaque(false);
-		add(_sheepLabel);
+		tokenPanel.add(_sheepLabel);
 		
 		_brickLabel = new JLabel(Misc.brickTokenGray);
 		_brickLabel.setTransferHandler(new TransferHandler("icon"));
 		_brickLabel.setOpaque(false);
-		add(_brickLabel);
+		tokenPanel.add(_brickLabel);
+		
+		add(tokenPanel);
 		
 		//setting up counts
-		//JPanel counts = new JPanel();
-		//counts.setLayout(new BoxLayout(counts, BoxLayout.X_AXIS));
+		JPanel labelPanel = new JPanel();
+		labelPanel.setLayout(new GridLayout(1,5));
+		labelPanel.setOpaque(false);
+		
 		_oreCount = new JLabel("");
 		_oreCount.setHorizontalAlignment(JLabel.CENTER);
 		_oreCount.setOpaque(false);
@@ -128,11 +137,14 @@ class ResourceArray extends JPanel implements Update {
 		_brickCount.setHorizontalAlignment(JLabel.CENTER);
 		_brickCount.setOpaque(false);
 		
-		add(_oreCount);
-		add(_wheatCount);
-		add(_woodCount);
-		add(_sheepCount);
-		add(_brickCount);
+		labelPanel.add(_oreCount);
+		labelPanel.add(_wheatCount);
+		labelPanel.add(_woodCount);
+		labelPanel.add(_sheepCount);
+		labelPanel.add(_brickCount);
+		
+		add(labelPanel);
+		
 		
 		_resourceCountArray = new JLabel[] {_oreCount, _wheatCount, _woodCount, _sheepCount, _brickCount};
 		_resourceTokenArray = new JLabel[] {_oreLabel, _wheatLabel, _woodLabel, _sheepLabel, _brickLabel};
@@ -350,6 +362,19 @@ class ResourceArray extends JPanel implements Update {
 		}
 		
 		
+	}
+	
+	/**
+	 * Returns the original count of the desired resource
+	 * @param type The resource to find the count
+	 * @return the original amount
+	 */
+	public int getOriginalCount(int type){
+		try{
+			return _originalResourceCount[type];
+		} catch(ArrayIndexOutOfBoundsException e){
+			throw new IllegalArgumentException(String.format("Invalid label. Got %s", type));
+		}
 	}
 	
 	@Override
