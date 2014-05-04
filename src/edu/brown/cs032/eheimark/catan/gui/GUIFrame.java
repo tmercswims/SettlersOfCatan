@@ -2,7 +2,6 @@ package edu.brown.cs032.eheimark.catan.gui;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
-import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
@@ -59,10 +58,6 @@ public class GUIFrame extends JFrame {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					int W = 1000;
-					int H = 825;
-					Rectangle b = e.getComponent().getBounds();
-					e.getComponent().setBounds(b.x, b.y, b.width, b.width*H/W);
 					_cc.getGUI().getDP().setResize(_frame.getWidth()*600/1000, _frame.getHeight()*600/825);
 					_cc.getBoard().resize(_cc.getGUI().getDP().getWidth(), _cc.getGUI().getDP().getHeight());
 					_cc.getGUI().getDP().serverUpdate();
