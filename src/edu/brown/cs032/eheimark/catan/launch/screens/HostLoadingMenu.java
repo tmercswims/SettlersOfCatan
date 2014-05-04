@@ -7,14 +7,12 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.text.DefaultCaret;
 
 import edu.brown.cs032.atreil.catan.networking.server.CatanServer;
-import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanMenuButton;
-import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanScrollableTextArea;
-
-import javax.swing.text.DefaultCaret;
+import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanScrollPane;
 
 /**
  * The Class HostLoading is the launch menu page that displays host server status.
@@ -23,7 +21,7 @@ import javax.swing.text.DefaultCaret;
 public class HostLoadingMenu extends CatanMenu {
 	private static final long serialVersionUID = 1L;
 	private final JButton back; // Back button
-	private final CatanScrollableTextArea jsp; // Scrollable pane for jta
+	private final CatanScrollPane jsp; // Scrollable pane for jta
 	private final JTextArea jta; // JTA for server updates
 	private final ServerUpdate su; // Thread to up the JTextArea with messages from the CatanServer
 	private final SettlersOfCatan soc;
@@ -36,7 +34,7 @@ public class HostLoadingMenu extends CatanMenu {
 	public HostLoadingMenu(SettlersOfCatan socIn) {
 		super();
 		this.soc = socIn;
-		jsp = new CatanScrollableTextArea(); 
+		jsp = new CatanScrollPane(); 
 		jta = jsp.getTextArea();
 		DefaultCaret caret = (DefaultCaret)jta.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -72,6 +70,7 @@ public class HostLoadingMenu extends CatanMenu {
 	 * The Class ServerUpdate updates the JTextArea with messages from the server
 	 */
 	private class ServerUpdate extends Thread {
+		@SuppressWarnings("deprecation")
 		@Override
 		public void run() {
 			try {
@@ -104,6 +103,9 @@ public class HostLoadingMenu extends CatanMenu {
 		}
 	}
 	
+	/**
+	 * Sets the focus for easy keyboard shortcuts.
+	 */
 	@Override
 	public void requestFocus() {
 		super.requestFocus();

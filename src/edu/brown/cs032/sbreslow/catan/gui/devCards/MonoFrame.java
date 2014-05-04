@@ -1,6 +1,6 @@
 package edu.brown.cs032.sbreslow.catan.gui.devCards;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.feltcon;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.feltcon;
 
 import java.awt.Button;
 import java.awt.Color;
@@ -17,7 +17,7 @@ import javax.swing.*;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.tmercuri.catan.logic.move.MonopolyMove;
-import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
+import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 
 public class MonoFrame extends JFrame {
 

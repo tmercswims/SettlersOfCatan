@@ -14,8 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
-import edu.brown.cs032.eheimark.catan.gui.Update;
-import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
+import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
+import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 
 /**
@@ -23,7 +23,7 @@ import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
  * @author Alex Treil
  *
  */
-class ResourceArray extends JPanel implements Update {
+class ResourceArray extends JPanel implements ServerUpdate {
 	
 	/**
 	 * 
@@ -88,27 +88,25 @@ class ResourceArray extends JPanel implements Update {
 		_oreLabel = new JLabel(Misc.oreTokenGray);
 		_oreLabel.setTransferHandler(new TransferHandler("icon"));
 		_oreLabel.setOpaque(false);
-		tokenPanel.add(_oreLabel);
 		
 		_wheatLabel = new JLabel(Misc.wheatTokenGray);
 		_wheatLabel.setTransferHandler(new TransferHandler("icon"));
 		_wheatLabel.setOpaque(false);
-		tokenPanel.add(_wheatLabel);
 		
 		_woodLabel = new JLabel(Misc.woodTokenGray);
 		_woodLabel.setTransferHandler(new TransferHandler("icon"));
 		_woodLabel.setOpaque(false);
-		tokenPanel.add(_woodLabel);
 		
 		_sheepLabel = new JLabel(Misc.woolTokenGray);
 		_sheepLabel.setTransferHandler(new TransferHandler("icon"));
 		_sheepLabel.setOpaque(false);
-		tokenPanel.add(_sheepLabel);
 		
 		_brickLabel = new JLabel(Misc.brickTokenGray);
 		_brickLabel.setTransferHandler(new TransferHandler("icon"));
 		_brickLabel.setOpaque(false);
-		tokenPanel.add(_brickLabel);
+
+		for(int i = 0; i < 5; i++)
+			tokenPanel.add(getTokenLabel(i));
 		
 		add(tokenPanel);
 		
@@ -137,11 +135,15 @@ class ResourceArray extends JPanel implements Update {
 		_brickCount.setHorizontalAlignment(JLabel.CENTER);
 		_brickCount.setOpaque(false);
 		
-		labelPanel.add(_oreCount);
-		labelPanel.add(_wheatCount);
-		labelPanel.add(_woodCount);
-		labelPanel.add(_sheepCount);
-		labelPanel.add(_brickCount);
+		for(int i = 0; i < 5; i++)
+			labelPanel.add(getCountLabel(i));
+		
+		
+//		labelPanel.add(_oreCount);
+//		labelPanel.add(_wheatCount);
+//		labelPanel.add(_woodCount);
+//		labelPanel.add(_sheepCount);
+//		labelPanel.add(_brickCount);
 		
 		add(labelPanel);
 		
@@ -160,6 +162,46 @@ class ResourceArray extends JPanel implements Update {
 //		ResourceArrayMouseAdapter l = new ResourceArrayMouseAdapter();
 //		addMouseListener(l);
 //		addMouseMotionListener(l);
+	}
+	
+	/**
+	 * Given a type, returns the associated token label
+	 * @param type Type to find
+	 * @return The resource token
+	 */
+	private JLabel getTokenLabel(int type){
+		if(type == ResourceConstants.BRICK)
+			return _brickLabel;
+		else if(type == ResourceConstants.ORE)
+			return _oreLabel;
+		else if(type == ResourceConstants.SHEEP)
+			return _sheepLabel;
+		else if(type == ResourceConstants.WHEAT)
+			return _wheatLabel;
+		else if(type == ResourceConstants.WOOD)
+			return _woodLabel;
+		else
+			throw new IllegalArgumentException(String.format("Invalid type %s", type));
+	}
+	
+	/**
+	 * Given a type, returns the associated count label
+	 * @param type Type to find
+	 * @return the count label
+	 */
+	private JLabel getCountLabel(int type){
+		if(type == ResourceConstants.BRICK)
+			return _brickCount;
+		else if(type == ResourceConstants.ORE)
+			return _oreCount;
+		else if(type == ResourceConstants.SHEEP)
+			return _sheepCount;
+		else if(type == ResourceConstants.WHEAT)
+			return _wheatCount;
+		else if(type == ResourceConstants.WOOD)
+			return _woodCount;
+		else
+			throw new IllegalArgumentException(String.format("Invalid type %s", type));
 	}
 	
 	/**
@@ -378,7 +420,7 @@ class ResourceArray extends JPanel implements Update {
 	}
 	
 	@Override
-	public void ericUpdate() {
+	public void serverUpdate() {
 		// TODO Auto-generated method stub
 		
 	}

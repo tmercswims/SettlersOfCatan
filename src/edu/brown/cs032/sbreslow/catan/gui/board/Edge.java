@@ -1,6 +1,6 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.*;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.*;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import java.awt.BasicStroke;
 import java.awt.Color;

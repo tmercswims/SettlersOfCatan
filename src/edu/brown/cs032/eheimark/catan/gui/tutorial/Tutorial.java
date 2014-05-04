@@ -1,33 +1,34 @@
 package edu.brown.cs032.eheimark.catan.gui.tutorial;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.back;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.brickTileIcon;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.brickToken;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.city;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.forward;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.oreTileIcon;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.oreToken;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.road;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.settlement;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.sheepTileIcon;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.wheatTileIcon;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.wheatToken;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.woodTileIcon;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.woodToken;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.woolToken;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Dimensions.TUTORIAL_FRAME_SIZE;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.back;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.brickTileIcon;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.brickToken;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.city;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.forward;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.oreTileIcon;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.oreToken;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.road;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.settlement;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.sheepTileIcon;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.wheatTileIcon;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.wheatToken;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.woodTileIcon;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.woodToken;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.woolToken;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-
-import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 /**
  * The Class Tutorial is the pop-up JFrame that is an in-game Settlers of Catan 
@@ -37,7 +38,7 @@ public class Tutorial extends JFrame{
 	private static final long serialVersionUID = -4734812642841199492L;
 
 	private JPanel _myTutorialPanel; // The main JPanel on the screen
-	private final ArrayList<TutorialPage> _pages; // Arraylist of all the pages
+	private final ArrayList<TutorialPage> _pages; // Array list of all the pages
 	private final JButton forwardButton, backButton; // Back /forward buttons
 	private int _idx; // Index to current page
 
@@ -89,8 +90,8 @@ public class Tutorial extends JFrame{
 		_idx = -1; // findNext() increments by 1, so start at 0
 		swapPage(findNext());
 
-		setMaximumSize(Constants.TUTORIAL_FRAME_SIZE);
-		setMinimumSize(Constants.TUTORIAL_FRAME_SIZE);
+		setMaximumSize(TUTORIAL_FRAME_SIZE);
+		setMinimumSize(TUTORIAL_FRAME_SIZE);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pack();

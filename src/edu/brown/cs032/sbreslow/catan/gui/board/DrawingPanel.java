@@ -1,12 +1,12 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.eheimark.catan.gui.Update;
+import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
 import edu.brown.cs032.eheimark.catan.gui.tutorial.Tutorial;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.musicOff;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.musicOn;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.ports;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.question;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.musicOff;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.musicOn;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.ports;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.question;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.RobberFrame;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
@@ -31,7 +31,7 @@ import javax.swing.SwingUtilities;
 
 
 
-public class DrawingPanel extends JPanel implements Update {// implements MouseListener{
+public class DrawingPanel extends JPanel implements ServerUpdate {// implements MouseListener{
     
     private static final long serialVersionUID = 333238774355322463L;
 	
@@ -495,7 +495,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	}
 
 	@Override
-	public void ericUpdate() {
+	public void serverUpdate() {
 		_toDraw.clear();
 		System.out.println("TRYING TO GET BOARD IN DRAWING PANEL!");
 		_toDraw.addAll(_client.getBoard().getBoard()); //TODO Fix this

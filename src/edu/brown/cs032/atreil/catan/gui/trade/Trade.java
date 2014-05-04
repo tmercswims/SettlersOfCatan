@@ -1,9 +1,10 @@
 package edu.brown.cs032.atreil.catan.gui.trade;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.felt;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.felt;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -24,8 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.eheimark.catan.gui.Update;
-import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
+import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
+import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
@@ -35,7 +36,7 @@ import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
  * @author Alex Treil
  *
  */
-public class Trade extends JPanel implements Update {
+public class Trade extends JPanel implements ServerUpdate {
 
 	/**
 	 * 
@@ -54,6 +55,7 @@ public class Trade extends JPanel implements Update {
 	private TradeFloor _get;
 	private boolean _canDrop; //can we drop the current resource
 	private JButton _proposeButton; //button to send trade requests
+	private JButton _clear; //clears the current proposal
 	
 	public Trade(CatanClient client){
 		super();
@@ -114,9 +116,13 @@ public class Trade extends JPanel implements Update {
 		//visual properties
 		JPanel proposalBar = new JPanel();
 		proposalBar.setLayout(new BoxLayout(proposalBar, BoxLayout.X_AXIS));
+		_clear = new JButton("Reset");
+		_clear.addActionListener(new ResetTradeListener());
+		proposalBar.add(_clear);
 		JLabel to = new JLabel("To: ");
 		to.setForeground(Color.white);
 		proposalBar.add(to);
+		_toPlayerCB.setMaximumSize(new Dimension(1000000000, _clear.getPreferredSize().height));
 		proposalBar.add(_toPlayerCB);
 		
 		_proposeButton = new JButton("Propose");
@@ -126,7 +132,6 @@ public class Trade extends JPanel implements Update {
 		
 		add(proposalBar);
 		
-		//adding players
 	}
 	
 	/**
@@ -404,7 +409,10 @@ public class Trade extends JPanel implements Update {
 			}
 			
 			try {
-				_client.sendMove(new TradeMove(_client.getName(), proposingTo, trade, -1));
+				_client.sendMove(new TradeMove(_client.getPlayerName(), proposingTo, trade, -1));
+				_get.resetCountAll();
+				_center.resetCountAll();
+				_give.resetCountAll();
 			} catch (IllegalArgumentException | IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -415,9 +423,25 @@ public class Trade extends JPanel implements Update {
 		
 	}
 	
+	/**
+	 * This class resets the trade proposal
+	 * @author Alex Treil
+	 *
+	 */
+	private class ResetTradeListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			_get.resetCountAll();
+			_give.resetCountAll();
+			_center.resetCountAll();
+		}
+		
+	}
+	
 	private boolean updated = false;
 	@Override
-	public void ericUpdate() {
+	public void serverUpdate() {
 
 		System.err.println("Trade ericupdate");
 		if(!updated) {
@@ -469,6 +493,7 @@ public class Trade extends JPanel implements Update {
 			if(isSelected) {
 				setBackground(Color.LIGHT_GRAY);
 				_toPlayerCB.setBackground(table.get(idx));
+				_toPlayerCB.setSelectedIndex(idx);
 			}
 			else {
 				setBackground(table.get(idx));

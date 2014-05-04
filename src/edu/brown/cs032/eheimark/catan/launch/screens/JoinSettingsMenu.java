@@ -2,6 +2,8 @@ package edu.brown.cs032.eheimark.catan.launch.screens;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -12,24 +14,20 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
-import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanJLabel;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanMenuButton;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.CatanTextField;
 import edu.brown.cs032.eheimark.catan.launch.screens.jcomponents.ShadowLabel;
-
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 
 /**
  * The Class JoinSettingsMenu is the launch menu page that allows the user to customize the settings for joining a game.
  */
 public class JoinSettingsMenu extends CatanMenu {
-	private static final long serialVersionUID = 1L;
-	private final JButton submit, back;
-	private final JTextField portTF, usernameTF, hostnameTF;
-	private final JLabel joinLbl, usernameLbl, hostnameLbl;
-	private final SettlersOfCatan soc;
+	private static final long serialVersionUID = -4259785400207373901L;
+	private final JButton submit, back; // buttons on screen
+	private final JTextField portTF, usernameTF, hostnameTF; // fields where user can enter input
+	private final JLabel joinLbl, usernameLbl, hostnameLbl; // labels
+	private final SettlersOfCatan soc; // reference to instance
 
 	/**
 	 * Instantiates a new join settings menu.
@@ -37,7 +35,7 @@ public class JoinSettingsMenu extends CatanMenu {
 	 */
 	public JoinSettingsMenu(SettlersOfCatan socIn) {
 		super();
-		setButtonsBorder(BorderFactory.createEmptyBorder(160, 0, 0, 0));
+		setButtonsPanelBorder(BorderFactory.createEmptyBorder(160, 0, 0, 0));
 
 		this.soc = socIn;
 		joinLbl = new ShadowLabel("Select Join Port:");
@@ -223,7 +221,10 @@ public class JoinSettingsMenu extends CatanMenu {
 		addComponent(submit);
 		addComponent(back);
 	}
-	
+
+	/**
+	 * Sets the focus for easy keyboard shortcuts.
+	 */
 	@Override
 	public void requestFocus() {
 		super.requestFocus();

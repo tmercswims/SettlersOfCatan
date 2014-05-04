@@ -1,68 +1,27 @@
 package edu.brown.cs032.eheimark.catan.launch;
 
-import edu.brown.cs032.eheimark.catan.gui.Constants;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.DEFAULT_PORT;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.DEFAULT_HOSTNAME;
 
 /**
- * Class that maintains state of launch configuration. This information is then used by the Client/Server classes to launch 
- * the server and clients with the requested settings from the launch menus..
- *
+ * Class that maintains state of launch configuration. This information is then used by the Client/Server 
+ * classes to launch the server and clients with the requested settings from the launch menus..
  */
 public class LaunchConfiguration {	
-	private boolean FourPlayerGame; // if true, 4 player game; if false, 3 player game
+	private boolean fourPlayerGame; // if true, 4 player game; if false, 3 player game
 	private String joinPort; // port to connect to a server from "join" menu (acting only as client), 
 	private String hostname; // host server name (IP address)
 	private String hostPort; // port used when creating a server from "host" menu
-	private String name; // player name once game launches
-	private int boardSize; // small = 0, medium = 1, large = 2
-	private boolean inGameHelpOn; // whether in-game help is on
-	public static final int SMALL_BOARD = 0, MEDIUM_BOARD = 1, LARGE_BOARD = 2; //TODO Change board size!
+	private String playerName; // player name once game launches
 
 	/**
 	 * Instantiates a new launch configuration.
 	 */
 	public LaunchConfiguration() {
-		this.joinPort = Constants.DEFAULT_PORT;
-		this.hostPort = Constants.DEFAULT_PORT;
-		this.hostname = Constants.DEFAULT_HOSTNAME;
-		setBoardSize(MEDIUM_BOARD);
-		setInGameHelpOn(true);
+		this.joinPort = DEFAULT_PORT;
+		this.hostPort = DEFAULT_PORT;
+		this.hostname = DEFAULT_HOSTNAME;
 		setName("username");
-	}
-
-	/**
-	 * Checks if is in game help on.
-	 *
-	 * @return true, if is in game help on
-	 */
-	public boolean isInGameHelpOn() {
-		return inGameHelpOn;
-	}
-
-	/**
-	 * Sets the in game help on.
-	 *
-	 * @param inGameHelpOn the new in game help on
-	 */
-	public void setInGameHelpOn(boolean inGameHelpOn) {
-		this.inGameHelpOn = inGameHelpOn;
-	}
-
-	/**
-	 * Gets the board size.
-	 *
-	 * @return the board size
-	 */
-	public int getBoardSize() {
-		return boardSize;
-	}
-
-	/**
-	 * Sets the board size.
-	 *
-	 * @param boardSize the new board size
-	 */
-	public void setBoardSize(int boardSize) {
-		this.boardSize = boardSize;
 	}
 
 	/**
@@ -71,7 +30,7 @@ public class LaunchConfiguration {
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		return playerName;
 	}
 
 	/**
@@ -80,7 +39,7 @@ public class LaunchConfiguration {
 	 * @param nameIn the new name
 	 */
 	public void setName(String nameIn) {
-		this.name = nameIn;
+		playerName = nameIn;
 	}
 
 	/**
@@ -125,7 +84,7 @@ public class LaunchConfiguration {
 	 * @return true, if is four player game
 	 */
 	public boolean isFourPlayerGame() {
-		return FourPlayerGame;
+		return fourPlayerGame;
 	}
 
 	/**
@@ -133,8 +92,8 @@ public class LaunchConfiguration {
 	 *
 	 * @param fourPlayerGame the new four player game
 	 */
-	public void setFourPlayerGame(boolean fourPlayerGame) {
-		FourPlayerGame = fourPlayerGame;
+	public void setFourPlayerGame(boolean fourPlayerGameIn) {
+		fourPlayerGame = fourPlayerGameIn;
 	}
 
 	/**

@@ -9,7 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import edu.brown.cs032.eheimark.catan.gui.Update;
+import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
 
 /**
  * This class will contain all of the resource tokens that may be
@@ -17,7 +17,7 @@ import edu.brown.cs032.eheimark.catan.gui.Update;
  * @author Alex Treil
  *
  */
-class TradeFloor extends JPanel implements Update{
+class TradeFloor extends JPanel implements ServerUpdate{
 
 	/**
 	 * 
@@ -157,7 +157,7 @@ class TradeFloor extends JPanel implements Update{
 	}
 	
 	@Override
-	public void ericUpdate() {
+	public void serverUpdate() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -17,7 +17,7 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
+import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.move.YearOfPlentyMove;
 
 public class YoPFrame extends JFrame {

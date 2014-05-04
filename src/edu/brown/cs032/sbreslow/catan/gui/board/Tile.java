@@ -1,6 +1,6 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Tile.*;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;

@@ -1,9 +1,7 @@
 package edu.brown.cs032.eheimark.catan.gui;
 
-import java.awt.Dimension;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
-import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
@@ -20,7 +18,7 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
  * The Class GUIFrame contains the main gui panel with the board at top
  * and tabbed panels at the bottom.
  */
-public class GUIFrame extends JFrame  implements ComponentListener{
+public class GUIFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private OggClip _music;
@@ -33,7 +31,6 @@ public class GUIFrame extends JFrame  implements ComponentListener{
 	 */
 	public GUIFrame(CatanClient cc) {
 		super("Settlers of Catan : " + cc.getPlayerName());
-		addComponentListener(this);
 		setMusic();
 		_gui = new GUI(cc);
 		add(_gui);
@@ -44,13 +41,10 @@ public class GUIFrame extends JFrame  implements ComponentListener{
 		setLocationRelativeTo(null);
 		addComponentListener(new SizeList(cc, this));
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		manager.addKeyEventDispatcher(new MyDispatcher());
-		Dimension actualSize = this.getContentPane().getSize();
-		System.out.println("MY Frame SIZE " + actualSize.width + " " + actualSize.height);
+		manager.addKeyEventDispatcher(new KeyboardShortcuts());
 	}
 
 	private class SizeList implements ComponentListener{
-
 		private CatanClient _cc;
 		private JFrame _frame;
 
@@ -60,40 +54,23 @@ public class GUIFrame extends JFrame  implements ComponentListener{
 		}
 
 		@Override
-		public void componentResized(ComponentEvent e) {
+		public void componentResized(final ComponentEvent e) {
 			SwingUtilities.invokeLater(new Runnable() {
-
 				@Override
 				public void run() {
 					_cc.getGUI().getDP().setResize(_frame.getWidth()*600/1000, _frame.getHeight()*600/825);
 					_cc.getBoard().resize(_cc.getGUI().getDP().getWidth(), _cc.getGUI().getDP().getHeight());
-					_cc.getGUI().getDP().ericUpdate();
-					//System.out.println(_cc.getGUI().getDP().getWidth());
+					_cc.getGUI().getDP().serverUpdate();
 				}
-			
 			});
 		}
 
 		@Override
-		public void componentMoved(ComponentEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void componentMoved(ComponentEvent e) {}
 		@Override
-		public void componentShown(ComponentEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void componentShown(ComponentEvent e) {}
 		@Override
-		public void componentHidden(ComponentEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-
-
+		public void componentHidden(ComponentEvent e) {}
 	}
 
 	private void setMusic() {
@@ -119,12 +96,18 @@ public class GUIFrame extends JFrame  implements ComponentListener{
 		_music.loop();
 	}
 
+	/**
+	 * Exits.
+	 */
 	public void exit(){
 		super.setVisible(false);
 		super.dispose();
 		_music.stop();
 	}
 
+	/**
+	 * Toggles music.
+	 */
 	public void toggleMusic() {
 		if (_music.stopped()) {
 			_music.loop();
@@ -141,7 +124,10 @@ public class GUIFrame extends JFrame  implements ComponentListener{
 		return !_music.stopped();
 	}
 
-	private class MyDispatcher implements KeyEventDispatcher {
+	/**
+	 * Keyboard shortcuts for the GUI.
+	 */
+	private class KeyboardShortcuts implements KeyEventDispatcher {
 		@Override
 		public boolean dispatchKeyEvent(KeyEvent e) {
 			if (e.getID() == KeyEvent.KEY_PRESSED && e.isControlDown()) {
@@ -232,30 +218,5 @@ public class GUIFrame extends JFrame  implements ComponentListener{
 			}
 			return false;
 		}
-	}
-
-	@Override
-	public void componentResized(ComponentEvent arg0) {
-		int W = 1000;
-		int H = 825;
-		Rectangle b = arg0.getComponent().getBounds();
-		arg0.getComponent().setBounds(b.x, b.y, b.width, b.width*H/W);
-	}
-
-	@Override
-	public void componentMoved(ComponentEvent e) {
-		System.out.println("Here!!");
-	}
-
-	@Override
-	public void componentShown(ComponentEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void componentHidden(ComponentEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 }

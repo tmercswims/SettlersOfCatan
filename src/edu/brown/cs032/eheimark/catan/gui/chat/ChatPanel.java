@@ -1,9 +1,9 @@
-package edu.brown.cs032.eheimark.catan.gui;
+package edu.brown.cs032.eheimark.catan.gui.chat;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.blue;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.orange;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.red;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.white;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.blue;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.orange;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.red;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.white;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,51 +19,53 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.BoxView;
-import javax.swing.text.ComponentView;
-import javax.swing.text.Element;
-import javax.swing.text.IconView;
-import javax.swing.text.LabelView;
-import javax.swing.text.ParagraphView;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledEditorKit;
-import javax.swing.text.View;
-import javax.swing.text.ViewFactory;
 
 import org.jdesktop.xswingx.PromptSupport;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 
+/**
+ * The Class ChatPanel contains the server log panel and chat log panel
+ */
 public class ChatPanel extends JPanel {
-
 	private static final long serialVersionUID = 8319006484243162853L;
-
-	private final JTextField _chatBoxField;
 	private final CatanClient _client;
+	private final MyChatScrollPane _chatLog, _serverLog; // chat pane goes at bottom, server log at top
+	private final JTextField _chatBoxField; // used for sending messages to other players
+
+	// Attribute set
 	SimpleAttributeSet _red;
 	SimpleAttributeSet _blue;
 	SimpleAttributeSet _orange;
 	SimpleAttributeSet _server;
 	SimpleAttributeSet _white;
 
+	/** The _history for the chat panel. */
 	private final LinkedList<String> _history;
+	/** The _unsent contents in chat panel. */
 	private String _unsentContents;
 	private int _position;
-	private final MyChatScrollPane _chatLog, _serverLog;
+	
 
-	public ChatPanel(CatanClient cc, Dimension preferredSize) {
+	/**
+	 * Instantiates a new chat panel.
+	 *
+	 * @param cc the cc
+	 * @param size the fixed size
+	 */
+	public ChatPanel(CatanClient cc, Dimension size) {
 		super();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		_client = cc;
-		this.setMaximumSize(preferredSize);
+		this.setMaximumSize(size);
 
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		Dimension d = new Dimension(400, 15);
-		Dimension d2 = new Dimension(400, preferredSize.height / 2 - 15);
-		Dimension d3 = new Dimension(400, preferredSize.height / 2);
+		Dimension d2 = new Dimension(400, size.height / 2 - 15);
+		Dimension d3 = new Dimension(400, size.height / 2);
 
 
 		JPanel chatBoxPanel = new SemiTransparentPanel(), serverPanel = new SemiTransparentPanel();
@@ -126,13 +128,18 @@ public class ChatPanel extends JPanel {
 		_position = -1;
 	}
 
+	/**
+	 * Adds the message.
+	 *
+	 * @param message the message
+	 */
 	public void addMessage(String message){
 		System.out.println("CHATPANEL " + message);
 		String line = message.trim();
 		final SimpleAttributeSet attr;
 		String[] linearray = line.split(" ");
 		String color = linearray[1];
-		
+
 		/**
 		 * Extracting color
 		 */
@@ -144,7 +151,7 @@ public class ChatPanel extends JPanel {
 		/**
 		 * 
 		 */
-		
+
 		if(color.equalsIgnoreCase("red")){
 			attr = _red;
 		}
@@ -165,24 +172,7 @@ public class ChatPanel extends JPanel {
 				StyleConstants.setFontFamily(attr, "Monaco");
 				StyleConstants.setItalic(attr, true);
 			}
-			
-			StringBuilder sb = new StringBuilder();
-			/*
-			for(int i = 0; i < linearray.length; i++){
-				if(linearray[i].equalsIgnoreCase("server")){
-					linearray[0] = "";
-					linearray[1] = " ";
-				}
-				if(i!=1){
-					sb.append(" " + linearray[i]);
-				}
-				else{
-					sb = new StringBuilder(sb.toString().trim());
-					sb.append(linearray[i].charAt(linearray[i].length()-1));
-				}
-			}
-			*/
-						
+
 			if(attr.equals(_blue)){
 				message = message.replaceAll("\\(blue\\)", "");
 			} else if(attr.equals(_red)){
@@ -198,15 +188,20 @@ public class ChatPanel extends JPanel {
 				message = message.replaceAll("Server", "");
 			}
 
-			if(attr.equals(_server)) {
+			if(attr.equals(_server)) { // dispatch to server log panel
 				_serverLog.insertString(message, attr);
 			}
-			else {
+			else { // dispatch to chat log panel
 				_chatLog.insertString(message, attr);
 			}
 		}
 	}
 
+	/**
+	 * Println.
+	 *
+	 * @param message the message
+	 */
 	private void println(String message){
 		try {
 			_client.sendMessage(message);
@@ -215,16 +210,25 @@ public class ChatPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Requests focus
+	 */
 	@Override 
 	public void requestFocus() {
 		_chatBoxField.requestFocus();
 	}
 
+	/**
+	 * @return boolean indicating whether has focus
+	 */
 	@Override 
 	public boolean hasFocus() {
 		return _chatBoxField.hasFocus();
 	}
 
+	/**
+	 * Pressed key up used for chat history.
+	 */
 	public void pressedKeyUp() {
 		requestFocus();
 		if (_position == -1) {
@@ -235,6 +239,9 @@ public class ChatPanel extends JPanel {
 		_chatBoxField.setText(textU);
 	}
 
+	/**
+	 * Pressed key down used for chat listener
+	 */
 	public void pressedKeyDown() {
 		requestFocus();
 		_position = (_position-1 < 0) ? -1 : _position-1;
@@ -242,11 +249,12 @@ public class ChatPanel extends JPanel {
 		_chatBoxField.setText(textD);
 	}
 
+	/**
+	 * Listener used for chat box messages.
+	 */
 	private class ChatListener implements KeyListener {
-		//red blue orange white
 		@Override
 		public void keyTyped(KeyEvent e) {
-			//System.out.println("getKeyChar "+e.getKeyChar());
 			if(e.getKeyChar() == '\n') {
 				String message = _chatBoxField.getText();
 				_chatBoxField.setText("");
@@ -269,12 +277,9 @@ public class ChatPanel extends JPanel {
 				}
 			}
 		}
-
 		@Override
 		public void keyPressed(KeyEvent e) {}
-
 		@Override
 		public void keyReleased(KeyEvent e) {}
 	}
-
 }

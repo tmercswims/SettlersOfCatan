@@ -1,10 +1,10 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.blue;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.orange;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.red;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.white;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Node.*;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.blue;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.orange;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.red;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.white;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Node.*;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import java.awt.BasicStroke;
 import java.awt.Color;

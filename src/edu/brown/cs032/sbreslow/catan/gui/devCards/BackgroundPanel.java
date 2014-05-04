@@ -1,6 +1,6 @@
 package edu.brown.cs032.sbreslow.catan.gui.devCards;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.wood;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.wood;
 
 import java.awt.Graphics;
 import java.awt.Image;

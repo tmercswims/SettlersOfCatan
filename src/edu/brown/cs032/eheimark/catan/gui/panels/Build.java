@@ -1,52 +1,48 @@
-package edu.brown.cs032.eheimark.catan.gui.navigator;
+package edu.brown.cs032.eheimark.catan.gui.panels;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.felt;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Colors.CATAN_ORANGE;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Colors.CATAN_RED;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Dimensions.TAB_PANEL_MENU_SIZE;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.buildCity;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.buildDevCard;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.buildRoad;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.buildSettlement;
+import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.DEV_CARD;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
-
-import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.eheimark.catan.gui.Constants;
-import edu.brown.cs032.eheimark.catan.gui.Update;
-import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.felt;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.h;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.knight;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.w;
-import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.DEV_CARD;
-import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
-
-import java.io.IOException;
-import java.awt.BorderLayout;
-
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.*;
+import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
+import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
+import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
 
 /**
  * The Class Build is a tabbed panel that helps users to manage building
  * a road, settlement, city, etc.
  */
-public class Build extends JPanel implements Update {
-	private static final long serialVersionUID = 1L;
-	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 18);
-	private static final Font MY_FONT2 = new Font("Times", Font.ITALIC, 12);
-	private final CatanClient _client;
-	private final DrawingPanel _dp;
-	private final JButton buildSettlementButton, buildDevCardButton, buildRoadButton, buildCityButton;
+public class Build extends JPanel implements ServerUpdate {
+	private static final long serialVersionUID = -8118459292620720992L;
+	private static final Font MY_FONT = new Font("Georgia", Font.BOLD, 18); // First font used for buttons
+	private static final Font MY_FONT2 = new Font("Times", Font.ITALIC, 12); // Second font used for costs
+	private final CatanClient _client; // The client
+	private final DrawingPanel _dp; // The drawing panel
+	private final JButton buildSettlementButton, buildDevCardButton, buildRoadButton, buildCityButton; // Buttons
 
 	/**
 	 * Instantiates a new Build panel.
@@ -71,7 +67,7 @@ public class Build extends JPanel implements Update {
 		buildDevCardButton = new JButton("Build Dev. Card");
 		devCardPanel.add(buildDevCardButton, BorderLayout.NORTH);
 		buildDevCardButton.addActionListener(new BuildDevCardActionListener());
-		buildDevCardButton.setForeground(Constants.CATAN_RED);
+		buildDevCardButton.setForeground(CATAN_RED);
 		buildDevCardButton.setFont(MY_FONT);
 		buildDevCardButton.setEnabled(false);
 
@@ -89,10 +85,10 @@ public class Build extends JPanel implements Update {
 		devCardPanel.add(devCardVPLabel, BorderLayout.SOUTH);
 		devCardVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		devCardVPLabel.setOpaque(false);
-		devCardVPLabel.setForeground(Constants.CATAN_ORANGE);
+		devCardVPLabel.setForeground(CATAN_ORANGE);
 		devCardVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		devCardVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+
 		JPanel roadPanel = new JPanel();
 		roadPanel.setBorder(TOP_BORDER);
 		roadPanel.setOpaque(false);
@@ -102,7 +98,7 @@ public class Build extends JPanel implements Update {
 		buildRoadButton = new JButton("Build Road");
 		roadPanel.add(buildRoadButton, BorderLayout.NORTH);
 		buildRoadButton.addActionListener(new BuildRoadActionListener());
-		buildRoadButton.setForeground(Constants.CATAN_RED);
+		buildRoadButton.setForeground(CATAN_RED);
 		buildRoadButton.setFont(MY_FONT);
 		buildRoadButton.setEnabled(false);
 
@@ -121,7 +117,7 @@ public class Build extends JPanel implements Update {
 		roadPanel.add(rdVP, BorderLayout.SOUTH);
 		rdVP.setHorizontalAlignment(SwingConstants.CENTER);
 		rdVP.setOpaque(false);
-		rdVP.setForeground(Constants.CATAN_ORANGE);
+		rdVP.setForeground(CATAN_ORANGE);
 		rdVP.setFont(new Font("Times", Font.ITALIC, 12));
 		rdVP.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -134,7 +130,7 @@ public class Build extends JPanel implements Update {
 		buildSettlementButton = new JButton("Build Settlement");
 		settlementPanel.add(buildSettlementButton, BorderLayout.NORTH);
 		buildSettlementButton.addActionListener(new BuildSettlementActionListener());
-		buildSettlementButton.setForeground(Constants.CATAN_RED);
+		buildSettlementButton.setForeground(CATAN_RED);
 		buildSettlementButton.setFont(MY_FONT);
 		buildSettlementButton.setEnabled(false);
 
@@ -155,7 +151,7 @@ public class Build extends JPanel implements Update {
 		settlementPanel.add(settlementVPLabel, BorderLayout.SOUTH);
 		settlementVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		settlementVPLabel.setOpaque(false);
-		settlementVPLabel.setForeground(Constants.CATAN_ORANGE);
+		settlementVPLabel.setForeground(CATAN_ORANGE);
 		settlementVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		settlementVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -168,7 +164,7 @@ public class Build extends JPanel implements Update {
 		buildCityButton = new JButton("Build City");
 		cityPanel.add(buildCityButton, BorderLayout.NORTH);
 		buildCityButton.addActionListener(new BuildCityActionListener());
-		buildCityButton.setForeground(Constants.CATAN_RED);
+		buildCityButton.setForeground(CATAN_RED);
 		buildCityButton.setFont(MY_FONT);
 		buildCityButton.setEnabled(false);
 
@@ -187,17 +183,17 @@ public class Build extends JPanel implements Update {
 		cityPanel.add(cityVPLabel, BorderLayout.SOUTH);
 		cityVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		cityVPLabel.setOpaque(false);
-		cityVPLabel.setForeground(Constants.CATAN_ORANGE);
+		cityVPLabel.setForeground(CATAN_ORANGE);
 		cityVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		cityVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
+		setPreferredSize(TAB_PANEL_MENU_SIZE);
 	}
 
 	/**
-	 * Update.
+	 * Updates GUI with latest info from server.
 	 */
 	@Override
-	public void ericUpdate(){
+	public void serverUpdate(){
 		System.out.println(_client);
 		System.out.println(_client.getPlayer());
 		int[] resources = _client.getPlayer().getResources();
@@ -241,24 +237,11 @@ public class Build extends JPanel implements Update {
 	}
 
 	/**
-	 * The listener interface for receiving buildRoadAction events.
-	 * The class that is interested in processing a buildRoadAction
-	 * event implements this interface, and the object created
-	 * with that class is registered with a component using the
-	 * component's <code>addBuildRoadActionListener<code> method. When
-	 * the buildRoadAction event occurs, that object's appropriate
-	 * method is invoked.
-	 *
-	 * @see BuildRoadActionEvent
+	 * ActionListener that is used to help build roads.
 	 */
 	class BuildRoadActionListener implements ActionListener {
-
-		/* (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Trying to build road!");
 			_dp.setSelect(1);
 			//set drawing panel to be clickable
 			//drawing panel sends move
@@ -271,7 +254,6 @@ public class Build extends JPanel implements Update {
 	class BuildSettlementActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Trying to build settlement!");
 			_dp.setSelect(2);
 		}
 	};
@@ -282,7 +264,6 @@ public class Build extends JPanel implements Update {
 	class BuildCityActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Trying to build city!");
 			_dp.setSelect(3);
 		}
 	};
@@ -293,15 +274,17 @@ public class Build extends JPanel implements Update {
 	class BuildDevCardActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Trying to build devcard!");
 			try {
 				_client.sendMove(new BuildMove(_client.getPlayerName(), DEV_CARD, 0));
-			} catch (IllegalArgumentException | IOException ex) {
+			} catch (IllegalArgumentException | IOException ex) { // Should not occur
 				System.err.println("ERROR: " + ex.getMessage());
 			}
 		}
 	};
 
+	/**
+	 * Paints.
+	 */
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -316,7 +299,10 @@ public class Build extends JPanel implements Update {
 			}
 		}
 	}
-	
+
+	/**
+	 * Requests focus.
+	 */
 	@Override 
 	public void requestFocus() {
 		if(buildDevCardButton.isEnabled())
