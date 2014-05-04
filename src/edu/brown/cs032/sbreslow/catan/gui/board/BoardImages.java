@@ -60,15 +60,15 @@ public class BoardImages {
         public static final Image wheatPort = new ImageIcon("images/ports/wheat.png").getImage();
         public static final Image woodPort = new ImageIcon("images/ports/wood.png").getImage();
         
-        public static final Color redGhost1 = new Color(252, 51, 51);
+        public static final Color redGhost1 = new Color(252, 77, 77);
         public static final Color redGhost2 = new Color(252, 26, 26);
         public static final Color red = new Color(252, 1, 1);
         
-        public static final Color blueGhost1 = new Color(50, 121, 168);
+        public static final Color blueGhost1 = new Color(76, 138, 179);
         public static final Color blueGhost2 = new Color(25, 104, 157);
         public static final Color blue = new Color(0, 88, 147);
         
-        public static final Color orangeGhost1 = new Color(251, 139, 50);
+        public static final Color orangeGhost1 = new Color(252, 154, 76);
         public static final Color orangeGhost2 = new Color(251, 125, 25);
         public static final Color orange = new Color(251, 111, 0);
         

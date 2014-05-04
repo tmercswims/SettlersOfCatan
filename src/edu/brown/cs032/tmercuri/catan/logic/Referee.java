@@ -51,6 +51,7 @@ public class Referee {
 	private final DevCardDeck _deck;
 	private Node _startupSettlement = null;
 	private int _startUp = 0;
+    private boolean _pushPlayers, _pushBoard;
 
 	/**
 	 * Creates a new Referee, with clear fields.
@@ -65,6 +66,7 @@ public class Referee {
 		_players = players;
 		_board = new Board(true);
 		_server = server;
+        _pushPlayers = _pushBoard = false;
 	}
 
 	/**
@@ -106,6 +108,7 @@ public class Referee {
 			int currentPlayer = z % _players.length;
 			setActivePlayer(currentPlayer);
 			while (!_turnOver) {
+                _pushPlayers = _pushBoard = false;
 				Move move = _server.readMove();
 				MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
 				if (whatHappened.isError()) {
@@ -129,8 +132,9 @@ public class Referee {
 						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 					}
 				}
-				pushPlayers();
-                if (!(move instanceof DevCardMove) || ((move instanceof BuildMove) && (whatHappened == MESSAGE_100 || whatHappened == MESSAGE_200 || whatHappened == MESSAGE_300 || whatHappened == MESSAGE_700 || whatHappened == MESSAGE_610)))
+                if (_pushPlayers)
+                    pushPlayers();
+                if (_pushBoard)
                     pushBoard();
 			}
             _activePlayer.mergeDevCards();
@@ -187,8 +191,9 @@ public class Referee {
 						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						validSettlement = true;
 					}
-					pushPlayers();
-                    if (((move instanceof BuildMove) && (whatHappened == MESSAGE_100 || whatHappened == MESSAGE_200 || whatHappened == MESSAGE_300 || whatHappened == MESSAGE_700 || whatHappened == MESSAGE_610)))
+                    if (_pushPlayers)
+                        pushPlayers();
+                    if (_pushBoard)
                         pushBoard();
 				}
 			}
@@ -210,8 +215,9 @@ public class Referee {
 						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						validRoad = true;
 					}
-					pushPlayers();
-                    if (((move instanceof BuildMove) && (whatHappened == MESSAGE_100 || whatHappened == MESSAGE_200 || whatHappened == MESSAGE_300 || whatHappened == MESSAGE_700 || whatHappened == MESSAGE_610)))
+                    if (_pushPlayers)
+                        pushPlayers();
+                    if (_pushBoard)
                         pushBoard();
 				}
 			}
@@ -239,8 +245,9 @@ public class Referee {
 						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						validSettlement = true;
 					}
-					pushPlayers();
-                    if (((move instanceof BuildMove) && (whatHappened == MESSAGE_100 || whatHappened == MESSAGE_200 || whatHappened == MESSAGE_300 || whatHappened == MESSAGE_700 || whatHappened == MESSAGE_610)))
+                    if (_pushPlayers)
+                        pushPlayers();
+                    if (_pushBoard)
                         pushBoard();
 				}
 			}
@@ -262,8 +269,9 @@ public class Referee {
 						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						validRoad = true;
 					}
-					pushPlayers();
-                    if (((move instanceof BuildMove) && (whatHappened == MESSAGE_100 || whatHappened == MESSAGE_200 || whatHappened == MESSAGE_300 || whatHappened == MESSAGE_700 || whatHappened == MESSAGE_610)))
+                    if (_pushPlayers)
+                        pushPlayers();
+                    if (_pushBoard)
                         pushBoard();
 				}
 			}
@@ -337,6 +345,7 @@ public class Referee {
 				_activePlayer.decRoadCount();
 				e.setOwner(_activePlayer);
 				e.grow();
+                _pushPlayers = _pushBoard = true;
 				return 100;
 			} else {
 				if (e.isRoad()) return 101;
@@ -347,6 +356,7 @@ public class Referee {
 				_activePlayer.decRoadCount();
 				e.setOwner(_activePlayer);
 				e.grow();
+                _pushPlayers = _pushBoard = true;
 				return 100;
 			}
 		case SETTLEMENT:
@@ -360,6 +370,7 @@ public class Referee {
 				if (_startUp == 2) distributeFirstResources(ns);
 				_startupSettlement = ns;
 				ns.grow();
+                _pushPlayers = _pushBoard = true;
 				return 200;
 			} else {
 				if (ns.getVP() == 1 || ns.isOwned()) return 201;
@@ -372,6 +383,7 @@ public class Referee {
 				_activePlayer.incVictoryPoints();
 				ns.setOwner(_activePlayer);
 				ns.grow();
+                _pushPlayers = _pushBoard = true;
 				return 200;
 			}
 		case CITY:
@@ -384,6 +396,7 @@ public class Referee {
 			_activePlayer.decCityCount();
 			_activePlayer.incVictoryPoints();
 			nc.grow();
+            _pushPlayers = _pushBoard = true;
 			return 300;
 		case DEV_CARD:
 			int card = _deck.getCard();
@@ -391,6 +404,7 @@ public class Referee {
 			if (!_activePlayer.hasResources(BUILD_DEV_CARD)) return 702;
 			_activePlayer.removeResources(BUILD_DEV_CARD);
 			_activePlayer.addDevCard(card);
+            _pushPlayers = true;
 			return 700;
 		case ROAD_BUILDER:
 			Edge eRB = _board.getEdges()[move.getBuildLocation()];
@@ -407,6 +421,7 @@ public class Referee {
 			_activePlayer.incVictoryPoints();
 			eRB.setOwner(_activePlayer);
 			eRB.grow();
+            _pushPlayers = _pushBoard = true;
 			return 610;
 		default:
 			System.out.println("build move had bad build type");
@@ -472,6 +487,7 @@ public class Referee {
 		if (move.getPlayerName().equals(move.getProposedTo())) {
 			int[] res = move.getResources();
 			if (robbed != null) robbed.removeResources(res);
+            _pushPlayers = true;
 			return 510;
 		}
 
@@ -511,6 +527,7 @@ public class Referee {
 					_activePlayer.removeResources(giving);
 					_activePlayer.addResources(receiving);
 				}
+                _pushPlayers = true;
 				return 411;
 			case 3:
 				for (Node n : _board.getNodes()) {
@@ -523,6 +540,7 @@ public class Referee {
 						}
 					}
 				}
+                _pushPlayers = true;
 				return 412;
 			case 2:
 				for (Node n : _board.getNodes()) {
@@ -535,6 +553,7 @@ public class Referee {
 						}
 					}
 				}
+                _pushPlayers = true;
 				return 412;
 			default:
 				return 406;
@@ -556,8 +575,10 @@ public class Referee {
 			if (giver != null && !giver.hasResources(giving)) return 401;
 			if (receiver != null && !receiver.hasResources(receiving)) return 402;
 			_server.sendTrade(move.getProposedTo(), move);
+            _pushPlayers = _pushBoard = false;
 			return 400;
 		case 0:
+            _pushPlayers = _pushBoard = false;
 			return 403;
 		case 1:
 			if (giver != null && receiver != null) {
@@ -566,6 +587,7 @@ public class Referee {
 				receiver.removeResources(receiving);
 				receiver.addResources(giving);
 			}
+            _pushPlayers = true;
 			return 410;
 		default:
 			System.out.println("build move had bad build type");
@@ -583,6 +605,7 @@ public class Referee {
 		}
 		newRobber.setRobber(true);
 		if (move.getToStealFrom() == null) {
+            _pushBoard = true;
 			return 503;
 		} else {
 			for (Node n : newRobber.getNodes()) {
@@ -602,6 +625,7 @@ public class Referee {
 			resSwing[stealType] = 1;
 			victim.removeResources(resSwing);
 			_activePlayer.addResources(resSwing);
+            _pushPlayers = _pushBoard = true;
 			return 500;
 		}
 	}
@@ -618,6 +642,7 @@ public class Referee {
 		newRes[move.getType1()] += 1;
 		newRes[move.getType2()] += 1;
 		if (played != null) played.addResources(newRes);
+        _pushPlayers = true;
 		return 620;
 	}
 
@@ -639,6 +664,7 @@ public class Referee {
 		int[] newRes = {0,0,0,0,0};
 		newRes[move.getType()] = add;
 		if (played != null) played.addResources(newRes);
+        _pushPlayers = true;
 		return 630;
 	}
 
@@ -651,6 +677,7 @@ public class Referee {
 				played = p;
 		}
 		if (played != null) played.incVictoryPoints();
+        _pushPlayers = true;
 		return 640;
 	}
 
@@ -681,12 +708,13 @@ public class Referee {
 				}
 			}
 		}
+        _pushPlayers = true;
 		return 600;
 	}
 
 	private int startTurn(FirstMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
-		int roll = _dice.roll();
+		int roll = 7;//_dice.roll();
 		_server.sendRoll(_activePlayer.getName(), roll);
 		if (roll != 7) {
 			for (Tile t : _board.getTiles()) {
@@ -714,8 +742,10 @@ public class Referee {
 				}
 			}
 			_server.sendMessage(_activePlayer.getName(), "Please move the robber to a new terrain hex.");
+            _pushPlayers = true;
 		}
 		_activePlayer.setRolled(true);
+        _pushPlayers = true;
 		return 000;
 	}
 
@@ -724,6 +754,7 @@ public class Referee {
 		_activePlayer.setIsActive(false);
 		_server.sendLastMove();
 		_turnOver = true;
+        _pushPlayers = _pushBoard = false;
 		return 001;
 	}
 

@@ -173,10 +173,10 @@ public class Edge extends BoardComponent{
                     else if (_lookerColor.equals(white)) _c = whiteGhost1;
                     break;
                 case 2:
-                    if (_lookerColor.equals(red)) _c = redGhost2;
-                    else if (_lookerColor.equals(blue)) _c = blueGhost2;
-                    else if (_lookerColor.equals(orange)) _c = orangeGhost2;
-                    else if (_lookerColor.equals(white)) _c = whiteGhost2;
+                    if (_lookerColor.equals(red)) _c = red;
+                    else if (_lookerColor.equals(blue)) _c = blue;
+                    else if (_lookerColor.equals(orange)) _c = orange;
+                    else if (_lookerColor.equals(white)) _c = white;
                     break;
             }
         }
