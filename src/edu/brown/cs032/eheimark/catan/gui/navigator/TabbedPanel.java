@@ -8,10 +8,11 @@ import java.awt.event.KeyListener;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 
+import edu.brown.cs032.atreil.catan.gui.trade.Trade;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.Update;
-import edu.brown.cs032.eheimark.catan.gui.trade.Trade;
+//import edu.brown.cs032.eheimark.catan.gui.trade.Trade;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 
 /**

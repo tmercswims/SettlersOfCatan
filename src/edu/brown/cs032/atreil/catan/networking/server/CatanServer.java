@@ -135,18 +135,19 @@ public class CatanServer extends Thread{
 		accept();
 		
 		setInGame(true);
-		if(getIsRunning()){
 			//start the game
 			try {
-				_pool.broadcast(new Packet(Packet.STARTGAME, null, id++));
-				_pool.addUpdate("Starting the game\n");
-
-				//no more clients may connect
-				_server.close();
-				
-				_ref = new Referee(_pool.getPlayers(), this);
-				_inGame = true;
-				_ref.runGame();
+				if(getIsRunning()){
+					_pool.broadcast(new Packet(Packet.STARTGAME, null, id++));
+					_pool.addUpdate("Starting the game\n");
+	
+					//no more clients may connect
+					_server.close();
+					
+					_ref = new Referee(_pool.getPlayers(), this);
+					_inGame = true;
+					_ref.runGame();
+				}
 			} catch (IllegalArgumentException e) {
 				addUpdate(e.getMessage());
 			} catch (SocketException e){
@@ -154,7 +155,6 @@ public class CatanServer extends Thread{
 			} catch (IOException e) {
 				addUpdate(e.getMessage());
 			}
-		}
 	}
 	
 	/**
