@@ -59,10 +59,17 @@ public class GUIFrame extends JFrame {
 
 		@Override
 		public void componentResized(ComponentEvent e) {
-			_cc.getGUI().getDP().setSize(_frame.getWidth()*600/1000, _frame.getHeight()*600/850);
-			_cc.getBoard().resize(_cc.getGUI().getDP().getWidth(), _cc.getGUI().getDP().getHeight());
-			_cc.getGUI().getDP().ericUpdate();
-			System.out.println(_cc.getGUI().getDP().getWidth());
+			SwingUtilities.invokeLater(new Runnable() {
+
+				@Override
+				public void run() {
+					_cc.getGUI().getDP().setResize(_frame.getWidth()*600/1000, _frame.getHeight()*600/850);
+					_cc.getBoard().resize(_cc.getGUI().getDP().getWidth(), _cc.getGUI().getDP().getHeight());
+					_cc.getGUI().getDP().ericUpdate();
+					//System.out.println(_cc.getGUI().getDP().getWidth());
+				}
+			
+			});
 		}
 
 		@Override

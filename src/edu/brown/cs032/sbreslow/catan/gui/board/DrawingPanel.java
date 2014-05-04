@@ -38,6 +38,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	private boolean _settlement;
 	private int _rbcount;
     private JButton _musicButton;
+    private int _x, _y;
 	
 	public DrawingPanel(CatanClient client){
 		super();
@@ -45,7 +46,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		setSize(600,600);
 		setPreferredSize(getSize());
 		//setMaximumSize(getPreferredSize());
-		setMinimumSize(getPreferredSize());
+		setMinimumSize(getSize());
 		_toDraw = new ArrayList<>();
 		this.setOpaque(false); // set background to transparent b/c drawing done in GUI class for background
 		this.setVisible(true);
@@ -83,6 +84,8 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		_city = false;
 		_settlement = false;
 		_rbcount = 0;
+		_x = 600;
+		_y = 600;
 	}
     
     @Deprecated
@@ -149,7 +152,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 			i++;
 		}
 		
-        g.drawImage(ports, getX(), getY(), getWidth(), getHeight(), this);
+        g.drawImage(ports, getX(), getY(), _x, _y, this);
 		//_client.confirmPacket();
 	}
 	
@@ -322,6 +325,12 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
             }
             _dp.repaint();
         }
+    }
+    
+    public void setResize(int x, int y){
+    	this.setSize(x,y);
+    	_x = x;
+    	_y = y;
     }
 	
 	
