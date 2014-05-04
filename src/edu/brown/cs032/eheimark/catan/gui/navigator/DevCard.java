@@ -180,6 +180,7 @@ public class DevCard extends JPanel implements Update{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+            System.out.println("KnightList setSelect(0)");
 			_dp.setSelect(0);
 		}
 		

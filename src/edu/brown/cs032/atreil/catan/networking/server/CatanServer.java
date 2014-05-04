@@ -317,6 +317,27 @@ public class CatanServer extends Thread{
 			addUpdate(e.getMessage());
 		}
 	}
+    
+    public void sendStartSettle(String name, int index){
+		try {
+			Packet p = new Packet(Packet.START_SETTLE, index, id++);
+			
+			_pool.send(name, p);
+		} catch (IOException e) {
+			addUpdate(e.getMessage());
+		}
+	}
+    
+    public void sendEndStart(){
+		try {
+			Packet p = new Packet(Packet.END_START, false, id++);
+			
+			_pool.broadcast(p);
+		} catch (IOException e) {
+			addUpdate(e.getMessage());
+		}
+	}
+    
 	
 	/**
 	 * Sends a roll to the specified client

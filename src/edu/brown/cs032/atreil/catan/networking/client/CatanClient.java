@@ -351,7 +351,12 @@ public class CatanClient extends Thread{
 			//TODO: notify of roll
 			synchronized(_rollLock){
 				_roll = ((Integer) packet.getObject()).intValue();
-				_gui.getDP().setSelect(0);
+                if (_roll == 7) {
+                    System.out.println("Thinks roll is 7.");
+                    System.out.println("Roll is " + _roll);
+                    System.out.println("client setSelect(0)");
+                    _gui.getDP().setSelect(0);
+                }
 				/*if(_roll==7 && _p.getResourceCount()>7){
 					new SevenFrame(this);
 				}*/
@@ -394,7 +399,15 @@ public class CatanClient extends Thread{
 			_isStarting = false;
 			kill();
 			confirmPacket();
-		}
+		} else if (type == Packet.START_SETTLE) {
+            int index = (Integer) packet.getObject();
+            _gui.getDP().setFirstSettlement(index);
+			confirmPacket();
+        } else if (type == Packet.END_START) {
+            boolean startUp = (Boolean) packet.getObject();
+            _gui.getDP().setStartUp(startUp);
+			confirmPacket();
+        }
 		else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
 			confirmPacket();

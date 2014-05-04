@@ -97,6 +97,10 @@ public class Packet implements Serializable {
     public static int BAD_RB = 15;
     
     public static int GAME_OVER = 16;
+    
+    public static int START_SETTLE = 17;
+    
+    public static int END_START = 18;
 	
 	/*********************************************/
 	private final int _type; //the type of the object
@@ -184,7 +188,15 @@ public class Packet implements Serializable {
 			if(!(o instanceof String)){
 				throw new IllegalArgumentException("Given object is not a String");
 			}
-		}
+		} else if (type == Packet.START_SETTLE) {
+            if(!(o instanceof Integer)){
+				throw new IllegalArgumentException("Given object is not a int");
+			}
+        } else if (type == Packet.END_START) {
+            if(!(o instanceof Boolean)){
+				throw new IllegalArgumentException("Given object is not a boolean");
+			}
+        }
 		
 		else
 			throw new IllegalArgumentException("Given invalid type!");

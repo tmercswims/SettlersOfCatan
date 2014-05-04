@@ -99,6 +99,7 @@ public class Referee {
 		_startUp = 1;
 		firstMoves();
 		_startUp = 0;
+        _server.sendEndStart();
 
 		System.out.println("Entering main game loop.");
 		for (int z=0; !_gameOver; z++) {
@@ -129,7 +130,8 @@ public class Referee {
 					}
 				}
 				pushPlayers();
-				pushBoard();
+                if (!(move instanceof DevCardMove) || ((move instanceof BuildMove) && (whatHappened == MESSAGE_100 || whatHappened == MESSAGE_200 || whatHappened == MESSAGE_300 || whatHappened == MESSAGE_700 || whatHappened == MESSAGE_610)))
+                    pushBoard();
 			}
             _activePlayer.mergeDevCards();
 			findWinner();
@@ -172,20 +174,22 @@ public class Referee {
 				_server.sendMessage(p.getName(), "Click where you would like to build your first settlement.");
 				Move move = _server.readMove();
 				if (!(move instanceof BuildMove)) {
-					_server.sendMessage(move.getPlayerName(), "Not allowed - you need to build a settlement.");
-					System.out.println("Not allowed - you need to build a settlement.");
+					_server.sendMessage(move.getPlayerName(), "You need to build a settlement.");
+					System.out.println("You need to build a settlement.");
 				} else {
 					MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
 					if (whatHappened.isError()) {
-						_server.sendMessage(move.getPlayerName(), "Not allowed - " + whatHappened.getDescription());
-						System.out.println("Not allowed - " + whatHappened.getDescription());
+						_server.sendMessage(move.getPlayerName(), whatHappened.getDescription());
+						System.out.println(whatHappened.getDescription());
 					} else {
+                        _server.sendStartSettle(_activePlayer.getName(), ((BuildMove)move).getBuildLocation());
 						_server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						validSettlement = true;
 					}
 					pushPlayers();
-					pushBoard();
+                    if (((move instanceof BuildMove) && (whatHappened == MESSAGE_100 || whatHappened == MESSAGE_200 || whatHappened == MESSAGE_300 || whatHappened == MESSAGE_700 || whatHappened == MESSAGE_610)))
+                        pushBoard();
 				}
 			}
 			boolean validRoad = false;
@@ -194,20 +198,21 @@ public class Referee {
 				_server.sendMessage(p.getName(), "Click where you would like to build your first road.");
 				Move move = _server.readMove();
 				if (!(move instanceof BuildMove)) {
-					_server.sendMessage(move.getPlayerName(), "Not allowed - you need to build a road.");
-					System.out.println("Not allowed - you need to build a road.");
+					_server.sendMessage(move.getPlayerName(), "You need to build a road.");
+					System.out.println("You need to build a road.");
 				} else {
 					MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
 					if (whatHappened.isError()) {
-						_server.sendMessage(move.getPlayerName(), "Not allowed - " + whatHappened.getDescription());
-						System.out.println("Not allowed - " + whatHappened.getDescription());
+						_server.sendMessage(move.getPlayerName(), whatHappened.getDescription());
+						System.out.println(whatHappened.getDescription());
 					} else {
 						_server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						validRoad = true;
 					}
 					pushPlayers();
-					pushBoard();
+                    if (((move instanceof BuildMove) && (whatHappened == MESSAGE_100 || whatHappened == MESSAGE_200 || whatHappened == MESSAGE_300 || whatHappened == MESSAGE_700 || whatHappened == MESSAGE_610)))
+                        pushBoard();
 				}
 			}
 		}
@@ -221,20 +226,22 @@ public class Referee {
 				_server.sendMessage(p.getName(), "Click where you would like to build your second settlement.");
 				Move move = _server.readMove();
 				if (!(move instanceof BuildMove)) {
-					_server.sendMessage(move.getPlayerName(), "Not allowed - you need to build a settlement.");
-					System.out.println("Not allowed - you need to build a settlement.");
+					_server.sendMessage(move.getPlayerName(), "You need to build a settlement.");
+					System.out.println("You need to build a settlement.");
 				} else {
 					MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
 					if (whatHappened.isError()) {
-						_server.sendMessage(move.getPlayerName(), "Not allowed - " + whatHappened.getDescription());
-						System.out.println("Not allowed - " + whatHappened.getDescription());
+						_server.sendMessage(move.getPlayerName(), whatHappened.getDescription());
+						System.out.println(whatHappened.getDescription());
 					} else {
+                        _server.sendStartSettle(_activePlayer.getName(), ((BuildMove)move).getBuildLocation());
 						_server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						validSettlement = true;
 					}
 					pushPlayers();
-					pushBoard();
+                    if (((move instanceof BuildMove) && (whatHappened == MESSAGE_100 || whatHappened == MESSAGE_200 || whatHappened == MESSAGE_300 || whatHappened == MESSAGE_700 || whatHappened == MESSAGE_610)))
+                        pushBoard();
 				}
 			}
 			boolean validRoad = false;
@@ -243,20 +250,21 @@ public class Referee {
 				_server.sendMessage(p.getName(), "Click where you would like to build your second road.");
 				Move move = _server.readMove();
 				if (!(move instanceof BuildMove)) {
-					_server.sendMessage(move.getPlayerName(), "Not allowed - you need to build a road.");
-					System.out.println("Not allowed - you need to build a road.");
+					_server.sendMessage(move.getPlayerName(), "You need to build a road.");
+					System.out.println("You need to build a road.");
 				} else {
 					MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
 					if (whatHappened.isError()) {
-						_server.sendMessage(move.getPlayerName(), "Not allowed - " + whatHappened.getDescription());
-						System.out.println("Not allowed - " + whatHappened.getDescription());
+						_server.sendMessage(move.getPlayerName(), whatHappened.getDescription());
+						System.out.println(whatHappened.getDescription());
 					} else {
 						_server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						validRoad = true;
 					}
 					pushPlayers();
-					pushBoard();
+                    if (((move instanceof BuildMove) && (whatHappened == MESSAGE_100 || whatHappened == MESSAGE_200 || whatHappened == MESSAGE_300 || whatHappened == MESSAGE_700 || whatHappened == MESSAGE_610)))
+                        pushBoard();
 				}
 			}
 		}
@@ -426,7 +434,7 @@ public class Referee {
 
 	private boolean ownedRoadAdjacent(Node node) {
 		for (Edge e : node.getEdges()) {
-			if (e.isRoad() && e.getOwner().getName().equals(_activePlayer.getName())) {
+			if (e.isRoad() && e.getOwner().equals(_activePlayer)) {
 				return true;
 			}
 		}

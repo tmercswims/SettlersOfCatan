@@ -6,7 +6,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
@@ -165,7 +164,7 @@ public class Edge extends BoardComponent{
         } else {
             switch (_ghostLevel) {
                 case 0:
-                    _c = Color.lightGray;
+                    _c = Color.gray;
                     break;
                 case 1:
                     if (_lookerColor.equals(red)) _c = redGhost1;
@@ -183,7 +182,7 @@ public class Edge extends BoardComponent{
         }
         
 		brush.setColor(_c);
-        if (!_c.equals(Color.lightGray)) {
+        if (!_c.equals(Color.gray)) {
             brush.setStroke(new BasicStroke(5));
         } else {
             brush.setStroke(new BasicStroke(3));
@@ -194,7 +193,7 @@ public class Edge extends BoardComponent{
     @Override
 	public Shape getShape(){
 		if(_l.getBounds().height==0){
-			return new Rectangle(_l.getBounds().x,_l.getBounds().y,_l.getBounds().width,50);
+			return new Rectangle(_l.getBounds().x,_l.getBounds().y-10,_l.getBounds().width,20);
 		}
 		else{
 			return _l.getBounds();

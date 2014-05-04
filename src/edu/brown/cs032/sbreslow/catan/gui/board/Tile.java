@@ -206,7 +206,6 @@ public class Tile extends BoardComponent{
                         number = robberGhost2;
                         break;
                 }
-                System.out.println(_ghostLevel);
                 if (number != null) brush.drawImage(number, (int)r.getCenterX()-(number.getWidth(this)/2), (int)r.getCenterY()-(number.getHeight(this)/2), null);
 			}
             else {

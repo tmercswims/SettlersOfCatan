@@ -76,10 +76,9 @@ public class RobberFrame extends JFrame {
 		list.setAlignmentX(Component.CENTER_ALIGNMENT);
 		this.add(list);
 		this.setLocationRelativeTo(cc.getFrame());
-		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.pack();
-		this.setUndecorated(true);
+		this.setVisible(true);
 		//Dimension d = label.getSize();
 		//System.out.println(d.getWidth());
 	}

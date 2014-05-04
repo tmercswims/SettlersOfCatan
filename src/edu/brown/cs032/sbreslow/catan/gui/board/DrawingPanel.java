@@ -36,10 +36,13 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 	private boolean _road;
 	private boolean _city;
 	private boolean _settlement;
+    private boolean _startUp;
+    private int _firstSettlement;
 	private int _rbcount;
     private JButton _musicButton;
     private BoardComponent _lastHovered;
     private int _lastHoveredPreviousGhostLevel;
+    private Color _lastHoveredPreviousLookerColor;
 	
 	public DrawingPanel(CatanClient client){
 		super();
@@ -85,6 +88,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 		_city = false;
 		_settlement = false;
 		_rbcount = 0;
+        _startUp = true;
 	}
     
     @Deprecated
@@ -154,6 +158,14 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
         g.drawImage(ports, getX(), getY(), getWidth(), getHeight(), this);
 		//_client.confirmPacket();
 	}
+    
+    public void setStartUp(boolean b) {
+        _startUp = b;
+    }
+    
+    public void setFirstSettlement(int s) {
+        _firstSettlement = s;
+    }
 	
 	private class ClickList implements MouseListener {
 		
@@ -221,6 +233,7 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
 						if(_rbcount < 2){
 							buildtype = 4;
 							_rbcount++;
+                            _selectable = 4;
 						}
 						else{
 							_rbcount = 0;
@@ -292,19 +305,23 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
                     foundSomething = true;
                     if (_lastHovered == null) {
                         _lastHoveredPreviousGhostLevel = c.getGhostLevel();
+                        _lastHoveredPreviousLookerColor = c.getLookerColor();
                         _lastHovered = c;
                     } else if (c.getIndex() != _lastHovered.getIndex()) {
                         _lastHovered.setGhostLevel(_lastHoveredPreviousGhostLevel);
-                        _lastHovered.setLookerColor(null);
+                        _lastHovered.setLookerColor(_lastHoveredPreviousLookerColor);
                         _lastHoveredPreviousGhostLevel = c.getGhostLevel();
+                        _lastHoveredPreviousLookerColor = c.getLookerColor();
                         _lastHovered = c;
                     }
-                    c.setGhostLevel(2);
-                    c.setLookerColor(_client.getPlayer().getColor());
+                    if (c.getGhostLevel() == 1) {
+                        c.setGhostLevel(2);
+                        c.setLookerColor(_client.getPlayer().getColor());
+                    }
                 } else {
                     if (!foundSomething && _lastHovered != null) {
                         _lastHovered.setGhostLevel(_lastHoveredPreviousGhostLevel);
-                        _lastHovered.setLookerColor(null);
+                        _lastHovered.setLookerColor(_lastHoveredPreviousLookerColor);
                     }
                 }
             }
@@ -332,15 +349,100 @@ public class DrawingPanel extends JPanel implements Update {// implements MouseL
                 }
                 break;
             case 0: //robber
-                System.out.println("the robber is being played now");
                 for (BoardComponent c : _toDraw) {
                     if (c.getType() == 0) {
                         c.setGhostLevel(1);
                     }
                 }
                 break;
-                
+            case 1: //road
+            case 4: //road builder
+                for (BoardComponent c : _toDraw) {
+                    if (c.getType() == 1) {
+                        Edge e = (Edge) c;
+                        if (_startUp) {
+                            if (edgeIsNextToNode(e, _firstSettlement)) {
+                                c.setGhostLevel(1);
+                                c.setLookerColor(_client.getPlayer().getColor());
+                            }
+                        } else {
+                            if (!e.isRoad() && ownedRoadAdjacent(_client.getPlayer(), e)) {
+                                c.setGhostLevel(1);
+                                c.setLookerColor(_client.getPlayer().getColor());
+                            }
+                        }
+                    }
+                }
+                break;
+            case 2: //settlement
+                for (BoardComponent c : _toDraw) {
+                    if (c.getType() == 2) {
+                        Node n = (Node) c;
+                        if (_startUp) {
+                            if (!n.isOwned() && n.getVP() == 0 && !structureAdjacent(n)) {
+                                c.setGhostLevel(1);
+                                c.setLookerColor(_client.getPlayer().getColor());
+                            }
+                        } else {
+                            if (!n.isOwned() && n.getVP() == 0 && !structureAdjacent(n) && ownedRoadAdjacent(_client.getPlayer(), n)) {
+                                c.setGhostLevel(1);
+                                c.setLookerColor(_client.getPlayer().getColor());
+                            }
+                        }
+                    }
+                }
+                break;
+            case 3: //city
+                for (BoardComponent c : _toDraw) {
+                    if (c.getType() == 2) {
+                        Node n = (Node) c;
+                        if (n.isOwned() && n.getVP() == 1 && n.getOwner().equals(_client.getPlayer())) {
+                            c.setGhostLevel(1);
+                            c.setLookerColor(_client.getPlayer().getColor());
+                        }
+                    }
+                }
+                break;
         }
+        repaint();
+	}
+    
+    private boolean structureAdjacent(Node node) {
+		for (Edge e : node.getEdges()) {
+			for (Node n : e.getNodes()) {
+				if (n.getIndex() != node.getIndex() && n.isOwned())
+					return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean ownedRoadAdjacent(Player player, Node node) {
+		for (Edge e : node.getEdges()) {
+			if (e.isRoad() && e.getOwner().equals(player)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean ownedRoadAdjacent(Player player, Edge edge) {
+		for (Node n : edge.getNodes()) {
+			for (Edge e : n.getEdges()) {
+				if (e.getIndex() != edge.getIndex() && e.isRoad() && e.getOwner().equals(player)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean edgeIsNextToNode(Edge edge, int node) {
+		for (Node n : edge.getNodes()) {
+			if (n.getIndex() == node) 
+				return true;
+		}
+		return false;
 	}
 
 	@Override

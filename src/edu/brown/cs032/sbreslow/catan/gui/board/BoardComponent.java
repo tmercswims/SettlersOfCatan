@@ -26,6 +26,10 @@ public abstract class BoardComponent extends JComponent {
         _lookerColor = c;
     }
     
+    public Color getLookerColor() {
+        return _lookerColor;
+    }
+    
     public void setGhostLevel(int ghostLevel) {
         _ghostLevel = ghostLevel;
     }
