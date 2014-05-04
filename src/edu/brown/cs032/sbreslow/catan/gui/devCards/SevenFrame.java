@@ -1,10 +1,8 @@
 package edu.brown.cs032.sbreslow.catan.gui.devCards;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Fonts.DEFAULT_LABEL_FONT;
+
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -17,23 +15,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.eheimark.catan.gui.Constants;
-import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
-import edu.brown.cs032.tmercuri.catan.logic.Player;
+import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
 public class SevenFrame extends JFrame {
-	
+	private static final long serialVersionUID = 2775532151453365472L;
 	private CatanClient _cc;
-	private final Image img; // background image
-	private static final Color MY_BACKGROUND = Constants.CATAN_RED;
 	private final JComboBox<Integer> oreCB, wheatCB, woolCB, lumberCB, brickCB;
 	
 	public SevenFrame(CatanClient cc){
 		super("Please drop half of your resources...");
 		_cc = cc;
-		this.img = Constants.TRADE_TAB_IMAGE;
 		//setLayout(null); // absolute layout
 		final Integer[] tradeValues = new Integer[] {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 		JPanel comboPanel = new JPanel();
@@ -115,7 +108,7 @@ public class SevenFrame extends JFrame {
 		add(oreLabel);*/
 
 		JButton proposeButton = new JButton("Propose");
-		proposeButton.setFont( Constants.DEFAULT_LABEL_FONT);
+		proposeButton.setFont(DEFAULT_LABEL_FONT);
 		//proposeButton.setBounds(374, 99, 125, 29);
 		proposeButton.addActionListener(new ProposeTradeActionListener(this));
 		proposeButton.setFocusable(false);

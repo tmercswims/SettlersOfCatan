@@ -1,6 +1,7 @@
 package edu.brown.cs032.eheimark.catan.launch;
 
-import edu.brown.cs032.eheimark.catan.gui.Constants;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.DEFAULT_PORT;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.DEFAULT_HOSTNAME;
 
 /**
  * Class that maintains state of launch configuration. This information is then used by the Client/Server 
@@ -17,9 +18,9 @@ public class LaunchConfiguration {
 	 * Instantiates a new launch configuration.
 	 */
 	public LaunchConfiguration() {
-		this.joinPort = Constants.DEFAULT_PORT;
-		this.hostPort = Constants.DEFAULT_PORT;
-		this.hostname = Constants.DEFAULT_HOSTNAME;
+		this.joinPort = DEFAULT_PORT;
+		this.hostPort = DEFAULT_PORT;
+		this.hostname = DEFAULT_HOSTNAME;
 		setName("username");
 	}
 

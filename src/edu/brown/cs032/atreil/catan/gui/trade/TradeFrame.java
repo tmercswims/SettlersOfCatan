@@ -1,5 +1,7 @@
 package edu.brown.cs032.atreil.catan.gui.trade;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Dimensions.TABBED_MENU_SIZE;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -10,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.BackgroundPanel;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
@@ -133,7 +134,7 @@ public class TradeFrame extends JFrame {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
 		
-		setMinimumSize(Constants.TABBED_MENU_SIZE);
+		setMinimumSize(TABBED_MENU_SIZE);
 		pack();
 		setLocationRelativeTo(_client.getFrame());
 		setVisible(true);

@@ -6,6 +6,8 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -14,7 +16,44 @@ import javax.swing.ImageIcon;
  *
  * @author Thomas Mercurio
  */
-public class BoardImages {
+public class GUIConstants {
+	public static class Fonts {
+		public static final Font DEFAULT_LABEL_FONT  = new Font("Georgia", Font.PLAIN, 14);
+		public static final Font DEFAULT_BUTTON_FONT  = new Font("Georgia", Font.BOLD, 20);
+		public static final Font MY_FONT_SMALL = new Font("Georgia", Font.BOLD, 13);
+		public static final Font ALERT_MENU_FONT = new Font("Georgia", Font.BOLD, 40);
+		public static final Font MY_FONT_ACTIVEPLAYER = new Font("Georgia", Font.BOLD, 15);
+		public static final Font OVERVIEW_TAB_FONT = new Font("Georgia", Font.PLAIN, 15);
+		public static final Font OVERVIEW_TAB_FONT_ACTIVEPLAYER = new Font("Georgia", Font.BOLD, 20);
+		public static final Font OVERVIEW_TAB_FONT_HEADER = new Font("Georgia", Font.BOLD, 13);
+	}
+	
+	public static class Colors {
+		public static final Color CATAN_RED = new Color(225,25,10);
+		public static final Color CATAN_BLUE = Color.BLUE;
+		public static final Color CATAN_BLACK = Color.BLACK;
+		public static final Color CATAN_WHITE = Color.WHITE;
+		public static final Color CATAN_ORANGE = Color.ORANGE;
+		public static final Color ACTIVE_PLAYER_OVERVIEW_COLOR = new Color(0,153,0);
+	}
+	
+	public static class Dimensions {
+		public static final Dimension DEFAULT_BUTTON_SIZE  = new Dimension(200, 45);
+		public static final Dimension DEFAULT_MENU_SIZE  = new Dimension(560, 560);
+		public static final Dimension TEXTAREA_SIZE = new Dimension(400, 200);
+		public static final Dimension POINTS_MENU_SIZE  = new Dimension(675, 125);
+		public static final Dimension MENU_SIZE  = new Dimension(1000, 200);
+		private static final int tabPanel = 150;
+		public static final Dimension TAB_PANEL_MENU_SIZE = new Dimension(1000, tabPanel); // each tab in tab panel
+		public static final Dimension TABBED_MENU_SIZE = new Dimension(1000, tabPanel + 10); // tabbed panel overall
+		public static final Dimension GUI_SIZE = new Dimension(1000, 850);
+		public static final Dimension ROLL_BUTTON = new Dimension(117,10);
+		public static final Dimension PLAYER_STATS = new Dimension(375,25);
+		public static final Dimension TUTORIAL_SIZE =  new Dimension(200, 75);
+		public static final Dimension TUTORIAL_FRAME_SIZE = new Dimension(250, 75);;
+	}
+	
+	
     public static class Node {
         public static final Image settlementRedGhost1 = new ImageIcon("images/pieces/settlement_red_ghost_1.png").getImage();
         public static final Image settlementRedGhost2 = new ImageIcon("images/pieces/settlement_red_ghost_2.png").getImage();
@@ -106,6 +145,10 @@ public class BoardImages {
 	}
 
 	public static class Misc {
+		public static final String DEFAULT_HOSTNAME = "localhost";
+		public static final String DEFAULT_PORT = "1700";
+		
+		
 		public static final ImageIcon brickTileIcon = new ImageIcon("images/tiles/brick.png");
 		public static final ImageIcon desertTileIcon = new ImageIcon("images/tiles/desert.png");
 		public static final ImageIcon oceanTileIcon = new ImageIcon("images/tiles/ocean.png");
@@ -153,6 +196,7 @@ public class BoardImages {
 		public static final Image felt = new ImageIcon("images/backgrounds/felt.png").getImage();
 		public static final ImageIcon feltcon = new ImageIcon("images/backgrounds/felt.png");
 		public static final Image wood = new ImageIcon("images/backgrounds/wood.png").getImage();
+		public static final Image CATAN_LAUNCH_MENU_BACKGROUND =  new ImageIcon("images/CatanScaled560x560.png").getImage();
 	}
 
 	public static class DevCard {

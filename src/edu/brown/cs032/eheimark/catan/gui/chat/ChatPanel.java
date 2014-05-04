@@ -1,9 +1,9 @@
 package edu.brown.cs032.eheimark.catan.gui.chat;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.blue;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.orange;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.red;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.white;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.blue;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.orange;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.red;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.white;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

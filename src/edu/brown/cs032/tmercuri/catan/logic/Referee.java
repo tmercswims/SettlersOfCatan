@@ -7,10 +7,10 @@ package edu.brown.cs032.tmercuri.catan.logic;
 
 import edu.brown.cs032.atreil.catan.networking.server.CatanServer;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.blue;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.orange;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.red;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge.white;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.blue;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.orange;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.red;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.white;
 import edu.brown.cs032.sbreslow.catan.gui.board.Edge;
 import edu.brown.cs032.sbreslow.catan.gui.board.Node;
 import edu.brown.cs032.sbreslow.catan.gui.board.Tile;

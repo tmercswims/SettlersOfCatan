@@ -1,7 +1,10 @@
 package edu.brown.cs032.eheimark.catan.gui.panels;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.felt;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.arrow;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.felt;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Colors.CATAN_WHITE;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Fonts.OVERVIEW_TAB_FONT;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Fonts.OVERVIEW_TAB_FONT_HEADER;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.arrow;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -22,9 +25,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
-import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Edge;
+import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 /**
@@ -34,7 +36,7 @@ import edu.brown.cs032.tmercuri.catan.logic.Player;
  */
 public class Overview extends JPanel implements ServerUpdate {
 	private static final long serialVersionUID = 3391138866753212845L;
-	private static final Color MY_BACKGROUND = Constants.CATAN_WHITE;
+	private static final Color MY_BACKGROUND = CATAN_WHITE;
 	private final CatanClient client; // Reference to client
 	private final MyRenderer myColorRenderer; // Custom renderer
 	private final MyTableModel myTableModel; // Table Model for containing player information
@@ -52,7 +54,7 @@ public class Overview extends JPanel implements ServerUpdate {
 		myColorRenderer = new MyRenderer();
 		final JTable table = new JTable(myTableModel);
 		table.setDefaultRenderer(Object.class, myColorRenderer);
-		table.getTableHeader().setFont(Constants.OVERVIEW_TAB_FONT_HEADER);
+		table.getTableHeader().setFont(OVERVIEW_TAB_FONT_HEADER);
 		table.getTableHeader().setAlignmentX(SwingConstants.CENTER);
 		table.setShowGrid(false);
 		table.setOpaque(false);
@@ -124,7 +126,7 @@ public class Overview extends JPanel implements ServerUpdate {
 				if(rowColors.size() > row) {
 					editor.setBackground(rowColors.get(row));
 				}
-				editor.setFont(Constants.OVERVIEW_TAB_FONT);
+				editor.setFont(OVERVIEW_TAB_FONT);
 				editor.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 				editor.setOpaque(true);
 				return editor;

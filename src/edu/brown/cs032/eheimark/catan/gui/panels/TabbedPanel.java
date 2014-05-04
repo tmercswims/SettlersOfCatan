@@ -1,5 +1,7 @@
 package edu.brown.cs032.eheimark.catan.gui.panels;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Dimensions.TABBED_MENU_SIZE;
+
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
@@ -7,9 +9,7 @@ import javax.swing.JTabbedPane;
 
 import edu.brown.cs032.atreil.catan.gui.trade.Trade;
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
-//import edu.brown.cs032.eheimark.catan.gui.trade.Trade;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 
 /**
@@ -55,9 +55,9 @@ public class TabbedPanel extends JPanel implements ServerUpdate {
 		devcard = new DevCard(client, dp);
 		tabbedPane.addTab("Dev Card", null, devcard, null);
 
-		setMinimumSize(Constants.TABBED_MENU_SIZE);
-		setPreferredSize(Constants.TABBED_MENU_SIZE);
-		setMaximumSize(Constants.TABBED_MENU_SIZE);
+		setMinimumSize(TABBED_MENU_SIZE);
+		setPreferredSize(TABBED_MENU_SIZE);
+		setMaximumSize(TABBED_MENU_SIZE);
 	}
 
 	public void setOverviewPage() {

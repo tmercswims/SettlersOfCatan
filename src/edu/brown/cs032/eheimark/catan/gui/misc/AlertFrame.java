@@ -1,5 +1,9 @@
 package edu.brown.cs032.eheimark.catan.gui.misc;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Colors.CATAN_ORANGE;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Colors.CATAN_RED;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Fonts.ALERT_MENU_FONT;
+
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.eheimark.catan.launch.SettlersOfCatan;
 
@@ -41,11 +44,11 @@ public class AlertFrame extends JDialog implements ActionListener {
 		getContentPane().add(_myPanel);
 
 		_myMessageLabel = new JLabel(message);
-		_myMessageLabel.setFont(Constants.ALERT_MENU_FONT);
-		_myMessageLabel.setForeground(Constants.CATAN_ORANGE);
+		_myMessageLabel.setFont(ALERT_MENU_FONT);
+		_myMessageLabel.setForeground(CATAN_ORANGE);
 
 		_mainMenuButton = new JButton("Return to Main Menu");
-		_mainMenuButton.setFont(Constants.ALERT_MENU_FONT);
+		_mainMenuButton.setFont(ALERT_MENU_FONT);
 		_mainMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		_mainMenuButton.addActionListener(this);
 		_mainMenuButton.requestFocus();
@@ -56,7 +59,7 @@ public class AlertFrame extends JDialog implements ActionListener {
 		_myPanel.add(_myMessageLabel, _gbc);
 		_gbc.gridy++;
 		_myPanel.add(_mainMenuButton, _gbc);
-		_myPanel.setBackground(Constants.CATAN_RED);
+		_myPanel.setBackground(CATAN_RED);
 
 		setUndecorated(true);
 		setOpacity(0.75f);

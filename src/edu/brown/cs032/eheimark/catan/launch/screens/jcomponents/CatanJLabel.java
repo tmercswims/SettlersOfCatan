@@ -1,8 +1,10 @@
 package edu.brown.cs032.eheimark.catan.launch.screens.jcomponents;
 
-import javax.swing.JLabel;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Colors.CATAN_BLUE;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Dimensions.DEFAULT_BUTTON_SIZE;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Fonts.DEFAULT_BUTTON_FONT;
 
-import edu.brown.cs032.eheimark.catan.gui.Constants;
+import javax.swing.JLabel;
 
 /**
  * The Class CatanJLabel is used to maintain settings for JLabels on the launch menu.
@@ -17,23 +19,23 @@ public class CatanJLabel extends JLabel {
 	 */
 	public CatanJLabel(String name) {
 		super(name);
-		setPreferredSize(Constants.DEFAULT_BUTTON_SIZE);
-		setMinimumSize(Constants.DEFAULT_BUTTON_SIZE);
-		setMaximumSize(Constants.DEFAULT_BUTTON_SIZE);
-		setFont(Constants.DEFAULT_BUTTON_FONT);
+		setPreferredSize(DEFAULT_BUTTON_SIZE);
+		setMinimumSize(DEFAULT_BUTTON_SIZE);
+		setMaximumSize(DEFAULT_BUTTON_SIZE);
+		setFont(DEFAULT_BUTTON_FONT);
 		setHorizontalAlignment(JLabel.CENTER);
-		setForeground(Constants.CATAN_BLUE);
+		setForeground(CATAN_BLUE);
 	}
 
 	/**
 	 * Instantiates a new catan j label.
 	 */
 	public CatanJLabel() {
-		setPreferredSize(Constants.DEFAULT_BUTTON_SIZE);
-		setMinimumSize(Constants.DEFAULT_BUTTON_SIZE);
-		setMaximumSize(Constants.DEFAULT_BUTTON_SIZE);
-		setFont(Constants.DEFAULT_BUTTON_FONT);
+		setPreferredSize(DEFAULT_BUTTON_SIZE);
+		setMinimumSize(DEFAULT_BUTTON_SIZE);
+		setMaximumSize(DEFAULT_BUTTON_SIZE);
+		setFont(DEFAULT_BUTTON_FONT);
 		setHorizontalAlignment(JLabel.CENTER);
-		setForeground(Constants.CATAN_BLUE);
+		setForeground(CATAN_BLUE);
 	}
 }

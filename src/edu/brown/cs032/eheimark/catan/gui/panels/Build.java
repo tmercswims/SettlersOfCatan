@@ -1,10 +1,13 @@
 package edu.brown.cs032.eheimark.catan.gui.panels;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.felt;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.buildCity;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.buildDevCard;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.buildRoad;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc.buildSettlement;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.felt;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Colors.CATAN_ORANGE;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Colors.CATAN_RED;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Dimensions.TAB_PANEL_MENU_SIZE;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.buildCity;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.buildDevCard;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.buildRoad;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.buildSettlement;
 import static edu.brown.cs032.tmercuri.catan.logic.BuildConstants.DEV_CARD;
 
 import java.awt.BorderLayout;
@@ -25,7 +28,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
@@ -65,7 +67,7 @@ public class Build extends JPanel implements ServerUpdate {
 		buildDevCardButton = new JButton("Build Dev. Card");
 		devCardPanel.add(buildDevCardButton, BorderLayout.NORTH);
 		buildDevCardButton.addActionListener(new BuildDevCardActionListener());
-		buildDevCardButton.setForeground(Constants.CATAN_RED);
+		buildDevCardButton.setForeground(CATAN_RED);
 		buildDevCardButton.setFont(MY_FONT);
 		buildDevCardButton.setEnabled(false);
 
@@ -83,7 +85,7 @@ public class Build extends JPanel implements ServerUpdate {
 		devCardPanel.add(devCardVPLabel, BorderLayout.SOUTH);
 		devCardVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		devCardVPLabel.setOpaque(false);
-		devCardVPLabel.setForeground(Constants.CATAN_ORANGE);
+		devCardVPLabel.setForeground(CATAN_ORANGE);
 		devCardVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		devCardVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -96,7 +98,7 @@ public class Build extends JPanel implements ServerUpdate {
 		buildRoadButton = new JButton("Build Road");
 		roadPanel.add(buildRoadButton, BorderLayout.NORTH);
 		buildRoadButton.addActionListener(new BuildRoadActionListener());
-		buildRoadButton.setForeground(Constants.CATAN_RED);
+		buildRoadButton.setForeground(CATAN_RED);
 		buildRoadButton.setFont(MY_FONT);
 		buildRoadButton.setEnabled(false);
 
@@ -115,7 +117,7 @@ public class Build extends JPanel implements ServerUpdate {
 		roadPanel.add(rdVP, BorderLayout.SOUTH);
 		rdVP.setHorizontalAlignment(SwingConstants.CENTER);
 		rdVP.setOpaque(false);
-		rdVP.setForeground(Constants.CATAN_ORANGE);
+		rdVP.setForeground(CATAN_ORANGE);
 		rdVP.setFont(new Font("Times", Font.ITALIC, 12));
 		rdVP.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -128,7 +130,7 @@ public class Build extends JPanel implements ServerUpdate {
 		buildSettlementButton = new JButton("Build Settlement");
 		settlementPanel.add(buildSettlementButton, BorderLayout.NORTH);
 		buildSettlementButton.addActionListener(new BuildSettlementActionListener());
-		buildSettlementButton.setForeground(Constants.CATAN_RED);
+		buildSettlementButton.setForeground(CATAN_RED);
 		buildSettlementButton.setFont(MY_FONT);
 		buildSettlementButton.setEnabled(false);
 
@@ -149,7 +151,7 @@ public class Build extends JPanel implements ServerUpdate {
 		settlementPanel.add(settlementVPLabel, BorderLayout.SOUTH);
 		settlementVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		settlementVPLabel.setOpaque(false);
-		settlementVPLabel.setForeground(Constants.CATAN_ORANGE);
+		settlementVPLabel.setForeground(CATAN_ORANGE);
 		settlementVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		settlementVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -162,7 +164,7 @@ public class Build extends JPanel implements ServerUpdate {
 		buildCityButton = new JButton("Build City");
 		cityPanel.add(buildCityButton, BorderLayout.NORTH);
 		buildCityButton.addActionListener(new BuildCityActionListener());
-		buildCityButton.setForeground(Constants.CATAN_RED);
+		buildCityButton.setForeground(CATAN_RED);
 		buildCityButton.setFont(MY_FONT);
 		buildCityButton.setEnabled(false);
 
@@ -181,10 +183,10 @@ public class Build extends JPanel implements ServerUpdate {
 		cityPanel.add(cityVPLabel, BorderLayout.SOUTH);
 		cityVPLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		cityVPLabel.setOpaque(false);
-		cityVPLabel.setForeground(Constants.CATAN_ORANGE);
+		cityVPLabel.setForeground(CATAN_ORANGE);
 		cityVPLabel.setFont(new Font("Times", Font.ITALIC, 12));
 		cityVPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
+		setPreferredSize(TAB_PANEL_MENU_SIZE);
 	}
 
 	/**

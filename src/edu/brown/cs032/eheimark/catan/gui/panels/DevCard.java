@@ -1,15 +1,16 @@
 package edu.brown.cs032.eheimark.catan.gui.panels;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.felt;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.h;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.hVP;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.knight;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.monopoly;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.roadBuilder;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.victoryPoint;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.w;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.wVP;
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.DevCard.yearOfPlenty;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.felt;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.DevCard.h;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.DevCard.hVP;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.DevCard.knight;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.DevCard.monopoly;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.DevCard.roadBuilder;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.DevCard.victoryPoint;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.DevCard.w;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.DevCard.wVP;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.DevCard.yearOfPlenty;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Dimensions.TAB_PANEL_MENU_SIZE;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -25,7 +26,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.eheimark.catan.gui.Constants;
 import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
 import edu.brown.cs032.sbreslow.catan.gui.board.DrawingPanel;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.MonoFrame;
@@ -54,45 +54,45 @@ public class DevCard extends JPanel implements ServerUpdate{
 		super();
 		_cc = cc;
 		_dp = dp;
-		setMinimumSize(Constants.TAB_PANEL_MENU_SIZE);
-		setPreferredSize(Constants.TAB_PANEL_MENU_SIZE);
-		setMaximumSize(Constants.TAB_PANEL_MENU_SIZE);
+		setMinimumSize(TAB_PANEL_MENU_SIZE);
+		setPreferredSize(TAB_PANEL_MENU_SIZE);
+		setMaximumSize(TAB_PANEL_MENU_SIZE);
 		GridLayout gl = new GridLayout(1,5, 5, 5);
 		this.setLayout(gl);
 		for(int i = 0; i < 5; i++){
 			switch(i){
 			case 0:
 				_buttons[i] = new DevCardButton(new ImageIcon(knight.getScaledInstance(
-						(int)((w/h)*Constants.TAB_PANEL_MENU_SIZE.getHeight()*3/5), 
-						(int)Constants.TAB_PANEL_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
+						(int)((w/h)*TAB_PANEL_MENU_SIZE.getHeight()*3/5), 
+						(int)TAB_PANEL_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
 				_buttons[i].setText("Knight Card(s): 0");
 				_buttons[i].addActionListener(new KnightList());
 				break;
 			case 1:
 				_buttons[i] = new DevCardButton(new ImageIcon(roadBuilder.getScaledInstance(
-						(int)((w/h)*Constants.TAB_PANEL_MENU_SIZE.getHeight()*3/5), 
-						(int)Constants.TAB_PANEL_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
+						(int)((w/h)*TAB_PANEL_MENU_SIZE.getHeight()*3/5), 
+						(int)TAB_PANEL_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
 				_buttons[i].setText("Road Building Card(s): 0");
 				_buttons[i].addActionListener(new RBList());
 				break;
 			case 2:
 				_buttons[i] = new DevCardButton(new ImageIcon(yearOfPlenty.getScaledInstance(
-						(int)((w/h)*Constants.TAB_PANEL_MENU_SIZE.getHeight()*3/5),
-						(int)Constants.TAB_PANEL_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
+						(int)((w/h)*TAB_PANEL_MENU_SIZE.getHeight()*3/5),
+						(int)TAB_PANEL_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
 				_buttons[i].setText("Year of Plenty Card(s): 0");
 				_buttons[i].addActionListener(new YoPList());
 				break;
 			case 3:
 				_buttons[i] = new DevCardButton(new ImageIcon(monopoly.getScaledInstance(
-						(int)((w/h)*Constants.TAB_PANEL_MENU_SIZE.getHeight()*3/5),
-						(int)Constants.TAB_PANEL_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
+						(int)((w/h)*TAB_PANEL_MENU_SIZE.getHeight()*3/5),
+						(int)TAB_PANEL_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
 				_buttons[i].setText("Monopoly Card(s): 0");
 				_buttons[i].addActionListener(new MonoList());
 				break;
 			case 4:
 				_buttons[i] = new DevCardButton(new ImageIcon(victoryPoint.getScaledInstance(
-						(int)((wVP/hVP)*Constants.TAB_PANEL_MENU_SIZE.getHeight()*3/5),
-						(int)Constants.TAB_PANEL_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
+						(int)((wVP/hVP)*TAB_PANEL_MENU_SIZE.getHeight()*3/5),
+						(int)TAB_PANEL_MENU_SIZE.getHeight()*3/5, Image.SCALE_DEFAULT)));
 				_buttons[i].setText("Victory Point Card(s): 0");
 				_buttons[i].addActionListener(new VPList());
 				break;

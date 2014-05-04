@@ -1,6 +1,6 @@
 package edu.brown.cs032.atreil.catan.gui.trade;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Background.felt;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.felt;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -26,7 +26,7 @@ import javax.swing.border.BevelBorder;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
-import edu.brown.cs032.sbreslow.catan.gui.board.BoardImages.Misc;
+import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;

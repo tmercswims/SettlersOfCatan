@@ -1,5 +1,7 @@
 package edu.brown.cs032.eheimark.catan.gui.tutorial;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Dimensions.TUTORIAL_SIZE;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
@@ -12,8 +14,6 @@ import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-
-import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 /**
  * The Class TutorialPage is a single page within the Tutorial. The Tutorial
@@ -53,6 +53,6 @@ public class TutorialPage extends JPanel {
 		messagePane.setOpaque(false);
 		messagePane.setEditable(false);
 		add(messagePane);
-		setPreferredSize(Constants.TUTORIAL_SIZE);
+		setPreferredSize(TUTORIAL_SIZE);
 	}
 }

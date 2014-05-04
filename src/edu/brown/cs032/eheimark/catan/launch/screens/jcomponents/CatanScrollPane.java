@@ -1,9 +1,12 @@
 package edu.brown.cs032.eheimark.catan.launch.screens.jcomponents;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Colors.CATAN_BLUE;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Colors.CATAN_RED;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Dimensions.TEXTAREA_SIZE;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Fonts.DEFAULT_BUTTON_FONT;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import edu.brown.cs032.eheimark.catan.gui.Constants;
 
 /**
  * The Class CatanScrollPane is used to main scrollable text areas on the launch menu
@@ -21,13 +24,13 @@ public class CatanScrollPane extends JScrollPane {
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
-		textArea.setForeground(Constants.CATAN_BLUE);
+		textArea.setForeground(CATAN_BLUE);
 		setViewportView(textArea);
-		setPreferredSize(Constants.TEXTAREA_SIZE);
-		setMinimumSize(Constants.TEXTAREA_SIZE);
-		setMaximumSize(Constants.TEXTAREA_SIZE);
-		setFont(Constants.DEFAULT_BUTTON_FONT);
-		setForeground(Constants.CATAN_RED);
+		setPreferredSize(TEXTAREA_SIZE);
+		setMinimumSize(TEXTAREA_SIZE);
+		setMaximumSize(TEXTAREA_SIZE);
+		setFont(DEFAULT_BUTTON_FONT);
+		setForeground(CATAN_RED);
 	}
 
 	/**
