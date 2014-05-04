@@ -29,19 +29,27 @@ import javax.swing.SwingUtilities;
 
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 
+/**
+ * The Class Tutorial is the pop-up JFrame that is an in-game Settlers of Catan 
+ * Tutorial.
+ */
 public class Tutorial extends JFrame{
-	private static final long serialVersionUID = 1L;
-	private JPanel _myTutorialPanel;
-	private final ArrayList<TutorialPage> _pages;
-	private final JButton forwardButton, backButton;
-	private int _idx;
+	private static final long serialVersionUID = -4734812642841199492L;
 
+	private JPanel _myTutorialPanel; // The main JPanel on the screen
+	private final ArrayList<TutorialPage> _pages; // Arraylist of all the pages
+	private final JButton forwardButton, backButton; // Back /forward buttons
+	private int _idx; // Index to current page
+
+	/**
+	 * Instantiates a new tutorial.
+	 */
 	public Tutorial() {
 		super("Tutorial");
 		_myTutorialPanel = new JPanel();
 		_pages = new ArrayList<TutorialPage>();
 
-		backButton = new JButton();
+		backButton = new JButton(); // flip tutorial page left
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable() {
@@ -53,9 +61,8 @@ public class Tutorial extends JFrame{
 			}
 		}); 
 		backButton.setIcon(back);
-		backButton.setPreferredSize(new Dimension(back.getIconWidth(), back.getIconHeight()));
 
-		forwardButton = new JButton();
+		forwardButton = new JButton(); // flip tutorial page right
 		forwardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable() {
@@ -67,6 +74,8 @@ public class Tutorial extends JFrame{
 			}
 		}); 
 		forwardButton.setIcon(forward);
+
+		backButton.setPreferredSize(new Dimension(back.getIconWidth(), back.getIconHeight()));
 		forwardButton.setPreferredSize(new Dimension(forward.getIconWidth(), forward.getIconHeight()));
 
 		forwardButton.setOpaque(false);
@@ -75,9 +84,9 @@ public class Tutorial extends JFrame{
 		backButton.setOpaque(false);
 		backButton.setContentAreaFilled(false);
 		backButton.setBorderPainted(false);
-		
-		addPages();
-		_idx = -1; // So starts at 0 once you findNext()
+
+		addPages(); // add the pages to the Tutorial
+		_idx = -1; // findNext() increments by 1, so start at 0
 		swapPage(findNext());
 
 		setMaximumSize(Constants.TUTORIAL_FRAME_SIZE);
@@ -88,23 +97,38 @@ public class Tutorial extends JFrame{
 		setVisible(true);
 	}
 
+	/**
+	 * Find next page in tutorial.
+	 *
+	 * @return the tutorial page
+	 */
 	public TutorialPage findNext() {
 		_idx = (_idx + 1) % _pages.size();
 		return _pages.get(_idx);
 	}
 
+	/**
+	 * Find previous page in tutorial.
+	 *
+	 * @return the tutorial page
+	 */
 	public TutorialPage findPrevious() {
 		_idx = (_idx - 1 + _pages.size()) % _pages.size();
 		return _pages.get(_idx);
 	}
 
-	public void swapPage(TutorialPage p) {
+	/**
+	 * Swap page: Switch out the current tutorial page
+	 *
+	 * @param page the new page to insert
+	 */
+	public void swapPage(TutorialPage page) {
 		remove(_myTutorialPanel);
 		_myTutorialPanel = new JPanel(new BorderLayout());
 		_myTutorialPanel.add(backButton, BorderLayout.WEST);
-		_myTutorialPanel.add(p, BorderLayout.NORTH);
+		_myTutorialPanel.add(page, BorderLayout.NORTH);
 		_myTutorialPanel.add(forwardButton, BorderLayout.EAST);
-		JLabel pgNumber = new JLabel(_idx + "/" + (_pages.size() - 1));
+		JLabel pgNumber = new JLabel(_idx + "/" + (_pages.size() - 1)); // Show page # at bottom
 		pgNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		_myTutorialPanel.add(pgNumber);
 		add(_myTutorialPanel, BorderLayout.CENTER);
@@ -113,6 +137,9 @@ public class Tutorial extends JFrame{
 
 	}
 
+	/**
+	 * Adds all of the pages to the tutorial.
+	 */
 	public void addPages() {
 		_pages.add(new TutorialPage("***SETTLERS TUTORIAL***\n\nClick to continue.", null));
 		_pages.add(new TutorialPage("In the game Settlers of Catan, there are five types of resources...", null));
@@ -153,9 +180,5 @@ public class Tutorial extends JFrame{
 		_pages.add(new TutorialPage("There are also keyboard shortcuts...", null));
 		_pages.add(new TutorialPage("CTRL+C=ChatBox, CTRL+O=Overview, CTRL+B=Build, CTRL+T=Trade, CTRL+D=DevCard, CTRL+R=ROLL", null));
 		_pages.add(new TutorialPage("***END TUTORIAL***", null));
-	}
-
-	public static void main(String[] args) {
-		new Tutorial();
 	}
 }

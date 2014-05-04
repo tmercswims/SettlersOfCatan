@@ -15,9 +15,19 @@ import javax.swing.text.StyleConstants;
 
 import edu.brown.cs032.eheimark.catan.gui.Constants;
 
+/**
+ * The Class TutorialPage is a single page within the Tutorial. The Tutorial
+ * consists of a collection of many pages which can be flipped through.
+ */
 public class TutorialPage extends JPanel {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Instantiates a new tutorial page.
+	 *
+	 * @param message the message to display on the page
+	 * @param icon the icon to display on the page (or null if no icon)
+	 */
 	public TutorialPage(String message, ImageIcon icon) {
 		super();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -26,6 +36,8 @@ public class TutorialPage extends JPanel {
 			iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 			add(iconLabel);
 		}
+
+		// Displays message. Uses text pane with style attributes for word wrapping, custom alignment, etc.
 		JTextPane messagePane = new JTextPane();
 		SimpleAttributeSet _tutorial = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(_tutorial, "Georgia");
@@ -35,9 +47,8 @@ public class TutorialPage extends JPanel {
 		messagePane.getStyledDocument().setParagraphAttributes(0, messagePane.getStyledDocument().getLength(), _tutorial, false);
 		try {
 			messagePane.getDocument().insertString(0, message, _tutorial);
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
+		} catch (BadLocationException e) {} // Should not ever happen
+
 		messagePane.setAlignmentX(Component.CENTER_ALIGNMENT);
 		messagePane.setOpaque(false);
 		messagePane.setEditable(false);
