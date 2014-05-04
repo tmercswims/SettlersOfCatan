@@ -2,7 +2,7 @@ package edu.brown.cs032.eheimark.catan.launch;
 
 import javax.swing.SwingUtilities;
 
-import edu.brown.cs032.eheimark.catan.launch.screens.MainMenu;
+import edu.brown.cs032.eheimark.catan.launch.screens.*;
 
 /**
  * The Class SettlersOfCatan launches the game by bringing up a Settlers Main Menu from which users can create a server
