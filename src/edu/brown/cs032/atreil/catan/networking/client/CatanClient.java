@@ -15,12 +15,13 @@ import java.util.LinkedList;
 
 import javax.swing.SwingUtilities;
 
+import edu.brown.cs032.atreil.catan.gui.trade.TradeFrame;
 import edu.brown.cs032.atreil.catan.networking.Handshake;
 import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.eheimark.catan.gui.AlertFrame;
 import edu.brown.cs032.eheimark.catan.gui.GUI;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
-import edu.brown.cs032.eheimark.catan.gui.trade.TradeFrame;
+//import edu.brown.cs032.eheimark.catan.gui.trade.TradeFrame;
 import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
 import edu.brown.cs032.eheimark.catan.launch.screens.JoinLoadingMenu;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;

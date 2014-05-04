@@ -163,6 +163,26 @@ class ResourceArray extends JPanel implements Update {
 	}
 	
 	/**
+	 * Given a type, returns the associated token label
+	 * @param type Type to find
+	 * @return The resource token
+	 */
+	private JLabel getTokenLabel(int type){
+		if(type == ResourceConstants.BRICK)
+			return _brickLabel;
+		else if(type == ResourceConstants.ORE)
+			return _oreLabel;
+		else if(type == ResourceConstants.SHEEP)
+			return _sheepLabel;
+		else if(type == ResourceConstants.WHEAT)
+			return _wheatLabel;
+		else if(type == ResourceConstants.WOOD)
+			return _woodLabel;
+		else
+			throw new IllegalArgumentException(String.format("Invalid type"))
+	}
+	
+	/**
 	 * Sets whether or not the color of the text should update after a change
 	 * @param e
 	 */
