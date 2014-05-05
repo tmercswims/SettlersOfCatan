@@ -573,7 +573,7 @@ public class Referee {
 		switch (move.getType()) {
 		case -1:
 			if (giver != null && !giver.hasResources(giving)) return 401;
-			if (receiver != null && !receiver.hasResources(receiving)) return 402;
+			if (receiver != null && !receiver.hasResources(receiving)) return 403;
 			_server.sendTrade(move.getProposedTo(), move);
             _pushPlayers = _pushBoard = false;
 			return 400;
