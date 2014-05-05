@@ -236,7 +236,7 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 							for(Node n:t.getNodes()){
 								System.out.println("Node "+n.getIndex()+", isOwned: "+n.isOwned());
 								if(n.isOwned()){
-									if(!plist.contains(n.getOwner())&&n.getOwner()!=_client.getPlayer())
+									if(!plist.contains(n.getOwner())&&(!n.getOwner().equals(_client.getPlayer())))
 										plist.add(n.getOwner());
 								}
 							}
