@@ -8,12 +8,14 @@ import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.BackgroundPanel;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
+
 import javax.swing.JDialog;
 
 /**
@@ -22,7 +24,7 @@ import javax.swing.JDialog;
  * @author Alex Treil
  *
  */
-public class TradeFrame extends JDialog {
+public class TradeFrame extends JFrame {
 
 	private TradeFloor _give; //displays what user is giving up
 	private TradeFloor _afterTrade; //displays what the result of the trade will be
@@ -36,7 +38,8 @@ public class TradeFrame extends JDialog {
 	private static final long serialVersionUID = 7178921858469946687L;
 
 	public TradeFrame(String frameName, TradeMove trade, CatanClient client, GUIFrame frame){
-		super(frame, frameName, true);
+		//super(frame, frameName, true);
+		super(frameName);
 		_trade = trade;
 		_client = client;
 		
