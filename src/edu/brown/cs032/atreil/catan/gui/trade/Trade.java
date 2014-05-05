@@ -1,10 +1,10 @@
 package edu.brown.cs032.atreil.catan.gui.trade;
 
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.felt;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Fonts.OVERVIEW_TAB_FONT_HEADER;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -13,15 +13,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import javax.swing.border.BevelBorder;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
@@ -56,34 +58,63 @@ public class Trade extends JPanel implements ServerUpdate {
 	private boolean _canDrop; //can we drop the current resource
 	private JButton _proposeButton; //button to send trade requests
 	private JButton _clear; //clears the current proposal
-	
+	private ButtonGroup _bg; // button group for the trade
+	private ArrayList<JToggleButton> _buttons; // button group for the trade
+
 	public Trade(CatanClient client){
 		super();
-		
+
 		_client = client;
 		_toPlayerCB = new JComboBox<String>();
 		_dragging = false;
 		_canDrop = false;
 		_canDraw = false;
-		
-		initializeGUI();
 	}
-	
+
 	/**
 	 * Initializes the GUI by adding components and setting
 	 * properties
 	 */
-	private void initializeGUI(){
+	private void initializeGUI2(Player[] players){
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
-		//setting up proposal bar
-		initializeProposalBar();
-		
+
+		_buttons = new ArrayList<JToggleButton>();
+		JPanel proposalBar = new JPanel();
+		proposalBar.setLayout(new BoxLayout(proposalBar, BoxLayout.X_AXIS));
+		_clear = new JButton("Reset");
+		_clear.setFont(OVERVIEW_TAB_FONT_HEADER);
+		_clear.addActionListener(new ResetTradeListener());
+		proposalBar.add(_clear);
+
+		_bg = new ButtonGroup();
+		JToggleButton merchant = new JToggleButton("***MERCHANT***");
+		merchant.setFont(OVERVIEW_TAB_FONT_HEADER);
+		_bg.add(merchant);
+		_buttons.add(merchant);
+		proposalBar.add(merchant);
+		for(Player p : players) { // Adds all other players except current player to trade with
+			if(!_client.getPlayerName().equals(p.getName())) {
+				JToggleButton button = new JToggleButton(p.getName());
+				button.setFont(OVERVIEW_TAB_FONT_HEADER);
+				button.setForeground(p.getColor());
+				_bg.add(button);
+				_buttons.add(button);
+				proposalBar.add(button);
+			}
+		}
+		_proposeButton = new JButton("Propose");
+		_proposeButton.addActionListener(new ProposeTradeListener());
+		_proposeButton.setFont(OVERVIEW_TAB_FONT_HEADER);
+		proposalBar.add(_proposeButton);
+		proposalBar.setOpaque(false);
+
+		add(proposalBar);
+
 		//setting up trading floor
 		JPanel tradingFloor = new JPanel();
 		tradingFloor.setLayout(new BoxLayout(tradingFloor, BoxLayout.X_AXIS));
 		tradingFloor.setOpaque(false);
-		
+
 		_give = new TradeFloor("Give", new int[]{0,0,0,0,0});
 		_give.setUpdateColorEnabled(true);
 		_give.setOppositeColorEnabled(true);
@@ -91,49 +122,24 @@ public class Trade extends JPanel implements ServerUpdate {
 		_center.setUpdateColorEnabled(true);
 		_get = new TradeFloor("Get", new int[]{0,0,0,0,0});
 		_get.setUpdateColorEnabled(true);
-		
+
 		//setting listeners
 		TradeMouseAdapter l = new TradeMouseAdapter(this, _center);
 		addMouseListener(l);
 		addMouseMotionListener(l);
-		
+
 		tradingFloor.add(_give);
 		tradingFloor.add(_center);
 		tradingFloor.add(_get);
-		
+
 		add(tradingFloor);
-		
-		
+
+
 		//setting background image
 		setOpaque(false);
+		setVisible(true);
 	}
-	
-	/**
-	 * Initializes the proposale bar
-	 */
-	private void initializeProposalBar(){
-		
-		//visual properties
-		JPanel proposalBar = new JPanel();
-		proposalBar.setLayout(new BoxLayout(proposalBar, BoxLayout.X_AXIS));
-		_clear = new JButton("Reset");
-		_clear.addActionListener(new ResetTradeListener());
-		proposalBar.add(_clear);
-		JLabel to = new JLabel("To: ");
-		to.setForeground(Color.white);
-		proposalBar.add(to);
-		_toPlayerCB.setMaximumSize(new Dimension(1000000000, _clear.getPreferredSize().height));
-		proposalBar.add(_toPlayerCB);
-		
-		_proposeButton = new JButton("Propose");
-		_proposeButton.addActionListener(new ProposeTradeListener());
-		proposalBar.add(_proposeButton);
-		proposalBar.setOpaque(false);
-		
-		add(proposalBar);
-		
-	}
-	
+
 	/**
 	 * Sets the resource count in the center frame that represents
 	 * the number of resources the player has.
@@ -142,15 +148,15 @@ public class Trade extends JPanel implements ServerUpdate {
 	public void setResourceCount(int[] resourceCount){
 		_center.setResourceCount(resourceCount);
 	}
-	
+
 	public int getTradeCenterWidth(){
 		return _center.getWidth();
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		
+
 		Image background = felt;
 		int iw = background.getWidth(this);
 		int ih = background.getHeight(this);
@@ -162,11 +168,11 @@ public class Trade extends JPanel implements ServerUpdate {
 			}
 		}
 	}
-	
+
 	@Override
 	protected void paintChildren(Graphics g){
 		super.paintChildren(g);
-		
+
 		if(_dragging && _canDraw){
 			g.drawImage(_token, _x, _y, this);
 			_canDraw = false;
@@ -181,58 +187,58 @@ public class Trade extends JPanel implements ServerUpdate {
 	private class TradeMouseAdapter extends MouseAdapter{
 		private final Trade _trade;
 		private final TradeFloor _c;
-		
+
 		public TradeMouseAdapter(Trade trade, TradeFloor c){
 			_trade = trade;
 			_c = c;
 		}
-		
+
 		@Override
 		public void mousePressed(MouseEvent e){
 			if(_client != null && !_client.getPlayer().isActive())
 				return;
-			
+
 			_dragging = true;
 			_token = setImage(e.getLocationOnScreen());
-			
+
 			if(_token == null)
 				_dragging = false;
 		}
-		
+
 		@Override
 		public void mouseDragged(MouseEvent e){
 			if(_client != null && !_client.getPlayer().isActive())
 				return;
-			
+
 			if(_dragging){
 				_canDrop = true;
 				_canDraw = true;
 				_x = e.getXOnScreen() - _trade.getLocationOnScreen().x - _token.getWidth(_trade)/2;
 				_y = e.getYOnScreen() - _trade.getLocationOnScreen().y - _token.getHeight(_trade)/2;
-				
+
 				_trade.repaint();
 			}
 		}
-		
+
 		@Override
 		public void mouseReleased(MouseEvent e){
 			if(_client != null && !_client.getPlayer().isActive())
 				return;
-			
+
 			if(_dragging && _canDrop){
 				_dragging = false;
 				_canDrop = false;
-				
+
 				int x = e.getLocationOnScreen().x;
-				
+
 				if(x <= _c.getLocationOnScreen().x){
 					if(_center.getOriginalCount(_type) != 0){
-						
+
 						if(_get.getCount(_type) > 0){
 							_get.resetCount(_type);
 							_center.resetCount(_type);
 						}
-						
+
 						if(_center.getCount(_type) > 0){
 							_give.incrementCount(_type);
 							_center.decrementCount(_type);
@@ -247,38 +253,36 @@ public class Trade extends JPanel implements ServerUpdate {
 					_get.incrementCount(_type);
 					_center.incrementCount(_type);
 				}
-				
+
 				_trade.repaint();
 			}
 		}
-		
+
 		@Override
 		public void mouseClicked(MouseEvent e){
 			if(_client != null && !_client.getPlayer().isActive())
 				return;
-			
-			//System.err.println(!_dragging);
+
 			if(!_dragging || (_dragging && !_canDrop)){
 				Point point = e.getLocationOnScreen();
 				int type = getType(e.getLocationOnScreen());
-				//System.err.println(type);
 				if(type != -1){
 					int dx = _trade.getWidth()/15;
 					int x = (int) _trade.getLocationOnScreen().getX();
-					
+
 					int i;
 					for(i = 0; i < 15; i++){
 						if(point.x >= x && point.x <= x+dx)
 							break;
 						x+=dx;
 					}
-					
+
 					decrementCount(i);
 					_dragging = false;
 				}
 			}
 		}
-		
+
 		/**
 		 * Given an index out of 15 that represents a column in the trade panel,
 		 * determines which resource was clicked and then decrements that resource count.
@@ -289,7 +293,7 @@ public class Trade extends JPanel implements ServerUpdate {
 				//give
 				if(_give.getCount(i) > 0)
 					_center.incrementCount(i);
-				
+
 				_give.decrementCount(i);
 			} else if(i >= 5 && i < 10){
 				//center
@@ -302,17 +306,17 @@ public class Trade extends JPanel implements ServerUpdate {
 				i = i % 5;
 				if(_get.getCount(i) > 0)
 					_center.decrementCount(i);
-				
+
 				_get.decrementCount(i);
 			} else
 				throw new IllegalArgumentException(String.format("resetCount: invalid index: %s", i));
 		}
-		
+
 		private Image setImage(Point point){
 			point = new Point(point.x - _c.getX(), point.y - _c.getY());
 			int dx = _trade.getTradeCenterWidth()/5;
 			int x = (int) _trade.getLocationOnScreen().getX();
-			
+
 			for(int i = 0; i < 5; i++){
 				if(point.x >= x && point.x <= x+dx){
 					_type = i;
@@ -320,10 +324,10 @@ public class Trade extends JPanel implements ServerUpdate {
 				}
 				x+=dx;
 			}
-			
+
 			return null;
 		}
-		
+
 		/**
 		 * Given a point, returns the closest resource type
 		 * @param point The point to check
@@ -333,7 +337,7 @@ public class Trade extends JPanel implements ServerUpdate {
 			//point = new Point(point.x - _c.getX(), point.y - _c.getY());
 			int dx = _trade.getWidth()/15;
 			int x = (int) _trade.getLocationOnScreen().getX();
-			
+
 			for(int i = 0; i < 15; i++){
 				//System.err.println(String.format("x: %s, dx: %s, point.x: %s",x, dx, point.x));
 				if(point.x >= x && point.x <= x+dx){
@@ -342,10 +346,10 @@ public class Trade extends JPanel implements ServerUpdate {
 				}
 				x+=dx;
 			}
-			
+
 			return -1;
 		}
-		
+
 		/**
 		 * Given a type, returns the image of the associated type
 		 * @param type The type of the resource, as specified in ResourceArray
@@ -368,28 +372,35 @@ public class Trade extends JPanel implements ServerUpdate {
 			}
 		}
 	}
-	
+
 	private class ProposeTradeListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
 			//check if we have client...
 			if(_client == null)
 				return;
-			
-			String proposingTo = (String) _toPlayerCB.getSelectedItem();
-			
+
+
+			String proposingTo = "";
+			//			(String) _toPlayerCB.getSelectedItem();
+
+			for(JToggleButton b: _buttons) {
+				if(b.isSelected())
+					proposingTo = b.getText();
+			}
+
 			if(proposingTo.equals("")){
 				//TODO: no one to send a trade to
 				return;
 			}
-			
+
 			//set up trade
 			int[] trade = new int[5];
 			boolean get = false;
 			boolean give = false;
-			
+
 			for(int i = 0; i < 5; i++){
 				if(_get.getCount(i) != 0){
 					trade[i] = _get.getCount(i);
@@ -402,13 +413,13 @@ public class Trade extends JPanel implements ServerUpdate {
 				else
 					trade[i] = 0;
 			}
-			
+
 			//invalid trade
 			if(!get && !give){
 				//TODO: invalid trade
 				return;
 			}
-			
+
 			try {
 				_client.sendMove(new TradeMove(_client.getPlayerName(), proposingTo, trade, -1));
 				_get.resetCountAll();
@@ -421,9 +432,9 @@ public class Trade extends JPanel implements ServerUpdate {
 				_give.resetCountAll();
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * This class resets the trade proposal
 	 * @author Alex Treil
@@ -436,35 +447,20 @@ public class Trade extends JPanel implements ServerUpdate {
 			_get.resetCountAll();
 			_give.resetCountAll();
 			_center.resetCountAll();
+			_bg.clearSelection();
 		}
-		
+
 	}
-	
+
 	private boolean updated = false;
 	@Override
 	public void serverUpdate() {
 
 		System.err.println("Trade ericupdate");
 		if(!updated) {
-			Player[] players = _client.getPlayers();
-
-			HashMap<Integer, Color> colors = new HashMap<Integer, Color>();
-			int idx = 0;
-			
-			_center.setResourceCount(_client.getPlayer().getResources());
-
-			_toPlayerCB.addItem("***MERCHANT***");
-			colors.put(idx++, Color.WHITE);
-			
-			for(Player p : players) { // Adds all other players except current player to trade with
-				if(!_client.getPlayerName().equals(p.getName())) {
-					_toPlayerCB.addItem(p.getName());
-					colors.put(idx++, p.getColor().brighter());
-				}
-			}
-			_toPlayerCB.setRenderer(new MyComboBoxRenderer(colors));
+			initializeGUI2(_client.getPlayers());
 		}
-		
+
 		_center.setResourceCount(_client.getPlayer().getResources());
 		_toPlayerCB.setSelectedItem("***MERCHANT***");
 		_toPlayerCB.setBackground(Color.white);
@@ -477,7 +473,7 @@ public class Trade extends JPanel implements ServerUpdate {
 		}
 		updated = true;
 	}
-	
+
 	class MyComboBoxRenderer extends DefaultListCellRenderer {
 		private static final long serialVersionUID = 1L;
 		HashMap<Integer,Color> table;
@@ -503,5 +499,4 @@ public class Trade extends JPanel implements ServerUpdate {
 			return this;
 		}
 	}
-	
 }
