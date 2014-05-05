@@ -113,6 +113,7 @@ public class TradeFrame extends JFrame {
 		//houses accept and reject buttons
 		JPanel acceptReject = new JPanel();
 		acceptReject.setLayout(new BoxLayout(acceptReject, BoxLayout.X_AXIS));
+		acceptReject.setOpaque(false);
 		JButton accept = new JButton("Accept");
 		accept.addActionListener(new ResponseListener(true));
 		JButton reject = new JButton("Reject");
