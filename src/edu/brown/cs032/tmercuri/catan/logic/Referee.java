@@ -341,7 +341,7 @@ public class Referee {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
 		if (_startUp == 0 && !_activePlayer.hasRolled()) return 998;
         if (_moveTheRobber) return 997;
-        if (!_needToDropResources.isEmpty()) return 996;
+        //if (!_needToDropResources.isEmpty()) return 996;
 		switch (move.getBuildType()) {
 		case ROAD:
 			Edge e = _board.getEdges()[move.getBuildLocation()];
@@ -487,7 +487,7 @@ public class Referee {
 		if (!move.getPlayerName().equals(_activePlayer.getName()) && !move.getPlayerName().equals(move.getProposedTo())) return 999;
 		if (!_activePlayer.hasRolled()) return 998;
         if (_moveTheRobber) return 997;
-        if (!move.getPlayerName().equals(move.getProposedTo()) && !_needToDropResources.isEmpty()) return 996;
+        //if (!move.getPlayerName().equals(move.getProposedTo()) && !_needToDropResources.isEmpty()) return 996;
 
 		Player robbed = null;
 		for (Player p : _players) {
@@ -497,7 +497,7 @@ public class Referee {
 		if (move.getPlayerName().equals(move.getProposedTo())) {
 			int[] res = move.getResources();
 			if (robbed != null) robbed.removeResources(res);
-            _needToDropResources.remove(robbed);
+            //_needToDropResources.remove(robbed);
             _pushPlayers = true;
 			return 510;
 		}
@@ -608,7 +608,7 @@ public class Referee {
 
 	private int robberMove(RobberMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
-        if (!_needToDropResources.isEmpty()) return 996;
+        //if (!_needToDropResources.isEmpty()) return 996;
         _moveTheRobber = false;
 		Tile newRobber = _board.getTiles()[move.getNewLocation()];
 		Player victim = null;
@@ -647,7 +647,7 @@ public class Referee {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
 		if (!_activePlayer.hasRolled()) return 998;
         if (_moveTheRobber) return 997;
-        if (!_needToDropResources.isEmpty()) return 996;
+        //if (!_needToDropResources.isEmpty()) return 996;
 		Player played = null;
 		for (Player p : _players) {
 			if (p.getName().equals(move.getPlayerName()))
@@ -688,7 +688,7 @@ public class Referee {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
 		if (!_activePlayer.hasRolled()) return 998;
         if (_moveTheRobber) return 997;
-        if (!_needToDropResources.isEmpty()) return 996;
+        //if (!_needToDropResources.isEmpty()) return 996;
 		Player played = null;
 		for (Player p : _players) {
 			if (p.getName().equals(move.getPlayerName()))
@@ -703,7 +703,7 @@ public class Referee {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
 		if (move.getIndex() != 0 && !_activePlayer.hasRolled()) return 998;
         if (_moveTheRobber) return 997;
-        if (!_needToDropResources.isEmpty()) return 996;
+        //if (!_needToDropResources.isEmpty()) return 996;
 		Player played = null;
 		for (Player p : _players) {
 			if (p.getName().equals(move.getPlayerName()))
@@ -734,7 +734,7 @@ public class Referee {
 
 	private int startTurn(FirstMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
-        if (!_needToDropResources.isEmpty()) return 996;
+        //if (!_needToDropResources.isEmpty()) return 996;
 		int roll = _dice.roll();
 		_server.sendRoll(_activePlayer.getName(), roll);
 		if (roll != 7) {
@@ -755,7 +755,7 @@ public class Referee {
 			for (Player p: _players) {
 				if (p.getResourceCount()>7) {
 					try {
-                        _needToDropResources.add(p);
+                        //_needToDropResources.add(p);
 						_server.sendMessage(p.getName(), "The robber has attacked! Please drop half your resources.");
 						_server.sendSeven(p.getName());
 					} catch (IllegalArgumentException | IOException ex) {
@@ -775,7 +775,7 @@ public class Referee {
 	private int endTurn(LastMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
         if (_moveTheRobber) return 997;
-        if (!_needToDropResources.isEmpty()) return 996;
+        //if (!_needToDropResources.isEmpty()) return 996;
 		_activePlayer.setIsActive(false);
 		_server.sendLastMove();
 		_turnOver = true;
