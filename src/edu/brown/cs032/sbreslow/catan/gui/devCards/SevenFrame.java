@@ -21,13 +21,14 @@ import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 import javax.swing.JDialog;
 
-public class SevenFrame extends JDialog {
+public class SevenFrame extends JFrame {
 	private static final long serialVersionUID = 2775532151453365472L;
 	private CatanClient _cc;
 	private final JComboBox<Integer> oreCB, wheatCB, woolCB, lumberCB, brickCB;
 	
 	public SevenFrame(CatanClient cc, GUIFrame frame){
-		super(frame, "Please drop half of your resources...", true);
+		//super(frame, "Please drop half of your resources...", true);
+		super("Please drop half of your resources...");
 		_cc = cc;
 		//setLayout(null); // absolute layout
 		final Integer[] tradeValues = new Integer[] {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
@@ -139,11 +140,11 @@ public class SevenFrame extends JDialog {
 	
 	private class ProposeTradeActionListener implements ActionListener {
 		
-		private JDialog _frame;
+		private JFrame _frame;
         private CatanClient _cc;
 		
-		private ProposeTradeActionListener(CatanClient cc, JDialog frame){
-			_frame = frame;
+		private ProposeTradeActionListener(CatanClient cc, SevenFrame sevenFrame){
+			_frame = sevenFrame;
             _cc = cc;
 		}
 		@Override

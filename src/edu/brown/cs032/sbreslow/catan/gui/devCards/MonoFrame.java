@@ -13,7 +13,7 @@ import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.tmercuri.catan.logic.move.MonopolyMove;
 import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 
-public class MonoFrame extends JDialog implements ActionListener {
+public class MonoFrame extends JFrame implements ActionListener {
 
 	private CatanClient _cc;
     private GUIFrame _frame;
@@ -22,7 +22,8 @@ public class MonoFrame extends JDialog implements ActionListener {
 	private final ButtonGroup _top;
 
 	public MonoFrame(CatanClient cc, GUIFrame frame){
-		super(frame, "Monopoly", true);
+		//super(frame, "Monopoly", true);
+		super("Monopoly");
 		_cc = cc;
         _frame = frame;
 		JPanel panel = new JPanel();
@@ -85,6 +86,8 @@ public class MonoFrame extends JDialog implements ActionListener {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.pack();
+		setMinimumSize(getSize());
+		setMaximumSize(getSize());
 		repaint();
 		//System.out.println(getSize());
 	}
@@ -103,7 +106,7 @@ public class MonoFrame extends JDialog implements ActionListener {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        _frame.setVisible(false);
-        _frame.dispose();
+        this.setVisible(false);
+        this.dispose();
     }
 }

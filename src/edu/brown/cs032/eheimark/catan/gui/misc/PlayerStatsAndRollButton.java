@@ -108,10 +108,20 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 		brick.setHorizontalAlignment(SwingConstants.CENTER);
 
 		//adding counts
+		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.wheatToken.getImage().getScaledInstance(
+				(int)(Misc.wheatToken.getIconWidth()*TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.wheatToken.getIconHeight()),
+				(int)(PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+		playerResourcesPanel.add(wheat);
+		
 		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.woolToken.getImage().getScaledInstance(
 				(int)(Misc.woolToken.getIconWidth()*TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woolToken.getIconHeight()),
 				(int)(PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 		playerResourcesPanel.add(wool);
+		
+		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.brickToken.getImage().getScaledInstance(
+				(int)(Misc.brickToken.getIconWidth()*TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.brickToken.getIconHeight()),
+				(int)(PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
+		playerResourcesPanel.add(brick);
 
 		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.oreToken.getImage().getScaledInstance(
 				(int)(Misc.oreToken.getIconWidth()*TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.oreToken.getIconHeight()),
@@ -122,16 +132,6 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 				(int)(Misc.woodToken.getIconWidth()*TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.woodToken.getIconHeight()),
 				(int)(PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
 		playerResourcesPanel.add(wood);
-
-		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.wheatToken.getImage().getScaledInstance(
-				(int)(Misc.wheatToken.getIconWidth()*TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.wheatToken.getIconHeight()),
-				(int)(PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
-		playerResourcesPanel.add(wheat);
-
-		playerResourcesPanel.add(new JLabel(new ImageIcon(Misc.brickToken.getImage().getScaledInstance(
-				(int)(Misc.brickToken.getIconWidth()*TAB_PANEL_MENU_SIZE.getHeight()/5/Misc.brickToken.getIconHeight()),
-				(int)(PLAYER_STATS.getHeight()),Image.SCALE_SMOOTH))));
-		playerResourcesPanel.add(brick);
 
 		mystats = new JLabel("MY STATISTICS");
 		mystats.setFont(MY_FONT_ACTIVEPLAYER);

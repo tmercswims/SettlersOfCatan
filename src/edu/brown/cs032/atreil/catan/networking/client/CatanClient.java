@@ -156,7 +156,7 @@ public class CatanClient extends Thread{
 		_x = 600/23;
 		_y = 600/14;
 		
-		connect();
+		//connect();
 	}
 
 	/**
@@ -177,6 +177,8 @@ public class CatanClient extends Thread{
 	public void run(){
 		try {
 
+			connect();
+			
 			//preloading stage
 			readServerMessagePrivate();
 

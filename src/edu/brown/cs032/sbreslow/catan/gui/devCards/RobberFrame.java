@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class RobberFrame extends JDialog {
+public class RobberFrame extends JFrame {
 
 	private List<Player> _players;
 	private List<JButton> _buttons;
@@ -31,7 +31,8 @@ public class RobberFrame extends JDialog {
 	private CatanClient _cc;
 	
 	public RobberFrame(List<Player> plist, int index, CatanClient cc, GUIFrame frame) {
-		super(frame, "Robber", true);
+		//super(frame, "Robber", true);
+		super("Robber");
 		_cc = cc;
 		_index = index;
 		_cur = cc.getPlayer();
@@ -89,11 +90,11 @@ public class RobberFrame extends JDialog {
 	private class RobList implements ActionListener {
 		
 		private String _name;
-		private JDialog _frame;
+		private JFrame _frame;
 		
-		private RobList(String name, JDialog frame){
+		private RobList(String name, RobberFrame robberFrame){
 			_name = name;
-			_frame = frame;
+			_frame = robberFrame;
 		}
 
 		@Override
