@@ -340,11 +340,12 @@ public class Referee {
 	private int buildMove(BuildMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
 		if (_startUp == 0 && !_activePlayer.hasRolled()) return 998;
-        int i = move.getBuildLocation();
         if (_moveTheRobber) return 997;
+        if (!_needToDropResources.isEmpty()) return 996;
 		switch (move.getBuildType()) {
 		case ROAD:
 			Edge e = _board.getEdges()[move.getBuildLocation()];
+            int i = move.getBuildLocation();
             if (i <= 42 || i == 44 || i == 47 || i == 50 || i == 52 || i == 55 || i == 58 || i == 60 || i == 63 || i == 66 || i == 68 || i == 71 || i == 74 || i == 76 || i == 79 || i == 82 || i == 84 || i == 87) return 108;
 			if (_startUp != 0) {
 				if (e.isRoad()) return 101;
@@ -486,6 +487,7 @@ public class Referee {
 		if (!move.getPlayerName().equals(_activePlayer.getName()) && !move.getPlayerName().equals(move.getProposedTo())) return 999;
 		if (!_activePlayer.hasRolled()) return 998;
         if (_moveTheRobber) return 997;
+        if (!move.getPlayerName().equals(move.getProposedTo()) && !_needToDropResources.isEmpty()) return 996;
 
 		Player robbed = null;
 		for (Player p : _players) {
@@ -606,6 +608,7 @@ public class Referee {
 
 	private int robberMove(RobberMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
+        if (!_needToDropResources.isEmpty()) return 996;
         _moveTheRobber = false;
 		Tile newRobber = _board.getTiles()[move.getNewLocation()];
 		Player victim = null;
@@ -644,6 +647,7 @@ public class Referee {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
 		if (!_activePlayer.hasRolled()) return 998;
         if (_moveTheRobber) return 997;
+        if (!_needToDropResources.isEmpty()) return 996;
 		Player played = null;
 		for (Player p : _players) {
 			if (p.getName().equals(move.getPlayerName()))
@@ -684,6 +688,7 @@ public class Referee {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
 		if (!_activePlayer.hasRolled()) return 998;
         if (_moveTheRobber) return 997;
+        if (!_needToDropResources.isEmpty()) return 996;
 		Player played = null;
 		for (Player p : _players) {
 			if (p.getName().equals(move.getPlayerName()))
@@ -698,6 +703,7 @@ public class Referee {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
 		if (move.getIndex() != 0 && !_activePlayer.hasRolled()) return 998;
         if (_moveTheRobber) return 997;
+        if (!_needToDropResources.isEmpty()) return 996;
 		Player played = null;
 		for (Player p : _players) {
 			if (p.getName().equals(move.getPlayerName()))
@@ -728,6 +734,7 @@ public class Referee {
 
 	private int startTurn(FirstMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
+        if (!_needToDropResources.isEmpty()) return 996;
 		int roll = _dice.roll();
 		_server.sendRoll(_activePlayer.getName(), roll);
 		if (roll != 7) {
