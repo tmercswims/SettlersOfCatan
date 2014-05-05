@@ -2,6 +2,7 @@ package edu.brown.cs032.atreil.catan.gui.trade;
 
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.felt;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Fonts.OVERVIEW_TAB_FONT_HEADER;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.white;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -96,7 +97,9 @@ public class Trade extends JPanel implements ServerUpdate {
 			if(!_client.getPlayerName().equals(p.getName())) {
 				JToggleButton button = new JToggleButton(p.getName());
 				button.setFont(OVERVIEW_TAB_FONT_HEADER);
-				button.setForeground(p.getColor());
+				Color c = p.getColor();
+				if(!p.getColor().equals(white))
+					button.setForeground(p.getColor());
 				_bg.add(button);
 				_buttons.add(button);
 				proposalBar.add(button);
