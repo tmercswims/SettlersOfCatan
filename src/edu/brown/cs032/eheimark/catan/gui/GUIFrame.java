@@ -1,5 +1,6 @@
 package edu.brown.cs032.eheimark.catan.gui;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Dimensions.MINIMUM_GUI_FRAME_SIZE;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ComponentEvent;
@@ -39,6 +40,7 @@ public class GUIFrame extends JFrame {
 		add(_gui);
 		setVisible(true);
 		setResizable(true);
+		setMinimumSize(MINIMUM_GUI_FRAME_SIZE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		setLocationRelativeTo(null);
