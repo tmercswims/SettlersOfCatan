@@ -21,7 +21,7 @@ import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.move.YearOfPlentyMove;
 import javax.swing.JDialog;
 
-public class YoPFrame extends JDialog implements ActionListener {
+public class YoPFrame extends JFrame implements ActionListener {
 	
 	private CatanClient _cc;
     private GUIFrame _frame;
@@ -32,7 +32,8 @@ public class YoPFrame extends JDialog implements ActionListener {
 	private final ButtonGroup _bot;
 	
 	public YoPFrame(CatanClient cc, GUIFrame frame){
-		super(frame, "Year of Plenty", true);
+		//super(frame, "Year of Plenty", true);
+		super("Year of Plenty");
 		_cc = cc;
         _frame = frame;
 		JPanel panel = new JPanel();
