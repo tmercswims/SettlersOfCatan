@@ -90,25 +90,60 @@ public class Packet implements Serializable {
 	 */
 	public static int TRADE = 12;
 	
+	/**
+	 * Player is ending their move; null
+	 */
 	public static int LASTMOVE = 13;
 	
+	/**
+	 * A seven is rolled so the player should drop their resources; null
+	 */
 	public static int SEVEN = 14;
     
+	/**
+	 * Bad roll builder play; null
+	 */
     public static int BAD_RB = 15;
     
+    /**
+     * Game is over; message to follow
+     */
     public static int GAME_OVER = 16;
     
+    /**
+     * Int of the index of where the settlement in the pre-game phase was built
+     */
     public static int START_SETTLE = 17;
     
+    /**
+     * The pre-game is over; boolean //TODO: scrap this
+     */
     public static int END_START = 18;
 	
 	/*********************************************/
 	private final int _type; //the type of the object
 	private final Object _o; //the object
-	private boolean accessed = false; //determines if the object has been given out
-	private int _uid;
 	
 	/**
+	 * Constructs a new packet that will store an object of the specified type
+	 * @param type The type of the object being sent. Use the static integers defined in the
+	 * Packet class.
+	 * @param type The type of the object.
+	 * @param o The object itself. If the Object and the type do not match, then an IllegalArgumentException is thrown
+	 * @throws IllegalArgumentException If the Object and integer type do not match or are invalid.
+	 */
+	public Packet(int type, Object o){
+		
+		//check to see type and object match
+		validate(type, o);
+		
+		_o = o;
+		_type = type;
+	}
+	
+	/**
+	 * @deprecated discontinued the use of uids. Use the two argument constructor
+	 * that ignores the uid<p>
 	 * Constructs a new packet that will store an object of the specified type
 	 * @param type The type of the object being sent. Use the static integers defined in the
 	 * Packet class.
@@ -117,6 +152,7 @@ public class Packet implements Serializable {
 	 * @param uid unique identifier
 	 * @throws IllegalArgumentException If the Object and integer type do not match or are invalid.
 	 */
+	@Deprecated
 	public Packet(int type, Object o, int uid) throws IllegalArgumentException{
 		
 		//check to see the type and object match
@@ -124,7 +160,6 @@ public class Packet implements Serializable {
 		
 		this._o = o;
 		this._type = type;
-		this._uid = uid;
 	}
 	
 	/**
@@ -210,22 +245,23 @@ public class Packet implements Serializable {
 		return _type;
 	}
 	
+	/** 
+	 * @deprecated the unique id was used for early debugging but isn't needed anymore. Will
+	 * always return -1<p>
+	 * 
+	 * Gets the unique id of the packet
+	 * @return unique if of the packet.
+	 */
+	@Deprecated
 	public int getUID(){
-		return _uid;
+		return -1;
 	}
 	
 	/**
-	 * Returns the object in this method. May only be called once. Any future attempts
-	 * at accessing the object will throw an IllegalArgumentException
+	 * Returns the object in this method.
 	 * @return The object contained in the packet
 	 */
 	public Object getObject(){
-		/*
-		if(!accessed){
-			accessed = true;
-			return _o;
-		} else
-			throw new IllegalArgumentException("Object has already been accessed.");*/
 		return _o;
 	}
 }

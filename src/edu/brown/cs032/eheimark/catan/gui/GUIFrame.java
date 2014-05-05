@@ -23,6 +23,9 @@ public class GUIFrame extends JFrame {
 
 	private OggClip _music;
 	private GUI _gui;
+	private int _x;
+	private int _y;
+	private CatanClient _cc;
 
 	/**
 	 * Instantiates a new GUI frame.
@@ -42,6 +45,9 @@ public class GUIFrame extends JFrame {
 		addComponentListener(new SizeList(cc, this));
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new KeyboardShortcuts());
+		_x = 600/23;
+		_y = 600/14;
+		_cc = cc;
 	}
 
 	private class SizeList implements ComponentListener{
@@ -58,10 +64,18 @@ public class GUIFrame extends JFrame {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					_cc.getGUI().getDP().setResize(_frame.getWidth()*600/1000, _frame.getHeight()*600/825);
+					_cc.getGUI().getDP().setSize(_frame.getContentPane().getWidth()*600/1000, 
+							_frame.getContentPane().getHeight()*600/825);
+					if(checkDelta(_frame.getContentPane().getWidth()*600/1000, 
+							_frame.getContentPane().getHeight()*600/825)){
+						//System.err.println("HERE");
+						_cc.getGUI().getDP().setResize(_frame.getContentPane().getWidth()*600/1000, 
+								_frame.getContentPane().getHeight()*600/825);
+					}
 					_cc.getBoard().resize(_cc.getGUI().getDP().getWidth(), _cc.getGUI().getDP().getHeight());
 					_cc.getGUI().getDP().serverUpdate();
 				}
+				
 			});
 		}
 
@@ -71,6 +85,20 @@ public class GUIFrame extends JFrame {
 		public void componentShown(ComponentEvent e) {}
 		@Override
 		public void componentHidden(ComponentEvent e) {}
+	}
+	
+	private boolean checkDelta(int i, int j) {
+		System.out.println("OLD: "+_x+", "+_y);
+		System.out.println("CHECKING: "+i/23+", "+j/14);
+		if((_x!=i/23) || (_y!=j/14)){
+			_x = i/23;
+			_y = j/14;
+			_cc.setXY(_x, _y);
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	private void setMusic() {

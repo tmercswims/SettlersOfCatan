@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
 import javax.swing.BorderFactory;
@@ -29,6 +28,7 @@ class ResourceArray extends JPanel implements ServerUpdate {
 	 * 
 	 */
 	private static final long serialVersionUID = 7124397318680691184L;
+	
 	/*
 	 * Labels for the individual tokens
 	 */
@@ -54,7 +54,7 @@ class ResourceArray extends JPanel implements ServerUpdate {
 	private JLabel[] _resourceTokenArray;
 	
 	private final int[] _resourceCount; //keeps track of how much of each resource is collected
-	private final int[] _originalResourceCount; //keeps track of how much was originally inputed
+	private final int[] _originalResourceCount; //keeps track of how much was originally given
 	private boolean _updateColor; //determines if we should change the color of the text after incrementing/decrementing
 	private boolean _oppositeColor; //determines if we use normal color schemes or reverse
 	private Color _increment; //color of text when count is incremented
@@ -64,6 +64,8 @@ class ResourceArray extends JPanel implements ServerUpdate {
 	 * Initialized a ResourceArray with all resources set to 0
 	 */
 	public ResourceArray(int[] resourceCount){
+		
+		//setting fields
 		_resourceCount = Arrays.copyOf(resourceCount, resourceCount.length);
 		_originalResourceCount = Arrays.copyOf(resourceCount, resourceCount.length);
 		_updateColor = false;
@@ -79,6 +81,10 @@ class ResourceArray extends JPanel implements ServerUpdate {
 	 */
 	private void initializeGUI(){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		//setting up iterators
+		_resourceCountArray = new JLabel[5];
+		_resourceTokenArray = new JLabel[5];
 		
 		//setting up tokens/labels
 		JPanel tokenPanel = new JPanel();
@@ -105,10 +111,13 @@ class ResourceArray extends JPanel implements ServerUpdate {
 		_brickLabel.setTransferHandler(new TransferHandler("icon"));
 		_brickLabel.setOpaque(false);
 
-		for(int i = 0; i < 5; i++)
+		for(int i = 0; i < 5; i++){
 			tokenPanel.add(getTokenLabel(i));
+			_resourceTokenArray[i] = getTokenLabel(i);
+		}
 		
 		add(tokenPanel);
+		
 		
 		//setting up counts
 		JPanel labelPanel = new JPanel();
@@ -135,33 +144,19 @@ class ResourceArray extends JPanel implements ServerUpdate {
 		_brickCount.setHorizontalAlignment(JLabel.CENTER);
 		_brickCount.setOpaque(false);
 		
-		for(int i = 0; i < 5; i++)
+		for(int i = 0; i < 5; i++){
 			labelPanel.add(getCountLabel(i));
-		
-		
-//		labelPanel.add(_oreCount);
-//		labelPanel.add(_wheatCount);
-//		labelPanel.add(_woodCount);
-//		labelPanel.add(_sheepCount);
-//		labelPanel.add(_brickCount);
+			_resourceCountArray[i] = getCountLabel(i);
+		}
 		
 		add(labelPanel);
-		
-		
-		_resourceCountArray = new JLabel[] {_oreCount, _wheatCount, _woodCount, _sheepCount, _brickCount};
-		_resourceTokenArray = new JLabel[] {_oreLabel, _wheatLabel, _woodLabel, _sheepLabel, _brickLabel};
 		
 		
 		//setting up border
 		setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		
 		
-		setOpaque(false);
-		
-		//adding listeners
-//		ResourceArrayMouseAdapter l = new ResourceArrayMouseAdapter();
-//		addMouseListener(l);
-//		addMouseMotionListener(l);
+		setOpaque(false);		
 	}
 	
 	/**

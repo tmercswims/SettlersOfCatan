@@ -52,6 +52,13 @@ public class ClientManager extends Thread {
 		//setting up readers and writers
 		this._in = new ObjectInputStream(_client.getInputStream());
 		this._out = new ObjectOutputStream(_client.getOutputStream());
+		
+		if(_pool.getNumConnected() >= _pool._maxSize){
+			_in.close();
+			_out.close();
+			_client.close();
+			throw new IllegalArgumentException("Server is full");
+		}
 	}
 	
 
@@ -72,7 +79,7 @@ public class ClientManager extends Thread {
 		_pool.addUpdate("Client is trying to connect...");
 		
 		//send welcome message
-		send(new Packet(Packet.HANDSHAKE, new Handshake(_numPlayers, _chatPort), 0));
+		send(new Packet(Packet.HANDSHAKE, new Handshake(_numPlayers, _chatPort)));
 		
 		try {
 			// expect packet with player class
@@ -254,7 +261,7 @@ public class ClientManager extends Thread {
 	 */
 	private void sendError(String msg) throws IOException{
 		_out.reset();
-		_out.writeObject(new Packet(Packet.ERROR, msg, 0));
+		_out.writeObject(new Packet(Packet.ERROR, msg));
 		_out.flush();
 	}
 	

@@ -353,6 +353,7 @@ public class Trade extends JPanel implements ServerUpdate {
 		 */
 		private Image getImage(int type){
 			if(type == ResourceConstants.ORE){
+				System.err.println(String.format("Ore, type %s, actual type %s", type, ResourceConstants.ORE));
 				return Misc.oreToken.getImage();
 			} else if(type == ResourceConstants.WHEAT){
 				return Misc.wheatToken.getImage();

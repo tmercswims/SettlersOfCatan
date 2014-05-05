@@ -258,7 +258,7 @@ public class Board implements Serializable {
 	public void resize(int x, int y){
 		_x = x/23;
 		_y = y/14;
-		System.out.println(_x+", "+_y);
+		System.out.println("Board.resize: "+_x+", "+_y);
 		layoutChanges();
 	}
     
