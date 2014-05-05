@@ -277,7 +277,7 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 						if(_rbcount < 2){
 							buildtype = 4;
 							_rbcount++;
-                            _selectable = 4;
+                            setSelect(4);
 						}
 						else{
 							_rbcount = 0;
