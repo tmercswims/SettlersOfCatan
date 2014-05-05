@@ -1,7 +1,6 @@
 package edu.brown.cs032.sbreslow.catan.gui.devCards;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,21 +16,25 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.move.YearOfPlentyMove;
+import javax.swing.JDialog;
 
-public class YoPFrame extends JFrame {
+public class YoPFrame extends JDialog implements ActionListener {
 	
 	private CatanClient _cc;
+    private GUIFrame _frame;
 	private JRadioButton[] _tbuttons = new JRadioButton[5];
 	private JRadioButton[] _bbuttons = new JRadioButton[5];
 	private JLabel[] _images = new JLabel[5];
 	private final ButtonGroup _top;
 	private final ButtonGroup _bot;
 	
-	public YoPFrame(CatanClient cc){
-		super("Year Of Plenty");
+	public YoPFrame(CatanClient cc, GUIFrame frame){
+		super(frame, "Year of Plenty", true);
 		_cc = cc;
+        _frame = frame;
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(3,5));
 		_top = new ButtonGroup();
@@ -82,7 +85,7 @@ public class YoPFrame extends JFrame {
 			panel.add(b);
 		}
 		JButton submit = new JButton("Submit");
-		submit.addActionListener(new SubmitList(this));
+		submit.addActionListener(this);
 		submit.setFocusable(false);
 		JPanel bp = new JPanel();
 		bp.add(submit);
@@ -100,50 +103,39 @@ public class YoPFrame extends JFrame {
 		//this.setUndecorated(true);
 	}
 	
-	private class SubmitList implements ActionListener{
-		
-		private JFrame _frame;
-		
-		private SubmitList(JFrame frame){
-			_frame = frame;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			int tcount = 0;
-			int bcount = 0;
-			for(JRadioButton b: _tbuttons){
-				if(b.isSelected()){
-					tcount++;
-				}
-			}
-			for(JRadioButton b: _bbuttons){
-				if(b.isSelected()){
-					bcount++;
-				}
-			}
-			if(tcount==1 && bcount==1){
-				int tdex = 0;
-				int bdex = 0;
-				for(int i = 0; i < 5; i++){
-					if(_tbuttons[i].isSelected()){
-						tdex = i;
-					}
-					if(_bbuttons[i].isSelected()){
-						bdex = i;
-					}
-				}
-				try {
-					_cc.sendMove(new YearOfPlentyMove(_cc.getPlayerName(), tdex, bdex));
-				} catch (IllegalArgumentException | IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				_frame.setVisible(false);
-				_frame.dispose();
-			}
-		}
-		
-	}
-	
+	@Override
+    public void actionPerformed(ActionEvent e) {
+        int tcount = 0;
+        int bcount = 0;
+        for(JRadioButton b: _tbuttons){
+            if(b.isSelected()){
+                tcount++;
+            }
+        }
+        for(JRadioButton b: _bbuttons){
+            if(b.isSelected()){
+                bcount++;
+            }
+        }
+        if(tcount==1 && bcount==1){
+            int tdex = 0;
+            int bdex = 0;
+            for(int i = 0; i < 5; i++){
+                if(_tbuttons[i].isSelected()){
+                    tdex = i;
+                }
+                if(_bbuttons[i].isSelected()){
+                    bdex = i;
+                }
+            }
+            try {
+                _cc.sendMove(new YearOfPlentyMove(_cc.getPlayerName(), tdex, bdex));
+            } catch (IllegalArgumentException | IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            _frame.setVisible(false);
+            _frame.dispose();
+        }
+    }
 }
