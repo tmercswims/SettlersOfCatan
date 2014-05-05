@@ -601,6 +601,7 @@ public class Referee {
 
 	private int robberMove(RobberMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
+        _moveTheRobber = false;
 		Tile newRobber = _board.getTiles()[move.getNewLocation()];
 		Player victim = null;
 		if (newRobber.hasRobber()) return 501;
