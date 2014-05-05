@@ -133,16 +133,16 @@ public class Node extends BoardComponent{
                 case 0:
                     break;
                 case 1:
-                    if (_lookerColor.equals(red)) building = settlementRedGhost1;
-                    else if (_lookerColor.equals(blue)) building = settlementBlueGhost1;
-                    else if (_lookerColor.equals(orange)) building = settlementOrangeGhost1;
-                    else if (_lookerColor.equals(white)) building = settlementWhiteGhost1;
+                    if (_lookerColor.equals(red)) building = settlementRedGhost;
+                    else if (_lookerColor.equals(blue)) building = settlementBlueGhost;
+                    else if (_lookerColor.equals(orange)) building = settlementOrangeGhost;
+                    else if (_lookerColor.equals(white)) building = settlementWhiteGhost;
                     break;
                 case 2:
-                    if (_lookerColor.equals(red)) building = settlementRedGhost2;
-                    else if (_lookerColor.equals(blue)) building = settlementBlueGhost2;
-                    else if (_lookerColor.equals(orange)) building = settlementOrangeGhost2;
-                    else if (_lookerColor.equals(white)) building = settlementWhiteGhost2;
+                    if (_lookerColor.equals(red)) building = settlementRed;
+                    else if (_lookerColor.equals(blue)) building = settlementBlue;
+                    else if (_lookerColor.equals(orange)) building = settlementOrange;
+                    else if (_lookerColor.equals(white)) building = settlementWhite;
                     break;
             }
             break;
@@ -162,16 +162,16 @@ public class Node extends BoardComponent{
                 case 0:
                     break;
                 case 1:
-                    if (_lookerColor.equals(red)) building = cityRedGhost1;
-                    else if (_lookerColor.equals(blue)) building = cityBlueGhost1;
-                    else if (_lookerColor.equals(orange)) building = cityOrangeGhost1;
-                    else if (_lookerColor.equals(white)) building = cityWhiteGhost1;
+                    if (_lookerColor.equals(red)) building = cityRedGhost;
+                    else if (_lookerColor.equals(blue)) building = cityBlueGhost;
+                    else if (_lookerColor.equals(orange)) building = cityOrangeGhost;
+                    else if (_lookerColor.equals(white)) building = cityWhiteGhost;
                     break;
                 case 2:
-                    if (_lookerColor.equals(red)) building = cityRedGhost2;
-                    else if (_lookerColor.equals(blue)) building = cityBlueGhost2;
-                    else if (_lookerColor.equals(orange)) building = cityOrangeGhost2;
-                    else if (_lookerColor.equals(white)) building = cityWhiteGhost2;
+                    if (_lookerColor.equals(red)) building = cityRed;
+                    else if (_lookerColor.equals(blue)) building = cityBlue;
+                    else if (_lookerColor.equals(orange)) building = cityOrange;
+                    else if (_lookerColor.equals(white)) building = cityWhite;
                     break;
             }
             }

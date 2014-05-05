@@ -200,10 +200,10 @@ public class Tile extends BoardComponent{
                         }
                         break;
                     case 1:
-                        number = robberGhost1;
+                        number = robberGhost;
                         break;
                     case 2:
-                        number = robberGhost2;
+                        number = robber;
                         break;
                 }
                 if (number != null) brush.drawImage(number, (int)r.getCenterX()-(number.getWidth(this)/2), (int)r.getCenterY()-(number.getHeight(this)/2), null);
