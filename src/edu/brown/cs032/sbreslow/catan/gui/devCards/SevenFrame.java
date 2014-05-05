@@ -133,6 +133,8 @@ public class SevenFrame extends JDialog {
 		setLocationRelativeTo(_cc.getFrame());
 		setVisible(true);
 		pack();
+		setMinimumSize(getSize());
+		setMaximumSize(getSize());
 	}
 	
 	private class ProposeTradeActionListener implements ActionListener {
