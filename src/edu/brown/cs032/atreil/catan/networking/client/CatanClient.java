@@ -1,8 +1,6 @@
 
-//TODO: Need to convert IP to Hostname
 package edu.brown.cs032.atreil.catan.networking.client;
 
-import java.awt.Component;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,7 +9,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.LinkedList;
 
 import javax.swing.SwingUtilities;
 
@@ -21,7 +18,6 @@ import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.eheimark.catan.gui.GUI;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.eheimark.catan.gui.misc.AlertFrame;
-//import edu.brown.cs032.eheimark.catan.gui.trade.TradeFrame;
 import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
 import edu.brown.cs032.eheimark.catan.launch.screens.JoinLoadingMenu;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
@@ -43,17 +39,14 @@ public class CatanClient extends Thread{
 	private Socket _socket; //the socket to communicate with the server
 	private ObjectInputStream _in; //the stream to read in from the server
 	private ObjectOutputStream _out; //the stream to send messages to the server
-	private /*volatile*/ boolean _isStarting; //the game is actually starting and the client is no longer waiting //TODO: Needs to be volatile?
-	private boolean _isPreGame;
+	private boolean _isStarting; //the game is actually starting and the client is no longer waiting
 	private GUI _gui; //the gui that displays the game
-	private int _chatPort; //port of the chatServer
 	private TradeFrame tradeframe;
 
 	/*
 	 * Locks
 	 */
 	private Boolean _startTurnLock; //lock on this to change _startTurn
-	private boolean _startTurn; //indicates if it's the players turn
 	private Integer _rollLock; //lock on this to set _roll
 	private int _roll; //the roll of the player
 	private boolean _servicing; //whether or not the client is done with the given move
@@ -103,13 +96,13 @@ public class CatanClient extends Thread{
 		_in = new ObjectInputStream(_socket.getInputStream());
 		
 		//locks
-				_isRunningLock = new Integer(-1);
-				_inGameLock = new Integer(-1);
-				_inLobbyLock = new Integer(-1);
-				
-				_isRunning = true;
-				_inLobby = true;
-				_inGame = false;
+		_isRunningLock = new Integer(-1);
+		_inGameLock = new Integer(-1);
+		_inLobbyLock = new Integer(-1);
+		
+		_isRunning = true;
+		_inLobby = true;
+		_inGame = false;
 	}
 
 	/**
@@ -122,7 +115,7 @@ public class CatanClient extends Thread{
 
 		//setting the fields
 		this._p = new Player(configs.getName());
-		_players = new Player[3]; //TODO: send number of players over network
+		_players = new Player[3];
 		_board = new Board(true);
 		_ip = configs.getHostName();
 		_isStarting = false;
@@ -139,7 +132,6 @@ public class CatanClient extends Thread{
 		_rollLock = new Integer(-1);
 		_startTurnLock = new Boolean(false);
 		_roll = -1;
-		_startTurn = false;
 		_boardLock = new Integer(-1);
 		_playersLock = new Integer(-1);
 		_servicingLock = new Integer(-1);
@@ -186,21 +178,18 @@ public class CatanClient extends Thread{
 			while(getInGame()){
 				Packet packet = (Packet) readPacket();
 
-				System.out.println("ENTERING LOCK " + packet.getType());
 				//check to make sure that client is not servicing
 				synchronized(_servicingLock){
 					while(_servicing){
 						try {
 							_servicingLock.wait();
 						} catch (InterruptedException e) {
-							//TODO: not much to do
 							System.out.println("Interrupted in Client");
 							_servicing = false;
 						}
 					}
 					_servicing = true;
 				}
-				System.out.println("EXITING LOCK " + packet.getType());
 
 				if(getInGame()){
 					parsePacket(packet);
@@ -213,7 +202,6 @@ public class CatanClient extends Thread{
 			new AlertFrame(String.format("Error: %s", e.getMessage()), _frame);
 			//not much to do
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			new AlertFrame(String.format("Error: %s", e.getMessage()), _frame);
 		} finally{
 			kill();
@@ -242,19 +230,18 @@ public class CatanClient extends Thread{
 			} else{
 				//got Handshake
 				Handshake hs = (Handshake) packet.getObject();
-				_chatPort = hs._chatPort;
 				_players = new Player[hs._numPlayers];
 			}
 
 			//sending packet with the player class
-			packet = new Packet(Packet.PLAYER, _p, 0);
+			packet = new Packet(Packet.PLAYER, _p);
 			_out.reset();
 			_out.writeObject(packet);
 			_out.flush();
 		} catch (ClassNotFoundException e) {
 			throw new IOException(e.getMessage());
 		} catch(SocketException e){
-			_joinLoadingMenu.updateJTextArea("Failed to connect to server");
+			throw new IOException("Failed to connect to server");
 		}
 	}
 
@@ -314,12 +301,16 @@ public class CatanClient extends Thread{
 
 		int type = packet.getType();
 
+		
+		//determining what we got in the packet
+		
 		if(type == Packet.BOARD){
 
 			synchronized(_boardLock){
 				_board = (Board) packet.getObject();
 			}
 
+			//if gui is initialized, we are safe to call it
 			if(_gui != null) {
 				SwingUtilities.invokeLater(new Runnable() {
 
@@ -339,8 +330,8 @@ public class CatanClient extends Thread{
 				});
 				
 				_gui.updateBoard();
-			}
-			else {
+			} else {
+				//otherwise, wait
 				while(_gui == null){
 					synchronized(_guiLock){
 						try {
@@ -490,7 +481,7 @@ public class CatanClient extends Thread{
 	public void sendMessage(String message) throws IOException{
 		synchronized(_out){
 			_out.reset();
-			_out.writeObject(new Packet(Packet.MESSAGE, message, 0));
+			_out.writeObject(new Packet(Packet.MESSAGE, message));
 			_out.flush();
 		}
 	}
@@ -504,7 +495,7 @@ public class CatanClient extends Thread{
 	public void sendMove(Move move) throws IllegalArgumentException, IOException{
 		if(move instanceof LastMove){
 			synchronized(_startTurnLock){
-				_startTurn = false;
+//				_startTurn = false;
 			}
 		}
 

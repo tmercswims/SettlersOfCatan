@@ -72,7 +72,7 @@ public class CatanServer extends Thread{
 		//setting up fields
 		_port = port;
 		_numClients = numClients;
-		_pool = new ClientPool(this);
+		_pool = new ClientPool(this, _numClients);
 		//_e = Executors.newCachedThreadPool();
 		_server = new ServerSocket(_port);
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
@@ -102,7 +102,7 @@ public class CatanServer extends Thread{
 		//setting up fields
 		_port = port;
 		_numClients = (configs.isFourPlayerGame()) ? 4 : 3;
-		_pool = new ClientPool(this);
+		_pool = new ClientPool(this, _numClients);
 		//_e = Executors.newCachedThreadPool();
 		_server = new ServerSocket(_port);
 		_server.setSoTimeout(TIMEOUT); //the server will wait five seconds for connections, and then check how many connections there are
@@ -170,13 +170,16 @@ public class CatanServer extends Thread{
 		
 		while((_pool.getNumConnected() < _numClients) && getIsRunning()){
 			try {
-				Socket client = _server.accept();
 				
-				//set up new client manager
-				//_e.execute(new ClientRunnable(client, _pool, _chatPort, _numClients));
-				new ClientManager(_pool, client, _chatPort, _numClients).start();
-				
-				sendConnected();
+				if(_pool.getNumConnected() < _numClients){
+					Socket client = _server.accept();
+					
+					//set up new client manager
+					//_e.execute(new ClientRunnable(client, _pool, _chatPort, _numClients));
+					new ClientManager(_pool, client, _chatPort, _numClients).start();
+					
+					sendConnected();
+				}
 			} catch(SocketTimeoutException e){
 				//simply checking how many connections there are
 				try {
@@ -187,6 +190,8 @@ public class CatanServer extends Thread{
 					addUpdate(String.format("Error: %s", e1.getMessage()));
 				}
 			} catch (IOException e) {
+				addUpdate(String.format("Error: %s", e.getMessage()));
+			} catch(IllegalArgumentException e){
 				addUpdate(String.format("Error: %s", e.getMessage()));
 			}
 		}

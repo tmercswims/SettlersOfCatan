@@ -25,14 +25,16 @@ public class ClientPool {
 
 	private final Map<String, ClientManager> _clients; //keeps track of clients
 	private CatanServer _server; //use to pass moves
+	public final int _maxSize; //max number of clients that may be added
 	
 	/**
 	 * Initializes a new ClientPool with a given CatanServer.
 	 * @param server The server to give moves to
 	 */
-	public ClientPool(CatanServer server){
+	public ClientPool(CatanServer server, int maxSize){
 		_clients = Collections.synchronizedMap(new HashMap<String, ClientManager>());
 		this._server = server;
+		_maxSize = maxSize;
 	}
 	
 	/**
@@ -54,9 +56,13 @@ public class ClientPool {
 	 * @param name Unique name of the client. If the name is already used, the old one is replaced and returned
 	 * @param clientManager The client to add
 	 * @return The old ClientManager that was associated with the name, or null if no ClientManager existed
+	 * @throws IllegalArgumentException if there are too many clients.
 	 */
-	public synchronized ClientManager addClient(String name, ClientManager clientManager){
+	public synchronized ClientManager addClient(String name, ClientManager clientManager) throws IllegalArgumentException{
 		synchronized(_clients){
+			if(_clients.size() >= _maxSize)
+				throw new IllegalArgumentException("The server is full! Try a different server!");
+			
 			 return _clients.put(name, clientManager);
 		}
 	}
