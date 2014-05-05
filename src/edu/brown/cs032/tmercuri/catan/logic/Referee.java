@@ -52,6 +52,7 @@ public class Referee {
 	private Node _startupSettlement = null;
 	private int _startUp = 0;
     private boolean _pushPlayers, _pushBoard;
+    private boolean _moveTheRobber;
 
 	/**
 	 * Creates a new Referee, with clear fields.
@@ -67,6 +68,7 @@ public class Referee {
 		_board = new Board(true);
 		_server = server;
         _pushPlayers = _pushBoard = false;
+        _moveTheRobber = false;
 	}
 
 	/**
@@ -336,6 +338,7 @@ public class Referee {
 	private int buildMove(BuildMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
 		if (_startUp == 0 && !_activePlayer.hasRolled()) return 998;
+        if (_moveTheRobber) return 997;
 		switch (move.getBuildType()) {
 		case ROAD:
 			Edge e = _board.getEdges()[move.getBuildLocation()];
@@ -478,6 +481,7 @@ public class Referee {
 	private int tradeMove(TradeMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName()) && !move.getPlayerName().equals(move.getProposedTo())) return 999;
 		if (!_activePlayer.hasRolled()) return 998;
+        if (_moveTheRobber) return 997;
 
 		Player robbed = null;
 		for (Player p : _players) {
@@ -633,6 +637,7 @@ public class Referee {
 	private int yearOfPlentyMove(YearOfPlentyMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
 		if (!_activePlayer.hasRolled()) return 998;
+        if (_moveTheRobber) return 997;
 		Player played = null;
 		for (Player p : _players) {
 			if (p.getName().equals(move.getPlayerName()))
@@ -649,6 +654,7 @@ public class Referee {
 	private int monopolyMove(MonopolyMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
 		if (!_activePlayer.hasRolled()) return 998;
+        if (_moveTheRobber) return 997;
 		Player played = null;
 		for (Player p : _players) {
 			if (p.getName().equals(move.getPlayerName()))
@@ -671,6 +677,7 @@ public class Referee {
 	private int victoryPointMove(VictoryPointMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
 		if (!_activePlayer.hasRolled()) return 998;
+        if (_moveTheRobber) return 997;
 		Player played = null;
 		for (Player p : _players) {
 			if (p.getName().equals(move.getPlayerName()))
@@ -684,6 +691,7 @@ public class Referee {
 	private int devCardMove(DevCardMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
 		if (move.getIndex() != 0 && !_activePlayer.hasRolled()) return 998;
+        if (_moveTheRobber) return 997;
 		Player played = null;
 		for (Player p : _players) {
 			if (p.getName().equals(move.getPlayerName()))
@@ -742,6 +750,7 @@ public class Referee {
 				}
 			}
 			_server.sendMessage(_activePlayer.getName(), "Please move the robber to a new terrain hex.");
+            _moveTheRobber = true;
             _pushPlayers = true;
 		}
 		_activePlayer.setRolled(true);
@@ -751,6 +760,7 @@ public class Referee {
 
 	private int endTurn(LastMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
+        if (_moveTheRobber) return 997;
 		_activePlayer.setIsActive(false);
 		_server.sendLastMove();
 		_turnOver = true;
