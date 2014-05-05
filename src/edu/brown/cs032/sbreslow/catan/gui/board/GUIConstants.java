@@ -50,7 +50,7 @@ public class GUIConstants {
 		public static final Dimension ROLL_BUTTON = new Dimension(117,10);
 		public static final Dimension PLAYER_STATS = new Dimension(375,25);
 		public static final Dimension TUTORIAL_SIZE =  new Dimension(200, 75);
-		public static final Dimension TUTORIAL_FRAME_SIZE = new Dimension(250, 75);;
+		public static final Dimension TUTORIAL_FRAME_SIZE = new Dimension(275, 75);;
 	}
 	
 	
@@ -136,7 +136,7 @@ public class GUIConstants {
 		public static final String DEFAULT_HOSTNAME = "localhost";
 		public static final String DEFAULT_PORT = "1700";
 		
-		
+		public static final ImageIcon robber = new ImageIcon("images/pieces/robber.png");
 		public static final ImageIcon brickTileIcon = new ImageIcon("images/tiles/brick.png");
 		public static final ImageIcon desertTileIcon = new ImageIcon("images/tiles/desert.png");
 		public static final ImageIcon oceanTileIcon = new ImageIcon("images/tiles/ocean.png");
