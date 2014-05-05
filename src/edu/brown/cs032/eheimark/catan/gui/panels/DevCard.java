@@ -236,7 +236,7 @@ public class DevCard extends JPanel implements ServerUpdate{
 			} catch (IllegalArgumentException | IOException e1) {
 				e1.printStackTrace();
 			}
-			new YoPFrame(_cc, _cc.getFrame());
+			_cc.addFrame(new YoPFrame(_cc, _cc.getFrame()));
 		}
 	}
 
@@ -252,7 +252,7 @@ public class DevCard extends JPanel implements ServerUpdate{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			new MonoFrame(_cc, _cc.getFrame());
+			_cc.addFrame(new MonoFrame(_cc, _cc.getFrame()));
 		}
 
 	}

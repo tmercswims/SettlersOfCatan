@@ -1,6 +1,7 @@
 
 package edu.brown.cs032.atreil.catan.networking.client;
 
+import java.awt.Window;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,7 +10,9 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import edu.brown.cs032.atreil.catan.gui.trade.TradeFrame;
@@ -18,6 +21,7 @@ import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.eheimark.catan.gui.GUI;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.eheimark.catan.gui.misc.AlertFrame;
+import edu.brown.cs032.eheimark.catan.gui.tutorial.Tutorial;
 import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
 import edu.brown.cs032.eheimark.catan.launch.screens.JoinLoadingMenu;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
@@ -72,6 +76,8 @@ public class CatanClient extends Thread{
 	
 	private int _x;
 	private int _y;
+	
+	private ArrayList<Window> _frameList = new ArrayList<Window>();
 
 
 	
@@ -404,7 +410,7 @@ public class CatanClient extends Thread{
 				confirmPacket();
 			}
 		} else if (type == Packet.SEVEN){
-			new SevenFrame(this, getFrame());
+			_frameList.add(new SevenFrame(this, getFrame()));
 			confirmPacket();
 		} else if(type == Packet.ERROR){
 			//TODO: notify errors
@@ -423,9 +429,11 @@ public class CatanClient extends Thread{
 				tradeframe.close();
 			}
 			tradeframe = new TradeFrame("Trade Received!", trade, this, getFrame());
+			_frameList.add(tradeframe);
 			confirmPacket();
 		} else if (type == Packet.LASTMOVE){
 			if(tradeframe != null) {
+				_frameList.remove(tradeframe);
 				tradeframe.close();
 			}
 			confirmPacket();
@@ -767,6 +775,11 @@ public class CatanClient extends Thread{
 		if(getIsRunning()){
 			try{
 				
+				for(Window w: _frameList){
+					w.setVisible(false);
+					w.dispose();
+				}
+				
 				if(getInLobby()){
 					_joinLoadingMenu.updateJTextArea("Server disconnected");
 				}
@@ -800,5 +813,13 @@ public class CatanClient extends Thread{
 	public void setXY(int x, int y) {
 		_x = x;
 		_y = y;
+	}
+
+	public void addFrame(Window frame) {
+		_frameList.add(frame);
+	}
+	
+	public void rmFrame(Window frame) {
+		_frameList.remove(frame);
 	}
 }
