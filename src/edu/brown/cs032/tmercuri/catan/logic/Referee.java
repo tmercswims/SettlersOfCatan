@@ -714,7 +714,7 @@ public class Referee {
 
 	private int startTurn(FirstMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
-		int roll = 7;//_dice.roll();
+		int roll = _dice.roll();
 		_server.sendRoll(_activePlayer.getName(), roll);
 		if (roll != 7) {
 			for (Tile t : _board.getTiles()) {

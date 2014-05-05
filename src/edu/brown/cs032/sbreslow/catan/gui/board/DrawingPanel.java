@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -78,7 +79,7 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						new Tutorial();
+						_client.addFrame(new Tutorial());
 					}
 				});
 			}
@@ -235,7 +236,7 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 							for(Node n:t.getNodes()){
 								System.out.println("Node "+n.getIndex()+", isOwned: "+n.isOwned());
 								if(n.isOwned()){
-									if(!plist.contains(n.getOwner())&&n.getOwner()!=_client.getPlayer())
+									if(!plist.contains(n.getOwner())&&(!n.getOwner().equals(_client.getPlayer())))
 										plist.add(n.getOwner());
 								}
 							}
@@ -249,7 +250,7 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 								}
 							}
 							else{
-								new RobberFrame(plist, t.getIndex(), _client);
+								_client.addFrame(new RobberFrame(plist, t.getIndex(), _client, _client.getFrame()));
 							}
 							_selectable = -1;
 						}
