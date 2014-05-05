@@ -166,6 +166,7 @@ public class Tile extends BoardComponent{
                 Image number = null;
                 switch (_ghostLevel) {
                     case 0:
+                    case 1:
                         switch (_num) {
                             case 2:
                                 number = two;
@@ -198,9 +199,6 @@ public class Tile extends BoardComponent{
                                 number = twelve;
                                 break;
                         }
-                        break;
-                    case 1:
-                        number = robberGhost;
                         break;
                     case 2:
                         number = robber;

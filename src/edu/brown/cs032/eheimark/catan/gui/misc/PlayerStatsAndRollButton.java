@@ -245,6 +245,7 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 							}
 							else {
 								client.sendMove(new LastMove(client.getPlayerName()));
+                                client.getGUI().getDP().setSelect(-1);
 								gameManagerButton.setText("Roll die");
 								rollDieModeOrEndTurnMode = true;
 							}
