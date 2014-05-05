@@ -249,7 +249,7 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 								}
 							}
 							else{
-								new RobberFrame(plist, t.getIndex(), _client);
+								new RobberFrame(plist, t.getIndex(), _client, _client.getFrame());
 							}
 							_selectable = -1;
 						}

@@ -382,7 +382,7 @@ public class CatanClient extends Thread{
 				confirmPacket();
 			}
 		} else if (type == Packet.SEVEN){
-			new SevenFrame(this);
+			new SevenFrame(this, getFrame());
 			confirmPacket();
 		} else if(type == Packet.ERROR){
 			//TODO: notify errors
@@ -400,7 +400,7 @@ public class CatanClient extends Thread{
 			if(tradeframe != null) {
 				tradeframe.close();
 			}
-			tradeframe = new TradeFrame("Trade Received!", trade, this);
+			tradeframe = new TradeFrame("Trade Received!", trade, this, getFrame());
 			confirmPacket();
 		} else if (type == Packet.LASTMOVE){
 			if(tradeframe != null) {

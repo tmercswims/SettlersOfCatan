@@ -9,7 +9,7 @@ public class TradeFrameTest {
 	public static void main(String[] args){
 		
 		
-		TradeFrame frame = new TradeFrame("Trade!", new TradeMove("Thomas", "Alex", new int[] {-1,0,0,1,0}, 0), null);
+		TradeFrame frame = new TradeFrame("Trade!", new TradeMove("Thomas", "Alex", new int[] {-1,0,0,1,0}, 0), null, null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.pack();

@@ -11,16 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.tmercuri.catan.logic.*;
 import edu.brown.cs032.tmercuri.catan.logic.move.*;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class RobberFrame extends JFrame {
+public class RobberFrame extends JDialog {
 
 	private List<Player> _players;
 	private List<JButton> _buttons;
@@ -28,8 +30,8 @@ public class RobberFrame extends JFrame {
 	private int _index;
 	private CatanClient _cc;
 	
-	public RobberFrame(List<Player> plist, int index, CatanClient cc) {
-		super("Robber");
+	public RobberFrame(List<Player> plist, int index, CatanClient cc, GUIFrame frame) {
+		super(frame, "Robber", true);
 		_cc = cc;
 		_index = index;
 		_cur = cc.getPlayer();
@@ -87,9 +89,9 @@ public class RobberFrame extends JFrame {
 	private class RobList implements ActionListener {
 		
 		private String _name;
-		private JFrame _frame;
+		private JDialog _frame;
 		
-		private RobList(String name, JFrame frame){
+		private RobList(String name, JDialog frame){
 			_name = name;
 			_frame = frame;
 		}

@@ -15,17 +15,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
+import javax.swing.JDialog;
 
-public class SevenFrame extends JFrame {
+public class SevenFrame extends JDialog {
 	private static final long serialVersionUID = 2775532151453365472L;
 	private CatanClient _cc;
 	private final JComboBox<Integer> oreCB, wheatCB, woolCB, lumberCB, brickCB;
 	
-	public SevenFrame(CatanClient cc){
-		super("Please drop half of your resources...");
+	public SevenFrame(CatanClient cc, GUIFrame frame){
+		super(frame, "Please drop half of your resources...", true);
 		_cc = cc;
 		//setLayout(null); // absolute layout
 		final Integer[] tradeValues = new Integer[] {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
@@ -110,7 +112,7 @@ public class SevenFrame extends JFrame {
 		JButton proposeButton = new JButton("Propose");
 		proposeButton.setFont(DEFAULT_LABEL_FONT);
 		//proposeButton.setBounds(374, 99, 125, 29);
-		proposeButton.addActionListener(new ProposeTradeActionListener(this));
+		proposeButton.addActionListener(new ProposeTradeActionListener(_cc, this));
 		proposeButton.setFocusable(false);
 		JPanel bp = new JPanel();
 		bp.add(proposeButton);
@@ -135,10 +137,12 @@ public class SevenFrame extends JFrame {
 	
 	private class ProposeTradeActionListener implements ActionListener {
 		
-		private JFrame _frame;
+		private JDialog _frame;
+        private CatanClient _cc;
 		
-		private ProposeTradeActionListener(JFrame frame){
+		private ProposeTradeActionListener(CatanClient cc, JDialog frame){
 			_frame = frame;
+            _cc = cc;
 		}
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -168,7 +172,9 @@ public class SevenFrame extends JFrame {
 						_frame.setVisible(false);
 						_frame.dispose();
 						_cc.confirmPacket(); //done processing this move
-					}
+					} else {
+                        _cc.getGUI().getChat().addMessage("Server (server): Invalid resources to drop.");
+                    }
 				}
 			} catch (IllegalArgumentException | IOException e1) {
 				e1.printStackTrace();

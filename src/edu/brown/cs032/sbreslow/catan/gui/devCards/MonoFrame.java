@@ -1,14 +1,7 @@
 package edu.brown.cs032.sbreslow.catan.gui.devCards;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.feltcon;
-
-import java.awt.Button;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -16,19 +9,22 @@ import java.io.IOException;
 import javax.swing.*;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.tmercuri.catan.logic.move.MonopolyMove;
 import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 
-public class MonoFrame extends JFrame {
+public class MonoFrame extends JDialog implements ActionListener {
 
 	private CatanClient _cc;
+    private GUIFrame _frame;
 	private JRadioButton[] _buttons = new JRadioButton[5];
 	private JLabel[] _images = new JLabel[5];
 	private final ButtonGroup _top;
 
-	public MonoFrame(CatanClient cc){
-		super("Monopoly");
+	public MonoFrame(CatanClient cc, GUIFrame frame){
+		super(frame, "Monopoly", true);
 		_cc = cc;
+        _frame = frame;
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(2,5));
 		_top = new ButtonGroup();
@@ -70,7 +66,7 @@ public class MonoFrame extends JFrame {
 			panel.add(b);
 		}
 		JButton submit = new JButton("Submit");
-		submit.addActionListener(new SubmitList(this));
+		submit.addActionListener(this);
 		submit.setFocusable(false);
 		//panel.add(submit);
 		JPanel bp = new JPanel();
@@ -93,32 +89,21 @@ public class MonoFrame extends JFrame {
 		//System.out.println(getSize());
 	}
 
-	private class SubmitList implements ActionListener{
-
-		private JFrame _frame;
-
-		private SubmitList(JFrame frame){
-			_frame = frame;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			int index = 0;
-			for(int i = 0; i < _buttons.length; i++){
-				if(_buttons[i].isSelected()){
-					index = i;
-				}
-			}
-			try {
-				_cc.sendMove(new MonopolyMove(_cc.getPlayerName(), index));
-			} catch (IllegalArgumentException | IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			_frame.setVisible(false);
-			_frame.dispose();
-		}
-
-	}
-
+	@Override
+    public void actionPerformed(ActionEvent e) {
+        int index = 0;
+        for(int i = 0; i < _buttons.length; i++){
+            if(_buttons[i].isSelected()){
+                index = i;
+            }
+        }
+        try {
+            _cc.sendMove(new MonopolyMove(_cc.getPlayerName(), index));
+        } catch (IllegalArgumentException | IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        _frame.setVisible(false);
+        _frame.dispose();
+    }
 }
