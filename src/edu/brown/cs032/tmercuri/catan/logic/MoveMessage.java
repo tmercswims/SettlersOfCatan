@@ -30,6 +30,11 @@ public enum MoveMessage {
     MESSAGE_001(001, false, "%s completed their turn."),
     
     /**
+     * everybody needs to drop
+     */
+    MESSAGE_996(996, true, "Everybody has not dropped resources yet."),
+    
+    /**
      * you need to move the robber
      */
     MESSAGE_997(997, true, "You need to move the robber before you do anything else."),

@@ -53,6 +53,7 @@ public class Referee {
 	private int _startUp = 0;
     private boolean _pushPlayers, _pushBoard;
     private boolean _moveTheRobber;
+    private List<Player> _needToDropResources;
 
 	/**
 	 * Creates a new Referee, with clear fields.
@@ -69,6 +70,7 @@ public class Referee {
 		_server = server;
         _pushPlayers = _pushBoard = false;
         _moveTheRobber = false;
+        _needToDropResources = new ArrayList<>();
 	}
 
 	/**
@@ -493,6 +495,7 @@ public class Referee {
 		if (move.getPlayerName().equals(move.getProposedTo())) {
 			int[] res = move.getResources();
 			if (robbed != null) robbed.removeResources(res);
+            _needToDropResources.remove(robbed);
             _pushPlayers = true;
 			return 510;
 		}
@@ -704,7 +707,7 @@ public class Referee {
 		if (move.getIndex() == 0) {
 			if (played != null) {
 				played.incLargestArmy();
-				if ((_army == null && played.getArmySize()>= 5)) {
+				if ((_army == null && played.getArmySize()>= 3)) {
 					_server.sendMessage(null, String.format("%s has taken largest army.", played.getName()));
 					played.incVictoryPoints();
 					played.incVictoryPoints();
@@ -745,6 +748,7 @@ public class Referee {
 			for (Player p: _players) {
 				if (p.getResourceCount()>7) {
 					try {
+                        _needToDropResources.add(p);
 						_server.sendMessage(p.getName(), "The robber has attacked! Please drop half your resources.");
 						_server.sendSeven(p.getName());
 					} catch (IllegalArgumentException | IOException ex) {
@@ -764,6 +768,7 @@ public class Referee {
 	private int endTurn(LastMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
         if (_moveTheRobber) return 997;
+        if (!_needToDropResources.isEmpty()) return 996;
 		_activePlayer.setIsActive(false);
 		_server.sendLastMove();
 		_turnOver = true;
