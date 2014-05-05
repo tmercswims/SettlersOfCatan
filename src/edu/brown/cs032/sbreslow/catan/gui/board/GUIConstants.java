@@ -144,8 +144,8 @@ public class GUIConstants {
 		public static final ImageIcon sheepTileIcon = new ImageIcon("images/tiles/sheep.png");
 		public static final ImageIcon wheatTileIcon = new ImageIcon("images/tiles/wheat.png");
 		public static final ImageIcon woodTileIcon = new ImageIcon("images/tiles/wood.png");
-		public static final ImageIcon settlement = new ImageIcon("images/pieces/settlement_red.png");
-		public static final ImageIcon city = new ImageIcon("images/pieces/city_red.png");
+		public static final ImageIcon settlement = new ImageIcon("images/misc/settlement_large.png");
+		public static final ImageIcon city = new ImageIcon("images/misc/city_large.png");
 		public static final ImageIcon road = new ImageIcon("images/pieces/road_red.png");
 		public static final ImageIcon monopoly = new ImageIcon("images/dev_cards/monopoly.png");
 		public static final ImageIcon back = new ImageIcon("images/misc/back.png");
@@ -184,7 +184,7 @@ public class GUIConstants {
 		public static final Image felt = new ImageIcon("images/backgrounds/felt.png").getImage();
 		public static final ImageIcon feltcon = new ImageIcon("images/backgrounds/felt.png");
 		public static final Image wood = new ImageIcon("images/backgrounds/wood.png").getImage();
-		public static final Image CATAN_LAUNCH_MENU_BACKGROUND =  new ImageIcon("images/CatanScaled560x560.png").getImage();
+		public static final Image CATAN_LAUNCH_MENU_BACKGROUND =  new ImageIcon("images/backgrounds/CatanScaled560x560.png").getImage();
 	}
 
 	public static class DevCard {
