@@ -198,7 +198,7 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 			i++;
 		}
 		
-        g.drawImage(ports, getX(), getY(), _x, _y, this);
+        g.drawImage(ports, getX(), getY(), _x, _y+5, this);
 		//_client.confirmPacket();
 	}
     
@@ -373,9 +373,12 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
     }
     
     public void setResize(int x, int y){
-    	this.setSize(x,y);
-    	_x = x;
-    	_y = y;
+    	//this.setSize(x,y);
+    	System.err.println("DP.setResize: "+x+", "+y);
+    	int tx = x/23;
+    	int ty = y/14;
+    	_x = tx*23;
+    	_y = ty*14;
     }
 	
 	

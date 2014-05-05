@@ -76,6 +76,9 @@ public class CatanClient extends Thread{
 	private final Integer _inLobbyLock;
 	private boolean _inGame; //keeps track if we are currently playing a game
 	private final Integer _inGameLock;
+	
+	private int _x;
+	private int _y;
 
 
 	
@@ -151,6 +154,9 @@ public class CatanClient extends Thread{
 		_isRunning = true;
 		_inLobby = true;
 		_inGame = false;
+		
+		_x = 600/23;
+		_y = 600/14;
 		
 		connect();
 	}
@@ -279,6 +285,17 @@ public class CatanClient extends Thread{
 	public Player getPlayer(){
 		return _p;
 	}
+	
+	private boolean checkDelta(int i, int j) {
+		if((_x!=i/23) || (_y!=j/14)){
+			_x = i/23;
+			_y = j/14;
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 
 	/**
 	 * Parses a packet and performs an appropriate action.
@@ -308,7 +325,14 @@ public class CatanClient extends Thread{
 
 					@Override
 					public void run() {
-						_gui.getDP().setResize(_frame.getWidth()*600/1000, _frame.getHeight()*600/850);
+						_gui.getDP().setSize(_frame.getContentPane().getWidth()*600/1000, 
+								_frame.getContentPane().getHeight()*600/825);
+						if(checkDelta(_frame.getContentPane().getWidth()*600/1000, 
+								_frame.getContentPane().getHeight()*600/825)){
+							System.err.println("HERE");
+							_gui.getDP().setResize(_frame.getContentPane().getWidth()*600/1000, 
+									_frame.getContentPane().getHeight()*600/825);
+						}
 						_board.resize(_gui.getDP().getWidth(), _gui.getDP().getHeight());
 					}
 					
@@ -331,7 +355,14 @@ public class CatanClient extends Thread{
 
 					@Override
 					public void run() {
-						_gui.getDP().setResize(_frame.getWidth()*600/1000, _frame.getHeight()*600/850);
+						_gui.getDP().setSize(_frame.getContentPane().getWidth()*600/1000, 
+								_frame.getContentPane().getHeight()*600/825);
+						if(checkDelta(_frame.getContentPane().getWidth()*600/1000, 
+								_frame.getContentPane().getHeight()*600/825)){
+							System.err.println("HERE");
+							_gui.getDP().setResize(_frame.getContentPane().getWidth()*600/1000, 
+									_frame.getContentPane().getHeight()*600/825);
+						}
 						_board.resize(_gui.getDP().getWidth(), _gui.getDP().getHeight());
 					}
 					
@@ -773,5 +804,10 @@ public class CatanClient extends Thread{
 				System.err.println(String.format("Fatal exception: %s", e.getMessage()));
 			}
 		}
+	}
+
+	public void setXY(int x, int y) {
+		_x = x;
+		_y = y;
 	}
 }
