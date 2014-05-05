@@ -2,6 +2,7 @@ package edu.brown.cs032.atreil.catan.gui.trade;
 
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.felt;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Fonts.OVERVIEW_TAB_FONT_HEADER;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Dimensions.TAB_PANEL_MENU_SIZE;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.white;
 
 import java.awt.Color;
@@ -70,6 +71,7 @@ public class Trade extends JPanel implements ServerUpdate {
 		_dragging = false;
 		_canDrop = false;
 		_canDraw = false;
+		setPreferredSize(TAB_PANEL_MENU_SIZE);
 	}
 
 	/**
@@ -140,7 +142,6 @@ public class Trade extends JPanel implements ServerUpdate {
 
 		//setting background image
 		setOpaque(false);
-		setVisible(true);
 	}
 
 	/**
