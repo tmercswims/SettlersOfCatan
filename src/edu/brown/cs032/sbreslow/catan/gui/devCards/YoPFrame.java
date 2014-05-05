@@ -100,6 +100,8 @@ public class YoPFrame extends JDialog implements ActionListener {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.pack();
+		setMinimumSize(getSize());
+		setMaximumSize(getSize());
 		//this.setUndecorated(true);
 	}
 	
@@ -134,8 +136,8 @@ public class YoPFrame extends JDialog implements ActionListener {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
-            _frame.setVisible(false);
-            _frame.dispose();
+            this.setVisible(false);
+            this.dispose();
         }
     }
 }
