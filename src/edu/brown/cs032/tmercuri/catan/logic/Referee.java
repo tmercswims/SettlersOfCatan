@@ -486,7 +486,7 @@ public class Referee {
 	private int tradeMove(TradeMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName()) && !move.getPlayerName().equals(move.getProposedTo())) return 999;
 		if (!_activePlayer.hasRolled()) return 998;
-        if (_moveTheRobber) return 997;
+        if (!move.getPlayerName().equals(move.getProposedTo()) && _moveTheRobber) return 997;
         //if (!move.getPlayerName().equals(move.getProposedTo()) && !_needToDropResources.isEmpty()) return 996;
 
 		Player robbed = null;

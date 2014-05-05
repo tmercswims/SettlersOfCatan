@@ -231,7 +231,9 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 					switch(_selectable){
 					case 0:
 						Tile t = (Tile) c;
-						if(!t.hasRobber()){
+                        if (t.getIndex() <= 17) {
+                            _client.getGUI().getChat().addMessage("Server (server): You cannot move the robber into the ocean.");
+                        } else if(!t.hasRobber()){
 							ArrayList<Player> plist = new ArrayList<>(0);
 							for(Node n:t.getNodes()){
 								System.out.println("Node "+n.getIndex()+", isOwned: "+n.isOwned());
