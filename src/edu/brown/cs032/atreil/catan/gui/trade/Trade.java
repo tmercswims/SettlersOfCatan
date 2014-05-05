@@ -428,6 +428,7 @@ public class Trade extends JPanel implements ServerUpdate {
 				_get.resetCountAll();
 				_center.resetCountAll();
 				_give.resetCountAll();
+				_bg.clearSelection();
 			} catch (IllegalArgumentException | IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -501,5 +502,13 @@ public class Trade extends JPanel implements ServerUpdate {
 			setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 			return this;
 		}
+	}
+	
+	/**
+	 * Requests focus.
+	 */
+	@Override 
+	public void requestFocus() {
+		_clear.requestFocus();
 	}
 }

@@ -61,6 +61,7 @@ public class GUIFrame extends JFrame {
 
 		@Override
 		public void componentResized(final ComponentEvent e) {
+			System.out.println(String.format("WIDTH %S HEIGHT %S", _frame.getContentPane().getWidth(), _frame.getContentPane().getHeight()));
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
