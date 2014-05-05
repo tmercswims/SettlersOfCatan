@@ -38,6 +38,7 @@ public class GUIConstants {
 	}
 	
 	public static class Dimensions {
+		public static final Dimension MINIMUM_GUI_FRAME_SIZE = new Dimension(950, 600);
 		public static final Dimension DEFAULT_BUTTON_SIZE  = new Dimension(200, 45);
 		public static final Dimension DEFAULT_MENU_SIZE  = new Dimension(560, 560);
 		public static final Dimension TEXTAREA_SIZE = new Dimension(400, 200);
