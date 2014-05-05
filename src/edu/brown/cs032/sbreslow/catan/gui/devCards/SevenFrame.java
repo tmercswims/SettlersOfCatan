@@ -34,17 +34,11 @@ public class SevenFrame extends JFrame {
 		final Integer[] tradeValues = new Integer[] {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 		JPanel comboPanel = new JPanel();
 		comboPanel.setLayout(new GridLayout(2,5));
-		comboPanel.add(new JLabel(Misc.oreToken));
 		comboPanel.add(new JLabel(Misc.wheatToken));
 		comboPanel.add(new JLabel(Misc.woolToken));
-		comboPanel.add(new JLabel(Misc.woodToken));
 		comboPanel.add(new JLabel(Misc.brickToken));
-		
-		oreCB = new JComboBox<Integer>(tradeValues);
-		oreCB.setSelectedIndex(10);
-		oreCB.setToolTipText("Ore");
-		//oreCB.setBounds(155, 59, 67, 16);
-		comboPanel.add(oreCB);
+		comboPanel.add(new JLabel(Misc.oreToken));
+		comboPanel.add(new JLabel(Misc.woodToken));
 
 		wheatCB = new JComboBox<Integer>(tradeValues);
 		wheatCB.setSelectedIndex(10);
@@ -58,17 +52,23 @@ public class SevenFrame extends JFrame {
 		woolCB.setToolTipText("Sheep");
 		comboPanel.add(woolCB);
 
-		lumberCB = new JComboBox<Integer>(tradeValues);
-		lumberCB.setSelectedIndex(10);
-		//lumberCB.setBounds(674, 59, 67, 16);
-		lumberCB.setToolTipText("Wood");
-		comboPanel.add(lumberCB);
-
 		brickCB = new JComboBox<Integer>(tradeValues);
 		brickCB.setSelectedIndex(10);
 		brickCB.setToolTipText("Brick");
 		//brickCB.setBounds(847, 59, 67, 16);
 		comboPanel.add(brickCB);
+
+		oreCB = new JComboBox<Integer>(tradeValues);
+		oreCB.setSelectedIndex(10);
+		oreCB.setToolTipText("Ore");
+		//oreCB.setBounds(155, 59, 67, 16);
+		comboPanel.add(oreCB);
+
+		lumberCB = new JComboBox<Integer>(tradeValues);
+		lumberCB.setSelectedIndex(10);
+		//lumberCB.setBounds(674, 59, 67, 16);
+		lumberCB.setToolTipText("Wood");
+		comboPanel.add(lumberCB);
 
 		/*JLabel brickLabel = new JLabel("Brick:");
 		brickLabel.setFont( Constants.DEFAULT_LABEL_FONT);
