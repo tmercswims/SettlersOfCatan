@@ -171,7 +171,7 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 			i++;
 		}
 		i = 0;
-        // edges
+        // nodes
 		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==1)
@@ -186,7 +186,7 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 			i++;
 		}
 		i = 0;
-        // nodes
+        // edges
 		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==2)
