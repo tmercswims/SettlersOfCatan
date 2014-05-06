@@ -19,12 +19,13 @@ import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.move.YearOfPlentyMove;
-import javax.swing.JDialog;
 
 public class YoPFrame extends JFrame implements ActionListener {
 	
+	private static final long serialVersionUID = -172945546357435224L;
 	private CatanClient _cc;
-    private GUIFrame _frame;
+    @SuppressWarnings("unused")
+	private GUIFrame _frame;
 	private JRadioButton[] _tbuttons = new JRadioButton[5];
 	private JRadioButton[] _bbuttons = new JRadioButton[5];
 	private JLabel[] _images = new JLabel[5];
@@ -134,7 +135,6 @@ public class YoPFrame extends JFrame implements ActionListener {
             try {
                 _cc.sendMove(new YearOfPlentyMove(_cc.getPlayerName(), tdex, bdex));
             } catch (IllegalArgumentException | IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
             this.setVisible(false);

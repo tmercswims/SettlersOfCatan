@@ -1,6 +1,24 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.*;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.brickTile;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.desertTile;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.eight;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.eleven;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.five;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.four;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.nine;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.oceanTile;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.oreTile;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.robber;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.sheepTile;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.six;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.ten;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.three;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.twelve;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.two;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.wheatTile;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Tile.woodTile;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,7 +27,6 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +42,6 @@ public class Tile extends BoardComponent{
 	private List<Node> _nodes = new ArrayList<>(6);
 	boolean _robber;
 	Polygon _p;
-	private Color _c;
 	private Point _indexPoint;
 	private List<Tile> _bors = new ArrayList<>();
 	private boolean _small;
@@ -46,7 +62,6 @@ public class Tile extends BoardComponent{
 			}
 			_p = new Polygon(xPoints, yPoints, 6);
 		}
-		_c = Color.GREEN;
 		this.setType(0);
 		//Rectangle r = new Rectangle(nodes[0].getX()+2, nodes[0].getY()+2, 200, 100);
 		//this.setLocation(nodes[0].getX()+2, nodes[0].getY()+2);
@@ -147,18 +162,13 @@ public class Tile extends BoardComponent{
 			brush.setColor(Color.blue);
             background = oceanTile;
 		}
-		//brush.setColor(_c);
 		brush.setStroke(new BasicStroke());
-		//brush.fillPolygon(_p);
 		if(_small){
 			background = background.getScaledInstance((int)_p.getBounds().getWidth()-10,
 					(int)_p.getBounds().getHeight()-10,Image.SCALE_FAST);
 		}
         brush.drawImage(background, (int)_p.getBounds().x, (int)_p.getBounds().y, 
         		(int)_p.getBounds().getWidth()+2, (int)_p.getBounds().getHeight()+2, null);
-		char[] toprint = Integer.toString(_num).toCharArray();
-		// = {num.charAt(0)};
-		//System.out.println(Integer.toString(_num));
 		brush.setColor(Color.white);
 		Rectangle r = _p.getBounds();
         if(_resource!=6){
@@ -221,7 +231,6 @@ public class Tile extends BoardComponent{
 
     @Override
 	public void setColor(Color c){
-		_c = c;
 	}
 
     @Override

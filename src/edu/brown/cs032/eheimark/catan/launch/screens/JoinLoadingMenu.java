@@ -61,13 +61,9 @@ public class JoinLoadingMenu extends CatanMenu {
 		addComponent(back);
 
 		try {
-			System.err.println(0);
 			cc = new CatanClient(soc.getLaunchConfiguration());
-			System.err.println(1);
 			cc.setLoadingMenu(this);
-			System.err.println(2);
 			cc.start();
-			System.err.println(3);
 		}
 		catch (IllegalArgumentException | IOException e) {
 			SwingUtilities.invokeLater(new Runnable() {

@@ -2,10 +2,8 @@ package edu.brown.cs032.atreil.catan.networking.server;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +24,8 @@ public class ClientPool {
 	private final Map<String, ClientManager> _clients; //keeps track of clients
 	private CatanServer _server; //use to pass moves
 	public final int _maxSize; //max number of clients that may be added
+	@SuppressWarnings("unused")
+	private Board board;
 	
 	/**
 	 * Initializes a new ClientPool with a given CatanServer.
@@ -116,6 +116,7 @@ public class ClientPool {
 	 * @throws IOException 
 	 * @throws IllegalArgumentException 
 	 */
+	@SuppressWarnings("deprecation")
 	public synchronized void sendAllChat(String message, String sender) throws IllegalArgumentException, IOException{
 		String color = message.split(" ")[0];
 		String actualMessage = message.substring(message.indexOf(" "));
@@ -137,6 +138,7 @@ public class ClientPool {
 	 * @throws IllegalArgumentException If no player exists with the given name
 	 * @throws IOException 
 	 */
+	@SuppressWarnings("deprecation")
 	public synchronized void sendChat(String player, String message, String sender) throws IllegalArgumentException, IOException{
 		
 		//check player exists
@@ -144,8 +146,6 @@ public class ClientPool {
 			if(!_clients.containsKey(player)){
 				
 				if(!_clients.containsKey(sender)){
-					//TODO:
-					System.err.println(String.format("Sender: %s To: %s message: %s", sender, player, message));
 					return;
 				}
 				
@@ -167,8 +167,6 @@ public class ClientPool {
 			
 			if(!sender.equalsIgnoreCase("Server"))
 				_clients.get(sender).send(new Packet(Packet.MESSAGE, String.format("%s (%s) (%s): %s", sender, color, player, message), 0));
-			
-			System.out.println("Sending " + message);
 		}
 	}
 	
@@ -182,8 +180,7 @@ public class ClientPool {
 			for(ClientManager mngr : Collections.synchronizedCollection(_clients.values())){
 				
 				if(packet.getType() == Packet.BOARD){
-					Board board = (Board) packet.getObject();
-					System.out.println("SENDING TO CLIENT " + mngr.getName() + " " + board.getNodes()[90].getVP() + " PACKET " + packet.getUID());
+					board = (Board) packet.getObject();
 				}
 				
 				try{

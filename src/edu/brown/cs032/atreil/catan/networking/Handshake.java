@@ -9,10 +9,6 @@ import java.io.Serializable;
  *
  */
 public class Handshake implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2111822348641601002L;
 	
 	/**

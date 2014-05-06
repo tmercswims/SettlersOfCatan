@@ -42,9 +42,6 @@ import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
  */
 public class Trade extends JPanel implements ServerUpdate {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5085232055225262547L;
 	private JComboBox<String> _toPlayerCB;
 	private final CatanClient _client;
@@ -99,7 +96,6 @@ public class Trade extends JPanel implements ServerUpdate {
 			if(!_client.getPlayerName().equals(p.getName())) {
 				JToggleButton button = new JToggleButton(p.getName());
 				button.setFont(OVERVIEW_TAB_FONT_HEADER);
-				Color c = p.getColor();
 				if(!p.getColor().equals(white))
 					button.setForeground(p.getColor());
 				_bg.add(button);
@@ -343,7 +339,6 @@ public class Trade extends JPanel implements ServerUpdate {
 			int x = (int) _trade.getLocationOnScreen().getX();
 
 			for(int i = 0; i < 15; i++){
-				//System.err.println(String.format("x: %s, dx: %s, point.x: %s",x, dx, point.x));
 				if(point.x >= x && point.x <= x+dx){
 					//_type = i;
 					return i;
@@ -361,7 +356,6 @@ public class Trade extends JPanel implements ServerUpdate {
 		 */
 		private Image getImage(int type){
 			if(type == ResourceConstants.ORE){
-				System.err.println(String.format("Ore, type %s, actual type %s", type, ResourceConstants.ORE));
 				return Misc.oreToken.getImage();
 			} else if(type == ResourceConstants.WHEAT){
 				return Misc.wheatToken.getImage();
@@ -461,7 +455,6 @@ public class Trade extends JPanel implements ServerUpdate {
 	@Override
 	public void serverUpdate() {
 
-		System.err.println("Trade ericupdate");
 		if(!updated) {
 			initializeGUI2(_client.getPlayers());
 		}

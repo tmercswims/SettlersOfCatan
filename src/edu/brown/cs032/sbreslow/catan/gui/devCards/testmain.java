@@ -3,8 +3,7 @@ package edu.brown.cs032.sbreslow.catan.gui.devCards;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import edu.brown.cs032.tmercuri.catan.logic.*;
-import javax.swing.JFrame;
+import edu.brown.cs032.tmercuri.catan.logic.Player;
 
 public class testmain {
 

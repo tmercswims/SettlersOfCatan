@@ -181,13 +181,11 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 	public void enableRoll(){
 		gameManagerButton.setEnabled(true);
 		_enable = true;
-		System.out.println("ENABLED ROLL");
 	}
 	
 	public void disableRoll(){
 		gameManagerButton.setEnabled(false);
 		_enable = false;
-		System.out.println("DISABLED ROLL");
 	}
 
 	/**
@@ -218,7 +216,7 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 			});
 		}
 		for(Player p : players) {
-			if(p.getName().equals(client.getPlayer().getName())) { //TODO Change equality check
+			if(p.getName().equals(client.getPlayer().getName())) {
 				Color c = p.getColor();
 				if(!c.equals(Edge.orange)){
 					c = c.brighter();

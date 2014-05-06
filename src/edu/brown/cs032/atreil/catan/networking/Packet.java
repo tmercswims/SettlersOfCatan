@@ -116,7 +116,7 @@ public class Packet implements Serializable {
     public static int START_SETTLE = 17;
     
     /**
-     * The pre-game is over; boolean //TODO: scrap this
+     * The pre-game is over; boolean
      */
     public static int END_START = 18;
     
@@ -192,7 +192,6 @@ public class Packet implements Serializable {
 			if(!(o instanceof Player[]))
 				throw new IllegalArgumentException("Given object is not of type Player[]");
 		} else if(type == Packet.BOARD){
-			//TODO: is board serializable? and all of its fields?
 			if(!(o instanceof Board))
 				throw new IllegalArgumentException("Given object is not of type Board");
 		} else if(type == Packet.ROLL){

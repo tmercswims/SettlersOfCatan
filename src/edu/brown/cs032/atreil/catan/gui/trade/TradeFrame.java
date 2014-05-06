@@ -16,8 +16,6 @@ import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.BackgroundPanel;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
-import javax.swing.JDialog;
-
 /**
  * This class contains all of the information about an incoming trade. The frame
  * acts as a pop up that will appear on the receiving players window
@@ -170,7 +168,6 @@ public class TradeFrame extends JFrame {
 			try {
 				_client.sendMove(_trade);
 			} catch (IllegalArgumentException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally{
 				close();

@@ -177,7 +177,6 @@ public class DevCard extends JPanel implements ServerUpdate{
 			} catch (IllegalArgumentException | IOException e1) {
 				e1.printStackTrace();
 			}
-			System.out.println("KnightList setSelect(0)");
 			_dp.setSelect(0);
 		}
 	}
@@ -214,7 +213,6 @@ public class DevCard extends JPanel implements ServerUpdate{
 			try {
 				_cc.sendMove(new DevCardMove(_cc.getPlayerName(), 1));
 			} catch (IllegalArgumentException | IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			_dp.setSelect(4);

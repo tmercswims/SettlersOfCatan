@@ -17,13 +17,12 @@ import edu.brown.cs032.tmercuri.catan.logic.move.*;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class RobberFrame extends JFrame {
-
+	private static final long serialVersionUID = -3800628433551142475L;
 	private List<Player> _players;
 	private List<JButton> _buttons;
 	private Player _cur;
@@ -47,26 +46,16 @@ public class RobberFrame extends JFrame {
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label.setForeground(Color.white);
 		list.add(label);
-		//Dimension d = label.getSize();
-		//System.out.println(d.getWidth());
 		for(Player p : _players){
-			//System.out.println(p.getName()+" ");
 			if(!p.equals(_cur)){
 				JButton tmp = new JButton(p.getName());
-				//tmp.setBackground(p.getColor());
 				tmp.setForeground(p.getColor());
 				tmp.setFocusable(false);
-				//tmp.addActionListener(new RobList(p.getName(), this));
 				_buttons.add(tmp);
-				//if(tmp.getWidth()>largest.getWidth()){
-				//	largest = tmp.getSize();
-				//}
-				//System.out.println("here");
 			}
 		}
 		for(JButton b: _buttons){
 			b.addActionListener(new RobList(b.getText(), this));
-			//b.setMinimumSize(largest);
 			b.setAlignmentX(Component.CENTER_ALIGNMENT);
 			Dimension d = new Dimension(360,50);
 			b.setPreferredSize(d);
@@ -82,9 +71,6 @@ public class RobberFrame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
-		//this.setUndecorated(true);
-		//Dimension d = label.getSize();
-		//System.out.println(d.getWidth());
 	}
 	
 	private class RobList implements ActionListener {
@@ -105,7 +91,6 @@ public class RobberFrame extends JFrame {
 				_frame.setVisible(false);
 				_frame.dispose();
 			} catch (IllegalArgumentException | IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}

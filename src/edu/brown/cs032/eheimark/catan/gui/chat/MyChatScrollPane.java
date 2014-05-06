@@ -164,7 +164,7 @@ public class MyChatScrollPane {
 					StyleConstants.setItalic(attr, false);
 					_myTextPane.setCaretPosition(_myTextPane.getDocument().getLength());
 				} catch (BadLocationException ex) {
-					System.out.println(String.format("ERROR: %s", ex.getMessage()));
+					ex.printStackTrace();
 				}
 			}
 		});

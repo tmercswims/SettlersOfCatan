@@ -194,8 +194,6 @@ public class Build extends JPanel implements ServerUpdate {
 	 */
 	@Override
 	public void serverUpdate(){
-		System.out.println(_client);
-		System.out.println(_client.getPlayer());
 		int[] resources = _client.getPlayer().getResources();
 		if((resources[2]<1 || resources[4]<1)||
 				(_client.getPlayer().getRoadCount()==0)||
@@ -277,7 +275,7 @@ public class Build extends JPanel implements ServerUpdate {
 			try {
 				_client.sendMove(new BuildMove(_client.getPlayerName(), DEV_CARD, 0));
 			} catch (IllegalArgumentException | IOException ex) { // Should not occur
-				System.err.println("ERROR: " + ex.getMessage());
+				ex.printStackTrace();
 			}
 		}
 	};

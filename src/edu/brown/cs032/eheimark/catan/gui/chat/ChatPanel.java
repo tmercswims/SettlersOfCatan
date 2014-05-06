@@ -134,7 +134,6 @@ public class ChatPanel extends JPanel {
 	 * @param message the message
 	 */
 	public void addMessage(String message){
-		System.out.println("CHATPANEL " + message);
 		String line = message.trim();
 		final SimpleAttributeSet attr;
 		String[] linearray = line.split(" ");
@@ -147,10 +146,6 @@ public class ChatPanel extends JPanel {
 		Matcher match = pattern.matcher(color);
 		match.find();
 		color = match.group(1);
-		System.out.println("COLOR " + color);
-		/**
-		 * 
-		 */
 
 		if(color.equalsIgnoreCase("red")){
 			attr = _red;
@@ -206,7 +201,7 @@ public class ChatPanel extends JPanel {
 		try {
 			_client.sendMessage(message);
 		} catch (IOException ex) {
-			System.out.println(String.format("ERROR: %s", ex.getMessage()));
+			ex.printStackTrace();
 		}
 	}
 
@@ -271,9 +266,6 @@ public class ChatPanel extends JPanel {
 				}
 				else if(_client.getPlayer().getColor().equals(white)){
 					println("white "+message);
-				}
-				else{
-					System.out.println(_client.getPlayer().getColor());
 				}
 			}
 		}

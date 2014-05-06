@@ -2,14 +2,11 @@ package edu.brown.cs032.atreil.catan.gui.trade;
 
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
 
 /**
  * This class will contain all of the resource tokens that may be
@@ -17,7 +14,7 @@ import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
  * @author Alex Treil
  *
  */
-class TradeFloor extends JPanel implements ServerUpdate{
+class TradeFloor extends JPanel {
 
 	/**
 	 * 
@@ -155,11 +152,4 @@ class TradeFloor extends JPanel implements ServerUpdate{
 	public int getOriginalCount(int type){
 		return _resourceArray.getOriginalCount(type);
 	}
-	
-	@Override
-	public void serverUpdate() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

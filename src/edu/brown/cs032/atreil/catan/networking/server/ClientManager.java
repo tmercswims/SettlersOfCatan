@@ -31,7 +31,6 @@ public class ClientManager extends Thread {
 	private int _chatPort; //port of the chat server
 	private int _numPlayers; //number of players that will be connected
 	private List<String> _reservedNames = new ArrayList<>(Arrays.asList("merchant"));
-	private boolean _isRunning;
 	
 	/**
 	 * This constructor initializes a new client from which the server can listen to
@@ -185,7 +184,6 @@ public class ClientManager extends Thread {
 			_pool.addUpdate(String.format("%s tried to make a move", getPlayerName()));
 			_pool.addMove((Move) packet.getObject());
 		} else if(type == Packet.MESSAGE){
-			//TODO: sending chat messages
 			parseMessage((String) packet.getObject());
 		} else{
 			//only moves can be sent; send an error
@@ -200,6 +198,7 @@ public class ClientManager extends Thread {
 	 * @param message
 	 * @throws IOException 
 	 */
+	@SuppressWarnings("deprecation")
 	private void parseMessage(String message) throws IOException{
 		
 		String[] messageArray = message.split(" ");
@@ -212,12 +211,9 @@ public class ClientManager extends Thread {
 				
 				try{
 					String toSend = extractMessage(messageArray);
-					//System.out.println("Message "+message);
-					//System.out.println("toSend "+toSend);
 					_pool.sendChat(playername, toSend, getPlayerName());
 					return;
 				} catch(IllegalArgumentException e){
-					//TODO: throw back something to client
 					synchronized(_out){
 						send(new Packet(Packet.MESSAGE, String.format("Server: No player exists with the name '%s'", playername), 0));
 					}
@@ -234,7 +230,6 @@ public class ClientManager extends Thread {
 		}
 		
 		//otherwise, broadcast to all
-		//System.out.println(message);
 		_pool.sendAllChat(message, getPlayerName());
 	}
 	
@@ -289,12 +284,8 @@ public class ClientManager extends Thread {
 				if(!inLobby && _pool.getIsRunning()){
 					_pool.sendGameOver(_p.getName() + " has disconnected");
 				}
-				//_pool.broadcast(new Packet(Packet.GAME_OVER, "Player "+_p.getName()+" has disconnected!"
-						//+ "  Please return to the Main Menu", 0));
 			} catch(IOException e){
-				//not much to do
-				//TODO:
-				//e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 	}
@@ -313,6 +304,7 @@ public class ClientManager extends Thread {
 	 * @param name The player name to check
 	 * @throws IOException 
 	 */
+	@SuppressWarnings("deprecation")
 	private void validateName(String name) throws IllegalArgumentException, IOException{
 		
 		try{

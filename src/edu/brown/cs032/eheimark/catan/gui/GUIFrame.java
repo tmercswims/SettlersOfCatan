@@ -63,7 +63,6 @@ public class GUIFrame extends JFrame {
 
 		@Override
 		public void componentResized(final ComponentEvent e) {
-			System.out.println(String.format("WIDTH %S HEIGHT %S", _frame.getContentPane().getWidth(), _frame.getContentPane().getHeight()));
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -71,7 +70,6 @@ public class GUIFrame extends JFrame {
 							_frame.getContentPane().getHeight()*600/825);
 					if(checkDelta(_frame.getContentPane().getWidth()*600/1000, 
 							_frame.getContentPane().getHeight()*600/825)){
-						//System.err.println("HERE");
 						_cc.getGUI().getDP().setResize(_frame.getContentPane().getWidth()*600/1000, 
 								_frame.getContentPane().getHeight()*600/825);
 					}
@@ -91,8 +89,6 @@ public class GUIFrame extends JFrame {
 	}
 	
 	private boolean checkDelta(int i, int j) {
-		System.out.println("OLD: "+_x+", "+_y);
-		System.out.println("CHECKING: "+i/23+", "+j/14);
 		if((_x!=i/23) || (_y!=j/14)){
 			_x = i/23;
 			_y = j/14;
@@ -109,7 +105,7 @@ public class GUIFrame extends JFrame {
 			_music = new OggClip("music/ingame.ogg");
 			_music.loop();
 		} catch (IOException ex) {
-			System.err.println(String.format("ERROR: %s", ex.getMessage()));
+			ex.printStackTrace();
 		}
 	}
 

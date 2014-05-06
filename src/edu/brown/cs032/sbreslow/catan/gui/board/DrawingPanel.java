@@ -1,16 +1,9 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
-import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
-import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
-import edu.brown.cs032.eheimark.catan.gui.tutorial.Tutorial;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.musicOff;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.musicOn;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.ports;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.question;
-import edu.brown.cs032.sbreslow.catan.gui.devCards.RobberFrame;
-import edu.brown.cs032.tmercuri.catan.logic.Player;
-import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
-import edu.brown.cs032.tmercuri.catan.logic.move.RobberMove;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,29 +19,36 @@ import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import edu.brown.cs032.eheimark.catan.gui.ServerUpdate;
+import edu.brown.cs032.eheimark.catan.gui.tutorial.Tutorial;
+import edu.brown.cs032.sbreslow.catan.gui.devCards.RobberFrame;
+import edu.brown.cs032.tmercuri.catan.logic.Player;
+import edu.brown.cs032.tmercuri.catan.logic.move.BuildMove;
+import edu.brown.cs032.tmercuri.catan.logic.move.RobberMove;
 
 
 
 public class DrawingPanel extends JPanel implements ServerUpdate {// implements MouseListener{
-    
-    private static final long serialVersionUID = 333238774355322463L;
-	
+
+	private static final long serialVersionUID = 333238774355322463L;
+
 	private final ArrayList<BoardComponent> _toDraw;
 	private final CatanClient _client;
 	private int  _selectable;
-    private boolean _startUp;
-    private int _firstSettlement;
+	private boolean _startUp;
+	private int _firstSettlement;
 	private int _rbcount;
 
-    private int _x, _y;
-    private JButton _musicButton, _questionButton;
-    private BoardComponent _lastHovered;
-    private int _lastHoveredPreviousGhostLevel;
-    private Color _lastHoveredPreviousLookerColor;
-	
+	private int _x, _y;
+	private JButton _musicButton, _questionButton;
+	private BoardComponent _lastHovered;
+	private int _lastHoveredPreviousGhostLevel;
+	private Color _lastHoveredPreviousLookerColor;
+
 	public DrawingPanel(CatanClient client){
 		super();
 		_client = client;
@@ -60,11 +60,11 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 		this.setOpaque(false); // set background to transparent b/c drawing done in GUI class for background
 		this.setVisible(true);
 		this.addMouseListener(new ClickList(this));
-        this.addMouseMotionListener(new MoveList(this));
+		this.addMouseMotionListener(new MoveList(this));
 
-        JPanel innerPanel = new JPanel();
+		JPanel innerPanel = new JPanel();
 		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
-        _questionButton = new JButton() {
+		_questionButton = new JButton() {
 			private static final long serialVersionUID = 229623158965666152L;
 
 			@Override
@@ -108,14 +108,14 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 				});
 			}
 		});
-		
+
 		_musicButton.setOpaque(false);
 		_musicButton.setContentAreaFilled(false);
 		_musicButton.setBorderPainted(false);
 		_questionButton.setOpaque(false);
 		_questionButton.setContentAreaFilled(false);
 		_questionButton.setBorderPainted(false);
-		
+
 		_musicButton.setMinimumSize(new Dimension(50,50));
 		_musicButton.setMaximumSize(new Dimension(50,50));
 		_questionButton.setMinimumSize(new Dimension(50,50));
@@ -130,13 +130,13 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 		innerPanel.setVisible(true);
 		innerPanel.setOpaque(false);
 		_rbcount = 0;
-        _startUp = true;
+		_startUp = true;
 		_x = 600;
 		_y = 600;
 	}
-    
-    @Deprecated
-    public DrawingPanel(){
+
+	@Deprecated
+	public DrawingPanel(){
 		super();
 		setBackground(Color.WHITE);
 		setSize(600,600);
@@ -148,30 +148,27 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 		addMouseListener(new ClickList(this));
 		Board b = new Board(true);
 		_toDraw.addAll(b.getBoard());
-        _client = null;
-        _musicButton = new JButton();
-        setLayout(null);
-        _musicButton.setBounds(0,0,25,25);
-        add(_musicButton);
+		_client = null;
+		_musicButton = new JButton();
+		setLayout(null);
+		_musicButton.setBounds(0,0,25,25);
+		add(_musicButton);
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		int i = 0;
-        // tiles
+		// tiles
 		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==0)
 					c.paint(g);
 			}
-			else{
-				System.out.println(i);
-			}
 			i++;
 		}
 		i = 0;
-        // nodes
+		// nodes
 		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==1)
@@ -180,63 +177,52 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 					&& i!=217 && i!=220)
 						c.paint(g);
 			}
-			else{
-				System.out.println(i);
-			}
 			i++;
 		}
 		i = 0;
-        // edges
+		// edges
 		for(BoardComponent c : _toDraw){
 			if(c!=null){
 				if(c.getType()==2)
 					if(i>41)
 						c.paint(g);
 			}
-			else{
-				System.out.println(i);
-			}
 			i++;
 		}
-		
-        g.drawImage(ports, getX(), getY(), _x, _y+5, this);
-		//_client.confirmPacket();
+
+		g.drawImage(ports, getX(), getY(), _x, _y+5, this);
 	}
-    
-    public void setStartUp(boolean b) {
-        _startUp = b;
-    }
-    
-    public void setFirstSettlement(int s) {
-        _firstSettlement = s;
-    }
-	
+
+	public void setStartUp(boolean b) {
+		_startUp = b;
+	}
+
+	public void setFirstSettlement(int s) {
+		_firstSettlement = s;
+	}
+
 	private class ClickList implements MouseListener {
-		
+
 		private final DrawingPanel _dp;
-		
+
 		private ClickList(DrawingPanel dp){
 			_dp = dp;
 		}
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			System.out.println("clicked: "+e.getX()+", "+e.getY());
 			for(BoardComponent c: _toDraw){
 				if(c.getShape().contains(e.getPoint()) && (c.getType()==_selectable || (c.getType()==2 && _selectable==3)
 						|| (c.getType()==1 && _selectable==4))){
-					//c.grow();
 					int buildtype = -1;
 					switch(_selectable){
 					case 0:
 						Tile t = (Tile) c;
-                        if (t.getIndex() <= 17) {
-                            _client.getGUI().getChat().addMessage("Server (server): You cannot move the robber into the ocean.");
-                        } else if(!t.hasRobber()){
+						if (t.getIndex() <= 17) {
+							_client.getGUI().getChat().addMessage("Server (server): You cannot move the robber into the ocean.");
+						} else if(!t.hasRobber()){
 							ArrayList<Player> plist = new ArrayList<>(0);
 							for(Node n:t.getNodes()){
-								System.out.println("Node "+n.getIndex()+", isOwned: "+n.isOwned());
 								if(n.isOwned()){
 									if(!plist.contains(n.getOwner())&&(!n.getOwner().equals(_client.getPlayer())))
 										plist.add(n.getOwner());
@@ -247,7 +233,6 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 								try {
 									_client.sendMove(rm);
 								} catch (IllegalArgumentException | IOException e1) {
-									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
 							}
@@ -279,7 +264,7 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 						if(_rbcount < 2){
 							buildtype = 4;
 							_rbcount++;
-                            setSelect(4);
+							setSelect(4);
 						}
 						else{
 							_rbcount = 0;
@@ -292,15 +277,10 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 						try {
 							_client.sendMove(bm);
 						} catch (IllegalArgumentException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-					}
-					else{
-						//TODO: get build info to display in chat
 					}
 					_dp.repaint();
 				}
@@ -309,82 +289,72 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 	}
-    
-    private class MoveList implements MouseMotionListener {
-        
-        private final DrawingPanel _dp;
-        
-        private MoveList(DrawingPanel dp) {
-            _dp = dp;
-        }
 
-        @Override
-        public void mouseDragged(MouseEvent e) {}
+	private class MoveList implements MouseMotionListener {
 
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            boolean foundSomething = false;
-            for (BoardComponent c: _toDraw) {
+		private final DrawingPanel _dp;
+
+		private MoveList(DrawingPanel dp) {
+			_dp = dp;
+		}
+
+		@Override
+		public void mouseDragged(MouseEvent e) {}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			boolean foundSomething = false;
+			for (BoardComponent c: _toDraw) {
 				if (c.getShape().contains(e.getPoint()) && (c.getType()==_selectable || (c.getType()==2 && _selectable==3) || (c.getType()==1 && _selectable==4))) {
-                    foundSomething = true;
-                    if (_lastHovered == null) {
-                        _lastHoveredPreviousGhostLevel = c.getGhostLevel();
-                        _lastHoveredPreviousLookerColor = c.getLookerColor();
-                        _lastHovered = c;
-                    } else if (c.getIndex() != _lastHovered.getIndex()) {
-                        _lastHovered.setGhostLevel(_lastHoveredPreviousGhostLevel);
-                        _lastHovered.setLookerColor(_lastHoveredPreviousLookerColor);
-                        _lastHoveredPreviousGhostLevel = c.getGhostLevel();
-                        _lastHoveredPreviousLookerColor = c.getLookerColor();
-                        _lastHovered = c;
-                    }
-                    if (c.getGhostLevel() == 1) {
-                        c.setGhostLevel(2);
-                        c.setLookerColor(_client.getPlayer().getColor());
-                    }
-                } else {
-                    if (!foundSomething && _lastHovered != null) {
-                        _lastHovered.setGhostLevel(_lastHoveredPreviousGhostLevel);
-                        _lastHovered.setLookerColor(_lastHoveredPreviousLookerColor);
-                    }
-                }
-            }
-            _dp.repaint();
-        }
-    }
-    
-    public void setResize(int x, int y){
-    	//this.setSize(x,y);
-    	System.err.println("DP.setResize: "+x+", "+y);
-    	int tx = x/23;
-    	int ty = y/14;
-    	_x = tx*23;
-    	_y = ty*14;
-    }
-	
-	
+					foundSomething = true;
+					if (_lastHovered == null) {
+						_lastHoveredPreviousGhostLevel = c.getGhostLevel();
+						_lastHoveredPreviousLookerColor = c.getLookerColor();
+						_lastHovered = c;
+					} else if (c.getIndex() != _lastHovered.getIndex()) {
+						_lastHovered.setGhostLevel(_lastHoveredPreviousGhostLevel);
+						_lastHovered.setLookerColor(_lastHoveredPreviousLookerColor);
+						_lastHoveredPreviousGhostLevel = c.getGhostLevel();
+						_lastHoveredPreviousLookerColor = c.getLookerColor();
+						_lastHovered = c;
+					}
+					if (c.getGhostLevel() == 1) {
+						c.setGhostLevel(2);
+						c.setLookerColor(_client.getPlayer().getColor());
+					}
+				} else {
+					if (!foundSomething && _lastHovered != null) {
+						_lastHovered.setGhostLevel(_lastHoveredPreviousGhostLevel);
+						_lastHovered.setLookerColor(_lastHoveredPreviousLookerColor);
+					}
+				}
+			}
+			_dp.repaint();
+		}
+	}
+
+	public void setResize(int x, int y){
+		int tx = x/23;
+		int ty = y/14;
+		_x = tx*23;
+		_y = ty*14;
+	}
+
+
 	/***
 	 * Tile = 0;
 	 * Edge = 1;
@@ -396,73 +366,73 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 	 */
 	public void setSelect(int s){
 		_selectable = s;
-        switch (_selectable) {
-            case -1:
-                for (BoardComponent c : _toDraw) {
-                    c.setGhostLevel(0);
-                    c.setLookerColor(null);
-                }
-                break;
-            case 0: //robber
-                for (BoardComponent c : _toDraw) {
-                    if (c.getType() == 0) {
-                        c.setGhostLevel(1);
-                    }
-                }
-                break;
-            case 1: //road
-            case 4: //road builder
-                for (BoardComponent c : _toDraw) {
-                    if (c.getType() == 1) {
-                        Edge e = (Edge) c;
-                        if (_startUp) {
-                            if (edgeIsNextToNode(e, _firstSettlement)) {
-                                c.setGhostLevel(1);
-                                c.setLookerColor(_client.getPlayer().getColor());
-                            }
-                        } else {
-                            if (!e.isRoad() && ownedRoadAdjacent(_client.getPlayer(), e)) {
-                                c.setGhostLevel(1);
-                                c.setLookerColor(_client.getPlayer().getColor());
-                            }
-                        }
-                    }
-                }
-                break;
-            case 2: //settlement
-                for (BoardComponent c : _toDraw) {
-                    if (c.getType() == 2) {
-                        Node n = (Node) c;
-                        if (_startUp) {
-                            if (!n.isOwned() && n.getVP() == 0 && !structureAdjacent(n)) {
-                                c.setGhostLevel(1);
-                                c.setLookerColor(_client.getPlayer().getColor());
-                            }
-                        } else {
-                            if (!n.isOwned() && n.getVP() == 0 && !structureAdjacent(n) && ownedRoadAdjacent(_client.getPlayer(), n)) {
-                                c.setGhostLevel(1);
-                                c.setLookerColor(_client.getPlayer().getColor());
-                            }
-                        }
-                    }
-                }
-                break;
-            case 3: //city
-                for (BoardComponent c : _toDraw) {
-                    if (c.getType() == 2) {
-                        Node n = (Node) c;
-                        if (n.isOwned() && n.getVP() == 1 && n.getOwner().equals(_client.getPlayer())) {
-                            c.setGhostLevel(1);
-                            c.setLookerColor(_client.getPlayer().getColor());
-                        }
-                    }
-                }
-                break;
-        }
-        repaint();
+		switch (_selectable) {
+		case -1:
+			for (BoardComponent c : _toDraw) {
+				c.setGhostLevel(0);
+				c.setLookerColor(null);
+			}
+			break;
+		case 0: //robber
+		for (BoardComponent c : _toDraw) {
+			if (c.getType() == 0) {
+				c.setGhostLevel(1);
+			}
+		}
+		break;
+		case 1: //road
+		case 4: //road builder
+			for (BoardComponent c : _toDraw) {
+				if (c.getType() == 1) {
+					Edge e = (Edge) c;
+					if (_startUp) {
+						if (edgeIsNextToNode(e, _firstSettlement)) {
+							c.setGhostLevel(1);
+							c.setLookerColor(_client.getPlayer().getColor());
+						}
+					} else {
+						if (!e.isRoad() && ownedRoadAdjacent(_client.getPlayer(), e)) {
+							c.setGhostLevel(1);
+							c.setLookerColor(_client.getPlayer().getColor());
+						}
+					}
+				}
+			}
+			break;
+		case 2: //settlement
+			for (BoardComponent c : _toDraw) {
+				if (c.getType() == 2) {
+					Node n = (Node) c;
+					if (_startUp) {
+						if (!n.isOwned() && n.getVP() == 0 && !structureAdjacent(n)) {
+							c.setGhostLevel(1);
+							c.setLookerColor(_client.getPlayer().getColor());
+						}
+					} else {
+						if (!n.isOwned() && n.getVP() == 0 && !structureAdjacent(n) && ownedRoadAdjacent(_client.getPlayer(), n)) {
+							c.setGhostLevel(1);
+							c.setLookerColor(_client.getPlayer().getColor());
+						}
+					}
+				}
+			}
+			break;
+		case 3: //city
+			for (BoardComponent c : _toDraw) {
+				if (c.getType() == 2) {
+					Node n = (Node) c;
+					if (n.isOwned() && n.getVP() == 1 && n.getOwner().equals(_client.getPlayer())) {
+						c.setGhostLevel(1);
+						c.setLookerColor(_client.getPlayer().getColor());
+					}
+				}
+			}
+			break;
+		}
+		repaint();
 	}
-    
-    private boolean structureAdjacent(Node node) {
+
+	private boolean structureAdjacent(Node node) {
 		for (Edge e : node.getEdges()) {
 			for (Node n : e.getNodes()) {
 				if (n.getIndex() != node.getIndex() && n.isOwned())
@@ -503,49 +473,11 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 	@Override
 	public void serverUpdate() {
 		_toDraw.clear();
-		System.out.println("TRYING TO GET BOARD IN DRAWING PANEL!");
-		_toDraw.addAll(_client.getBoard().getBoard()); //TODO Fix this
-		System.out.println("GOT BOARD BACK FROM SERVER");
+		_toDraw.addAll(_client.getBoard().getBoard());
 		repaint();
 	}
-	
+
 	public void decRBCount(){
 		_rbcount--;
 	}
-
-	/*@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("clicked: ");
-		for(Component c: _todraw){
-			if(c.contains(e.getPoint())){
-				System.out.println(c);
-			}
-		}
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}*/
-
 }

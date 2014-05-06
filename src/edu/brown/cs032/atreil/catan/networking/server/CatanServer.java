@@ -9,8 +9,6 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
@@ -209,8 +207,6 @@ public class CatanServer extends Thread{
 			waiting.append(String.format("Connected: %s\n", name));
 		
 		//sending update
-		//addUpdate(String.format("Sending update: %s", waiting.toString()));
-		
 		_pool.broadcast(new Packet(Packet.MESSAGE, String.format("%s", waiting.toString())));
 	}
 	
@@ -339,7 +335,7 @@ public class CatanServer extends Thread{
 			else
 				_pool.sendChat(playerName, "server " + message, "Server");
 		} catch(IOException e){
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	

@@ -12,12 +12,12 @@ import java.io.Serializable;
  * @author Thomas Mercurio
  */
 public abstract class Move implements Serializable {
-    
-    private static final long serialVersionUID = 7832636071903860220L;
-    
-    /**
-     * Gets the name of the player who played this move.
-     * @return 
-     */
-    public abstract String getPlayerName();
+
+	private static final long serialVersionUID = 7832636071903860220L;
+
+	/**
+	 * Gets the name of the player who played this move.
+	 * @return 
+	 */
+	public abstract String getPlayerName();
 }

@@ -19,7 +19,6 @@ import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
-import javax.swing.JDialog;
 
 public class SevenFrame extends JFrame {
 	private static final long serialVersionUID = 2775532151453365472L;

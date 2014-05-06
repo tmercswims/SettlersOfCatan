@@ -2,6 +2,7 @@ package edu.brown.cs032.sbreslow.catan.gui.board;
 
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Edge.*;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -20,6 +21,7 @@ public class Edge extends BoardComponent{
 	private Line2D _l;
 	private Color _c;
 	private int _port;
+	@SuppressWarnings("unused")
 	private final int _index;
     private boolean _visited;
 	

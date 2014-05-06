@@ -12,7 +12,6 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import edu.brown.cs032.atreil.catan.gui.trade.TradeFrame;
@@ -21,7 +20,6 @@ import edu.brown.cs032.atreil.catan.networking.Packet;
 import edu.brown.cs032.eheimark.catan.gui.GUI;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
 import edu.brown.cs032.eheimark.catan.gui.misc.AlertFrame;
-import edu.brown.cs032.eheimark.catan.gui.tutorial.Tutorial;
 import edu.brown.cs032.eheimark.catan.launch.LaunchConfiguration;
 import edu.brown.cs032.eheimark.catan.launch.screens.JoinLoadingMenu;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
@@ -187,7 +185,6 @@ public class CatanClient extends Thread{
 						try {
 							_servicingLock.wait();
 						} catch (InterruptedException e) {
-							System.out.println("Interrupted in Client");
 							_servicing = false;
 						}
 					}
@@ -335,7 +332,6 @@ public class CatanClient extends Thread{
 								_frame.getContentPane().getHeight()*600/825);
 						if(checkDelta(_frame.getContentPane().getWidth()*600/1000, 
 								_frame.getContentPane().getHeight()*600/825)){
-							System.err.println("HERE");
 							_gui.getDP().setResize(_frame.getContentPane().getWidth()*600/1000, 
 									_frame.getContentPane().getHeight()*600/825);
 						}
@@ -365,7 +361,6 @@ public class CatanClient extends Thread{
 								_frame.getContentPane().getHeight()*600/825);
 						if(checkDelta(_frame.getContentPane().getWidth()*600/1000, 
 								_frame.getContentPane().getHeight()*600/825)){
-							System.err.println("HERE");
 							_gui.getDP().setResize(_frame.getContentPane().getWidth()*600/1000, 
 									_frame.getContentPane().getHeight()*600/825);
 						}
@@ -408,9 +403,6 @@ public class CatanClient extends Thread{
 			synchronized(_rollLock){
 				_roll = ((Integer) packet.getObject()).intValue();
                 if (_roll == 7) {
-                    System.out.println("Thinks roll is 7.");
-                    System.out.println("Roll is " + _roll);
-                    System.out.println("client setSelect(0)");
                     _gui.getDP().setSelect(0);
                     if(this.getPlayer().isActive()){
                     	_gui.getActivePlayer().disableRoll();
@@ -425,8 +417,6 @@ public class CatanClient extends Thread{
 			_frameList.add(new SevenFrame(this, getFrame()));
 			confirmPacket();
 		} else if(type == Packet.ERROR){
-			//TODO: notify errors
-			System.out.println(String.format("Error: %s", (String) packet.getObject()));
 			confirmPacket();
 		} else if(type == Packet.SETTLEMENT){
 			placeSettlement();
@@ -476,7 +466,6 @@ public class CatanClient extends Thread{
         	confirmPacket();
         }
 		else{
-			System.out.println(String.format("Unsupported. Got: %s", type));
 			confirmPacket();
 		}
 	}
@@ -576,26 +565,16 @@ public class CatanClient extends Thread{
 
 				if(type == Packet.MESSAGE) {
 					String message = (String) p.getObject();
-					System.out.println(String.format("readServerMessage: %s", message));
-					//TODO: print message in JTextArea
 					_joinLoadingMenu.updateJTextArea(message);
 				}
 				else if(type == Packet.STARTGAME){
 					setInGame(true);
 					setInLobby(false);
-					System.out.println("STARTTINGGGGG GAME");
-					//TODO: launch game panel
-					//return "Starting the game\n";
 					_joinLoadingMenu.launchGame();
 				} else if(type == Packet.ERROR){
-					//TODO: print error in JTextArea
 					String error = (String) p.getObject();
-					System.out.println(String.format("readServerMessageError: %s", error));
 					_joinLoadingMenu.updateJTextArea(error);
-					//return (String) p.getObject();
 				} else if(type == Packet.START){
-					//TODO: set active player
-					System.out.println("YOU ARE ACTIVE PLAYER");
 					_joinLoadingMenu.updateJTextArea("You are the first player");
 					//return "It is your turn. Make a move";
 				}
@@ -623,18 +602,14 @@ public class CatanClient extends Thread{
 			int type = p.getType();
 
 			if(type == Packet.MESSAGE) {
-				System.out.println("GOT A MESSAGE");
 				return (String) p.getObject();
 			}
 			else if(type == Packet.STARTGAME){
 				_isStarting = true;
-				System.out.println("STARTTINGGGGG GAME");
 				return "Starting the game\n";
 			} else if(type == Packet.ERROR){
-				System.out.println("ERROR PACKET RECEIVED!!");
 				return (String) p.getObject();
 			} else if(type == Packet.START){
-				System.out.println("YOU ARE ACTIVE PLAYER");
 				return "It is your turn. Make a move";
 			}
 			else
@@ -826,7 +801,7 @@ public class CatanClient extends Thread{
 				}
 			} catch(IOException e){
 				//not much to do
-				System.err.println(String.format("Fatal exception: %s", e.getMessage()));
+				e.printStackTrace();
 			}
 		}
 	}

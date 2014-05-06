@@ -1,6 +1,5 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
@@ -116,9 +115,6 @@ public class Board implements Serializable {
 				x -= _x;
 				y -= _y;
 			}
-			else{
-				System.err.println("WTF");
-			}
 			_nodes[i] = new Node(x,y);
 		}
 		
@@ -141,26 +137,12 @@ public class Board implements Serializable {
 				}
 				else{
 					int rsrc = getResource();
-					//if(rsrc==5){
 					_tiles[i] = new Tile(rsrc,0,null);
-					//}
-					//else{
-					//	_tiles[i] = new Tile(rsrc,getNum(),null);
-					//}
 				}
-				//System.out.println("TILE: "+i);
-				//System.out.println(Arrays.toString(tdices));
-				//System.out.println(_tiles[i]._num);
 				_tiles[i].setNodes(list);
 				_tiles[i].setIndex(i);
-				//_tiles[i].setBors(tlist);
-				/*for(Tile t: _tiles[i].getBors()){
-					System.out.println(i+" "+t._num);
-				}*/
 			}
 		} catch (Exception e) {
-			System.err.println("ERROR: "+e.getMessage());
-			System.err.println(i);
 			e.printStackTrace();
 		}
 		try(RandomAccessFile raf = new RandomAccessFile("boardData/tiletonode.tsv","r")) {
@@ -175,14 +157,10 @@ public class Board implements Serializable {
 				List<Tile> tlist = new ArrayList<>(tiles.length);
 				for(int j: tdices){
 					tlist.add(_tiles[j]);
-					//System.out.println("ADDING "+j+" to "+i);
-					//System.out.println(_tiles[j]._num);
 				}
 				_tiles[i].setBors(tlist);
 			}
 		} catch (Exception e) {
-			System.err.println("ERROR: "+e.getMessage());
-			System.err.println(i);
 			e.printStackTrace();
 		}
 		layoutNums();
@@ -218,8 +196,6 @@ public class Board implements Serializable {
 				}
 			}
 		} catch (Exception e) {
-			System.err.println("ERROR: "+e.getMessage());
-			System.err.println(i);
 			e.printStackTrace();
 		}
 		try(RandomAccessFile raf = new RandomAccessFile("boardData/nodetoall.tsv","r")){
@@ -249,8 +225,6 @@ public class Board implements Serializable {
 				_nodes[i].setIndex(i);
 			}
 		} catch (Exception e) {
-			System.err.println("ERROR: "+e.getMessage());
-			System.err.println(i);
 			e.printStackTrace();
 		}
 	}
@@ -258,14 +232,12 @@ public class Board implements Serializable {
 	public void resize(int x, int y){
 		_x = x/23;
 		_y = y/14;
-		System.out.println("Board.resize: "+_x+", "+_y);
 		layoutChanges();
 	}
     
     private void layoutChanges() {
     	int x = 0;
 		int y = 2*_y;
-		System.out.println("OLD: "+_nodes[0].getLocation());
 		for(int i = 0; i <= 95; i++){
 			if((i<=8)||(i>41 && i<=48)||(i>71 && i<=76)||(i>88 && i<=92)){
 				if(i%2==0){
@@ -333,12 +305,8 @@ public class Board implements Serializable {
 				x -= _x;
 				y -= _y;
 			}
-			else{
-				System.err.println("WTF");
-			}
 			_nodes[i].setLoc(x,y);
 		}
-		System.out.println("NEW: "+_nodes[0].getLocation());
 		try(RandomAccessFile raf = new RandomAccessFile("boardData/tiletonode.tsv","r")) {
 			raf.readLine();
 			for(int i = 0; i <= 36; i++){
@@ -355,8 +323,6 @@ public class Board implements Serializable {
 				_tiles[i].setPoly(list);
 			}
 		} catch (Exception e) {
-			System.err.println("ERROR: "+e.getMessage());
-			//System.err.println(i);
 			e.printStackTrace();
 		}
 		try(RandomAccessFile raf = new RandomAccessFile("boardData/edgetonode.tsv","r")) {
@@ -372,7 +338,6 @@ public class Board implements Serializable {
 				_edges[i].setNodes(tmp);// = new Edge(tmp,i);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -478,25 +443,12 @@ public class Board implements Serializable {
 
 	private int getNum(Tile tile) {
 		int num = _nums.remove((int)(Math.random()*_nums.size()));
-		//System.out.println(num);
 		return num;
 	}
 
 	private int getResource() {
 		return _resources.remove((int)(Math.random()*_resources.size()));
 	}
-
-	/*public List<Tile> getTiles(){
-		return (ArrayList<Tile>)Arrays.asList(_tiles);
-	}
-
-	public List<Node> getNodes(){
-		return (ArrayList<Node>)Arrays.asList(_nodes);
-	}
-
-	public List<Edge> getEdges(){
-		return (ArrayList<Edge>)Arrays.asList(_edges);
-	}*/
 
 	public Tile[] getTiles(){
 		return _tiles;

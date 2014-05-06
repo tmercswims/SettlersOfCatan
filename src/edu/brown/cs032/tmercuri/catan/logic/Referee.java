@@ -107,7 +107,6 @@ public class Referee {
 		_startUp = 0;
         _server.sendEndStart();
 
-		System.out.println("Entering main game loop.");
 		for (int z=0; !_gameOver; z++) {
 			int currentPlayer = z % _players.length;
 			setActivePlayer(currentPlayer);
@@ -117,23 +116,17 @@ public class Referee {
 				MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
 				if (whatHappened.isError()) {
 					_server.sendMessage(move.getPlayerName(), whatHappened.getDescription());
-					System.out.println(whatHappened.getDescription());
 				} else if (whatHappened != MESSAGE_000) {
 					if (move instanceof TradeMove && (whatHappened == MESSAGE_403 || whatHappened == MESSAGE_410)) {
 						_server.sendMessage(null, String.format(whatHappened.getDescription(), ((TradeMove)move).getProposedTo(), _activePlayer.getName()));
-						System.out.println(String.format(whatHappened.getDescription(), ((TradeMove)move).getProposedTo(), _activePlayer.getName()));
 					} else if (move instanceof TradeMove && whatHappened == MESSAGE_400) {
 						_server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName(), ((TradeMove)move).getProposedTo()));
-						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName(), ((TradeMove)move).getProposedTo()));
 					} else if (move instanceof TradeMove && whatHappened == MESSAGE_510) {
 						_server.sendMessage(null, String.format(whatHappened.getDescription(), ((TradeMove)move).getPlayerName()));
-						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName(), ((TradeMove)move).getProposedTo()));
 					} else if (move instanceof RobberMove && whatHappened == MESSAGE_500) {
 						_server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName(), ((RobberMove)move).getToStealFrom()));
-						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName(), ((RobberMove)move).getToStealFrom()));
 					} else {
 						_server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
-						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 					}
 				}
                 if (_pushPlayers)
@@ -183,16 +176,13 @@ public class Referee {
 				Move move = _server.readMove();
 				if (!(move instanceof BuildMove)) {
 					_server.sendMessage(move.getPlayerName(), "You need to build a settlement.");
-					System.out.println("You need to build a settlement.");
 				} else {
 					MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
 					if (whatHappened.isError()) {
 						_server.sendMessage(move.getPlayerName(), whatHappened.getDescription());
-						System.out.println(whatHappened.getDescription());
 					} else {
                         _server.sendStartSettle(_activePlayer.getName(), ((BuildMove)move).getBuildLocation());
 						_server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
-						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						validSettlement = true;
 					}
                     if (_pushPlayers)
@@ -208,15 +198,12 @@ public class Referee {
 				Move move = _server.readMove();
 				if (!(move instanceof BuildMove)) {
 					_server.sendMessage(move.getPlayerName(), "You need to build a road.");
-					System.out.println("You need to build a road.");
 				} else {
 					MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
 					if (whatHappened.isError()) {
 						_server.sendMessage(move.getPlayerName(), whatHappened.getDescription());
-						System.out.println(whatHappened.getDescription());
 					} else {
 						_server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
-						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						validRoad = true;
 					}
                     if (_pushPlayers)
@@ -237,16 +224,13 @@ public class Referee {
 				Move move = _server.readMove();
 				if (!(move instanceof BuildMove)) {
 					_server.sendMessage(move.getPlayerName(), "You need to build a settlement.");
-					System.out.println("You need to build a settlement.");
 				} else {
 					MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
 					if (whatHappened.isError()) {
 						_server.sendMessage(move.getPlayerName(), whatHappened.getDescription());
-						System.out.println(whatHappened.getDescription());
 					} else {
                         _server.sendStartSettle(_activePlayer.getName(), ((BuildMove)move).getBuildLocation());
 						_server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
-						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						validSettlement = true;
 					}
                     if (_pushPlayers)
@@ -262,15 +246,12 @@ public class Referee {
 				Move move = _server.readMove();
 				if (!(move instanceof BuildMove)) {
 					_server.sendMessage(move.getPlayerName(), "You need to build a road.");
-					System.out.println("You need to build a road.");
 				} else {
 					MoveMessage whatHappened = MoveMessage.getMessage(makeMove(move));
 					if (whatHappened.isError()) {
 						_server.sendMessage(move.getPlayerName(), whatHappened.getDescription());
-						System.out.println(whatHappened.getDescription());
 					} else {
 						_server.sendMessage(null, String.format(whatHappened.getDescription(), _activePlayer.getName()));
-						System.out.println(String.format(whatHappened.getDescription(), _activePlayer.getName()));
 						validRoad = true;
 					}
                     if (_pushPlayers)
@@ -419,9 +400,8 @@ public class Referee {
 				try {
 					_server.sendRB(move.getPlayerName());
 				} catch (IllegalArgumentException | IOException ex) {
-					System.err.println("ERROR: " + ex.getMessage());
+					ex.printStackTrace();
 				}
-				System.out.println(eRB.isRoad() + " " + _activePlayer.getRoadCount() + " " + !ownedRoadAdjacent(eRB));
 				return 601;
 			}
 			_activePlayer.decRoadCount();
@@ -431,7 +411,6 @@ public class Referee {
             _pushPlayers = _pushBoard = true;
 			return 610;
 		default:
-			System.out.println("build move had bad build type");
 			return -1;
 		}
 	}
@@ -601,7 +580,6 @@ public class Referee {
             _pushPlayers = true;
 			return 410;
 		default:
-			System.err.println("ERROR: build move had bad build type");
 			return -1;
 		}
 	}
@@ -747,7 +725,6 @@ public class Referee {
 							int[] newRes = new int[]{0,0,0,0,0};
 							newRes[t.getResource()] += n.getVP();
 							p.addResources(newRes);
-							System.out.println(String.format("%s got %d wheat, %d sheep, %d brick, %d ore, %d wood", p.getName(), newRes[0], newRes[1], newRes[2], newRes[3], newRes[4]));
 						}
 					}
 				}
@@ -760,7 +737,7 @@ public class Referee {
 						_server.sendMessage(p.getName(), "The robber has attacked! Please drop half your resources.");
 						_server.sendSeven(p.getName());
 					} catch (IllegalArgumentException | IOException ex) {
-						System.err.println("ERROR: " + ex.getMessage());
+						ex.printStackTrace();
 					}
 				}
 			}
@@ -811,7 +788,6 @@ public class Referee {
 				findConnected(p, e, set);
 				if (!set.isEmpty()) edgeSets.add(set);
 			}
-			System.out.println(String.format("NUMBER OF ROAD SETS FOR %s: %d", p.getName(), edgeSets.size()));
 			_board.clearEdges();
 			int l = 0;
 			for (List<Edge> set : edgeSets) {
@@ -823,7 +799,6 @@ public class Referee {
 					}
 				}
 			}
-			System.out.println(String.format("LONGEST ROAD FOR %s: %d", p.getName(), l));
 			p.setLongestRoad(l);
 			_board.clearEdges();
 			if ((_road == null && p.getLongestRoad() >= 5)) {
