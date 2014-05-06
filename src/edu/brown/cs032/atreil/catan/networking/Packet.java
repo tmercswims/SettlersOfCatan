@@ -239,7 +239,7 @@ public class Packet implements Serializable {
 			}
         } else if(type == Packet.END_SEVEN){
         	if(o != null)
-        		throw new IllegalArgumentException("Given object is not a boolean");
+        		throw new IllegalArgumentException("Given object is not null");
         }
 		
 		else
