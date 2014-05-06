@@ -178,10 +178,12 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 	
 	public void enableRoll(){
 		gameManagerButton.setEnabled(true);
+		System.out.println("ENABLED ROLL");
 	}
 	
 	public void disableRoll(){
 		gameManagerButton.setEnabled(false);
+		System.out.println("DISABLED ROLL");
 	}
 
 	/**
