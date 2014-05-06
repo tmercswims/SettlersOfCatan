@@ -1,6 +1,8 @@
 package edu.brown.cs032.sbreslow.catan.gui.board;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -119,7 +121,7 @@ public class Board implements Serializable {
 		}
 		
 		int i = 0;
-		try(RandomAccessFile raf = new RandomAccessFile("boardData/tiletonode.tsv","r")) {
+		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/boardData/tiletonode.tsv")))) {
 			raf.readLine();
 			for(i = 0; i <= 36; i++){
 				String[] line = raf.readLine().split("\t");
@@ -145,7 +147,8 @@ public class Board implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		try(RandomAccessFile raf = new RandomAccessFile("boardData/tiletonode.tsv","r")) {
+		
+		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/boardData/tiletonode.tsv")))) {
 			raf.readLine();
 			for(i = 0; i <= 36; i++){
 				String[] line = raf.readLine().split("\t");
@@ -164,7 +167,7 @@ public class Board implements Serializable {
 			e.printStackTrace();
 		}
 		layoutNums();
-		try(RandomAccessFile raf = new RandomAccessFile("boardData/edgetonode.tsv","r")) {
+		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/boardData/edgetonode.tsv")))) {
 			raf.readLine();
 			for(i = 0; i <= 131; i++){
 				String[] line = raf.readLine().split("\t");
@@ -198,7 +201,7 @@ public class Board implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		try(RandomAccessFile raf = new RandomAccessFile("boardData/nodetoall.tsv","r")){
+		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/boardData/nodetoall.tsv")))){
 			raf.readLine();
 			for(i = 0; i <= 95; i++){
 				String[] line = raf.readLine().split("\t");
@@ -307,7 +310,7 @@ public class Board implements Serializable {
 			}
 			_nodes[i].setLoc(x,y);
 		}
-		try(RandomAccessFile raf = new RandomAccessFile("boardData/tiletonode.tsv","r")) {
+		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/boardData/tiletonode.tsv")))) {
 			raf.readLine();
 			for(int i = 0; i <= 36; i++){
 				String[] line = raf.readLine().split("\t");
@@ -325,7 +328,7 @@ public class Board implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		try(RandomAccessFile raf = new RandomAccessFile("boardData/edgetonode.tsv","r")) {
+		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/boardData/edgetonode.tsv")))) {
 			raf.readLine();
 			for(int i = 0; i <= 131; i++){
 				String[] line = raf.readLine().split("\t");
