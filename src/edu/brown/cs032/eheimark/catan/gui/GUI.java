@@ -158,7 +158,7 @@ public class GUI extends JPanel implements ServerUpdate {
 	 *
 	 * @return the active player
 	 */
-	public Component getActivePlayer() {
+	public PlayerStatsAndRollButton getActivePlayer() {
 		return activeplayer;
 	}
 }

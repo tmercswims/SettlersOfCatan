@@ -405,6 +405,7 @@ public class CatanClient extends Thread{
                     System.out.println("Roll is " + _roll);
                     System.out.println("client setSelect(0)");
                     _gui.getDP().setSelect(0);
+                    _gui.getActivePlayer().disableRoll();
                 }
 				/*if(_roll==7 && _p.getResourceCount()>7){
 					new SevenFrame(this);
@@ -458,6 +459,8 @@ public class CatanClient extends Thread{
             boolean startUp = (Boolean) packet.getObject();
             _gui.getDP().setStartUp(startUp);
 			confirmPacket();
+        } else if (type == Packet.END_SEVEN){
+        	_gui.getActivePlayer().enableRoll();
         }
 		else{
 			System.out.println(String.format("Unsupported. Got: %s", type));

@@ -175,6 +175,14 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 		});
 		blinkState = false;
 	}
+	
+	public void enableRoll(){
+		gameManagerButton.setEnabled(true);
+	}
+	
+	public void disableRoll(){
+		gameManagerButton.setEnabled(false);
+	}
 
 	/**
 	 * Updates GUI with latest info from server.
