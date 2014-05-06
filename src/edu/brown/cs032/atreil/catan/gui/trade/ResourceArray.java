@@ -22,7 +22,7 @@ import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
  * @author Alex Treil
  *
  */
-class ResourceArray extends JPanel implements ServerUpdate {
+class ResourceArray extends JPanel {
 	
 	/**
 	 * 
@@ -111,6 +111,7 @@ class ResourceArray extends JPanel implements ServerUpdate {
 		_brickLabel.setTransferHandler(new TransferHandler("icon"));
 		_brickLabel.setOpaque(false);
 
+		//adding token labels
 		for(int i = 0; i < 5; i++){
 			tokenPanel.add(getTokenLabel(i));
 			_resourceTokenArray[i] = getTokenLabel(i);
@@ -144,6 +145,7 @@ class ResourceArray extends JPanel implements ServerUpdate {
 		_brickCount.setHorizontalAlignment(JLabel.CENTER);
 		_brickCount.setOpaque(false);
 		
+		//adding count labels
 		for(int i = 0; i < 5; i++){
 			labelPanel.add(getCountLabel(i));
 			_resourceCountArray[i] = getCountLabel(i);
@@ -153,7 +155,7 @@ class ResourceArray extends JPanel implements ServerUpdate {
 		
 		
 		//setting up border
-		setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 		
 		
 		setOpaque(false);		
@@ -201,7 +203,8 @@ class ResourceArray extends JPanel implements ServerUpdate {
 	
 	/**
 	 * Sets whether or not the color of the text should update after a change
-	 * @param e
+	 * @param e true, if after calling increment, decrement, the color should change. False otherwise.
+	 * This is set to false by default
 	 */
 	public void setUpdateColorEnabled(boolean e){
 		_updateColor = e;
@@ -209,7 +212,8 @@ class ResourceArray extends JPanel implements ServerUpdate {
 	
 	/**
 	 * Sets whether or not the color scheme is opposite
-	 * @param e
+	 * @param e true, if the opposite color scheme should be used, and false otherwise. 
+	 * This is false by default
 	 */
 	public void setOppositeColorEnabled(boolean e){
 		_oppositeColor = e;
@@ -253,11 +257,15 @@ class ResourceArray extends JPanel implements ServerUpdate {
 	
 	/**
 	 * Sets the resource count of the type as specified by ResourceArray.
-	 * If the type is invalid, an IllegalArgumentException is thrown
+	 * If the type is invalid, an IllegalArgumentException is thrown. Doesn't modify the original count.
 	 * @param count The count to set
 	 * @param type The type to set
 	 */
 	public void setCount(int count, int type){
+		
+		//check that the count is greater than 0
+		validateCount(count);
+		
 		if(type == ResourceConstants.ORE){
 			_oreCount = new JLabel(Integer.toString(count));
 		} else if(type == ResourceConstants.WHEAT){
@@ -272,7 +280,6 @@ class ResourceArray extends JPanel implements ServerUpdate {
 			throw new IllegalArgumentException(String.format("Invalid label. Got %s", type));
 		}
 		
-		validateCount(count);
 		_resourceCount[type] = count;
 		
 		repaint();
@@ -297,7 +304,7 @@ class ResourceArray extends JPanel implements ServerUpdate {
 	
 	/**
 	 * Increments the count of the resource type. Throws an IllegalArgumentException
-	 * if the type is invalid.
+	 * if the type is invalid. Doesn't modify the original count.
 	 * @param type The resource to increment
 	 */
 	public void incrementCount(int type){
@@ -313,7 +320,7 @@ class ResourceArray extends JPanel implements ServerUpdate {
 	/**
 	 * Decrements the count of the resource type. Throws an IllegalArgumentException
 	 * if the type is invalid or if decrementing the count would cause the count
-	 * to be < 0.
+	 * to be < 0. Doesn't modify the original count.
 	 * @param type The resource to decrement.
 	 */
 	public void decrementCount(int type){
@@ -374,7 +381,9 @@ class ResourceArray extends JPanel implements ServerUpdate {
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		
+		//painting the resource tokens and their associated counts
 		for(int i = 0; i < _resourceCount.length; i++){
+			//set the color to gray
 			if(_resourceCount[i] == 0){
 				if(_updateColor){
 					if(_resourceCount[i] < _originalResourceCount[i]){
@@ -385,6 +394,7 @@ class ResourceArray extends JPanel implements ServerUpdate {
 				_resourceCountArray[i].setText("0");
 				_resourceTokenArray[i].setIcon(getGrayImage(i));
 			} else{
+				//use an actual color
 				if(_updateColor){
 					if(_resourceCount[i] < _originalResourceCount[i])
 						_resourceCountArray[i].setForeground(_decrement);
@@ -412,12 +422,6 @@ class ResourceArray extends JPanel implements ServerUpdate {
 		} catch(ArrayIndexOutOfBoundsException e){
 			throw new IllegalArgumentException(String.format("Invalid label. Got %s", type));
 		}
-	}
-	
-	@Override
-	public void serverUpdate() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	/**

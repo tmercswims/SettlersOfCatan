@@ -511,7 +511,7 @@ public class CatanClient extends Thread{
 
 		synchronized(_out){
 			_out.reset();
-			_out.writeObject(new Packet(Packet.MOVE, move, 0));
+			_out.writeObject(new Packet(Packet.MOVE, move));
 			_out.flush();
 		}
 	}

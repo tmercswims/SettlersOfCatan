@@ -119,6 +119,12 @@ public class Packet implements Serializable {
      * The pre-game is over; boolean //TODO: scrap this
      */
     public static int END_START = 18;
+    
+    /**
+     * All players have ended their turn and the player may 
+     * end their turn; null
+     */
+    public static int END_SEVEN = 19;
 	
 	/*********************************************/
 	private final int _type; //the type of the object
@@ -231,6 +237,9 @@ public class Packet implements Serializable {
             if(!(o instanceof Boolean)){
 				throw new IllegalArgumentException("Given object is not a boolean");
 			}
+        } else if(type == Packet.END_SEVEN){
+        	if(o != null)
+        		throw new IllegalArgumentException("Given object is not a boolean");
         }
 		
 		else

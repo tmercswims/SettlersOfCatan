@@ -39,7 +39,6 @@ public class CatanServer extends Thread{
 	private final ClientPool _pool; //keeps track of all the clients
 	//private final Executor _e; //manages threads to deal with new connections
 	private final int TIMEOUT = 5000; //the time the server should wait while waiting for connectino before checking number of connections
-	private int id = 0; //keeps track of the unique id for the client
 	private final LinkedList<Move> _moveBuffer; //keeps track of any available moves from clients
 	private Referee _ref;
 	private StringBuilder _update; //keeps track of updates of the server 
@@ -111,8 +110,6 @@ public class CatanServer extends Thread{
 		_isRunning = false;
 		_inLobby = false;
 		_inGame = false;
-		//_chatServer = startChatServer(_port);
-		//_chatServer.start();
 		
 		//locks
 		_isRunningLock = new Integer(-1);
@@ -137,7 +134,7 @@ public class CatanServer extends Thread{
 			//start the game
 			try {
 				if(getIsRunning()){
-					_pool.broadcast(new Packet(Packet.STARTGAME, null, id++));
+					_pool.broadcast(new Packet(Packet.STARTGAME, null));
 					_pool.addUpdate("Starting the game\n");
 	
 					//no more clients may connect
@@ -198,35 +195,7 @@ public class CatanServer extends Thread{
 		
 		setInLobby(false);
 	}
-	
-	/**
-	 * Starts up a chat server. Begins looking at port+1
-	 * @param port the port to start looking from.
-	 * @return The ChatServer
-	 * @throws IOException If a port could not be found for the chat server
-	 */
-//	private ChatServer startChatServer(int port) throws IOException{
-//		boolean found = false;
-//		ChatServer chat = null;
-//		
-//		while(!found){
-//			try {
-//				chat = new ChatServer(++port, _numClients);
-//				
-//				//found empty port
-//				_chatPort = port;
-//				found = true;
-//			} catch (IOException e) {
-//				//port is already taken, try again
-//			}
-//		}
-//		
-//		if(chat == null)
-//			throw new IOException("Could not find port for chat server.");
-//		
-//		return chat;
-//	}
-	
+		
 	/**
 	 * Sends the name of all of the connected players.
 	 * @throws IOException If anything goes wrong with the IO
@@ -242,7 +211,7 @@ public class CatanServer extends Thread{
 		//sending update
 		//addUpdate(String.format("Sending update: %s", waiting.toString()));
 		
-		_pool.broadcast(new Packet(Packet.MESSAGE, String.format("%s", waiting.toString()), id++));
+		_pool.broadcast(new Packet(Packet.MESSAGE, String.format("%s", waiting.toString())));
 	}
 	
 	/**
@@ -255,8 +224,6 @@ public class CatanServer extends Thread{
 		try {
 			return InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return "COULD NOT FIND ADDRESS";
 		}
 	}
@@ -279,7 +246,7 @@ public class CatanServer extends Thread{
 		
 	public void startSettlement(String playerName) throws IllegalArgumentException{
 		try {
-			_pool.send(playerName, new Packet(Packet.SETTLEMENT, null, id++));
+			_pool.send(playerName, new Packet(Packet.SETTLEMENT, null));
             addUpdate("It is " + playerName + "'s turn to place a settlement.");
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
@@ -288,7 +255,7 @@ public class CatanServer extends Thread{
 	
 	public void startRoad(String playerName) throws IllegalArgumentException{
 		try {
-			_pool.send(playerName, new Packet(Packet.ROAD, null, id++));
+			_pool.send(playerName, new Packet(Packet.ROAD, null));
             addUpdate("It is " + playerName + "'s turn to place a road.");
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
@@ -302,7 +269,7 @@ public class CatanServer extends Thread{
 	 */
 	public void sendPlayerArray(Player[] players){
 		try {
-			_pool.broadcast(new Packet(Packet.PLAYERARRAY, players, id++));
+			_pool.broadcast(new Packet(Packet.PLAYERARRAY, players));
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
 		}
@@ -314,7 +281,7 @@ public class CatanServer extends Thread{
 	 */
 	public void sendBoard(Board board){
 		try {
-			Packet p = new Packet(Packet.BOARD, board, id++);
+			Packet p = new Packet(Packet.BOARD, board);
 			
 			_pool.broadcast(p);
 		} catch (IOException e) {
@@ -324,7 +291,7 @@ public class CatanServer extends Thread{
     
     public void sendStartSettle(String name, int index){
 		try {
-			Packet p = new Packet(Packet.START_SETTLE, index, id++);
+			Packet p = new Packet(Packet.START_SETTLE, index);
 			
 			_pool.send(name, p);
 		} catch (IOException e) {
@@ -334,7 +301,7 @@ public class CatanServer extends Thread{
     
     public void sendEndStart(){
 		try {
-			Packet p = new Packet(Packet.END_START, false, id++);
+			Packet p = new Packet(Packet.END_START, false);
 			
 			_pool.broadcast(p);
 		} catch (IOException e) {
@@ -350,7 +317,7 @@ public class CatanServer extends Thread{
 	 */
 	public void sendRoll(String playerName, int roll){
 		try {
-			_pool.send(playerName, new Packet(Packet.ROLL, new Integer(roll), id++));
+			_pool.send(playerName, new Packet(Packet.ROLL, new Integer(roll)));
 			_pool.sendAllChat(String.format("Server %s rolled a %s", playerName, roll), "Server");
 		} catch (IOException e) {
 			addUpdate(e.getMessage());
@@ -383,7 +350,7 @@ public class CatanServer extends Thread{
 	 */
 	public void sendTrade(String playerName, TradeMove trade){
 		try{
-			_pool.send(playerName, new Packet(Packet.TRADE, trade, 0));
+			_pool.send(playerName, new Packet(Packet.TRADE, trade));
 		} catch(IOException e){
 			addUpdate(e.getMessage());
 		} catch(IllegalArgumentException e){
@@ -396,7 +363,7 @@ public class CatanServer extends Thread{
 	 */
 	public void sendLastMove(){
 		try {
-			_pool.broadcast(new Packet(Packet.LASTMOVE, null, 0));
+			_pool.broadcast(new Packet(Packet.LASTMOVE, null));
 		} catch (IllegalArgumentException | IOException e) {
 			addUpdate(e.getMessage());
 		}
@@ -409,11 +376,23 @@ public class CatanServer extends Thread{
 	public void sendGameOver(String player){
 		if(getIsRunning()){
 			try{
-				_pool.broadcast(new Packet(Packet.GAME_OVER, player, 0));
+				_pool.broadcast(new Packet(Packet.GAME_OVER, player));
 			} catch (IllegalArgumentException | IOException e) {
 				addUpdate(e.getMessage());
 			}
 			kill();
+		}
+	}
+	
+	/**
+	 * Tells the client who rolled the seven that everyone has dropped
+	 * their resources and that they can end their turn
+	 */
+	public void sendEndSeven(){
+		try{
+			_pool.broadcast(new Packet(Packet.END_SEVEN, null));
+		} catch(IllegalArgumentException | IOException e){
+			addUpdate(e.getMessage());
 		}
 	}
 	
@@ -542,12 +521,12 @@ public class CatanServer extends Thread{
 	}
 
 	public void sendSeven(String name) throws IllegalArgumentException, IOException {
-		_pool.send(name, new Packet(Packet.SEVEN, null, 0));
+		_pool.send(name, new Packet(Packet.SEVEN, null));
 	}
 	
 
 	public void sendRB(String name) throws IllegalArgumentException, IOException{
-		_pool.send(name, new Packet(Packet.BAD_RB, null, 0));
+		_pool.send(name, new Packet(Packet.BAD_RB, null));
 	}
 	
 	/**
