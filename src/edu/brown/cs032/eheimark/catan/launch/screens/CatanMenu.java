@@ -11,7 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.catanLaunchMenu;
 
 /**
  * The Class CatanMenu is used for generic background panels for the launch menu that can then
@@ -59,6 +59,6 @@ public class CatanMenu extends JPanel {
 	 * Paints background image.
 	 */
 	public void paintComponent(Graphics g) {
-		g.drawImage(GUIConstants.Background.CATAN_LAUNCH_MENU_BACKGROUND, 0, 0, null);
+	g.drawImage(catanLaunchMenu, 0, 0, null);
 	}
 }
