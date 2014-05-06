@@ -458,6 +458,9 @@ public class CatanClient extends Thread{
         } else if (type == Packet.END_START) {
             boolean startUp = (Boolean) packet.getObject();
             _gui.getDP().setStartUp(startUp);
+            if(this.getPlayer().isActive()){
+            	_gui.getActivePlayer().enableRoll();
+            }
 			confirmPacket();
         } else if (type == Packet.END_SEVEN){
         	_gui.getActivePlayer().enableRoll();
