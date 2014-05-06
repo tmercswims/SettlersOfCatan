@@ -48,6 +48,7 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 	private boolean blinkState; // indicates whether or not button should be blinking (button blinks when active)
 	private Timer makeItBlink; // Timer used to make button blink
 	private JLabel ore, wheat, wool, wood, brick; // Resource labels
+	private boolean _enable;
 
 	/**
 	 * Instantiates a new active player.
@@ -67,6 +68,7 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 		gameManagerButton.setFont(MY_FONT_ACTIVEPLAYER);
 		gameManagerButton.setForeground(CATAN_RED);
 		gameManagerButton.addActionListener(new TurnListener());
+		_enable = false;
 
 		JPanel playerResourcesPanel = new JPanel();
 		playerResourcesPanel.setOpaque(false);
@@ -178,11 +180,13 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 	
 	public void enableRoll(){
 		gameManagerButton.setEnabled(true);
+		_enable = true;
 		System.out.println("ENABLED ROLL");
 	}
 	
 	public void disableRoll(){
 		gameManagerButton.setEnabled(false);
+		_enable = false;
 		System.out.println("DISABLED ROLL");
 	}
 
@@ -193,11 +197,11 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 	public void serverUpdate() {
 		Player[] players = this.client.getPlayers();
 
-		if(this.client.getPlayer().isActive() && this.client.getPlayer().getRoadCount()<=13){
+		if(this.client.getPlayer().isActive() && this.client.getPlayer().getRoadCount()<=13 && _enable){
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					gameManagerButton.setEnabled(true);
+					enableRoll();
 					gameManagerButton.requestFocus();
 					makeItBlink.start();
 				}
@@ -207,7 +211,7 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					gameManagerButton.setEnabled(false);
+					disableRoll();
 					makeItBlink.stop();
 					gameManagerButton.setForeground(CATAN_RED);
 				}
