@@ -4,19 +4,15 @@ import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Dimensions.T
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.back;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.brickTileIcon;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.brickToken;
-import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.city;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.forward;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.oreTileIcon;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.oreToken;
-import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.road;
-import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.settlement;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.sheepTileIcon;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.wheatTileIcon;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.wheatToken;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.woodTileIcon;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.woodToken;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.woolToken;
-import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc.robber;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
