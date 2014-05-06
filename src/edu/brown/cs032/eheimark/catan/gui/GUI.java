@@ -3,7 +3,6 @@ package edu.brown.cs032.eheimark.catan.gui;
 import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.wood;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 
