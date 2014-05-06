@@ -46,6 +46,7 @@ public class CatanClient extends Thread{
 	private boolean _isStarting; //the game is actually starting and the client is no longer waiting
 	private GUI _gui; //the gui that displays the game
 	private TradeFrame tradeframe;
+	private final int _joinPort;
 
 	/*
 	 * Locks
@@ -100,6 +101,7 @@ public class CatanClient extends Thread{
 		_out = new ObjectOutputStream(_socket.getOutputStream());
 		_out.flush();
 		_in = new ObjectInputStream(_socket.getInputStream());
+		_joinPort = -1;
 		
 		//locks
 		_isRunningLock = new Integer(-1);
@@ -125,14 +127,7 @@ public class CatanClient extends Thread{
 		_board = new Board(true);
 		_ip = configs.getHostName();
 		_isStarting = false;
-
-		//setting up socket
-		this._socket = new Socket(InetAddress.getByName(_ip).getHostName(), Integer.parseInt(configs.getJoinPort()));
-
-		//setting up readers
-		_out = new ObjectOutputStream(_socket.getOutputStream());
-		_out.flush();
-		_in = new ObjectInputStream(_socket.getInputStream());
+		_joinPort = Integer.parseInt(configs.getJoinPort());
 
 		//setting up locks
 		_rollLock = new Integer(-1);
@@ -222,6 +217,15 @@ public class CatanClient extends Thread{
 	 */
 	private void connect() throws IOException{
 		try {
+
+			//setting up socket
+			this._socket = new Socket(InetAddress.getByName(_ip).getHostName(), _joinPort);
+
+			//setting up readers
+			_out = new ObjectOutputStream(_socket.getOutputStream());
+			_out.flush();
+			_in = new ObjectInputStream(_socket.getInputStream());
+			
 			//receive handshake
 			Packet packet;
 			packet = (Packet) readPacket();
