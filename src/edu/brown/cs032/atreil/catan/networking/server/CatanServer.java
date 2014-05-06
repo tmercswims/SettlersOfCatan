@@ -387,10 +387,11 @@ public class CatanServer extends Thread{
 	/**
 	 * Tells the client who rolled the seven that everyone has dropped
 	 * their resources and that they can end their turn
+     * @param playerName name to send it to
 	 */
-	public void sendEndSeven(){
+	public void sendEndSeven(String playerName){
 		try{
-			_pool.broadcast(new Packet(Packet.END_SEVEN, null));
+			_pool.send(playerName, new Packet(Packet.END_SEVEN, null));
 		} catch(IllegalArgumentException | IOException e){
 			addUpdate(e.getMessage());
 		}
