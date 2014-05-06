@@ -200,12 +200,15 @@ public class CatanClient extends Thread{
 			}
 		} catch (SocketException|EOFException e){
 			//server disconnected
-			new AlertFrame("Server disconnected!", _frame);
+			if(_frame!=null)
+				new AlertFrame("Server disconnected!", _frame);
 		} catch (IOException e) {
-			new AlertFrame(String.format("Error: %s", e.getMessage()), _frame);
+			if(_frame!=null)
+				new AlertFrame(String.format("Error: %s", e.getMessage()), _frame);
 			//not much to do
 		} catch (ClassNotFoundException e) {
-			new AlertFrame(String.format("Error: %s", e.getMessage()), _frame);
+			if(_frame!=null)
+				new AlertFrame(String.format("Error: %s", e.getMessage()), _frame);
 		} finally{
 			kill();
 		}
@@ -804,14 +807,17 @@ public class CatanClient extends Thread{
 				setInLobby(false);
 
 				//synchronized(_in){
+				if(_in!=null)
 					_in.close();
 				//}
 
 				//synchronized(_out){
+				if(_out!=null)
 					_out.close();
 				//}
 
 				//synchronized(_socket){
+				if(_socket!=null)
 					_socket.close();
 				//}
 
