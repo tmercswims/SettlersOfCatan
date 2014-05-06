@@ -8,11 +8,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Background.catanLaunchMenu;
 
 /**
  * The Class CatanMenu is used for generic background panels for the launch menu that can then
@@ -60,6 +59,6 @@ public class CatanMenu extends JPanel {
 	 * Paints background image.
 	 */
 	public void paintComponent(Graphics g) {
-	g.drawImage(new ImageIcon(getClass().getResource("/images/backgrounds/CatanScaled560x560.png")).getImage(), 0, 0, null);
+	g.drawImage(catanLaunchMenu, 0, 0, null);
 	}
 }
