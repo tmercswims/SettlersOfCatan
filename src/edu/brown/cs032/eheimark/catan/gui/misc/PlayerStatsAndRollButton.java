@@ -68,7 +68,7 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 		gameManagerButton.setFont(MY_FONT_ACTIVEPLAYER);
 		gameManagerButton.setForeground(CATAN_RED);
 		gameManagerButton.addActionListener(new TurnListener());
-		_enable = true;
+		_enable = false;
 
 		JPanel playerResourcesPanel = new JPanel();
 		playerResourcesPanel.setOpaque(false);
@@ -201,7 +201,7 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					enableRoll();
+					gameManagerButton.setEnabled(true);
 					gameManagerButton.requestFocus();
 					makeItBlink.start();
 				}
@@ -211,7 +211,7 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					disableRoll();
+					gameManagerButton.setEnabled(false);
 					makeItBlink.stop();
 					gameManagerButton.setForeground(CATAN_RED);
 				}
