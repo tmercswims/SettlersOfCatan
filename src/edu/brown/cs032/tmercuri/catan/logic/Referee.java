@@ -608,7 +608,7 @@ public class Referee {
 
 	private int robberMove(RobberMove move) {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
-        if (_needToDropResources != 0) return 996;
+        //if (_needToDropResources != 0) return 996;
         _moveTheRobber = false;
         if (_needToDropResources == 0 && !_moveTheRobber) _server.sendEndSeven(_activePlayer.getName());
 		Tile newRobber = _board.getTiles()[move.getNewLocation()];
