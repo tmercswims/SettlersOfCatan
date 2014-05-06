@@ -239,36 +239,37 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 							else{
 								_client.addFrame(new RobberFrame(plist, t.getIndex(), _client, _client.getFrame()));
 							}
-							_selectable = -1;
+							_dp.setSelect(-1);
 						}
 						break;
 					case 1:
 						buildtype = 0;
-						_selectable = -1;
+						_dp.setSelect(-1);
 						break;
 					case 2:
 						Node n = (Node) c;
 						if(n.getVP()==0){
 							buildtype = 1;
 						}
-						_selectable = -1;
+						_dp.setSelect(-1);
 						break;
 					case 3:
 						n = (Node) c;
 						if(n.getVP()==1){
 							buildtype = 2;
 						}
-						_selectable = -1;
+						_dp.setSelect(-1);
 						break;
 					case 4:
 						if(_rbcount < 2){
 							buildtype = 4;
 							_rbcount++;
-							setSelect(4);
+                            _dp.setSelect(-1);
+							_dp.setSelect(4);
 						}
 						else{
 							_rbcount = 0;
-							_selectable = -1;
+							_dp.setSelect(-1);
 						}
 						break;
 					}
