@@ -130,7 +130,7 @@ public class DevCard extends JPanel implements ServerUpdate{
 	public void serverUpdate(){
 		_cards = _cc.getPlayer().getDevCards();
 		int[] newCards = _cc.getPlayer().getNewDevCards();
-		if(_cc.getPlayer().isActive()){
+		if(_cc.getPlayer().isActive() && (!_cc.getDCP())){
 			for(int i = 0; i < 5; i++){
 				switch(i){
 				case 0:
