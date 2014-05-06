@@ -409,7 +409,9 @@ public class CatanClient extends Thread{
                     System.out.println("Roll is " + _roll);
                     System.out.println("client setSelect(0)");
                     _gui.getDP().setSelect(0);
-                    _gui.getActivePlayer().disableRoll();
+                    if(this.getPlayer().isActive()){
+                    	_gui.getActivePlayer().disableRoll();
+                    }
                 }
 				/*if(_roll==7 && _p.getResourceCount()>7){
 					new SevenFrame(this);
