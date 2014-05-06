@@ -470,6 +470,7 @@ public class CatanClient extends Thread{
 			confirmPacket();
         } else if (type == Packet.END_SEVEN){
         	_gui.getActivePlayer().enableRoll();
+        	confirmPacket();
         }
 		else{
 			System.out.println(String.format("Unsupported. Got: %s", type));
