@@ -497,7 +497,7 @@ public class Referee {
 			int[] res = move.getResources();
 			if (robbed != null) robbed.removeResources(res);
             _needToDropResources--;
-            if (_needToDropResources == 0) _server.sendEndSeven(_activePlayer.getName());
+            if (_needToDropResources == 0 && !_moveTheRobber) _server.sendEndSeven(_activePlayer.getName());
             _pushPlayers = true;
 			return 510;
 		}
@@ -610,6 +610,7 @@ public class Referee {
 		if (!move.getPlayerName().equals(_activePlayer.getName())) return 999;
         if (_needToDropResources != 0) return 996;
         _moveTheRobber = false;
+        if (_needToDropResources == 0 && !_moveTheRobber) _server.sendEndSeven(_activePlayer.getName());
 		Tile newRobber = _board.getTiles()[move.getNewLocation()];
 		Player victim = null;
 		if (newRobber.hasRobber()) return 501;
