@@ -68,7 +68,7 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 		gameManagerButton.setFont(MY_FONT_ACTIVEPLAYER);
 		gameManagerButton.setForeground(CATAN_RED);
 		gameManagerButton.addActionListener(new TurnListener());
-		_enable = false;
+		_enable = true;
 
 		JPanel playerResourcesPanel = new JPanel();
 		playerResourcesPanel.setOpaque(false);
