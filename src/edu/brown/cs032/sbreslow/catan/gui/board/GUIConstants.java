@@ -152,7 +152,6 @@ public class GUIConstants {
 		public static final ImageIcon back = new ImageIcon("images/misc/back.png");
 		public static final ImageIcon forward = new ImageIcon("images/misc/forward.png");
 		
-		// stuff above is for the tutorial
 
 		public static final ImageIcon arrow = new ImageIcon("images/misc/arrow.png");
 
@@ -182,10 +181,10 @@ public class GUIConstants {
 	}
 
 	public static class Background {
-		public static final Image felt = new ImageIcon("images/backgrounds/felt.png").getImage();
-		public static final ImageIcon feltcon = new ImageIcon("images/backgrounds/felt.png");
-		public static final Image wood = new ImageIcon("images/backgrounds/wood.png").getImage();
-		public static final Image CATAN_LAUNCH_MENU_BACKGROUND =  new ImageIcon("images/backgrounds/CatanScaled560x560.png").getImage();
+		public final Image felt = new ImageIcon(getClass().getResource("/images/backgrounds/felt.png")).getImage();
+		public final ImageIcon feltcon = new ImageIcon(getClass().getResource("/images/backgrounds/felt.png"));
+		public final Image wood = new ImageIcon(getClass().getResource("/images/backgrounds/wood.png")).getImage();
+		public final Image catanLaunchMenu = new ImageIcon(getClass().getResource("/images/backgrounds/CatanScaled560x560.png")).getImage();
 	}
 
 	public static class DevCard {
