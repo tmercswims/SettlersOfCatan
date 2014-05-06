@@ -25,6 +25,7 @@ import edu.brown.cs032.eheimark.catan.launch.screens.JoinLoadingMenu;
 import edu.brown.cs032.sbreslow.catan.gui.board.Board;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.SevenFrame;
 import edu.brown.cs032.tmercuri.catan.logic.Player;
+import edu.brown.cs032.tmercuri.catan.logic.move.DevCardMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
 import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
@@ -78,7 +79,7 @@ public class CatanClient extends Thread{
 	
 	private ArrayList<Window> _frameList = new ArrayList<Window>();
 
-
+	private boolean _dcp;
 	
 
 	/**
@@ -148,7 +149,7 @@ public class CatanClient extends Thread{
 		
 		_x = 600/23;
 		_y = 600/14;
-		
+		_dcp = false;
 		//connect();
 	}
 
@@ -396,7 +397,9 @@ public class CatanClient extends Thread{
 				_gui.updatePlayers();
 			}
 			
-			
+			if(!this.getPlayer().isActive()){
+				_dcp = false;
+			}
 			//TODO: make sure _gui finishes
 		} else if(type == Packet.ROLL){
 			//TODO: notify of roll
@@ -512,6 +515,10 @@ public class CatanClient extends Thread{
 			synchronized(_startTurnLock){
 //				_startTurn = false;
 			}
+		}
+		
+		if(move instanceof DevCardMove){
+			_dcp = true;
 		}
 
 		synchronized(_out){
@@ -817,5 +824,9 @@ public class CatanClient extends Thread{
 	
 	public void rmFrame(Window frame) {
 		_frameList.remove(frame);
+	}
+
+	public boolean getDCP() {
+		return _dcp;
 	}
 }
