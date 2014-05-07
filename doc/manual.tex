@@ -3,6 +3,7 @@
 \usepackage[letterpaper,margin=1in]{geometry}
 \usepackage{wrapfig}
 \usepackage{graphicx}
+\usepackage[labelformat=empty]{caption}
 
 \setlength{\parindent}{0.0in}
 \setlength{\parskip}{0.15in}
@@ -17,12 +18,8 @@
 
 \title{\textbf{The Settlers of Catan}}
 \author{Alexander Treil (atreil) Eric Heimark (eheimark)\\Samuel Breslow (sbreslow) Thomas Mercurio (tmercuri)}
-\date{CSCI0320, Spring 2014}
+\date{CSCI0320: Introduction to Software Engineering\\Spring 2014}
 \maketitle
-
-\begin{abstract}
-This document gives an overview of how to play our implementation of the loved board game \emph{The Settlers of Catan}, as well as specific rules for how the game is played, in any context.
-\end{abstract}
 
 \pagenumbering{roman}
 \tableofcontents
@@ -62,6 +59,15 @@ This section describes all the various components of the in-game interface.
 	As many of these windows as you would like may be open at any given time, and they will also not interfere with the game.
 	
 	\subsection{The Board}
+	\begin{wrapfigure}{r}{.5\textwidth}
+		\vspace{-70pt}
+		\begin{center}
+			\includegraphics[width=.48\textwidth]{Board.png}
+		\end{center}
+		\vspace{-10pt}
+		\caption{The board, empty at the start of a new game.}
+		\vspace{-70pt}
+	\end{wrapfigure}
 	The board takes up the majority of the game window. It is made up of terrain hexes, which together form the island of Catan. It will always display an up-to-date version with settlements, cities, and roads from all players, as well as the location of ports and the robber.
 	
 	\subsection{Your Resources}
@@ -149,8 +155,14 @@ This section describes how the game is played.
 		At the start of each turn, the player whose turn it is first rolls the die by clicking the \textbf{Roll Die} button. When the button is clicked, resources are distributed to all players who have a settlement or city on the corner of a terrain hex that has the same number as the roll. Settlements are worth one resource, and cities are worth two.
 		
 		Now the active player may take any of the following actions, in any order, and as many times as resources and other players allow.
-		
+		\newpage
 		\subsubsection{Trading}
+		\begin{figure}[h]
+			\begin{center}
+				\includegraphics[width=\textwidth]{Trade.png}
+			\end{center}
+			\caption{The trade receipt dialog.}
+		\end{figure}
 			\paragraph{With Another Player}
 			To trade with another player, you may go to the \textbf{Trade} tab at the bottom of the screen and select the name of the player that you wish to trade with. Then you may drag and drop resources from the middle to the \textbf{Get} and \textbf{Give} sections. You may not give what you do not have.
 		
@@ -203,11 +215,29 @@ This section describes how the game is played.
 			The player who has played the most Knight cards, with a minimum of three, receives two victory points for \textbf{Largest Army}.
 			
 			\paragraph{Monopoly}
+			\begin{wrapfigure}{r}{.5\textwidth}
+				\vspace{-50pt}
+				\begin{center}
+					\includegraphics[width=.48\textwidth]{Mono.png}
+				\end{center}
+				\vspace{-20pt}
+				\caption{The Monopoly card dialog.}
+				\vspace{-50pt}
+			\end{wrapfigure}
 			A Monopoly card allows you take all of one type of resource from every other player for yourself.
 			
 			When a Monopoly card is played, you are presented with a dialog that allows you to choose a type of resource. After choosing, you will be given every resource of that type that the other players had.
 			
 			\paragraph{Year of Plenty}
+			\begin{wrapfigure}{r}{.5\textwidth}
+				\vspace{-30pt}
+				\begin{center}
+					\includegraphics[width=.48\textwidth]{YoP.png}
+				\end{center}
+				\vspace{-20pt}
+				\caption{The Year of Plenty card dialog.}
+				\vspace{-25pt}
+			\end{wrapfigure}
 			A Year of Plenty card allows you to take any two resources of your choice.
 			
 			When a Year of Plenty card is played, you are presented with a dialog that allows you to choose two types of resources. After choosing, you will be given those resources. You may choose two of the same type.
