@@ -255,6 +255,7 @@ public class ChatPanel extends JPanel {
 				_chatBoxField.setText("");
 				_history.addFirst(message);
 				_unsentContents = "";
+                _position = -1;
 				if(_client.getPlayer().getColor().equals(red)){
 					println("red "+message);
 				}
