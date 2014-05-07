@@ -136,8 +136,8 @@ public class YoPFrame extends JFrame implements ActionListener {
             }
             try {
                 _cc.sendMove(new YearOfPlentyMove(_cc.getPlayerName(), tdex, bdex));
-            } catch (IllegalArgumentException | IOException e1) {
-                e1.printStackTrace();
+            } catch (IllegalArgumentException | IOException ex) {
+                System.err.println(String.format("ERROR: %s", ex.getMessage()));
             }
             setVisible(false);
             dispose();

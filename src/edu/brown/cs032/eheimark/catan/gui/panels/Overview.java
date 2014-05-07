@@ -89,14 +89,14 @@ public class Overview extends JPanel implements ServerUpdate {
 	 * The Class MyRenderer is a custom renderer for the overview panel table.
 	 */
 	class MyRenderer implements TableCellRenderer {
-		private HashMap<Integer, Color> rowColors;
+		private final HashMap<Integer, Color> rowColors;
 		private int activePlayerRow = 0;
 
 		/**
 		 * Instantiates a new my renderer.
 		 */
 		public MyRenderer() {
-			rowColors = new HashMap<Integer, Color>();
+			rowColors = new HashMap<>();
 		}
 
 		/**
@@ -115,6 +115,7 @@ public class Overview extends JPanel implements ServerUpdate {
 		 *@param is selected boolean
 		 *@return custom rendered component
 		 */
+        @Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 				boolean hasFocus, int row, int column) {
 			if(column > 0) {
@@ -161,7 +162,7 @@ public class Overview extends JPanel implements ServerUpdate {
 		private static final long serialVersionUID = 1L;
 
 		/** The column names. */
-		private String[] columnNames = {"",
+		private final String[] columnNames = {"",
 				"Name",
 				"Victory Points",
 				"Resource Cards",
@@ -192,6 +193,7 @@ public class Overview extends JPanel implements ServerUpdate {
 		/**
 		 * Returns column count.
 		 */
+        @Override
 		public int getColumnCount() {
 			return columnNames.length;
 		}
@@ -199,6 +201,7 @@ public class Overview extends JPanel implements ServerUpdate {
 		/**
 		 * Returns column count
 		 */
+        @Override
 		public int getRowCount() {
 			return data.length;
 		}
@@ -207,6 +210,7 @@ public class Overview extends JPanel implements ServerUpdate {
 		 * Returns column name
 		 * @return the String
 		 */
+        @Override
 		public String getColumnName(int col) {
 			return columnNames[col];
 		}
@@ -214,6 +218,7 @@ public class Overview extends JPanel implements ServerUpdate {
 		/**
 		 * Returns object
 		 */
+        @Override
 		public Object getValueAt(int row, int col) {
 			return data[row][col];
 		}

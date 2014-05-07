@@ -123,6 +123,7 @@ public class CatanServer extends Thread{
 	 * Starts the server by accepting connections, and then actually launching the game
 	 * once all players have connected
 	 */
+    @Override
 	public void run(){
 		
 		//accept connections
@@ -179,14 +180,10 @@ public class CatanServer extends Thread{
 				//simply checking how many connections there are
 				try {
 					sendConnected();
-				} catch (IllegalArgumentException e1) {
-					addUpdate(String.format("Error: %s", e1.getMessage()));
-				} catch (IOException e1) {
+				} catch (IllegalArgumentException | IOException e1) {
 					addUpdate(String.format("Error: %s", e1.getMessage()));
 				}
-			} catch (IOException e) {
-				addUpdate(String.format("Error: %s", e.getMessage()));
-			} catch(IllegalArgumentException e){
+			} catch (IOException | IllegalArgumentException e) {
 				addUpdate(String.format("Error: %s", e.getMessage()));
 			}
 		}
@@ -334,7 +331,6 @@ public class CatanServer extends Thread{
 	 * Sends a message to the specified client
 	 * @param playerName The client to send the error to
 	 * @param message The message to send
-	 * @throws IOException 
 	 * @throws IllegalArgumentException 
 	 */
 	public void sendMessage(String playerName, String message){
@@ -357,9 +353,7 @@ public class CatanServer extends Thread{
 	public void sendTrade(String playerName, TradeMove trade){
 		try{
 			_pool.send(playerName, new Packet(Packet.TRADE, trade));
-		} catch(IOException e){
-			addUpdate(e.getMessage());
-		} catch(IllegalArgumentException e){
+		} catch(IOException | IllegalArgumentException e){
 			addUpdate(e.getMessage());
 		}
 	}

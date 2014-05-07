@@ -1,6 +1,5 @@
 package edu.brown.cs032.sbreslow.catan.gui.devCards;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -93,8 +92,8 @@ public class MonoFrame extends JFrame implements ActionListener {
         }
         try {
             _cc.sendMove(new MonopolyMove(_cc.getPlayerName(), index));
-        } catch (IllegalArgumentException | IOException e1) {
-            e1.printStackTrace();
+        } catch (IllegalArgumentException | IOException ex) {
+            System.err.println(String.format("ERROR: %s", ex.getMessage()));
         }
         setVisible(false);
         dispose();

@@ -31,7 +31,7 @@ public class JoinSettingsMenu extends CatanMenu {
 
 	/**
 	 * Instantiates a new join settings menu.
-	 * @param soc reference to Settlers Of Catan class instance (which contains launch configurations etc)
+	 * @param socIn reference to Settlers Of Catan class instance (which contains launch configurations etc)
 	 */
 	public JoinSettingsMenu(SettlersOfCatan socIn) {
 		super();
@@ -66,8 +66,8 @@ public class JoinSettingsMenu extends CatanMenu {
 					String hn = hostnameTF.getText();
 					soc.getLaunchConfiguration().setHostname(hn);
 				}
-				catch(NumberFormatException e1) {
-					e1.printStackTrace();
+				catch(NumberFormatException ex) {
+					System.err.println(String.format("ERROR: %s", ex.getMessage()));
 				}
 			}
 		});

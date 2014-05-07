@@ -17,7 +17,7 @@ import javax.swing.JRadioButton;
  */
 public class CatanJRadioButton extends JRadioButton {
 	private static final long serialVersionUID = -53379452102351836L;
-	private Font f;
+	private final Font f;
 	private final String text;
 	/**
 	 * Instantiates a new catan j radio button.

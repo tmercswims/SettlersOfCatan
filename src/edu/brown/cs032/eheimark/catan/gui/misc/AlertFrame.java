@@ -29,7 +29,7 @@ public class AlertFrame extends JDialog implements ActionListener {
 	private final GUIFrame _gui;
 	private final JButton _mainMenuButton;
 	private final JLabel _myMessageLabel;
-	private GridBagConstraints _gbc; // constraints
+	private final GridBagConstraints _gbc; // constraints
 
 	/**
 	 * Instantiates a new alert frame.
@@ -70,6 +70,7 @@ public class AlertFrame extends JDialog implements ActionListener {
 
 	/**
 	 * Alert menu action listener pops up new main menu.
+     * @param e
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {

@@ -44,7 +44,8 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 	private int _rbcount;
 
 	private int _x, _y;
-	private JButton _musicButton, _questionButton;
+	private final JButton _musicButton;
+    private JButton _questionButton;
 	private BoardComponent _lastHovered;
 	private int _lastHoveredPreviousGhostLevel;
 	private Color _lastHoveredPreviousLookerColor;
@@ -232,8 +233,8 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 								RobberMove rm = new RobberMove(_client.getPlayer().getName(), t.getIndex(), null);
 								try {
 									_client.sendMove(rm);
-								} catch (IllegalArgumentException | IOException e1) {
-									e1.printStackTrace();
+								} catch (IllegalArgumentException | IOException ex) {
+									System.err.println(String.format("ERROR: %s", ex.getMessage()));
 								}
 							}
 							else{
@@ -280,10 +281,8 @@ public class DrawingPanel extends JPanel implements ServerUpdate {// implements 
 						BuildMove bm = new BuildMove(_client.getPlayer().getName(), buildtype, c.getIndex());
 						try {
 							_client.sendMove(bm);
-						} catch (IllegalArgumentException e1) {
-							e1.printStackTrace();
-						} catch (IOException e1) {
-							e1.printStackTrace();
+						} catch (IllegalArgumentException | IOException ex) {
+							System.err.println(String.format("ERROR: %s", ex.getMessage()));
 						}
 					}
 					_dp.repaint();

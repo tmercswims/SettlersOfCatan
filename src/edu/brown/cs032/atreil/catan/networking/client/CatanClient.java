@@ -77,7 +77,7 @@ public class CatanClient extends Thread{
 	private int _x;
 	private int _y;
 	
-	private ArrayList<Window> _frameList = new ArrayList<Window>();
+	private final ArrayList<Window> _frameList = new ArrayList<>();
 
 	private boolean _dcp;
 	
@@ -168,6 +168,7 @@ public class CatanClient extends Thread{
 	/**
 	 * Starts listening to the server once the game has started
 	 */
+    @Override
 	public void run(){
 		try {
 
@@ -348,9 +349,8 @@ public class CatanClient extends Thread{
 					synchronized(_guiLock){
 						try {
 							_guiLock.wait();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						} catch (InterruptedException ex) {
+							System.err.println(String.format("ERROR: %s", ex.getMessage()));
 						}
 					}
 				}
@@ -388,9 +388,8 @@ public class CatanClient extends Thread{
 					synchronized(_guiLock){
 						try {
 							_guiLock.wait();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						} catch (InterruptedException ex) {
+							System.err.println(String.format("ERROR: %s", ex.getMessage()));
 						}
 					}
 				}
@@ -809,9 +808,8 @@ public class CatanClient extends Thread{
 				synchronized(_servicingLock){
 					_servicing = false;
 				}
-			} catch(IOException e){
-				//not much to do
-				e.printStackTrace();
+			} catch(IOException ex){
+				System.err.println(String.format("ERROR: %s", ex.getMessage()));
 			}
 		}
 	}

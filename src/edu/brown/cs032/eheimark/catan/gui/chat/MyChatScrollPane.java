@@ -26,8 +26,8 @@ import javax.swing.text.ViewFactory;
  * The Class MyChatScrollPane is used for the Server Chat Log and Player Chat Box Log.
  */
 public class MyChatScrollPane {
-	private JTextPane _myTextPane; // Text pane
-	private JScrollPane _scroll; // Scroll pane that contains text pane
+	private final JTextPane _myTextPane; // Text pane
+	private final JScrollPane _scroll; // Scroll pane that contains text pane
 
 	// Attributes based on color
 	SimpleAttributeSet _red;
@@ -164,7 +164,7 @@ public class MyChatScrollPane {
 					StyleConstants.setItalic(attr, false);
 					_myTextPane.setCaretPosition(_myTextPane.getDocument().getLength());
 				} catch (BadLocationException ex) {
-					ex.printStackTrace();
+					System.err.println(String.format("ERROR: %s", ex.getMessage()));
 				}
 			}
 		});

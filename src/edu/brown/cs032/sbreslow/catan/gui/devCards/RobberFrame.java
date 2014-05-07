@@ -24,11 +24,11 @@ import javax.swing.JPanel;
 
 public class RobberFrame extends JFrame {
 	private static final long serialVersionUID = -3800628433551142475L;
-	private List<Player> _players;
-	private List<JButton> _buttons;
-	private Player _cur;
-	private int _index;
-	private CatanClient _cc;
+	private final List<Player> _players;
+	private final List<JButton> _buttons;
+	private final Player _cur;
+	private final int _index;
+	private final CatanClient _cc;
 	
 	public RobberFrame(List<Player> plist, int index, CatanClient cc, GUIFrame frame) {
 		//super(frame, "Robber", true);
@@ -37,7 +37,7 @@ public class RobberFrame extends JFrame {
 		_index = index;
 		_cur = cc.getPlayer();
 		_players = plist;
-		_buttons = new ArrayList<JButton>();
+		_buttons = new ArrayList<>();
 		JPanel list = new BackgroundPanel();
 		Dimension size = new Dimension(365,50*(plist.size()+1));
 		list.setPreferredSize(size);
@@ -92,8 +92,8 @@ public class RobberFrame extends JFrame {
 				_cc.sendMove(rm);
 				_frame.setVisible(false);
 				_frame.dispose();
-			} catch (IllegalArgumentException | IOException e1) {
-				e1.printStackTrace();
+			} catch (IllegalArgumentException | IOException ex) {
+				System.err.println(String.format("ERROR: %s", ex.getMessage()));
 			}
 		}
 		

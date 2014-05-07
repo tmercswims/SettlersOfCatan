@@ -41,13 +41,13 @@ import edu.brown.cs032.tmercuri.catan.logic.move.LastMove;
  */
 public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 	private static final long serialVersionUID = -9089787737608391491L;
-	private JLabel mystats;
-	private CatanClient client;
+	private final JLabel mystats;
+	private final CatanClient client;
 	private final JButton gameManagerButton; // manages a turn, allowing user to either roll die or end turn
 	private boolean rollDieModeOrEndTurnMode; // indicates whether in roll die mode or end turn mode
 	private boolean blinkState; // indicates whether or not button should be blinking (button blinks when active)
-	private Timer makeItBlink; // Timer used to make button blink
-	private JLabel ore, wheat, wool, wood, brick; // Resource labels
+	private final Timer makeItBlink; // Timer used to make button blink
+	private final JLabel ore, wheat, wool, wood, brick; // Resource labels
 	private boolean _enable;
 
 	/**
@@ -261,8 +261,8 @@ public class PlayerStatsAndRollButton extends JPanel implements ServerUpdate {
 								gameManagerButton.setText("Roll die");
 								rollDieModeOrEndTurnMode = true;
 							}
-						} catch (IllegalArgumentException | IOException e) {
-							e.printStackTrace();
+						} catch (IllegalArgumentException | IOException ex) {
+							System.err.println(String.format("ERROR: %s", ex.getMessage()));
 						}
 					}
 				});

@@ -44,7 +44,7 @@ public class Tile extends BoardComponent{
 	Polygon _p;
 	private Point _indexPoint;
 	private List<Tile> _bors = new ArrayList<>();
-	private boolean _small;
+	private final boolean _small;
 
 	public Tile(int resource, int num, List<Node> nodes){
 		_resource = resource;
@@ -163,7 +163,7 @@ public class Tile extends BoardComponent{
             background = oceanTile;
 		}
 		brush.setStroke(new BasicStroke());
-		if(_small){
+		if(_small && background != null){
 			background = background.getScaledInstance((int)_p.getBounds().getWidth()-10,
 					(int)_p.getBounds().getHeight()-10,Image.SCALE_FAST);
 		}

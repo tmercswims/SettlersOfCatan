@@ -139,7 +139,6 @@ public class Packet implements Serializable {
 	 * Constructs a new packet that will store an object of the specified type
 	 * @param type The type of the object being sent. Use the static integers defined in the
 	 * Packet class.
-	 * @param type The type of the object.
 	 * @param o The object itself. If the Object and the type do not match, then an IllegalArgumentException is thrown
 	 * @throws IllegalArgumentException If the Object and integer type do not match or are invalid.
 	 */
@@ -158,7 +157,6 @@ public class Packet implements Serializable {
 	 * Constructs a new packet that will store an object of the specified type
 	 * @param type The type of the object being sent. Use the static integers defined in the
 	 * Packet class.
-	 * @param type The type of the object.
 	 * @param o The object itself. If the Object and the type do not match, then an IllegalArgumentException is thrown
 	 * @param uid unique identifier
 	 * @throws IllegalArgumentException If the Object and integer type do not match or are invalid.

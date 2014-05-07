@@ -24,10 +24,10 @@ public class GUIFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private OggClip _music;
-	private GUI _gui;
+	private final GUI _gui;
 	private int _x;
 	private int _y;
-	private CatanClient _cc;
+	private final CatanClient _cc;
 
 	/**
 	 * Instantiates a new GUI frame.
@@ -55,8 +55,8 @@ public class GUIFrame extends JFrame {
 	}
 
 	private class SizeList implements ComponentListener{
-		private CatanClient _cc;
-		private JFrame _frame;
+		private final CatanClient _cc;
+		private final JFrame _frame;
 
 		public SizeList(CatanClient cc, JFrame frame) {
 			_cc = cc;
@@ -107,7 +107,7 @@ public class GUIFrame extends JFrame {
 			_music = new OggClip("music/ingame.ogg");
 			_music.loop();
 		} catch (IOException ex) {
-			ex.printStackTrace();
+            System.err.println(String.format("ERROR: %s", ex.getMessage()));
 		}
 	}
 

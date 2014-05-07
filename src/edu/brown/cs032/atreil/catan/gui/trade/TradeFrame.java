@@ -29,8 +29,8 @@ public class TradeFrame extends JFrame {
 	private TradeFloor _afterTrade; //displays what the result of the trade will be
 	private TradeFloor _get; //displays what the user is getting
 	
-	private TradeMove _trade; //contains information about the trade
-	private CatanClient _client;
+	private final TradeMove _trade; //contains information about the trade
+	private final CatanClient _client;
 	/**
 	 * 
 	 */

@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
  */
 public class CatanScrollPane extends JScrollPane {
 	private static final long serialVersionUID = -2301306725421906640L;
-	private JTextArea textArea;
+	private final JTextArea textArea;
 
 	/**
 	 * Instantiates a new catan scrollable text area.

@@ -29,7 +29,7 @@ public class HostLoadingMenu extends CatanMenu {
 
 	/**
 	 * Instantiates a new host loading menu.
-	 * @param soc reference to Settlers Of Catan class instance (which contains launch configurations etc)
+	 * @param socIn reference to Settlers Of Catan class instance (which contains launch configurations etc)
 	 */
 	public HostLoadingMenu(SettlersOfCatan socIn) {
 		super();

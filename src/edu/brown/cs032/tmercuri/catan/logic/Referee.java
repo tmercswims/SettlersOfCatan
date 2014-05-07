@@ -406,7 +406,7 @@ public class Referee {
                     try {
                         _server.sendRB(move.getPlayerName());
                     } catch (IllegalArgumentException | IOException ex) {
-                        ex.printStackTrace();
+                        System.err.println(String.format("ERROR: %s", ex.getMessage()));
                     }
                     return 601;
                 }
@@ -422,7 +422,7 @@ public class Referee {
                     try {
                         _server.sendRB(move.getPlayerName());
                     } catch (IllegalArgumentException | IOException ex) {
-                        ex.printStackTrace();
+                        System.err.println(String.format("ERROR: %s", ex.getMessage()));
                     }
                     return 601;
                 }
@@ -759,7 +759,7 @@ public class Referee {
 						_server.sendMessage(p.getName(), "The robber has attacked! Please drop half your resources.");
 						_server.sendSeven(p.getName());
 					} catch (IllegalArgumentException | IOException ex) {
-						ex.printStackTrace();
+						System.err.println(String.format("ERROR: %s", ex.getMessage()));
 					}
 				}
 			}

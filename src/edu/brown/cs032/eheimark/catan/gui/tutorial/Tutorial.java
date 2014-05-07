@@ -45,10 +45,11 @@ public class Tutorial extends JFrame{
 	public Tutorial() {
 		super("Tutorial");
 		_myTutorialPanel = new JPanel();
-		_pages = new ArrayList<TutorialPage>();
+		_pages = new ArrayList<>();
 
 		backButton = new JButton(); // flip tutorial page left
 		backButton.addActionListener(new ActionListener() {
+            @Override
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
@@ -62,6 +63,7 @@ public class Tutorial extends JFrame{
 
 		forwardButton = new JButton(); // flip tutorial page right
 		forwardButton.addActionListener(new ActionListener() {
+            @Override
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
@@ -100,7 +102,7 @@ public class Tutorial extends JFrame{
 	 *
 	 * @return the tutorial page
 	 */
-	public TutorialPage findNext() {
+	private TutorialPage findNext() {
 		_idx = (_idx + 1) % _pages.size();
 		return _pages.get(_idx);
 	}
@@ -120,7 +122,7 @@ public class Tutorial extends JFrame{
 	 *
 	 * @param page the new page to insert
 	 */
-	public void swapPage(TutorialPage page) {
+	private void swapPage(TutorialPage page) {
 		remove(_myTutorialPanel);
 		_myTutorialPanel = new JPanel(new BorderLayout());
 		_myTutorialPanel.add(backButton, BorderLayout.WEST);
@@ -138,7 +140,7 @@ public class Tutorial extends JFrame{
 	/**
 	 * Adds all of the pages to the tutorial.
 	 */
-	public void addPages() {
+	private void addPages() {
 		_pages.add(new TutorialPage("***SETTLERS TUTORIAL***\n\nClick to continue."));
 		_pages.add(new TutorialPage("In the game Settlers of Catan, there are five types of resources..."));
 		_pages.add(new TutorialPage("Brick", brickToken));

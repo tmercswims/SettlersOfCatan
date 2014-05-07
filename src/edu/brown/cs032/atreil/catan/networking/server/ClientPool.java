@@ -22,7 +22,7 @@ import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 public class ClientPool {
 
 	private final Map<String, ClientManager> _clients; //keeps track of clients
-	private CatanServer _server; //use to pass moves
+	private final CatanServer _server; //use to pass moves
 	public final int _maxSize; //max number of clients that may be added
 	@SuppressWarnings("unused")
 	private Board board;
@@ -30,6 +30,7 @@ public class ClientPool {
 	/**
 	 * Initializes a new ClientPool with a given CatanServer.
 	 * @param server The server to give moves to
+     * @param maxSize
 	 */
 	public ClientPool(CatanServer server, int maxSize){
 		_clients = Collections.synchronizedMap(new HashMap<String, ClientManager>());
@@ -42,7 +43,7 @@ public class ClientPool {
 	 * @return list of players connected
 	 */
 	public List<Player> getPlayerList(){
-		ArrayList<Player> players = new ArrayList<Player>();
+		ArrayList<Player> players = new ArrayList<>();
 		
 		for(ClientManager client : Collections.synchronizedCollection(_clients.values())){
 			players.add(client.getPlayer());
@@ -102,7 +103,7 @@ public class ClientPool {
 		
 		//check if the key is in the table
 		if(!_clients.containsKey(name))
-			throw new IllegalArgumentException(String.format("Key not found: %d", name));
+			throw new IllegalArgumentException(String.format("Key not found: %s", name));
 		
 		ClientManager mngr = _clients.get(name);
 		

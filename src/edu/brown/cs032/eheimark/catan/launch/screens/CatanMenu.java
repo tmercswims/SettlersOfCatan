@@ -46,7 +46,7 @@ public class CatanMenu extends JPanel {
 	 * Set top border for the buttonsPanel. Used when there are so many
 	 * buttons that you cannot use the default CatanMenu border of 200.
 	 * 
-	 * @param Border
+	 * @param b
 	 */
 	public void setButtonsPanelBorder(Border b) {
 		buttonsPanel.setBorder(b);
@@ -55,6 +55,7 @@ public class CatanMenu extends JPanel {
 	/**
 	 * Paints background image.
 	 */
+    @Override
 	public void paintComponent(Graphics g) {
 	g.drawImage(catanLaunchMenu, 0, 0, null);
 	}

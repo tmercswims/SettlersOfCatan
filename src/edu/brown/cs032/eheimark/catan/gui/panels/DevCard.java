@@ -174,8 +174,8 @@ public class DevCard extends JPanel implements ServerUpdate{
 		public void actionPerformed(ActionEvent e) {
 			try {
 				_cc.sendMove(new DevCardMove(_cc.getPlayerName(), 0));
-			} catch (IllegalArgumentException | IOException e1) {
-				e1.printStackTrace();
+			} catch (IllegalArgumentException | IOException ex) {
+				System.err.println(String.format("ERROR: %s", ex.getMessage()));
 			}
 			_dp.setSelect(0);
 		}
@@ -194,8 +194,8 @@ public class DevCard extends JPanel implements ServerUpdate{
 			try {
 				_cc.sendMove(new DevCardMove(_cc.getPlayerName(), 4));
 				_cc.sendMove(new VictoryPointMove(_cc.getPlayerName()));
-			} catch (IllegalArgumentException | IOException e1) {
-				e1.printStackTrace();
+			} catch (IllegalArgumentException | IOException ex) {
+				System.err.println(String.format("ERROR: %s", ex.getMessage()));
 			}
 		}
 	}
@@ -212,8 +212,8 @@ public class DevCard extends JPanel implements ServerUpdate{
 		public void actionPerformed(ActionEvent e) {
 			try {
 				_cc.sendMove(new DevCardMove(_cc.getPlayerName(), 1));
-			} catch (IllegalArgumentException | IOException e1) {
-				e1.printStackTrace();
+			} catch (IllegalArgumentException | IOException ex) {
+				System.err.println(String.format("ERROR: %s", ex.getMessage()));
 			}
 			_dp.setSelect(4);
 		}
@@ -231,8 +231,8 @@ public class DevCard extends JPanel implements ServerUpdate{
 		public void actionPerformed(ActionEvent e) {
 			try {
 				_cc.sendMove(new DevCardMove(_cc.getPlayerName(), 2));
-			} catch (IllegalArgumentException | IOException e1) {
-				e1.printStackTrace();
+			} catch (IllegalArgumentException | IOException ex) {
+				System.err.println(String.format("ERROR: %s", ex.getMessage()));
 			}
 			_cc.addFrame(new YoPFrame(_cc, _cc.getFrame()));
 		}
@@ -246,9 +246,9 @@ public class DevCard extends JPanel implements ServerUpdate{
 		public void actionPerformed(ActionEvent e) {
 			try {
 				_cc.sendMove(new DevCardMove(_cc.getPlayerName(), 3));
-			} catch (IllegalArgumentException | IOException e1) {
+			} catch (IllegalArgumentException | IOException ex) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				System.err.println(String.format("ERROR: %s", ex.getMessage()));
 			}
 			_cc.addFrame(new MonoFrame(_cc, _cc.getFrame()));
 		}

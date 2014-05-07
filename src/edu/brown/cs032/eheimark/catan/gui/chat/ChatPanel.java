@@ -201,7 +201,7 @@ public class ChatPanel extends JPanel {
 		try {
 			_client.sendMessage(message);
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			System.err.println(String.format("ERROR: %s", ex.getMessage()));
 		}
 	}
 

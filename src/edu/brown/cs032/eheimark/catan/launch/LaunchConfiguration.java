@@ -90,7 +90,7 @@ public class LaunchConfiguration {
 	/**
 	 * Sets the four player game.
 	 *
-	 * @param fourPlayerGame the new four player game
+	 * @param fourPlayerGameIn the new four player game
 	 */
 	public void setFourPlayerGame(boolean fourPlayerGameIn) {
 		fourPlayerGame = fourPlayerGameIn;

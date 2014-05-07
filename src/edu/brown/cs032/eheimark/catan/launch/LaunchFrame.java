@@ -45,7 +45,7 @@ public class LaunchFrame extends JFrame {
 			_music.setGain(.75f);
 			_music.loop();
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			System.err.println(String.format("ERROR: %s", ex.getMessage()));
 		}
 	}
 

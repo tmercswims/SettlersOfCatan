@@ -20,7 +20,7 @@ public class MainMenu extends CatanMenu {
 
 	/**
 	 * Instantiates a new main menu.
-	 * @param soc reference to Settlers Of Catan class instance, which is the launch menu
+	 * @param socIn reference to Settlers Of Catan class instance, which is the launch menu
 	 */
 	public MainMenu(SettlersOfCatan socIn) {
 		super();

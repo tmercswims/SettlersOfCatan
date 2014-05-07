@@ -119,7 +119,7 @@ public class Board implements Serializable {
 			_nodes[i] = new Node(x,y);
 		}
 		
-		int i = 0;
+		int i;
 		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/data/tiletonode.tsv")))) {
 			raf.readLine();
 			for(i = 0; i <= 36; i++){
@@ -143,8 +143,8 @@ public class Board implements Serializable {
 				_tiles[i].setNodes(list);
 				_tiles[i].setIndex(i);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			System.err.println(String.format("ERROR: %s", ex.getMessage()));
 		}
 		
 		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/data/tiletonode.tsv")))) {
@@ -162,8 +162,8 @@ public class Board implements Serializable {
 				}
 				_tiles[i].setBors(tlist);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			System.err.println(String.format("ERROR: %s", ex.getMessage()));
 		}
 		layoutNums();
 		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/data/edgetonode.tsv")))) {
@@ -197,8 +197,8 @@ public class Board implements Serializable {
 					_edges[i].setPort(0);
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			System.err.println(String.format("ERROR: %s", ex.getMessage()));
 		}
 		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/data/nodetoall.tsv")))){
 			raf.readLine();
@@ -214,11 +214,11 @@ public class Board implements Serializable {
 				for(int j = 0; j < edgedices.length; j++){
 					edgedices[j] = Integer.parseInt(edges[j]);
 				}
-				List<Tile> tlist = new ArrayList<Tile>();
+				List<Tile> tlist = new ArrayList<>();
 				for(int index: tiledices){
 					tlist.add(_tiles[index]);
 				}
-				List<Edge> elist = new ArrayList<Edge>();
+				List<Edge> elist = new ArrayList<>();
 				for(int index: edgedices){
 					elist.add(_edges[index]);
 				}
@@ -226,8 +226,8 @@ public class Board implements Serializable {
 				_nodes[i].setEdges(elist);
 				_nodes[i].setIndex(i);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			System.err.println(String.format("ERROR: %s", ex.getMessage()));
 		}
 	}
 	
@@ -324,8 +324,8 @@ public class Board implements Serializable {
 				}
 				_tiles[i].setPoly(list);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			System.err.println(String.format("ERROR: %s", ex.getMessage()));
 		}
 		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/data/edgetonode.tsv")))) {
 			raf.readLine();
@@ -339,8 +339,8 @@ public class Board implements Serializable {
 				Node[] tmp = {_nodes[ndices[0]],_nodes[ndices[1]]};
 				_edges[i].setNodes(tmp);// = new Edge(tmp,i);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ex) {
+			System.err.println(String.format("ERROR: %s", ex.getMessage()));
 		}
 	}
 

@@ -23,20 +23,20 @@ import edu.brown.cs032.tmercuri.catan.logic.move.Move;
 public class ClientManager extends Thread {
 
 	private Player _p; //the player class associated with the client
-	private Socket _client; //the socket to listen and communicate with
-	private ObjectInputStream _in; //read messages from client
-	private ObjectOutputStream _out; //sends data to client
-	private ClientPool _pool; //contains the other clients
+	private final Socket _client; //the socket to listen and communicate with
+	private final ObjectInputStream _in; //read messages from client
+	private final ObjectOutputStream _out; //sends data to client
+	private final ClientPool _pool; //contains the other clients
 	private boolean _running; 
-	private int _chatPort; //port of the chat server
-	private int _numPlayers; //number of players that will be connected
-	private List<String> _reservedNames = new ArrayList<>(Arrays.asList("merchant"));
+	private final int _chatPort; //port of the chat server
+	private final int _numPlayers; //number of players that will be connected
+	private final List<String> _reservedNames = new ArrayList<>(Arrays.asList("merchant"));
 	
 	/**
 	 * This constructor initializes a new client from which the server can listen to
 	 * and communicate with. This won't connect to the client until start() is called.
+     * @param pool The player to associate this client with
 	 * @param client The socket to send and receive messages from
-	 * @param p The player to associate this client with
 	 * @param chatPort the port of the chat server
 	 * @param numPlayers number of players that wll play the game
 	 * @throws IOException If anything goes wrong with the connection with the client
@@ -112,6 +112,7 @@ public class ClientManager extends Thread {
 	/**
 	 * Starts the ClientManager by listening for inputs
 	 */
+    @Override
 	public void run(){
 		try {
 			welcome();
@@ -262,7 +263,6 @@ public class ClientManager extends Thread {
 	
 	/**
 	 * Kills this client by removing it from the pool and freeing up its resources
-	 * @throws IOException If anything goes wrong with the IO
 	 */
 	public void kill(){
 		
@@ -284,8 +284,8 @@ public class ClientManager extends Thread {
 				if(!inLobby && _pool.getIsRunning()){
 					_pool.sendGameOver(_p.getName() + " has disconnected");
 				}
-			} catch(IOException e){
-				e.printStackTrace();
+			} catch(IOException ex){
+				System.err.println(String.format("ERROR: %s", ex.getMessage()));
 			}
 		}
 	}

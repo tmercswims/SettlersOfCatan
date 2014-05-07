@@ -275,7 +275,7 @@ public class Build extends JPanel implements ServerUpdate {
 			try {
 				_client.sendMove(new BuildMove(_client.getPlayerName(), DEV_CARD, 0));
 			} catch (IllegalArgumentException | IOException ex) { // Should not occur
-				ex.printStackTrace();
+				System.err.println(String.format("ERROR: %s", ex.getMessage()));
 			}
 		}
 	};

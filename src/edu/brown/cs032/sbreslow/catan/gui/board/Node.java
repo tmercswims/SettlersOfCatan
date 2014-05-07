@@ -29,7 +29,7 @@ public class Node extends BoardComponent{
 	private Ellipse2D _o;
 	private Color _c;
 	public final static int _diam = 20;
-	private int _scale = 1;
+	private final int _scale = 1;
 	private Player _owner;
 	private int _port;
 	
