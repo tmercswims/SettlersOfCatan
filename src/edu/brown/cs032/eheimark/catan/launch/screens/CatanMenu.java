@@ -1,7 +1,5 @@
 package edu.brown.cs032.eheimark.catan.launch.screens;
 
-import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Dimensions.DEFAULT_MENU_SIZE;
-
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -31,7 +29,6 @@ public class CatanMenu extends JPanel {
 		buttonsPanel.setLayout(new GridBagLayout());
 		setButtonsPanelBorder(BorderFactory.createEmptyBorder(200, 0, 0, 0)); // Positions buttons midway down screen
 		add(buttonsPanel);
-		setPreferredSize(DEFAULT_MENU_SIZE);
 		gbc = new GridBagConstraints();
 	}
 

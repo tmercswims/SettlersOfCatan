@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 
 import org.newdawn.easyogg.OggClip;
 
+import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants;
+
 /**
  * The Class CatanFrame is the JFrame that contains the launch menus.
  */
@@ -26,9 +28,10 @@ public class LaunchFrame extends JFrame {
 		setMusic();
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
+		setMinimumSize(GUIConstants.Dimensions.DEFAULT_MENU_SIZE);
 		pack();
 		setVisible(true);
+		setLocationRelativeTo(null); // Java 1.8 has bug that requires you to set location after
 	}
 
 	/**
