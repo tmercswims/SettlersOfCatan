@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 import org.newdawn.easyogg.OggClip;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Icon.icon;
 
 /**
  * The Class GUIFrame contains the main gui panel with the board at top
@@ -38,18 +39,19 @@ public class GUIFrame extends JFrame {
 		setMusic();
 		_gui = new GUI(cc);
 		add(_gui);
-		setVisible(true);
+        setIconImage(icon);
 		setResizable(true);
 		setMinimumSize(MINIMUM_GUI_FRAME_SIZE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		pack();
 		setLocationRelativeTo(null);
+		pack();
 		addComponentListener(new SizeList(cc, this));
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new KeyboardShortcuts());
 		_x = 600/23;
 		_y = 600/14;
 		_cc = cc;
+		setVisible(true);
 	}
 
 	private class SizeList implements ComponentListener{

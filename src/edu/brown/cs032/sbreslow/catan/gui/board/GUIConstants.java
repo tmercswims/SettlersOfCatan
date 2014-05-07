@@ -180,11 +180,15 @@ public class GUIConstants {
 	}
 
 	public static class Background {
-		public static final Image felt = new ImageIcon(GUIConstants.class.getResource(("/images/backgrounds/felt.png"))).getImage();
-		public static final ImageIcon feltcon = new ImageIcon(GUIConstants.class.getResource(("/images/backgrounds/felt.png")));
-		public static final Image wood = new ImageIcon(GUIConstants.class.getResource(("/images/backgrounds/wood.png"))).getImage();
-		public static final Image catanLaunchMenu = new ImageIcon(GUIConstants.class.getResource(("/images/backgrounds/CatanScaled560x560.png"))).getImage();
+		public static final Image felt = new ImageIcon(GUIConstants.class.getResource("/images/backgrounds/felt.png")).getImage();
+		public static final ImageIcon feltcon = new ImageIcon(GUIConstants.class.getResource("/images/backgrounds/felt.png"));
+		public static final Image wood = new ImageIcon(GUIConstants.class.getResource("/images/backgrounds/wood.png")).getImage();
+		public static final Image catanLaunchMenu = new ImageIcon(GUIConstants.class.getResource("/images/backgrounds/CatanScaled560x560.png")).getImage();
 	}
+    
+    public static class Icon {
+        public static final Image icon = new ImageIcon(GUIConstants.class.getResource("/images/icons/icon.png")).getImage();
+    }
 
 	public static class DevCard {
 		public static final Image knight = new ImageIcon(GUIConstants.class.getResource("/images/dev_cards/knight.png")).getImage();

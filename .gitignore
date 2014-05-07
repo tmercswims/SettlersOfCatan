@@ -22,3 +22,9 @@ hs_err_pid*
 /Test_FX/nbproject/private/
 /Test_FX/build/
 /dist/
+/doc/manual.aux
+/doc/manual.synctex.gz
+/doc/manual.toc
+/doc/manual.log
+/lib/CopyLibs/
+/lib/nblibraries.properties

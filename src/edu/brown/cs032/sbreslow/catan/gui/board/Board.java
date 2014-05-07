@@ -121,7 +121,7 @@ public class Board implements Serializable {
 		}
 		
 		int i = 0;
-		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/boardData/tiletonode.tsv")))) {
+		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/data/tiletonode.tsv")))) {
 			raf.readLine();
 			for(i = 0; i <= 36; i++){
 				String[] line = raf.readLine().split("\t");
@@ -148,7 +148,7 @@ public class Board implements Serializable {
 			e.printStackTrace();
 		}
 		
-		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/boardData/tiletonode.tsv")))) {
+		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/data/tiletonode.tsv")))) {
 			raf.readLine();
 			for(i = 0; i <= 36; i++){
 				String[] line = raf.readLine().split("\t");
@@ -167,7 +167,7 @@ public class Board implements Serializable {
 			e.printStackTrace();
 		}
 		layoutNums();
-		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/boardData/edgetonode.tsv")))) {
+		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/data/edgetonode.tsv")))) {
 			raf.readLine();
 			for(i = 0; i <= 131; i++){
 				String[] line = raf.readLine().split("\t");
@@ -201,7 +201,7 @@ public class Board implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/boardData/nodetoall.tsv")))){
+		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/data/nodetoall.tsv")))){
 			raf.readLine();
 			for(i = 0; i <= 95; i++){
 				String[] line = raf.readLine().split("\t");
@@ -310,7 +310,7 @@ public class Board implements Serializable {
 			}
 			_nodes[i].setLoc(x,y);
 		}
-		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/boardData/tiletonode.tsv")))) {
+		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/data/tiletonode.tsv")))) {
 			raf.readLine();
 			for(int i = 0; i <= 36; i++){
 				String[] line = raf.readLine().split("\t");
@@ -328,7 +328,7 @@ public class Board implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/boardData/edgetonode.tsv")))) {
+		try(BufferedReader raf = new BufferedReader(new InputStreamReader(Board.class.getResourceAsStream("/data/edgetonode.tsv")))) {
 			raf.readLine();
 			for(int i = 0; i <= 131; i++){
 				String[] line = raf.readLine().split("\t");

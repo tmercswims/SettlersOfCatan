@@ -1,5 +1,6 @@
 package edu.brown.cs032.eheimark.catan.launch;
 
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Icon.icon;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -25,6 +26,7 @@ public class LaunchFrame extends JFrame {
 		setPage(p);
 		setMusic();
 		setResizable(false);
+        setIconImage(icon);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		pack();

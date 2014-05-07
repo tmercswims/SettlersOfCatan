@@ -35,9 +35,14 @@ public class BuildConstants {
         DEV_CARD = 3,
     
         /**
-         * road builder
+         * road builder 1
          */
-         ROAD_BUILDER = 4;
+         ROAD_BUILDER_1 = 4,
+    
+         /**
+          * road builder 2
+          */
+         ROAD_BUILDER_2 = 5;
     
     public static final int[]
             

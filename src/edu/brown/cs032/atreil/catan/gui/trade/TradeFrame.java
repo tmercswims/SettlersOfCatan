@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Icon.icon;
 import edu.brown.cs032.sbreslow.catan.gui.devCards.BackgroundPanel;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
@@ -40,7 +41,7 @@ public class TradeFrame extends JFrame {
 		super(frameName);
 		_trade = trade;
 		_client = client;
-		
+        setIconImage(icon);
 		initializeGUI();
 	}
 	

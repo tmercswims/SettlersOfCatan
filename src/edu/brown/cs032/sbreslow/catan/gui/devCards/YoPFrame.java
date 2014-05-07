@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Icon.icon;
 import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.move.YearOfPlentyMove;
 
@@ -24,7 +25,6 @@ public class YoPFrame extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = -172945546357435224L;
 	private CatanClient _cc;
-    @SuppressWarnings("unused")
 	private GUIFrame _frame;
 	private JRadioButton[] _tbuttons = new JRadioButton[5];
 	private JRadioButton[] _bbuttons = new JRadioButton[5];
@@ -97,13 +97,15 @@ public class YoPFrame extends JFrame implements ActionListener {
 		bp.setOpaque(false);
 		mp.add(panel);
 		mp.add(bp);
-		this.add(mp);
+		add(mp);
 		//this.setLocationRelativeTo(cc.getFrame());
-		this.setVisible(true);
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		this.pack();
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		pack();
+        setIconImage(icon);
+        setLocationRelativeTo(_frame);
 		setMinimumSize(getSize());
 		setMaximumSize(getSize());
+		setVisible(true);
 		//this.setUndecorated(true);
 	}
 	
@@ -137,8 +139,8 @@ public class YoPFrame extends JFrame implements ActionListener {
             } catch (IllegalArgumentException | IOException e1) {
                 e1.printStackTrace();
             }
-            this.setVisible(false);
-            this.dispose();
+            setVisible(false);
+            dispose();
         }
     }
 }

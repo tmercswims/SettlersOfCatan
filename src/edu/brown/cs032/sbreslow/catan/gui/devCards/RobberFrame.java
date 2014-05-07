@@ -12,6 +12,7 @@ import java.util.List;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Icon.icon;
 import edu.brown.cs032.tmercuri.catan.logic.*;
 import edu.brown.cs032.tmercuri.catan.logic.move.*;
 
@@ -66,17 +67,18 @@ public class RobberFrame extends JFrame {
 		}
 		list.setVisible(true);
 		list.setAlignmentX(Component.CENTER_ALIGNMENT);
-		this.add(list);
-		this.setLocationRelativeTo(cc.getFrame());
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.pack();
-		this.setVisible(true);
+		add(list);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setLocationRelativeTo(cc.getFrame());
+		pack();
+		setVisible(true);
+        setIconImage(icon);
 	}
 	
 	private class RobList implements ActionListener {
 		
-		private String _name;
-		private JFrame _frame;
+		private final String _name;
+		private final JFrame _frame;
 		
 		private RobList(String name, RobberFrame robberFrame){
 			_name = name;

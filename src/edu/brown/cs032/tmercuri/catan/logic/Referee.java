@@ -49,11 +49,12 @@ public class Referee {
 	private boolean _gameOver, _turnOver;
 	private final PairOfDice _dice;
 	private final DevCardDeck _deck;
-	private Node _startupSettlement = null;
-	private int _startUp = 0;
+	private Node _startupSettlement;
+	private int _startUp;
     private boolean _pushPlayers, _pushBoard;
     private boolean _moveTheRobber;
     private int _needToDropResources;
+    private boolean _rbtwo;
 
 	/**
 	 * Creates a new Referee, with clear fields.
@@ -65,12 +66,15 @@ public class Referee {
 		_gameOver = _turnOver = false;
 		_dice = new PairOfDice();
 		_deck = new DevCardDeck();
+        _startUp = 0;
+        _startupSettlement = null;
 		_players = players;
 		_board = new Board(true);
 		_server = server;
         _pushPlayers = _pushBoard = false;
         _moveTheRobber = false;
         _needToDropResources = 0;
+        _rbtwo = false;
 	}
 
 	/**
@@ -133,6 +137,8 @@ public class Referee {
                     pushPlayers();
                 if (_pushBoard)
                     pushBoard();
+                if (_rbtwo)
+                    _server.sendSecondRB(_activePlayer.getName());
 			}
             _activePlayer.mergeDevCards();
 			findWinner();
@@ -323,95 +329,111 @@ public class Referee {
 		if (_startUp == 0 && !_activePlayer.hasRolled()) return 998;
         if (_needToDropResources != 0) return 996;
 		switch (move.getBuildType()) {
-		case ROAD:
-			Edge e = _board.getEdges()[move.getBuildLocation()];
-            int i = move.getBuildLocation();
-            if (i <= 42 || i == 44 || i == 47 || i == 50 || i == 52 || i == 55 || i == 58 || i == 60 || i == 63 || i == 66 || i == 68 || i == 71 || i == 74 || i == 76 || i == 79 || i == 82 || i == 84 || i == 87) return 108;
-			if (_startUp != 0) {
-				if (e.isRoad()) return 101;
-				if (!edgeIsNextToNode(e, _startupSettlement)) return 107;
-				_activePlayer.decRoadCount();
-				e.setOwner(_activePlayer);
-				e.grow();
+            case ROAD:
+                Edge e = _board.getEdges()[move.getBuildLocation()];
+                int i = move.getBuildLocation();
+                if (i <= 42 || i == 44 || i == 47 || i == 50 || i == 52 || i == 55 || i == 58 || i == 60 || i == 63 || i == 66 || i == 68 || i == 71 || i == 74 || i == 76 || i == 79 || i == 82 || i == 84 || i == 87) return 108;
+                if (_startUp != 0) {
+                    if (e.isRoad()) return 101;
+                    if (!edgeIsNextToNode(e, _startupSettlement)) return 107;
+                    _activePlayer.decRoadCount();
+                    e.setOwner(_activePlayer);
+                    e.grow();
+                    _pushPlayers = _pushBoard = true;
+                    return 100;
+                } else {
+                    if (e.isRoad()) return 101;
+                    if (!_activePlayer.hasResources(BUILD_ROAD)) return 102;
+                    if (_activePlayer.getRoadCount() == 0) return 103;
+                    if (!ownedRoadAdjacent(e)) return 106;
+                    _activePlayer.removeResources(BUILD_ROAD);
+                    _activePlayer.decRoadCount();
+                    e.setOwner(_activePlayer);
+                    e.grow();
+                    _pushPlayers = _pushBoard = true;
+                    return 100;
+                }
+            case SETTLEMENT:
+                Node ns = _board.getNodes()[move.getBuildLocation()];
+                if (_startUp != 0) {
+                    if (ns.getVP() == 1 || ns.isOwned()) return 201;
+                    if (structureAdjacent(ns)) return 204;
+                    _activePlayer.decSettlementCount();
+                    _activePlayer.incVictoryPoints();
+                    ns.setOwner(_activePlayer);
+                    if (_startUp == 2) distributeFirstResources(ns);
+                    _startupSettlement = ns;
+                    ns.grow();
+                    _pushPlayers = _pushBoard = true;
+                    return 200;
+                } else {
+                    if (ns.getVP() == 1 || ns.isOwned()) return 201;
+                    if (!_activePlayer.hasResources(BUILD_SETTLEMENT)) return 202;
+                    if (_activePlayer.getSettlementCount() == 0) return 203;
+                    if (structureAdjacent(ns)) return 204;
+                    if (!ownedRoadAdjacent(ns)) return 206;
+                    _activePlayer.removeResources(BUILD_SETTLEMENT);
+                    _activePlayer.decSettlementCount();
+                    _activePlayer.incVictoryPoints();
+                    ns.setOwner(_activePlayer);
+                    ns.grow();
+                    _pushPlayers = _pushBoard = true;
+                    return 200;
+                }
+            case CITY:
+                Node nc = _board.getNodes()[move.getBuildLocation()];
+                if (nc.getVP() == 2) return 301;
+                if (!_activePlayer.hasResources(BUILD_CITY)) return 302;
+                if (_activePlayer.getCityCount() == 0) return 303;
+                if (nc.getVP() == 1 && !_activePlayer.equals(nc.getOwner())) return 305;
+                _activePlayer.removeResources(BUILD_CITY);
+                _activePlayer.decCityCount();
+                _activePlayer.incVictoryPoints();
+                nc.grow();
                 _pushPlayers = _pushBoard = true;
-				return 100;
-			} else {
-				if (e.isRoad()) return 101;
-				if (!_activePlayer.hasResources(BUILD_ROAD)) return 102;
-				if (_activePlayer.getRoadCount() == 0) return 103;
-				if (!ownedRoadAdjacent(e)) return 106;
-				_activePlayer.removeResources(BUILD_ROAD);
-				_activePlayer.decRoadCount();
-				e.setOwner(_activePlayer);
-				e.grow();
+                return 300;
+            case DEV_CARD:
+                int card = _deck.getCard();
+                if (card == -1) return 701;
+                if (!_activePlayer.hasResources(BUILD_DEV_CARD)) return 702;
+                _activePlayer.removeResources(BUILD_DEV_CARD);
+                _activePlayer.addDevCard(card);
+                _pushPlayers = true;
+                return 700;
+            case ROAD_BUILDER_1:
+                Edge eRB1 = _board.getEdges()[move.getBuildLocation()];
+                if (eRB1.isRoad() || _activePlayer.getRoadCount() == 0 || !ownedRoadAdjacent(eRB1)) {
+                    try {
+                        _server.sendRB(move.getPlayerName());
+                    } catch (IllegalArgumentException | IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    return 601;
+                }
+                _activePlayer.decRoadCount();
+                eRB1.setOwner(_activePlayer);
+                eRB1.grow();
                 _pushPlayers = _pushBoard = true;
-				return 100;
-			}
-		case SETTLEMENT:
-			Node ns = _board.getNodes()[move.getBuildLocation()];
-			if (_startUp != 0) {
-				if (ns.getVP() == 1 || ns.isOwned()) return 201;
-				if (structureAdjacent(ns)) return 204;
-				_activePlayer.decSettlementCount();
-				_activePlayer.incVictoryPoints();
-				ns.setOwner(_activePlayer);
-				if (_startUp == 2) distributeFirstResources(ns);
-				_startupSettlement = ns;
-				ns.grow();
+                _rbtwo = true;
+                return 610;
+            case ROAD_BUILDER_2:
+                Edge eRB2 = _board.getEdges()[move.getBuildLocation()];
+                if (eRB2.isRoad() || _activePlayer.getRoadCount() == 0 || !ownedRoadAdjacent(eRB2)) {
+                    try {
+                        _server.sendRB(move.getPlayerName());
+                    } catch (IllegalArgumentException | IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    return 601;
+                }
+                _activePlayer.decRoadCount();
+                eRB2.setOwner(_activePlayer);
+                eRB2.grow();
                 _pushPlayers = _pushBoard = true;
-				return 200;
-			} else {
-				if (ns.getVP() == 1 || ns.isOwned()) return 201;
-				if (!_activePlayer.hasResources(BUILD_SETTLEMENT)) return 202;
-				if (_activePlayer.getSettlementCount() == 0) return 203;
-				if (structureAdjacent(ns)) return 204;
-				if (!ownedRoadAdjacent(ns)) return 206;
-				_activePlayer.removeResources(BUILD_SETTLEMENT);
-				_activePlayer.decSettlementCount();
-				_activePlayer.incVictoryPoints();
-				ns.setOwner(_activePlayer);
-				ns.grow();
-                _pushPlayers = _pushBoard = true;
-				return 200;
-			}
-		case CITY:
-			Node nc = _board.getNodes()[move.getBuildLocation()];
-			if (nc.getVP() == 2) return 301;
-			if (!_activePlayer.hasResources(BUILD_CITY)) return 302;
-			if (_activePlayer.getCityCount() == 0) return 303;
-			if (nc.getVP() == 1 && !_activePlayer.equals(nc.getOwner())) return 305;
-			_activePlayer.removeResources(BUILD_CITY);
-			_activePlayer.decCityCount();
-			_activePlayer.incVictoryPoints();
-			nc.grow();
-            _pushPlayers = _pushBoard = true;
-			return 300;
-		case DEV_CARD:
-			int card = _deck.getCard();
-			if (card == -1) return 701;
-			if (!_activePlayer.hasResources(BUILD_DEV_CARD)) return 702;
-			_activePlayer.removeResources(BUILD_DEV_CARD);
-			_activePlayer.addDevCard(card);
-            _pushPlayers = true;
-			return 700;
-		case ROAD_BUILDER:
-			Edge eRB = _board.getEdges()[move.getBuildLocation()];
-			if (eRB.isRoad() || _activePlayer.getRoadCount() == 0 || !ownedRoadAdjacent(eRB)) {
-				try {
-					_server.sendRB(move.getPlayerName());
-				} catch (IllegalArgumentException | IOException ex) {
-					ex.printStackTrace();
-				}
-				return 601;
-			}
-			_activePlayer.decRoadCount();
-			_activePlayer.incVictoryPoints();
-			eRB.setOwner(_activePlayer);
-			eRB.grow();
-            _pushPlayers = _pushBoard = true;
-			return 610;
-		default:
-			return -1;
+                _rbtwo = false;
+                return 610;
+            default:
+                return -1;
 		}
 	}
 

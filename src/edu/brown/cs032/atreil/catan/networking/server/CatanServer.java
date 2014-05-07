@@ -305,6 +305,16 @@ public class CatanServer extends Thread{
 		}
 	}
     
+    public void sendSecondRB(String playerName){
+		try {
+			Packet p = new Packet(Packet.SECOND_RB, null);
+			
+			_pool.send(playerName, p);
+		} catch (IOException e) {
+			addUpdate(e.getMessage());
+		}
+	}
+    
 	
 	/**
 	 * Sends a roll to the specified client

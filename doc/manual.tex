@@ -1,0 +1,246 @@
+\documentclass[12pt,letterpaper,titlepage]{article}
+
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{wrapfig}
+\usepackage{graphicx}
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.15in}
+
+\newcommand\note[1]{\begin{quote}\emph{\textbf{Important:} #1}\end{quote}}
+
+\pagestyle{myheadings}
+\markright{\rightmark\hfill The Settlers of Catan\hfill}
+
+
+\begin{document}
+
+\title{\textbf{The Settlers of Catan}}
+\author{Alexander Treil (atreil) Eric Heimark (eheimark)\\Samuel Breslow (sbreslow) Thomas Mercurio (tmercuri)}
+\date{CSCI0320, Spring 2014}
+\maketitle
+
+\begin{abstract}
+This document gives an overview of how to play our implementation of the loved board game \emph{The Settlers of Catan}, as well as specific rules for how the game is played, in any context.
+\end{abstract}
+
+\pagenumbering{roman}
+\tableofcontents
+
+\newpage
+\pagenumbering{arabic}
+
+\section{Hosting a Game}
+To start up a game, one computer must launch the application and click \textbf{Host Game}. You must enter a valid port number and chose between a 3 or 4 player game.
+
+Once the server is initialized, the application will launch a server log, that will tell the user its IP address, port number and status of the server. Once the appropriate number of clients have connected, the server will start the game but the log will remain.
+
+If the host wishes to stop the game at any point, they can click \textbf{Main Menu}, which will stop the game, disconnect any clients, and then take the user back to the main menu.
+
+Note: the server doesn't actually count as a player, so any player that wishes to host and play on the same computer should launch two separate applications: one for hosting and one for playing. If you wish to play and host on the same computer, you can simply type in \emph{localhost} as the IP.
+
+\section{Joining a Game}
+Any other player that wishes to connect to the server should launch the application and click \textbf{Join Game}, enter the appropriate IP and port, and then choose their username.
+
+The application will then launch a log, regardless of whether or not a connection was established. The log will state the status of the connection (attempting to connect, connected, error, etc.). The connection may be refused for any of the following reasons:
+\begin{itemize}
+	\item the IP or port is invalid
+	\item the server is full
+	\item the chosen username is already taken
+	\item there is anything wrong with the connection.
+\end{itemize}
+Once enough players have connected, the log will disappear and the application will launch the game board.
+
+\section{In-Game Interface}
+This section describes all the various components of the in-game interface.
+	\subsection{Music Toggle Button}
+	Pressing this button will toggle the in-game music on and off.
+	
+	\subsection{Help Button}
+	Pressing this button will open a small window which contains slides of help information about Settlers of Catan.
+	
+	As many of these windows as you would like may be open at any given time, and they will also not interfere with the game.
+	
+	\subsection{The Board}
+	The board takes up the majority of the game window. It is made up of terrain hexes, which together form the island of Catan. It will always display an up-to-date version with settlements, cities, and roads from all players, as well as the location of ports and the robber.
+	
+	\subsection{Your Resources}
+	Located just below the board.
+	
+	This bar displays how many of each type of resource you currently have. The background of the numbers is your player color.
+	
+	\subsection{Roll Die/End Turn Button}
+	Located under the board and your resource display.
+	
+	When this button is enabled and flashing, you may click it to roll the die and start your turn. The result of your roll is displayed in the server log.
+	
+	The button then immediately changes to \textbf{End Turn}, which will end your turn when clicked.
+
+	\subsection{Bottom Panel}
+	Located along the bottom of the game window, this contains the overview tab, build tab, trade tab and development card tab.
+		
+		\subsubsection{Overview Tab}
+		Contains a list of all players and all the information about each one: victory points, total resources, and how many of each building they have built.
+		
+		The background of each line of the overview is the color of the player whose information is on that line.
+		
+		On the very left of the overview there will be a green arrow that points to the player whose turn it currently is.
+		
+		\subsubsection{Build Tab}
+		Contains a list of things that may be built, along with their cost and any bonuses associated with them. If it is your turn and you have enough resources, you may click the item you wish to build. Otherwise, the button will be unavailable.
+		
+		\subsubsection{Trade Tab}
+		To trade with another player on your turn, first use the chat box to negotiate the trade.
+		
+		Once you and another player have agreed on a trade, click their name in the Trade menu, and drag what you wish to receive into the \textbf{Get} panel, and what you wish to give up into the \textbf{Give} panel. You may not give resources that you do not have.
+		
+		The center will also display the number of resources that you will have after a trade. A red number indicates that you will have less of that resource when the trade is over, and a green number indicates that you will have more of it 
+		
+		If you wish to start over dragging resources to the sides, click \textbf{Reset}. Note that this also resets the player that you are trading to.
+		
+		If you are satisfied with the trade, click \textbf{Propose} and the server log will notify you that the other player has received the trade. The server will then notify you if the player has accepted or rejected your trade offer.
+		
+		\subsubsection{Development Card Tab}
+		Any development cards you buy will be displayed here.
+		
+		You may not play any development cards apart from the Knight card before you roll the die, and you may not play any cards on the turn that they are purchased. You also may only play one development card per turn.
+		
+		To play a development card, simply click the card either a pop up will appear or the game log will display a message, explaining what you need to do.
+		
+		For a more detailed explanation of playing development cards, see section NUMBER HERE IDIOT: Playing a Development Card.
+		
+		With the exception of the Knight card and Road Builder, playing a development card will not let you interact with the game until you have performed the associated task.
+	
+	\subsection{Game Log}
+	Located in the upper right-hand corner of the game window.
+	
+	Any updates about the game, such as building, trading, or rolling, will appear in this box.
+	
+	It is also where any help messages will be displayed.
+	
+	\subsection{Chat Log}
+	Located under the game log on the right-hand side of the game window.
+	
+	You may communicate with anyone in the game through the chat box. All messages will be displayed in the color of the player who sent it.
+	
+	You may use the up and down arrow keys to navigate through past messages that you have sent, from most to least recent.
+	
+	You may also send private messages to other players by typing any of the following:
+	\begin{itemize}
+	\item \texttt{/p <player name> <message…>}
+	\item \texttt{/m <player name> <message…>}
+	\item \texttt{/msg <player name> <message…>}
+	\end{itemize}
+	The message will only be displayed on your own and the receiving player's screens. On your screen, it will also indicate who the message was sent to.
+	
+	\note{Usernames are case sensitive, so be sure you get the spelling and capitalization correct.}
+
+\section{Playing the Game}
+This section describes how the game is played.
+	\subsection{Initial Set-Up Phase}
+	At the start of the game, every player will place two settlements and two roads on the board.
+	
+	Each player, going from first player to last, places one settlement on the board, followed by a road that \emph{must} have one end at the settlement that was just placed.
+	
+	Then the same process is repeated, but from the last player to the first player. Essentially, the last player places two settlement and road pairs in a row, and then the order continues back up to the first player.
+	
+	\subsection{A Typical Turn}
+		\subsubsection{Rolling the Die}
+		At the start of each turn, the player whose turn it is first rolls the die by clicking the \textbf{Roll Die} button. When the button is clicked, resources are distributed to all players who have a settlement or city on the corner of a terrain hex that has the same number as the roll. Settlements are worth one resource, and cities are worth two.
+		
+		Now the active player may take any of the following actions, in any order, and as many times as resources and other players allow.
+		
+		\subsubsection{Trading}
+			\paragraph{With Another Player}
+			To trade with another player, you may go to the \textbf{Trade} tab at the bottom of the screen and select the name of the player that you wish to trade with. Then you may drag and drop resources from the middle to the \textbf{Get} and \textbf{Give} sections. You may not give what you do not have.
+		
+			If you wish to start over, you may click the \textbf{Reset} button.
+		
+			To send your trade, click \textbf{Propose}. The other player will be shown your trade, and the game log will tell you whether they have accepted or rejected it.
+		
+			\paragraph{With the Merchant}
+			During your turn, you may always trade at a 4:1 ratio with the Bank; that is, you may give up four of one type of resource in exchange for one of a different type.
+		
+			If you have built a settlement or city on a \textbf{?} port along the edge of the island, you may trade at a 3:1 ratio with the port; that is, you may give up three of one type of resource in exchange for one of a different type.
+		
+			If you have a settlement or city on a port that has a specific resource icon, you may trade that type of resource at a 2:1 ratio; that is, you may give up two of the pictured resource type in exchange for one of a different type.
+		
+			\note{The 4:1 trade is always available, even if you do not have a building on a port.}
+		
+			In order to trade with the bank or a port, choose \textbf{***MERCHANT***} as the player that you would like to trade with. Configure your \textbf{Give} and \textbf{Get} sections according to the port you would like to trade with, and propose the trade. If you have access to the trade that you are attempting and you have configured your resources correctly, it will succeed.
+
+		\subsubsection{Building}
+			\paragraph{Road}
+			Building a road costs one wood and one brick. When building a road, the board will highlight valid locations to build a road. Clicking one of them will build a road there.
+			
+			Valid locations for roads are edges that do already have a road on them, and which you also have a road that reaches it.
+			
+			The player who has the longest road that is at least five segments long receives two victory points for \textbf{Longest Road}.
+
+			\paragraph{Settlement}
+			Building a settlement costs one wheat, one sheep, one wood, and one brick. When building a settlement, the board will highlight valid locations to build a settlement. Clicking one of them will build a settlement there.
+			
+			Valid locations for a settlement are nodes between three tiles that do not already have a settlement or a city, that do have a settlement or city on any of the three adjacent nodes, and that you have a road that reaches there.
+
+			Every settlement that you have built is worth two victory points.
+			
+			\paragraph{City}
+			Building a city costs three ore and two wheat. When building a city, the board will highlight valid locations to build a city. Clicking one of them will build a city there.
+			
+			Valid locations for a city are nodes that you already have a settlement build on.
+			
+			Every city that you have built is worth two victory points.
+			
+			\paragraph{Development Card}
+			Buying a development card costs one ore, one sheep, and one wheat. When a development card is purchased, the game will draw one from the deck for you. The deck consists of fourteen Knights, five victory points, and two of each of Monopoly, Year of Plenty, and Road Building.
+
+		\subsubsection{Playing a Development Card}
+			\paragraph{Knight}
+			When a Knight card is played, the player who played to Knight moves the robber to a new hex by clicking on it, and steals a random resource from a player who has a settlement or city on that hex.
+			
+			If there are no settlements or cities on the hex, or if they are all your own, nothing else happens.
+			
+			The player who has played the most Knight cards, with a minimum of three, receives two victory points for \textbf{Largest Army}.
+			
+			\paragraph{Monopoly}
+			A Monopoly card allows you take all of one type of resource from every other player for yourself.
+			
+			When a Monopoly card is played, you are presented with a dialog that allows you to choose a type of resource. After choosing, you will be given every resource of that type that the other players had.
+			
+			\paragraph{Year of Plenty}
+			A Year of Plenty card allows you to take any two resources of your choice.
+			
+			When a Year of Plenty card is played, you are presented with a dialog that allows you to choose two types of resources. After choosing, you will be given those resources. You may choose two of the same type.
+			
+			\paragraph{Road Builder}
+			A Road Builder card allows you to build two roads at no cost.
+			
+			When a Road Builder card is played, the board will highlight all of the locations where a road can be built, similar to building a road normally. When one is clicked, a road is built there. 
+			
+			\note{The normal road building rules still apply to the Road Builder card.}
+			
+			After the first road is built, the board will again highlight the locations where a road can be built, and clicking one ill build a road there. Then play will return to normal.
+			
+			\paragraph{Victory Point}
+			A victory point card gives you one victory point when it is played.
+			
+			\note{You will not get the victory point that a Victory Point card is worth until it is played.}
+
+\section{Special Cases}
+	\subsection{Rolling a Seven and Activating the Robber}
+	If a seven is rolled, no one receives any resources.
+		
+	Instead, every player who has more than seven resources will be presented with a dialog that instructs them to drop at least half of their resources. Every player must do this before the current player may end his or her turn.
+		
+	The active player must also move the robber. When a seven is rolled, the board will allow you to click on any terrain hex that the robber is not currently on.
+	
+	When a hex is clicked, you will presented with a dialog that allows you to choose from the players who have a settlement or city built on the hex to steal a random resource from. The robber will then move to that hex.
+	
+	If there are no settlements or cities on the hex, or if there are only your own, then the robber will just move to that hex, and nothing else will happen.
+	
+	When the robber occupies a hex, its number will be hidden and it will not produce resources.
+
+\section{Winning the Game}
+If you have ten or more victory points \emph{during your turn} the game is over and you are the winner! If you reach ten victory points when it is not your turn, the game will continue until any player, including you, has ten points on his or her turn.
+
+\end{document}

@@ -16,13 +16,14 @@ import javax.swing.JPanel;
 
 import edu.brown.cs032.atreil.catan.networking.client.CatanClient;
 import edu.brown.cs032.eheimark.catan.gui.GUIFrame;
+import static edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Icon.icon;
 import edu.brown.cs032.sbreslow.catan.gui.board.GUIConstants.Misc;
 import edu.brown.cs032.tmercuri.catan.logic.ResourceConstants;
 import edu.brown.cs032.tmercuri.catan.logic.move.TradeMove;
 
 public class SevenFrame extends JFrame {
 	private static final long serialVersionUID = 2775532151453365472L;
-	private CatanClient _cc;
+	private final CatanClient _cc;
 	private final JComboBox<Integer> oreCB, wheatCB, woolCB, lumberCB, brickCB;
 	
 	public SevenFrame(CatanClient cc, GUIFrame frame){
@@ -39,31 +40,31 @@ public class SevenFrame extends JFrame {
 		comboPanel.add(new JLabel(Misc.oreToken));
 		comboPanel.add(new JLabel(Misc.woodToken));
 
-		wheatCB = new JComboBox<Integer>(tradeValues);
+		wheatCB = new JComboBox<>(tradeValues);
 		wheatCB.setSelectedIndex(10);
 		wheatCB.setToolTipText("Wheat");
 		//wheatCB.setBounds(328, 59, 67, 16);
 		comboPanel.add(wheatCB);
 
-		woolCB = new JComboBox<Integer>(tradeValues);
+		woolCB = new JComboBox<>(tradeValues);
 		woolCB.setSelectedIndex(10);
 		//woolCB.setBounds(501, 59, 67, 16);
 		woolCB.setToolTipText("Sheep");
 		comboPanel.add(woolCB);
 
-		brickCB = new JComboBox<Integer>(tradeValues);
+		brickCB = new JComboBox<>(tradeValues);
 		brickCB.setSelectedIndex(10);
 		brickCB.setToolTipText("Brick");
 		//brickCB.setBounds(847, 59, 67, 16);
 		comboPanel.add(brickCB);
 
-		oreCB = new JComboBox<Integer>(tradeValues);
+		oreCB = new JComboBox<>(tradeValues);
 		oreCB.setSelectedIndex(10);
 		oreCB.setToolTipText("Ore");
 		//oreCB.setBounds(155, 59, 67, 16);
 		comboPanel.add(oreCB);
 
-		lumberCB = new JComboBox<Integer>(tradeValues);
+		lumberCB = new JComboBox<>(tradeValues);
 		lumberCB.setSelectedIndex(10);
 		//lumberCB.setBounds(674, 59, 67, 16);
 		lumberCB.setToolTipText("Wood");
@@ -130,17 +131,18 @@ public class SevenFrame extends JFrame {
 		this.add(mp);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		//this.setUndecorated(true);
+        setIconImage(icon);
 		setLocationRelativeTo(_cc.getFrame());
-		setVisible(true);
 		pack();
 		setMinimumSize(getSize());
 		setMaximumSize(getSize());
+		setVisible(true);
 	}
 	
 	private class ProposeTradeActionListener implements ActionListener {
 		
-		private JFrame _frame;
-        private CatanClient _cc;
+		private final JFrame _frame;
+        private final CatanClient _cc;
 		
 		private ProposeTradeActionListener(CatanClient cc, SevenFrame sevenFrame){
 			_frame = sevenFrame;
@@ -178,8 +180,8 @@ public class SevenFrame extends JFrame {
                         _cc.getGUI().getChat().addMessage("Server (server): Invalid resources to drop.");
                     }
 				}
-			} catch (IllegalArgumentException | IOException e1) {
-				e1.printStackTrace();
+			} catch (IllegalArgumentException | IOException ex) {
+				System.err.println(String.format("ERROR: %s", ex.getMessage()));
 			}
 		}
 	};

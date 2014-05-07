@@ -12,6 +12,7 @@ public class BackgroundPanel extends JPanel {
 
 	public BackgroundPanel(){
 		super();
+        setOpaque(false);
 	}
 	
 	@Override

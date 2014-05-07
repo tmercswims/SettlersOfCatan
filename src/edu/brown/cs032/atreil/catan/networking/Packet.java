@@ -125,6 +125,11 @@ public class Packet implements Serializable {
      * end their turn; null
      */
     public static int END_SEVEN = 19;
+    
+    /**
+     * The second road of a road builder needs to be highlighted; null
+     */
+    public static int SECOND_RB = 20;
 	
 	/*********************************************/
 	private final int _type; //the type of the object
@@ -239,6 +244,9 @@ public class Packet implements Serializable {
         } else if(type == Packet.END_SEVEN){
         	if(o != null)
         		throw new IllegalArgumentException("Given object is not null");
+        } else if (type == Packet.SECOND_RB) {
+            if(o != null)
+                throw new IllegalArgumentException("Given object is not null");
         }
 		
 		else

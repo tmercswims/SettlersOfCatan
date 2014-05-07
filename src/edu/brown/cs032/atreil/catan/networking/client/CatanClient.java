@@ -467,6 +467,9 @@ public class CatanClient extends Thread{
         } else if (type == Packet.END_SEVEN){
         	_gui.getActivePlayer().enableRoll();
         	confirmPacket();
+        } else if (type == Packet.SECOND_RB) {
+            _gui.getDP().setSelect(4);
+            confirmPacket();
         }
 		else{
 			confirmPacket();
